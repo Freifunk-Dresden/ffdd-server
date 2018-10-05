@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#
+# Freifunk - Autosetup for /etc/nvram.conf
+#
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+#
+# Get variables from /etc/nvram.conf
+ifname="$(nvram get ifname)"
+
+ddmesh_node="$(nvram get ddmesh_node)"
+ddmesh_key="$(nvram get ddmesh_registerkey)"
+
+fastd_secret="$(nvram get fastd_secret)"
+conf_fastd_secret="$(sed -n 's/^secret.* "\(.*\)";/\1/p' /etc/fastd/fastd2.conf)"
+
+
+# function: find default gateway interface
+get_default_interface() {
+	def_if=$(route | awk '/default/ { print $8 }')
+}
+
+# function: find local node id
+get_ddmesh_nodeid() {
+	nodeid="$(/usr/local/bin/freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"
+}
+
+# function: generate ddmesh_registerkey
+gen_ddmesh_key() {
+	genkey="$(ip link | sha256sum | sed 's#\(..\)#\1:#g;s#[ :-]*$##')"
+}
+
+# function: generate fastd secret & public key
+gen_fastd_key() {
+
+	fastd --generate-key > /tmp/.ffdd_h.txt
+
+		fastd_secret_key="$(sed -n '/^Secret:/{s#^.*: ##;p}' /tmp/.ffdd_h.txt)"
+		fastd_public_key="$(sed -n '/^Public:/{s#^.*: ##;p}' /tmp/.ffdd_h.txt)"
+
+	rm -f /tmp/.ffdd_h.txt
+}
+
+
+# Check default Interface is correct
+get_default_interface
+if [ "$ifname" != "$def_if" ]; then
+	nvram set ifname "$def_if"
+fi
+
+
+if [[ "$ddmesh_key" = '' ]] && [[ "$fastd_secret" = '' ]]; then
+
+	# set ddmesh_registerkey in /etc/nvram.conf
+	gen_ddmesh_key									&&
+	nvram set ddmesh_registerkey "${genkey}"
+
+	# set ddmesh_node in /etc/nvram.conf
+	if [ "$ddmesh_node" == '' ]; then
+		get_ddmesh_nodeid							&&
+		nvram set ddmesh_node "${nodeid}"
+	fi
+
+	# set fastd-key in /etc/nvram.conf
+	gen_fastd_key									&&
+	nvram set fastd_secret "${fastd_secret_key}"	&&
+	nvram set fastd_public "${fastd_public_key}"
+
+	# check fastd_secret in /etc/fastd/fastd2.conf is correct
+	if [ "$conf_fastd_secret" != "$fastd_secret_key" ]; then
+		sed -i "/^secret/c \\secret \"$fastd_secret_key\";" /etc/fastd/fastd2.conf
+	fi
+fi
+
+exit 0

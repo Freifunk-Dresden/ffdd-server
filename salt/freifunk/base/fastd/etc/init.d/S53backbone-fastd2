@@ -1,0 +1,153 @@
+#!/usr/bin/env bash
+# (Salt managed)
+### BEGIN INIT INFO
+# Provides:          S53backbone-fastd2
+# Required-Start:    S40network
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start fastd backbone 
+# Description:       start fastd backbone 
+### END INIT INFO
+
+WAN_DEV=$(nvram get ifname)
+DAEMON=/usr/local/bin/fastd
+CONF_DIR=/etc/fastd
+FASTD_CONF=$CONF_DIR/fastd2.conf
+CONF_PEERS=peers2
+PID_FILE=/var/run/fastd2.pid
+backbone_server_port=5002
+COMMAND="/etc/fastd/cmd2.sh"
+
+eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
+
+mkdir -p $CONF_DIR
+mkdir -p $CONF_DIR/$CONF_PEERS
+
+
+generate_fastd_conf()
+{
+ # sources: https://projects.universe-factory.net/projects/fastd/wiki
+ # docs: http://fastd.readthedocs.org/en/v17/
+
+ MTU=1200
+ secret=$(nvram get fastd_secret)
+ if [ -z "$secret" ]; then
+	logger -t fastd "no secret key - abort"
+	exit 1
+ fi
+
+ cat << EOM > $FASTD_CONF
+log level warn;
+log to syslog level debug;
+mode tap;
+interface "tbb_fastd2";
+#prefer "null"
+method "null";
+method "null+salsa2012+umac";
+method "salsa2012+umac";
+secure handshakes yes;
+bind any:$backbone_server_port;
+secret "$secret";
+mtu $MTU;
+include peers from "$CONF_PEERS";
+forward no;
+on up sync "$COMMAND up";
+on down sync "$COMMAND down";
+on connect sync "$COMMAND connect";
+on establish sync "$COMMAND establish";
+on disestablish sync "$COMMAND disestablish";
+
+#only enable verify if I want to ignore peer config files
+on verify sync "$COMMAND verify";
+
+EOM
+}
+
+add_incomming()
+{
+	local key=$1 
+	local comment="$2"
+	
+	if [ -n "$key" -a -n "$comment" ]; then
+		#echo "[$key:$comment]"
+		FILE=$CONF_DIR/$CONF_PEERS/accept_$key.conf
+		echo "# $comment" > $FILE
+		echo "key \"$key\";" >> $FILE
+	else
+		echo "missing args"
+	fi
+}
+
+				
+add_outgoing()
+{
+	local host=$1  #hostname or ip
+	local port=$2 
+	local key=$3 
+
+	if [ -n "$host" -a -n "$port" -a -n "$key" ]; then
+		echo "[$host:$port:$key]"
+		FILE=$CONF_DIR/$CONF_PEERS/"connect_"$host"_"$port".conf"
+		echo "key \"$key\";" > $FILE
+		echo "remote ipv4 \"$host\":$port;" >> $FILE
+	else
+		echo "missing args"
+	fi
+}
+
+case "$1" in
+
+ start)				
+	echo "Starting backbone..."
+
+	generate_fastd_conf
+	$DAEMON --config $FASTD_CONF --pid-file $PID_FILE --daemon
+	;;
+
+  stop)
+	echo "Stopping backbone network..."
+	if [ -f $PID_FILE ]; then
+		kill $(cat $PID_FILE)
+		rm -f $PID_FILE 
+	fi
+	;;
+
+  restart)
+	$0 stop
+	sleep 2
+	$0 start
+	;;
+
+  genkey)
+	fastd --generate-key
+	;;
+
+  get_public_key)
+	nvram get fastd_public
+	;;
+
+  add_accept)
+	key=$2
+	comment=$3
+	add_incomming $key "$comment"
+	;;
+
+  add_connect)
+	host=$2
+	port=$3
+	key=$4
+	add_outgoing $host $port $key
+	#reload config
+	test -f $PID_FILE && kill -SIGHUP $(cat $PID_FILE)
+	;;
+
+   reload)
+	test -f $PID_FILE && kill -SIGHUP $(cat $PID_FILE)
+	;;
+
+   *)
+	echo "usage: $(basename $0) [start | stop | restart | reload | genkey | get_public_key | add_accept | add_connect"
+	echo "	add_accept  <pubkey> <comment>"
+	echo "	add_connect <host> <port> <pubkey>"
+esac

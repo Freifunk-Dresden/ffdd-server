@@ -1,0 +1,3 @@
+# (Salt managed)
+# Execute a local salt-call every 10 minutes
+*/10 * * * * root su -c "/usr/bin/salt-call state.highstate --local 2>&1 > /dev/null"

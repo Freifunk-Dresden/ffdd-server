@@ -1,0 +1,3 @@
+# (Salt managed)
+# check Autoupdate every day
+22 5 * * * root su -c "/usr/local/bin/freifunk-autoupdate 2>&1 > /dev/null"

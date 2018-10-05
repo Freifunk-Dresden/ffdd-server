@@ -1,0 +1,11 @@
+# (Salt managed)
+# logrotate fuer logging conntract settings and current value
+# /usr/bin/local/conntrack.sh
+
+/var/log/conntrack.log {
+		rotate 5 
+		daily
+		compress
+		copytruncate
+		missingok
+}

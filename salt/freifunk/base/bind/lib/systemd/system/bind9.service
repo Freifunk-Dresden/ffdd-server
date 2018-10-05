@@ -1,0 +1,14 @@
+[Unit]
+Description=BIND Domain Name Server
+Documentation=man:named(8)
+After=network.target openvpn.service
+
+[Service]
+ExecStart=/usr/sbin/named -f -u bind
+ExecReload=/usr/sbin/rndc reload
+ExecStop=/usr/sbin/rndc stop
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

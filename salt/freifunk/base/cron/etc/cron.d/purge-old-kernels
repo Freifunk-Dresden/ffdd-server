@@ -1,0 +1,3 @@
+# (Salt managed)
+# purge-old-kernels and update grub every day
+23 5 * * * root su -c "purge-old-kernels --keep 2 -qy && update-grub2 2>&1 > /dev/null"

@@ -1,0 +1,22 @@
+# (Salt managed)
+# >/dev/null 2>/dev/null disables email alert sent by cron.d
+
+PATH=/usr/local/bin:/usr/bin:/bin:/sbin
+
+# ip rules check. needed on linux container based vservers like the ones offered by webtropia
+0-59/1	*	* * *	root	/etc/init.d/S40network check
+
+#running check
+0-59/1	*	* * *	root	/etc/init.d/S52batmand check >/dev/null 2>/dev/null
+
+#update (ddmesh.de ip, icvpn) hna every hour, but 30minutes shifted
+30		*	* * *	root	/etc/init.d/S52batmand hna >/dev/null 2>/dev/null
+
+#every 5 minutes start
+0-59/5	*	* * *	root	/usr/local/bin/freifunk-gateway-check.sh >/dev/null 2>/dev/null&
+
+#every 2h
+0		*/2	* * *	root	/usr/local/bin/freifunk-register-local-node.sh >/dev/null 2>/dev/null
+
+#update geoip db (once a day)
+22		3	* * *	root	/usr/share/xt_geoip/update.sh >/dev/null 2>/dev/null

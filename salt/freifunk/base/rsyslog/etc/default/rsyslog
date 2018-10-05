@@ -1,0 +1,9 @@
+# (Salt managed)
+# Options for rsyslogd
+# -x disables DNS lookups for remote messages
+# -c compatibility mode
+# See rsyslogd(8) for more details
+
+#stephan: von -c5 auf -c3 geandert damit der rsyslogd neustartet und neues /var/log/syslog anlegt
+#Das ist irgendwie ein bug
+RSYSLOGD_OPTIONS="-c3"

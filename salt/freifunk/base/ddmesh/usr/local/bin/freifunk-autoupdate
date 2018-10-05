@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# check Autoupdate every day (Salt managed)
+# used by: /etc/cron.d/freifunk-autoupdate.conf
+
+if [ "${nvram get autoupdate}" -eq 1 ]; then
+	cd "${nvram get install_dir}" && git pull origin master
+	salt-call state.highstate --local
+else
+	exit 0;
+fi

@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+# (Salt managed)
+### BEGIN INIT INFO
+# Provides:          S42firewall6
+# Required-Start:    41firewall
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: set freifunk firewall
+# Description:       set freifunk firewall
+### END INIT INFO
+
+BACKBONE_DEV=tbb+
+WAN_DEV=$(nvram get ifname)
+
+eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
+
+
+if [ "$1" = "start" ]; then
+
+#----- setup INPUT rules -----
+	echo "setting up INPUT rules ..."
+	ip6tables -A INPUT -p icmpv6 -j ACCEPT
+	#tracepath/route
+	ip6tables -A INPUT -p udp --dport 30000:50000 -j ACCEPT
+	ip6tables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+	#accept answers
+	ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+	
+	#allow access only some services 
+	ip6tables -A INPUT -i lo -j ACCEPT
+	ip6tables -A INPUT -p TCP --dport 80 -j ACCEPT
+	ip6tables -A INPUT -p TCP --dport 443 -j ACCEPT
+	#ip6tables -A INPUT -p TCP --dport 22 -j ACCEPT
+	#ip6tables -A INPUT -d 224.0.0.0/4 -j ACCEPT
+
+	#time service (inetd) for rdate (SNTP)
+	#X#	ip6tables -A INPUT -p TCP --dport 37 -j ACCEPT
+	#X#	ip6tables -A INPUT -p udp --dport 37 -j ACCEPT
+
+	#time service ntp for common NTP clients (NTP is not SNTP)
+	#X#	ip6tables -A INPUT -p TCP --dport 123 -j ACCEPT
+	#X#	ip6tables -A INPUT -p udp --dport 123 -j ACCEPT
+
+	#smtp for incomming emails (from other mail server or from email clients)
+	#SMTP - port 25
+	ip6tables -A INPUT -p tcp --dport 25 -j ACCEPT
+	#IMAP - port 143
+	ip6tables -A INPUT -p tcp --dport 143 -j ACCEPT
+
+	ip6tables -A INPUT -i wifi -j ACCEPT
+
+	#--- input backbone ----------
+	#bmx
+	ip6tables -A INPUT -p udp -i $BACKBONE_DEV --dport 4305 -j ACCEPT
+	ip6tables -A INPUT -p udp -i $BACKBONE_DEV --dport 4306 -j ACCEPT
+	ip6tables -A INPUT -p udp -i $BACKBONE_DEV --dport 4307 -j ACCEPT
+	ip6tables -A INPUT -p udp -i lo --dport 4305 -j ACCEPT
+	ip6tables -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
+	ip6tables -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
+
+		#nuttcp
+		ip6tables -A INPUT -i $BACKBONE_DEV -p tcp --dport 5010 -j ACCEPT
+		ip6tables -A INPUT -i $BACKBONE_DEV -p tcp --dport 5011 -j ACCEPT
+		ip6tables -A INPUT -i bmx+ -p tcp --dport 5010 -j ACCEPT
+		ip6tables -A INPUT -i bmx+ -p tcp --dport 5011 -j ACCEPT
+
+	#dns
+	ip6tables -A INPUT -i $BACKBONE_DEV -p TCP --dport 53 -j ACCEPT
+	ip6tables -A INPUT -i $BACKBONE_DEV -p udp --dport 53 -j ACCEPT
+
+	#ssh
+	ip6tables -A INPUT -i $BACKBONE_DEV -p TCP --dport 22 -j ACCEPT
+
+	#http
+	ip6tables -A INPUT -i $BACKBONE_DEV -p TCP --dport 80 -j ACCEPT
+	ip6tables -A INPUT -i icvpn -p tcp --dport 80 -j ACCEPT
+
+	#---- input eth0 --------------
+
+	#vtun backbone
+	ip6tables -A INPUT -i $WAN_DEV -p tcp --dport 5000 -j ACCEPT
+	ip6tables -A INPUT -i $WAN_DEV -p udp --dport 5000 -j ACCEPT
+
+	#---- input bmx6 --------------
+	ip6tables -A INPUT -i $BACKBONE_DEV -p udp --dport 6240 -j ACCEPT
+	ip6tables -A INPUT -i $BACKBONE_DEV -p tcp --dport 6240 -j ACCEPT
+
+	#ipv4/ipv6 encapsulation
+	ip6tables -A INPUT -i $BACKBONE_DEV -p 4 -j ACCEPT	
+	ip6tables -A INPUT -i $BACKBONE_DEV -p 41 -j ACCEPT	
+
+	ip6tables -A INPUT -j LOG --log-prefix "DROP IPv6 INPUT: "
+	ip6tables -A INPUT -j DROP
+
+
+#----- setup FORWARD rules -----
+	echo "setting up FORWARD rules ..."
+	ip6tables -A FORWARD -p icmpv6 -j ACCEPT
+
+	ip6tables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+	ip6tables -A FORWARD -i $BACKBONE_DEV -o $BACKBONE_DEV -j ACCEPT
+	ip6tables -A FORWARD -i $BACKBONE_DEV -o bmx+ -j ACCEPT
+	ip6tables -A FORWARD -i bmx+ -o bmx+ -j ACCEPT
+
+	#allow forward to openvpn tunnel 
+	ip6tables -A FORWARD -i $BACKBONE_DEV -o vpn+ -j ACCEPT
+	ip6tables -A FORWARD -i bat+ -o vpn+ -j ACCEPT
+	ip6tables -A FORWARD -i bmx+ -o vpn+ -j ACCEPT
+
+	#block any other
+	ip6tables -A FORWARD -j LOG --log-prefix "DROP IPv6 FORWARD: " 
+	ip6tables -A FORWARD -j DROP
+
+#----- setup OUTPUT rules -----
+	echo "setting up OUTPUT rules ..."
+	ip6tables -A OUTPUT -p icmpv6 -j ACCEPT
+
+	#allow all output	
+	ip6tables -A OUTPUT -j ACCEPT
+fi
+
+
+if [ "$1" = "stop" ]; then
+
+	ip6tables -F INPUT
+		ip6tables -F FORWARD
+		ip6tables -F OUTPUT
+fi
+
+
+if [ "$1" = "restart" ]; then
+	$0 stop
+	$0 start
+fi

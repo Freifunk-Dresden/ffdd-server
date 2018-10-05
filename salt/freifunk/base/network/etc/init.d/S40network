@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+# (Salt managed)
+### BEGIN INIT INFO
+# Provides:          S40network
+# Required-Start:    $remote_fs $network $syslog
+# Required-Stop:     
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: setup freifunk routing
+# Description:       setup freifunk routing 
+### END INIT INFO
+
+write_throw_rules () {
+#$1 add|del
+#$2 is routing-table
+#$3 type:throw|unreachable
+                #jump over freifunk ranges
+                ip route $1 $3 10.0.0.0/8 table $2 2>/dev/null
+                ip route $1 $3 172.16.0.0/12 table $2 2>/dev/null
+}
+
+setup_routing() {
+
+		#priority 99 is used for ping gateway check
+
+		#linux container
+		ip rule $1 to 10.0.3.0/24 lookup main prio 200
+
+		#no private ranges (10er, 172er are freifunk ranges and must pass
+		ip rule $1 to 192.168.0.0/16 table main priority 300
+
+		#speedtest through gateway tunnel:
+		#router is client: 169.254.x.y allow packets going to bat0
+		#router is gatway: 169.254.x.y allow packets going to bat0
+		ip rule $1 to 169.254.0.0/16 table bat_default priority 301
+		ip rule $1 to 169.254.0.0/16 table main priority 302 
+
+
+		#allow wifi broadcast for batman (actually it sends packetes directly to if without routing table)
+		ip rule $1 to 10.255.255.255/32 table main priority 303
+
+		#add own client range to routing table
+		#ip rule $1 to $_ddmesh_dhcpnetwork/$_ddmesh_dhcprangemask table main priority 303
+
+		#icvpn
+		ip rule $1 to 10.207.0.0/16 table main priority 304
+
+		# special DNS routing, always via public tunnel if exist.
+		ip rule $1 lookup public_dns priority 350
+
+		#route local and lan traffic through own internet gateway
+		ip rule $1 iif lo table local_gateway priority 400
+ 		ip rule $1 table public_gateway priority 401
+
+		#batman tables
+		ip rule $1 to 10.200.0.0/15 table bat_route priority 500
+#bmx_mesh table: #created by bmx6:ip rule $1 table bmx_mesh priority 500
+		ip rule $1 to 10.0.0.0/8 table bat_hna priority 501
+		ip rule $1 to 172.16.0.0/12 table bat_hna priority 502
+
+		#zebra after local gateway, weil ispone auch aus dem 172er netz verteilt
+		#ip rule $1 table zebra priority 550 
+
+
+		#avoid ip packages go through bmx_gateway if bmx6 has removed entries from its tables
+		#at this point only let inet ips go further. let all other network ips (10er) be unreachable
+		#to speed up routing and avoid loops within same node
+		ip rule $1 to 10.0.0.0/8 table unreachable priority 580
+		ip rule $1 to 172.16.0.0/12 table unreachable priority 581
+
+#bmx table: process inet ips #created by bmx6:ip rule $1 table bmx_gateway priority 502
+
+# 505: here would be route_bat
+
+		#stop any routing here, to avoid using default gatways in default routing table
+		#those gateways are checked and added to gateway table if valid
+		ip rule $1 table unreachable priority 600
+		ip route $1 unreachable default table unreachable
+
+# die iif lo regel geht irgendwie nicht, die packte fallen alle bis zu unreachable durch
+# kann also nur mit ip6tables verhindern, dass was von anderen interfaces was zum eth0 rausgeht
+#ip -6 rule $1 iif lo table main priority 10
+#ip -6 rule $1 table unreachable priority 600
+#ip -6 route $1 unreachable default table unreachable
+
+#return a quick answer instead running in timeout
+#(will disturb adding default gateway)
+#ip route $1 prohibit default
+
+#set some routes 
+		#add local gateway rule; this ensures that local internet access can not be blocked via invalid batman_hna
+		write_throw_rules $1 local_gateway throw
+		g=$(ip route list table main | grep default)
+		ip route $1 $g table local_gateway
+
+		#gateway_check.sh will setup the throw rules. this call is only used to clean gateway table
+		if [ "$1" = "del" ]; then
+			ip route flush table public_gateway 2>/dev/null
+		fi
+}
+
+
+set_conntrack() {
+
+	#increment nf_conntrack_max from about 31000-65535 (depending on vserver provider)
+	#ispone has a small value of 31000 and this will lead to ignoring any network packets
+	#ispone koennte evt diesen wert runter setzen, damit der server online erscheint aber nichts mehr macht.
+	#aber das ist nicht sicher.
+	#daher habe ich einen cron job aufgesetzt, der die aktuellen conntrack werte alle 5 min loggt.
+	#http://pc-freak.net/blog/resolving-nf_conntrack-table-full-dropping-packet-flood-message-in-dmesg-linux-kernel-log/
+	#oder auch im git-repo: administration/documentation/nf_conntrack.html
+
+	#erhoehe conntrack werte und die hash tabelle, welche die connections speichert
+	/sbin/sysctl -w net.netfilter.nf_conntrack_max=200000
+	/sbin/sysctl -p
+
+	#die werte fuer die hash tabelle
+	echo 32768 > /sys/module/nf_conntrack/parameters/hashsize 
+
+}
+
+case "$1" in
+  start)
+	set_conntrack
+    	setup_routing add
+    	;;
+  stop)
+	setup_routing del
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
+  check)
+	# count rules, if one is missing then restart network
+	expected=18 
+	nrules=$(ip rule | wc -l)
+	echo "IP rules check: expected:$expected, current:$nrules"
+	if [ $nrules -lt $expected ]; then
+		logger -s -t "S40network" "IP rules check failed. expected:$expected, current:$nrules -> restarting network"
+		$0 stop
+		$0 start
+	fi
+	;;
+esac

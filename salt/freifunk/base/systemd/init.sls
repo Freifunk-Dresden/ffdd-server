@@ -1,0 +1,3 @@
+systemd:
+  pkg:
+    - installed

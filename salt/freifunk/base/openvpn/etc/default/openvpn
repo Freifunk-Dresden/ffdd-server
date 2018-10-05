@@ -1,0 +1,31 @@
+# (Salt managed)
+# This is the configuration file for Openvpn
+#
+# Start only these VPNs automatically via init script.
+# Allowed values are "all", "none" or space separated list of
+# names of the VPNs. If empty, "all" is assumed.
+# The VPN name refers to the VPN configutation file name.
+# i.e. "home" would be /etc/openvpn/home.conf
+#
+# If you're running systemd, changing this variable will
+# require running "systemctl daemon-reload" followed by
+# a restart of the openvpn service (if you removed entries
+# you may have to stop those manually)
+#
+#AUTOSTART="all"
+#AUTOSTART="none"
+#AUTOSTART="home office"
+#
+# WARNING: If you're running systemd the rest of the
+# options in this file are ignored.
+#
+# Refresh interval (in seconds) of default status files
+# located in /var/run/openvpn.$NAME.status
+# Defaults to 10, 0 disables status file generation
+#
+#STATUSREFRESH=10
+#STATUSREFRESH=0
+# Optional arguments to openvpn's command line
+#Stephan: default ist 1, was nur interne scripts erlaubt, aber keine user scripts. so setzte ich es auf 2, können auch
+#user-scripts ausgeführt werden, damit das vpn nach leipzig funktioniert
+OPTARGS="--script-security 2"

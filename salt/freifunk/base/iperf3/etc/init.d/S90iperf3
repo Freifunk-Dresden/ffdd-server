@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# (Salt managed)
+### BEGIN INIT INFO
+# Provides:          S90iperf3
+# Required-Start:    $network
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: speed test server 
+# Description:       speed test server 
+### END INIT INFO
+
+if [ "$1" = "start" ] ; then
+	iperf3 -s -D
+fi

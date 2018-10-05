@@ -1,0 +1,35 @@
+# (Salt managed)
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+Cmnd_Alias	BMXD=/usr/bin/bmxd * 
+Cmnd_Alias	INET_TUNNEL=/usr/local/bin/freifunk-gateway-info.sh *
+Cmnd_Alias	STAT_A=/sbin/iptables -w -xvn -L stat_from_ovpn
+Cmnd_Alias	STAT_B=/sbin/iptables -w -xvn -L stat_to_ovpn
+
+# User privilege specification
+root		ALL=(ALL:ALL) ALL
+www-data	ALL=NOPASSWD: BMXD 
+www-data	ALL=NOPASSWD: INET_TUNNEL
+www-data	ALL=NOPASSWD: STAT_A 
+www-data	ALL=NOPASSWD: STAT_B 
+
+# Allow members of group sudo to execute any command
+%sudo		ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on "#include" directives:
+
+#includedir /etc/sudoers.d

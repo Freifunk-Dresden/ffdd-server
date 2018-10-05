@@ -1,0 +1,36 @@
+# (Salt managed)
+#
+# reserved values
+#
+255	local
+254	main
+253	default
+0	unspec
+
+#
+# local
+#
+#1	inr.ruhep
+
+252	local_gateway
+251	public_gateway
+250	gateway_pool
+249	ping
+248	ping_unreachable
+247	unreachable
+53	public_dns
+200	zebra
+
+#
+# bmx6
+#
+60	bmx
+61	bmx_mesh
+62	bmx_gateway
+
+#
+# bmxd 
+#
+64	bat_route
+65	bat_hna
+66	bat_default

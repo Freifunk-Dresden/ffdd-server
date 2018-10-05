@@ -1,0 +1,4 @@
+# Alle Robots ausschlieﬂen
+User-agent: *
+Disallow: / 
+

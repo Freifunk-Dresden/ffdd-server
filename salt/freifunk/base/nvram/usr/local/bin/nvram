@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+case "$1" in
+	show)
+		cat /etc/nvram.conf
+	;;
+
+	get)
+		sed -n "/^$2/{s#^.*=##;p}" /etc/nvram.conf
+	;;
+
+	set)
+		sed -i "s/${2}=.*/${2}=${3}/g" /etc/nvram.conf
+	;;
+
+	unset)
+		sed -i "s/${2}=.*/${2}=/g" /etc/nvram.conf
+	;;
+
+	*)
+		printf 'usage: nvram [get name] [set name value] [unset name] [show]\n';
+		exit 0
+	;;
+esac
