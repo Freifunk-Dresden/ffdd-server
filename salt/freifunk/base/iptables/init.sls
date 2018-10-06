@@ -59,14 +59,15 @@ xt_geoip_build:
     - require:
       - pkg: iptables
 
-/etc/init.d/S41firewall_custom:
+/etc/firewall.user:
   file.managed:
-    - source: salt://iptables/etc/init.d/S41firewall_custom
+    - source: salt://iptables/etc/firewall.user
     - user: root
     - group: root
-    - mode: 755
+    - mode: 644
     - replace: false
     - require:
+      - file: /etc/init.d/S41firewall
       - pkg: iptables
 
 rc.d_S41firewall:
@@ -84,9 +85,11 @@ S41firewall:
     - restart: True
     - watch:
       - file: /etc/init.d/S41firewall
+      - file: /etc/firewall.user
     - require:
       - pkg: iptables
       - service: S40network
+      - file: /etc/firewall.user
 
 
 # IPv6 Firewall
