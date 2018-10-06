@@ -125,7 +125,6 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
     ./genconfig.sh yourvpnclient.conf/.ovpn
   # for vpn user and password use:
     /etc/openvpn/openvpn.login 
-*ddmesh-ipcalc.sh (other communitys only!)
 ```
 <br>
 Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
@@ -140,14 +139,19 @@ salt-call state.highstate --local -l debug
 
 Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet werden.<br/>
 
+**Optional:**<br/>
+* /etc/firewall.user<br/>
+Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in /etc/init.d/S41firewall eingebunden und automatisch von salt mitgeladen.
+
 Wichig
 ----
 Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal** wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
 
 Bitte einhalten:
-* Ändern der BSSID auf eine eigenen
+* Ändern der BSSID auf eine eigenen!
 * Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
 * Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
+* /usr/local/bin/ddmesh-ipcalc.sh muss angepasst werden!
 
 Development
 ----
