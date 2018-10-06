@@ -71,10 +71,10 @@ Vorausetzungen
 Installation
 ----
 
-1. Bringe Ubuntu/Debian auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
+* Bringe Ubuntu/Debian auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
 (https://help.ubuntu.com/community/UpgradeNotes)<br/>
 
-2. Am Ende kann die Ubuntu-Version mit überprüft werden.<br/>
+* Am Ende kann die Ubuntu-Version mit überprüft werden.<br/>
 lsb_release -a
 ```
 No LSB modules are available.
@@ -88,7 +88,7 @@ Codename:       vivid
 Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** sowie **/etc/fastd/fastd2.conf**<br>
 solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
-3. Folgends cloned und Installiert das Repository. (Bitte verwendet eurer eignes geclontes Repository.)<br/>
+* Folgends cloned und Installiert das Repository. (Bitte verwendet eurer eignes geclontes Repository.)<br/>
 Es wird beim ersten Durchführen eine kurze Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
 installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
 
@@ -111,7 +111,7 @@ sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/master/init_
 
 Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summary for local" noch Failed's angezeigt werden.
 
-4. Manuelle Anpassung der Variablen.<br/>
+* Manuelle Anpassung der Variablen.<br/>
 
 Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
 ```
@@ -126,8 +126,8 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
   # for vpn user and password use:
     /etc/openvpn/openvpn.login 
 ```
-<br>
-Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
+
+* Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
 Wir wollen aber sehen ob alles läuft und auch alles erfolgreich initialisiert wird:
 
 ```
