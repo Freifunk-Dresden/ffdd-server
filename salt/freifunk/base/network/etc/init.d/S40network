@@ -115,8 +115,10 @@ set_conntrack() {
 	/sbin/sysctl -w net.netfilter.nf_conntrack_max=200000
 	/sbin/sysctl -p
 
-	#die werte fuer die hash tabelle
-	echo 32768 > /sys/module/nf_conntrack/parameters/hashsize 
+	#die werte fuer die hash tabelle (not available in lxc-containers)
+	if [ -f /sys/module/nf_conntrack/parameters/hashsize ]; then
+		echo 32768 > /sys/module/nf_conntrack/parameters/hashsize
+	fi
 
 }
 
