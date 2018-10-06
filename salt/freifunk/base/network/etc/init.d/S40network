@@ -16,8 +16,8 @@ write_throw_rules () {
 #$3 type:throw|unreachable
 
 	#jump over freifunk ranges
-	ip route "$1" "$3" 10.0.0.0/8 table "$2" 2>/dev/null
-	ip route "$1" "$3" 172.16.0.0/12 table "$2" 2>/dev/null
+	ip route "$1" "$3" 10.0.0.0/8 table "$2"
+	ip route "$1" "$3" 172.16.0.0/12 table "$2"
 }
 
 setup_routing() {
@@ -92,7 +92,7 @@ setup_routing() {
 	#add local gateway rule; this ensures that local internet access can not be blocked via invalid batman_hna
 	write_throw_rules "$1" local_gateway throw
 	g="$(ip route list table main | grep default)"
-	ip route "$1" "$g" table local_gateway
+	ip route "$1" $g table local_gateway
 
 	#gateway_check.sh will setup the throw rules. this call is only used to clean gateway table
 	if [ "$1" = "del" ]; then
