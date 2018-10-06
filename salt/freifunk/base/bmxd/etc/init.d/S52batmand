@@ -44,7 +44,7 @@ FASTD_IF="tbb_fastd2"
 if [ "$1" = "start" ]; then
 	#ip link add link lo name $PRIMARY_IF type bridge
 	ip tuntap add dev $PRIMARY_IF mod tun
-	ip addr add $_ddmesh_ip/$_ddmesh_netpre broadcast $_ddmesh_broadcast dev $PRIMARY_IF 
+	ip addr add $_ddmesh_ip/$_ddmesh_netpre broadcast $_ddmesh_broadcast dev $PRIMARY_IF
 	ip link set dev $PRIMARY_IF up
 fi
 #_IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
