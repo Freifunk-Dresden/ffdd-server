@@ -84,10 +84,9 @@ Release:        16.04
 Codename:       vivid
 ```
 
-**Wichtig:**
-Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** sowie **/etc/fastd/fastd2.conf**
-solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue
-Knotennummer vergeben und registriert.
+**Wichtig:**<br/>
+Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** sowie **/etc/fastd/fastd2.conf**<br>
+solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
 3. Folgends cloned und Installiert das Repository. (Bitte verwendet eurer eignes geclontes Repository.)<br/>
 Es wird beim ersten Durchführen eine kurze Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
@@ -114,7 +113,7 @@ Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summa
 
 4. Manuelle Anpassung der Variablen.<br/>
 
-Nun müssen Community-Spezifische Dinge angepasst werden (kann bereits mit vorhandener Config angelegt sein):
+Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
 ```
 */etc/hostname
 */etc/issue.net
@@ -128,9 +127,10 @@ Nun müssen Community-Spezifische Dinge angepasst werden (kann bereits mit vorha
     /etc/openvpn/openvpn.login 
 *ddmesh-ipcalc.sh (other communitys only!)
 ```
-
+<br>
 Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
 Wir wollen aber sehen ob alles läuft und auch alles erfolgreich initialisiert wird:
+
 ```
 salt-call state.highstate --local
 
