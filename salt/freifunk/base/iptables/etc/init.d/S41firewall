@@ -173,9 +173,6 @@ if [ "$1" = "start" ]; then
 	iptables -w -A INPUT -p TCP --dport 443 -j ACCEPT
 	#iptables -w -A INPUT -d 224.0.0.0/4 -j ACCEPT
 
-	#rsyslog freifunk knoten
-	iptables -w -A INPUT -s 10.200.0.0/15 -d 10.200.0.0/15 -p udp --dport 514 -j ACCEPT
-
 	iptables -w -A INPUT -i bmx_prime -j ACCEPT
 
 	#--- input backbone ----------
@@ -216,14 +213,10 @@ if [ "$1" = "start" ]; then
 	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 5001 -j ACCEPT
 	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 5002 -j ACCEPT
 	
-	#some portforwarding backbone alternativ port
-	#iptables -w -A INPUT -i $WAN_DEV -p udp --dport 443 -j ACCEPT
-	#ipaddr=$(ip addr show dev $(nvram get ifname) | sed -n '/[      ]\+inet[        ]\+/s#[         ]\+inet[        ]\+\([0-9.]\+\).*#\1#p')
-	#iptables -w -t nat -I PREROUTING -i $WAN_DEV -p udp --dport 443 -j DNAT --to-destination 127.0.0.1:5002
-	#iptables -w -t nat -I PREROUTING -i $WAN_DEV -p udp --dport 443 -j DNAT --to-destination $ipaddr:5002
-
-	# can we include at this position an external script with user rules?
-	# ./etc/init.d/S41firewall_custom
+	#
+	# include custom user rules
+	#
+	. /etc/firewall.user
 
 	#drop packages before logging
 	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 137 -j DROP
