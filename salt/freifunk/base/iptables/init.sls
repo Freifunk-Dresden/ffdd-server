@@ -56,7 +56,16 @@ xt_geoip_build:
     - user: root
     - group: root
     - mode: 755
-    #- replace: false
+    - require:
+      - pkg: iptables
+
+/etc/init.d/S41firewall_custom:
+  file.managed:
+    - source: salt://iptables/etc/init.d/S41firewall_custom
+    - user: root
+    - group: root
+    - mode: 755
+    - replace: false
     - require:
       - pkg: iptables
 
