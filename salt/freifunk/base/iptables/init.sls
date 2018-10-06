@@ -86,6 +86,7 @@ S41firewall:
     - watch:
       - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
+      - service: S40network
     - require:
       - pkg: iptables
       - service: S40network
@@ -117,6 +118,7 @@ S42firewall6:
     - restart: True
     - watch:
       - file: /etc/init.d/S42firewall6
+      - service: S40network
     - require:
       - pkg: iptables
       - service: S40network
