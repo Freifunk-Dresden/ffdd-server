@@ -70,9 +70,11 @@ else
 fi
 
 # small salt fix to create templates (replace: false)
-cp /root/.bashrc /root/.bashrc_bak && rm /root/.bashrc
-rm /etc/issue.net
-rm /etc/monitorix/monitorix.conf
+cp /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
+rm /root/.bashrc >/dev/null 2>&1
+
+rm /etc/issue.net >/dev/null 2>&1
+rm /etc/monitorix/monitorix.conf >/dev/null 2>&1
 
 # create static nvram.conf
 printf '\n### Check "nvram" Setup ..\n';
@@ -111,33 +113,6 @@ EOF
 printf '\n### Start Initial System. (please wait!)\n';
 
 salt-call state.highstate --local
-
-#
-# restart Services
-#
-printf '\n### restart Network ..\n';
-systemctl restart S40network.service	&&
-
-printf '\n### restart Firewall ..\n';
-systemctl restart S41firewall.service	&&
-systemctl restart S42firewall6.service	&&
-
-printf '\n### restart fastd2 ..\n';
-systemctl stop S53backbone-fastd2.service && sleep 0.3 &&
-systemctl start S53backbone-fastd2.service &&
-
-printf '\n### restart batmand (bmx) ..\n';
-systemctl restart S52batmand.service	&&
-
-printf '\n### restart iperf3 (Speedtest) ..\n';
-systemctl restart S90iperf3.service
-
-printf '\n### restart Webserver & Monitor ..\n';
-systemctl restart apache2.service	&&
-systemctl restart monitorix.service
-
-printf '\n### restart fail2ban (IPS) ..\n';
-systemctl restart fail2ban.service
 
 #
 # -- Cleanup System --
