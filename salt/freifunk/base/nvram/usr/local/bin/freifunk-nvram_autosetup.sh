@@ -12,7 +12,6 @@ ddmesh_node="$(nvram get ddmesh_node)"
 ddmesh_key="$(nvram get ddmesh_registerkey)"
 
 fastd_secret="$(nvram get fastd_secret)"
-conf_fastd_secret="$(sed -n 's/^secret.* "\(.*\)";/\1/p' /etc/fastd/fastd2.conf)"
 
 
 # function: find default gateway interface
@@ -66,10 +65,6 @@ if [[ "$ddmesh_key" = '' ]] && [[ "$fastd_secret" = '' ]]; then
 	nvram set fastd_secret "${fastd_secret_key}"	&&
 	nvram set fastd_public "${fastd_public_key}"
 
-	# check fastd_secret in /etc/fastd/fastd2.conf is correct
-	if [ "$conf_fastd_secret" != "$fastd_secret_key" ]; then
-		sed -i "/^secret/c \\secret \"$fastd_secret_key\";" /etc/fastd/fastd2.conf
-	fi
 fi
 
 exit 0

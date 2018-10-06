@@ -6,24 +6,23 @@
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start fastd backbone 
-# Description:       start fastd backbone 
+# Short-Description: Start fastd backbone
+# Description:       start fastd backbone
 ### END INIT INFO
 
-WAN_DEV=$(nvram get ifname)
-DAEMON=/usr/local/bin/fastd
-CONF_DIR=/etc/fastd
-FASTD_CONF=$CONF_DIR/fastd2.conf
-CONF_PEERS=peers2
-PID_FILE=/var/run/fastd2.pid
-backbone_server_port=5002
-COMMAND="/etc/fastd/cmd2.sh"
+DAEMON='/usr/local/bin/fastd'
+CONF_DIR='/etc/fastd'
+FASTD_CONF="$CONF_DIR"/fastd2.conf
+CONF_PEERS='peers2'
+PID_FILE='/var/run/fastd2.pid'
+backbone_server_port='5002'
+COMMAND='/etc/fastd/cmd2.sh'
 
-eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
+eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 
-mkdir -p $CONF_DIR
-mkdir -p $CONF_DIR/$CONF_PEERS
-
+if [ ! -d "$CONF_DIR"/"$CONF_PEERS" ]; then
+	mkdir -p "$CONF_DIR"/"$CONF_PEERS"
+fi
 
 generate_fastd_conf()
 {
@@ -31,13 +30,13 @@ generate_fastd_conf()
  # docs: http://fastd.readthedocs.org/en/v17/
 
  MTU=1200
- secret=$(nvram get fastd_secret)
+ secret="$(nvram get fastd_secret)"
  if [ -z "$secret" ]; then
 	logger -t fastd "no secret key - abort"
 	exit 1
  fi
 
- cat << EOM > $FASTD_CONF
+ cat << EOM > "$FASTD_CONF"
 log level warn;
 log to syslog level debug;
 mode tap;
@@ -66,57 +65,57 @@ EOM
 
 add_incomming()
 {
-	local key=$1 
+	local key="$1"
 	local comment="$2"
 	
 	if [ -n "$key" -a -n "$comment" ]; then
 		#echo "[$key:$comment]"
-		FILE=$CONF_DIR/$CONF_PEERS/accept_$key.conf
-		echo "# $comment" > $FILE
-		echo "key \"$key\";" >> $FILE
+		FILE="$CONF_DIR/$CONF_PEERS/accept_$key.conf"
+		echo "# $comment" > "$FILE"
+		echo "key \"$key\";" >> "$FILE"
 	else
-		echo "missing args"
+		printf 'missing args\n'
 	fi
 }
 
 				
 add_outgoing()
 {
-	local host=$1  #hostname or ip
-	local port=$2 
-	local key=$3 
+	local host="$1"  #hostname or ip
+	local port="$2"
+	local key="$3"
 
 	if [ -n "$host" -a -n "$port" -a -n "$key" ]; then
 		echo "[$host:$port:$key]"
-		FILE=$CONF_DIR/$CONF_PEERS/"connect_"$host"_"$port".conf"
-		echo "key \"$key\";" > $FILE
-		echo "remote ipv4 \"$host\":$port;" >> $FILE
+		FILE="$CONF_DIR/$CONF_PEERS/connect_$host_$port.conf"
+		echo "key \"$key\";" > "$FILE"
+		echo "remote ipv4 \"$host\":$port;" >> "$FILE"
 	else
-		echo "missing args"
+		printf 'missing args\n'
 	fi
 }
 
 case "$1" in
 
- start)				
-	echo "Starting backbone..."
+  start)
+	printf 'Starting backbone...\n'
 
 	generate_fastd_conf
-	$DAEMON --config $FASTD_CONF --pid-file $PID_FILE --daemon
+	"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon
 	;;
 
   stop)
-	echo "Stopping backbone network..."
-	if [ -f $PID_FILE ]; then
-		kill $(cat $PID_FILE)
-		rm -f $PID_FILE 
+	printf 'Stopping backbone network...\n'
+	if [ -f "$PID_FILE" ]; then
+		kill "$(cat $PID_FILE)"
+		rm -f "$PID_FILE"
 	fi
 	;;
 
   restart)
-	$0 stop
+	"$0" stop
 	sleep 2
-	$0 start
+	"$0" start
 	;;
 
   genkey)
@@ -128,26 +127,28 @@ case "$1" in
 	;;
 
   add_accept)
-	key=$2
-	comment=$3
-	add_incomming $key "$comment"
+	key="$2"
+	comment="$3"
+	add_incomming "$key" "$comment"
 	;;
 
   add_connect)
-	host=$2
-	port=$3
-	key=$4
-	add_outgoing $host $port $key
+	host="$2"
+	port="$3"
+	key="$4"
+	add_outgoing "$host" "$port" "$key"
 	#reload config
-	test -f $PID_FILE && kill -SIGHUP $(cat $PID_FILE)
+	test -f "$PID_FILE" && kill -SIGHUP "$(cat $PID_FILE)"
 	;;
 
    reload)
-	test -f $PID_FILE && kill -SIGHUP $(cat $PID_FILE)
+	test -f "$PID_FILE" && kill -SIGHUP "$(cat $PID_FILE)"
 	;;
 
    *)
-	echo "usage: $(basename $0) [start | stop | restart | reload | genkey | get_public_key | add_accept | add_connect"
-	echo "	add_accept  <pubkey> <comment>"
-	echo "	add_connect <host> <port> <pubkey>"
+	printf 'usage: %s [start | stop | restart | reload | genkey | get_public_key | add_accept | add_connect\n' "$(basename "$0")"
+	printf '  add_accept <pubkey> <comment>\n'
+	printf '\tadd_connect <host> <port> <pubkey>\n'
 esac
+
+exit 0

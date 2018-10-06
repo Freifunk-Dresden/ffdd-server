@@ -6,7 +6,7 @@
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start bmxd 
+# Short-Description: Start bmxd
 # Description:       bmxd
 ### END INIT INFO
 
@@ -17,12 +17,16 @@ DAEMON_PATH=/usr/bin
 DB_PATH=/var/lib/freifunk/bmxd
 RUN_STATUS_FILE=/var/run/batman-status-running
 
-mkdir -p $DB_PATH
+
+if [ ! -d "$DB_PATH" ]; then
+	mkdir -p "$DB_PATH"
+fi
 
 #eval $(/usr/bin/netparam)
-eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
+eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 
-NUMBER_OF_CLIENTS=$(nvram get backbone_max_tunnel)
+
+NUMBER_OF_CLIENTS="$(nvram get backbone_max_tunnel)"
 
 ROUTING_CLASS="$(nvram get batman_routing_class)"
 ROUTING_CLASS="${ROUTING_CLASS:-3}"
@@ -34,19 +38,19 @@ GATEWAY_CLASS="-g $GATEWAY_CLASS"
 
 PREFERED_GATEWAY="$(nvram get bmxd_prefered_gateway)"
 test -n "$PREFERED_GATEWAY" && PREFERED_GATEWAY="-p $PREFERED_GATEWAY"
-echo "$PREFERED_GATEWAY"
+printf '%s\n' "$PREFERED_GATEWAY"
 
 # create a virtual interface for primary interface. loopback has 
 # 127er IP would be broadcasted
-
 PRIMARY_IF="bmx_prime"
 FASTD_IF="tbb_fastd2"
 if [ "$1" = "start" ]; then
-	#ip link add link lo name $PRIMARY_IF type bridge
-	ip tuntap add dev $PRIMARY_IF mod tun
-	ip addr add $_ddmesh_ip/$_ddmesh_netpre broadcast $_ddmesh_broadcast dev $PRIMARY_IF
-	ip link set dev $PRIMARY_IF up
+	#ip link add link lo name "$PRIMARY_IF" type bridge
+	ip tuntap add dev "$PRIMARY_IF" mod tun
+	ip addr add "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
+	ip link set dev "$PRIMARY_IF" up
 fi
+
 #_IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
 _IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
 
@@ -54,69 +58,70 @@ _IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
 # (register,info,...).ddmesh.de MUSS per hna mitgeteilt werden, da sonst der linux kernel irgendwie packete verwirft, die ein zweitesmal durch laufen
 #aber vpn.ddmesh.de nicht, da sonst der router keine vpn verbindung üer das internet aufbauen kann. 
 #HNA="-a 195.42.115.56/32"
-SPECIAL_OPTS="--throw-rules 0 --prio-rules 0"
-TUNNEL_OPTS="--one-way-tunnel 1 --two-way-tunnel 2"
+SPECIAL_OPTS='--throw-rules 0 --prio-rules 0'
+TUNNEL_OPTS='--one-way-tunnel 1 --two-way-tunnel 2'
 DAEMON_OPTS="$SPECIAL_OPTS $TUNNEL_OPTS $ROUTING_CLASS $PREFERED_GATEWAY $HNA $_IF"
 
 
-test -x $DAEMON_PATH/$DAEMON || exit 0
+test -x "$DAEMON_PATH"/"$DAEMON" || exit 0
 
 case "$ARG1" in
   start)
-	echo "Starting $DAEMON: opt: $DAEMON_OPTS"
+	printf 'Starting %s: opt: %s\n' "$DAEMON" "$DAEMON_OPTS"
 #	echo /tmp/coredump > /proc/sys/kernel/core_pattern
 #	ulimit -c unlimited
-	$DAEMON_PATH/$DAEMON $DAEMON_OPTS
-#	$DAEMON_PATH/$DAEMON $DAEMON_OPTS -d4
+	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS"
+#	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" -d4
 	;;
 
   stop)
-	echo "Stopping $DAEMON: "
-	killall -9 $DAEMON
-	ip link set dev $PRIMARY_IF down 
-	ip addr del $_ddmesh_ip/$_ddmesh_netpre broadcast $_ddmesh_broadcast dev $PRIMARY_IF
+	printf 'Stopping %s:\n' "$DAEMON"
+	killall -9 "$DAEMON"
+	ip link set dev "$PRIMARY_IF" down 
+	ip addr del "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
 	;;
 
   restart|force-reload)
-	$0 stop
+	"$0" stop
 	sleep 5
-	$0 start
+	"$0" start
 	;;
 
   gateway)
-		echo $DAEMON -c $GATEWAY_CLASS
-		$DAEMON_PATH/$DAEMON -c $GATEWAY_CLASS
-		;;
+	printf '%s -c %s\n' "$DAEMON" "$GATEWAY_CLASS"
+	"$DAEMON_PATH"/"$DAEMON" -c "$GATEWAY_CLASS"
+	;;
 
   no_gateway)
-		echo $DAEMON -c $ROUTING_CLASS
-		$DAEMON_PATH/$DAEMON -c $ROUTING_CLASS
-		;;
-  check)
-	test -z "$(pidof -s $DAEMON)" && logger -s "$DAEMON not running - restart" && $0 restart && exit
-		test -n "$(pidof -s $DAEMON)" && test ! -f "$RUN_STATUS_FILE" && (
-	touch $RUN_STATUS_FILE
-		$DAEMON_PATH/$DAEMON -c --gateways > $DB_PATH/gateways
-		$DAEMON_PATH/$DAEMON -c --services > $DB_PATH/services
-		$DAEMON_PATH/$DAEMON -c --links > $DB_PATH/links
-		$DAEMON_PATH/$DAEMON -c --originators > $DB_PATH/originators
-		$DAEMON_PATH/$DAEMON -c --hnas > $DB_PATH/hnas
-		$DAEMON_PATH/$DAEMON -c --status > $DB_PATH/status
-		$DAEMON_PATH/$DAEMON -ci > $DB_PATH/info
+	printf '%s -c %s\n' "$DAEMON" "$ROUTING_CLASS"
+	"$DAEMON_PATH/$DAEMON" -c "$ROUTING_CLASS"
+	;;
 
-	rm $RUN_STATUS_FILE
+  check)
+	test -z "$(pidof -s "$DAEMON")" && logger -s "$DAEMON not running - restart" && "$0" restart && exit
+		test -n "$(pidof -s "$DAEMON")" && test ! -f "$RUN_STATUS_FILE" && (
+	touch "$RUN_STATUS_FILE"
+		"$DAEMON_PATH"/"$DAEMON" -c --gateways > "$DB_PATH/gateways"
+		"$DAEMON_PATH"/"$DAEMON" -c --services > "$DB_PATH/services"
+		"$DAEMON_PATH"/"$DAEMON" -c --links > "$DB_PATH/links"
+		"$DAEMON_PATH"/"$DAEMON" -c --originators > "$DB_PATH/originators"
+		"$DAEMON_PATH"/"$DAEMON" -c --hnas > "$DB_PATH/hnas"
+		"$DAEMON_PATH"/"$DAEMON" -c --status > "$DB_PATH/status"
+		"$DAEMON_PATH"/"$DAEMON" -ci > "$DB_PATH/info"
+
+	rm "$RUN_STATUS_FILE"
 	)
 
-		;;
+	;;
 
   addif)
-	$DAEMON_PATH/$DAEMON -c --dev $2
-	touch $IF_FILES/$2
+	"$DAEMON_PATH"/"$DAEMON" -c --dev "$2"
+	touch "$IF_FILES"/"$2"
 	;;
 
   delif)
-	$DAEMON_PATH/$DAEMON -c --dev -$2
-	rm $IF_FILES/$2
+	"$DAEMON_PATH"/"$DAEMON" -c --dev -"$2"
+	rm "$IF_FILES"/"$2"
 	;;
 
   hna)
@@ -131,17 +136,17 @@ case "$ARG1" in
 	#$DAEMON_PATH/$DAEMON -c -a '10.224.0.0/11'
 
 	#add other hna (except previous added ranges and except 10.200er 10.201er to avoid client conflicts with freifunk knoten die auch einen client range haben)	
-  #	for i in $(ip ro lis ta zebra | sed -n 's# .*$##;/^172\.*/d;/^104\.*/d;p' | sed 's#^\([0-9]\+\)\.\([0-9]\+\)\..*#\1.\2.0.0/16#' | sort -u)
-#	do
-#		echo "add icvpn hna: $i"
-#		$DAEMON_PATH/$DAEMON -c -a "$i"
-#	done
+	#	for i in $(ip ro lis ta zebra | sed -n 's# .*$##;/^172\.*/d;/^104\.*/d;p' | sed 's#^\([0-9]\+\)\.\([0-9]\+\)\..*#\1.\2.0.0/16#' | sort -u)
+	#	do
+	#		echo "add icvpn hna: $i"
+	#		$DAEMON_PATH/$DAEMON -c -a "$i"
+	#	done
+	exit 1
 	;;
-  *)
-		N=/etc/init.d/$NAME
-		echo "Usage: $N {start|stop|restart|gateway|no_gateway|checkif|addif|delif|hna}" >&2
-		exit 1         ;;
 
+  *)
+	printf 'Usage: %s {start|stop|restart|gateway|no_gateway|checkif|addif|delif|hna}\n' "$(basename "$0")"
+	;;
 
 esac
 
