@@ -83,3 +83,8 @@ S53backbone-fastd2:
     - restart: True
     - watch:
       - file: /etc/init.d/S53backbone-fastd2
+      - service: S41firewall
+    - require:
+      - file: /etc/init.d/S53backbone-fastd2
+      - service: S40network
+      - service: S41firewall

@@ -12,6 +12,8 @@ openvpn:
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
     - require:
+      - service: S40network
+      - service: S41firewall
       - file: /etc/default/openvpn
       - file: /etc/openvpn/openvpn.conf
       - file: /lib/systemd/system/openvpn@.service

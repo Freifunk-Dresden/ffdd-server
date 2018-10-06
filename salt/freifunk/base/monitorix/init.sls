@@ -17,6 +17,7 @@ monitorix:
     - restart: True
     - watch:
       - pkg: monitorix
+      - service: S41firewall
       - file: /etc/monitorix/monitorix.conf
     - require:
       - pkg: monitorix

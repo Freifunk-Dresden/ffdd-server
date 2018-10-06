@@ -10,6 +10,7 @@
     - mode: 755
     - require:
       - pkg: iproute2
+      - file: /etc/iproute2/rt_tables
 
 rc.d_S40network:
   cmd.run:
@@ -26,5 +27,6 @@ S40network:
     - restart: True
     - watch:
       - file: /etc/init.d/S40network
+      - file: /etc/iproute2/rt_tables
     - require:
       - pkg: iproute2

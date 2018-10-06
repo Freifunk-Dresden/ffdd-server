@@ -7,6 +7,8 @@ ntp:
     - restart: True
     - watch:
       - file: /etc/ntp.conf
+    - require:
+      - pkg: ntp
 
 /etc/ntp.conf:
   file.managed:

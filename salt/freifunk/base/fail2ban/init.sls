@@ -11,10 +11,13 @@ fail2ban:
     - restart: True
     - watch:
       - pkg: fail2ban
+      - service: S41firewall
       - file: /etc/fail2ban/fail2ban.conf
       - file: /etc/fail2ban/jail.d/freifunk.conf
     - require:
       - pkg: fail2ban
+      - service: S40network
+      - service: S41firewall
 
 
 /etc/fail2ban/fail2ban.conf:

@@ -21,6 +21,7 @@ apache2:
       - file: /etc/apache2/conf-enabled/monitorix.conf
     - require:
       - pkg: apache2
+      - service: S40network
 
 apache2_pkgs:
   pkg.installed:

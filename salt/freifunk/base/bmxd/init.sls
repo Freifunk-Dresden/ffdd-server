@@ -40,3 +40,8 @@ S52batmand:
     - restart: True
     - watch:
       - file: /etc/init.d/S52batmand
+      - service: S41firewall
+    - require:
+      - file: /etc/init.d/S52batmand
+      - service: S40network
+      - service: S41firewall
