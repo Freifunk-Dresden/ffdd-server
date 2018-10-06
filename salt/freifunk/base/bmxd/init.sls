@@ -41,7 +41,9 @@ S52batmand:
     - watch:
       - file: /etc/init.d/S52batmand
       - service: S41firewall
+      - service: S53backbone-fastd2
     - require:
       - file: /etc/init.d/S52batmand
       - service: S40network
       - service: S41firewall
+      - service: S53backbone-fastd2
