@@ -222,6 +222,9 @@ if [ "$1" = "start" ]; then
 	#iptables -w -t nat -I PREROUTING -i $WAN_DEV -p udp --dport 443 -j DNAT --to-destination 127.0.0.1:5002
 	#iptables -w -t nat -I PREROUTING -i $WAN_DEV -p udp --dport 443 -j DNAT --to-destination $ipaddr:5002
 
+	# can we include at this position an external script with user rules?
+	# ./etc/init.d/S41firewall_custom
+
 	#drop packages before logging
 	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 137 -j DROP
 
