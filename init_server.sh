@@ -72,9 +72,7 @@ fi
 # small salt fix to create templates (replace: false)
 cp /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
 rm /root/.bashrc >/dev/null 2>&1
-
 rm /etc/issue.net >/dev/null 2>&1
-rm /etc/monitorix/monitorix.conf >/dev/null 2>&1
 
 # create static nvram.conf
 printf '\n### Check "nvram" Setup ..\n';

@@ -11,9 +11,9 @@
 ### END INIT INFO
 
 BACKBONE_DEV=tbb+
-WAN_DEV=$(nvram get ifname)
+WAN_DEV="$(nvram get ifname)"
 
-eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
+eval "$(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))"
 
 
 if [ "$1" = "start" ]; then
@@ -53,43 +53,42 @@ if [ "$1" = "start" ]; then
 
 	#--- input backbone ----------
 	#bmx
-	ip6tables -A INPUT -p udp -i $BACKBONE_DEV --dport 4305 -j ACCEPT
-	ip6tables -A INPUT -p udp -i $BACKBONE_DEV --dport 4306 -j ACCEPT
-	ip6tables -A INPUT -p udp -i $BACKBONE_DEV --dport 4307 -j ACCEPT
+	ip6tables -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4305 -j ACCEPT
+	ip6tables -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4306 -j ACCEPT
+	ip6tables -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4307 -j ACCEPT
 	ip6tables -A INPUT -p udp -i lo --dport 4305 -j ACCEPT
 	ip6tables -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
 	ip6tables -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
 
 		#nuttcp
-		ip6tables -A INPUT -i $BACKBONE_DEV -p tcp --dport 5010 -j ACCEPT
-		ip6tables -A INPUT -i $BACKBONE_DEV -p tcp --dport 5011 -j ACCEPT
+		ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 5010 -j ACCEPT
+		ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 5011 -j ACCEPT
 		ip6tables -A INPUT -i bmx+ -p tcp --dport 5010 -j ACCEPT
 		ip6tables -A INPUT -i bmx+ -p tcp --dport 5011 -j ACCEPT
 
 	#dns
-	ip6tables -A INPUT -i $BACKBONE_DEV -p TCP --dport 53 -j ACCEPT
-	ip6tables -A INPUT -i $BACKBONE_DEV -p udp --dport 53 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 53 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
 
 	#ssh
-	ip6tables -A INPUT -i $BACKBONE_DEV -p TCP --dport 22 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 22 -j ACCEPT
 
 	#http
-	ip6tables -A INPUT -i $BACKBONE_DEV -p TCP --dport 80 -j ACCEPT
-	ip6tables -A INPUT -i icvpn -p tcp --dport 80 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 80 -j ACCEPT
 
 	#---- input eth0 --------------
 
 	#vtun backbone
-	ip6tables -A INPUT -i $WAN_DEV -p tcp --dport 5000 -j ACCEPT
-	ip6tables -A INPUT -i $WAN_DEV -p udp --dport 5000 -j ACCEPT
+	ip6tables -A INPUT -i "$WAN_DEV" -p tcp --dport 5000 -j ACCEPT
+	ip6tables -A INPUT -i "$WAN_DEV" -p udp --dport 5000 -j ACCEPT
 
 	#---- input bmx6 --------------
-	ip6tables -A INPUT -i $BACKBONE_DEV -p udp --dport 6240 -j ACCEPT
-	ip6tables -A INPUT -i $BACKBONE_DEV -p tcp --dport 6240 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p udp --dport 6240 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 6240 -j ACCEPT
 
 	#ipv4/ipv6 encapsulation
-	ip6tables -A INPUT -i $BACKBONE_DEV -p 4 -j ACCEPT	
-	ip6tables -A INPUT -i $BACKBONE_DEV -p 41 -j ACCEPT	
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 4 -j ACCEPT	
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 41 -j ACCEPT	
 
 	ip6tables -A INPUT -j LOG --log-prefix "DROP IPv6 INPUT: "
 	ip6tables -A INPUT -j DROP
@@ -101,12 +100,12 @@ if [ "$1" = "start" ]; then
 
 	ip6tables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-	ip6tables -A FORWARD -i $BACKBONE_DEV -o $BACKBONE_DEV -j ACCEPT
-	ip6tables -A FORWARD -i $BACKBONE_DEV -o bmx+ -j ACCEPT
+	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
+	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o bmx+ -j ACCEPT
 	ip6tables -A FORWARD -i bmx+ -o bmx+ -j ACCEPT
 
 	#allow forward to openvpn tunnel 
-	ip6tables -A FORWARD -i $BACKBONE_DEV -o vpn+ -j ACCEPT
+	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
 	ip6tables -A FORWARD -i bat+ -o vpn+ -j ACCEPT
 	ip6tables -A FORWARD -i bmx+ -o vpn+ -j ACCEPT
 

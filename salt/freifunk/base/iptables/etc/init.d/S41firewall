@@ -11,7 +11,7 @@
 ### END INIT INFO
 
 BACKBONE_DEV=tbb+
-WAN_DEV=$(nvram get ifname)
+WAN_DEV="$(nvram get ifname)"
 
 # needed to speedtest through gateway tunnel.
 # BAT_IP is for bmxd server currently fixed (defined by bmxd internally)
@@ -20,7 +20,7 @@ WAN_DEV=$(nvram get ifname)
 BAT_DEV=bat0
 BAT_IP=169.254.0.0
 
-eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
+eval "$(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))"
 
 # http://www.thatsgeeky.com/2011/01/limiting-brute-force-attacks-with-iptables/
 # http://www.thatsgeeky.com/2011/02/escalating-consequences-with-iptables/
@@ -35,69 +35,69 @@ setup_brute_force() {
 	IPT=iptables
 	test "$1" = "ipv6" && IPT=ip6tables
 
-	$IPT -F $table 
-	$IPT -X $table
-	$IPT -N $table
+	"$IPT" -F "$table"
+	"$IPT" -X "$table"
+	"$IPT" -N "$table"
 
-	$IPT -F ATTK_CHECK
-	$IPT -F ATTACKED
-	$IPT -X ATTK_CHECK
-	$IPT -X ATTACKED
-	$IPT -N ATTK_CHECK
-	$IPT -N ATTACKED
+	"$IPT" -F ATTK_CHECK
+	"$IPT" -F ATTACKED
+	"$IPT" -X ATTK_CHECK
+	"$IPT" -X ATTACKED
+	"$IPT" -N ATTK_CHECK
+	"$IPT" -N ATTACKED
 
 	#brute force table in haupttabelle einbinden
-	$IPT -A INPUT -j $table
+	"$IPT" -A INPUT -j "$table"
 
 	#####################################################
 	# accept established connections
-	#####################################################	
-	$IPT -A $table -m state --state ESTABLISHED,RELATED -j ACCEPT
+	#####################################################
+	"$IPT" -A "$table" -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 	#####################################################
 	# pre checks
 	#####################################################
 	#einige laender verbieten (fuer aufbauende verbindungen, max 10 pro rule)
-	#$IPT -A $table  -m state --state NEW -m geoip --source-country CN,RU -j DROP
-	#$IPT -A $table  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: " 
-	#$IPT -A $table  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -j DROP
-	#$IPT -A $table  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: "
-	#$IPT -A $table  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -j DROP
+	#"$IPT" -A $table  -m state --state NEW -m geoip --source-country CN,RU -j DROP
+	#"$IPT" -A $table  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: " 
+	#"$IPT" -A $table  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -j DROP
+	#"$IPT" -A $table  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: "
+	#"$IPT" -A $table  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -j DROP
 
-	#$IPT -A $table  -m state --state NEW -m geoip ! --source-country DE,FR,AT,CH,CZ,SK,PL,FI,NO,DK,SE,ES -j DROP
-	#$IPT -A $table  -m state --state NEW -m geoip ! --source-country SE,ES,GB,NL -j DROP
+	#"$IPT" -A $table  -m state --state NEW -m geoip ! --source-country DE,FR,AT,CH,CZ,SK,PL,FI,NO,DK,SE,ES -j DROP
+	#"$IPT" -A $table  -m state --state NEW -m geoip ! --source-country SE,ES,GB,NL -j DROP
 
 	# ALWAYS allow ONLY from germany
-	$IPT -A $table -p tcp --dport 22 -m state --state NEW -m geoip --source-country DE -j ACCEPT 
-	$IPT -A $table -p tcp --dport 5000 -m state --state NEW -m geoip --source-country DE -j ACCEPT 
-	$IPT -A $table -p udp --dport 5001 -m state --state NEW -m geoip --source-country DE -j ACCEPT 
-	$IPT -A $table -p udp --dport 5002 -m state --state NEW -m geoip --source-country DE -j ACCEPT 
+	"$IPT" -A "$table" -p tcp --dport 22 -m state --state NEW -m geoip --source-country DE -j ACCEPT
+	"$IPT" -A "$table" -p tcp --dport 5000 -m state --state NEW -m geoip --source-country DE -j ACCEPT
+	"$IPT" -A "$table" -p udp --dport 5001 -m state --state NEW -m geoip --source-country DE -j ACCEPT
+	"$IPT" -A "$table" -p udp --dport 5002 -m state --state NEW -m geoip --source-country DE -j ACCEPT
 
 	#####################################################
 	# still BANNED?
 	#####################################################
 	#alle die in resent-liste "BANNED" sind und nicht aelter als 1h aussperren
 	#gleichzeitig timestamp aktualisieren wenn ein packet vorher gesehen wird (timeout started von neuem)
-	$IPT -A $table -p tcp -m multiport --dports 22 -m recent --update --seconds 3600 --name BANNED --rsource -j DROP
+	"$IPT" -A "$table" -p tcp -m multiport --dports 22 -m recent --update --seconds 3600 --name BANNED --rsource -j DROP
 
 	#####################################################
 	# new paket recevied -> forward for checking (update statistik)
 	#####################################################
 	# ssh
-	$IPT -A $table -p tcp -m multiport --dports 22 -m state --state NEW -j ATTK_CHECK
+	"$IPT" -A "$table" -p tcp -m multiport --dports 22 -m state --state NEW -j ATTK_CHECK
 
 	#####################################################
 	# ~~~~ statistic rules ~~~~
 	#####################################################
 		#alle neuen pakete (initial) merken
-		$IPT -A ATTK_CHECK -m recent --set --name ATTK --rsource
+		"$IPT" -A ATTK_CHECK -m recent --set --name ATTK --rsource
 
 			# in 60 s mehr als 5 versuche -> als Attacke behandeln
-			$IPT -A ATTK_CHECK -m recent --update --seconds 60 --hitcount 5 --name ATTK --rsource -j ATTACKED
+			"$IPT" -A ATTK_CHECK -m recent --update --seconds 60 --hitcount 5 --name ATTK --rsource -j ATTACKED
 
 			# wenn ich 5mal ein login versucht habe, dann maximal noch zwei weitere innerhalb 
 			# 10 min erlauben
-			$IPT -A ATTK_CHECK -m recent --update --seconds 600 --hitcount 7 --name ATTK --rsource -j ATTACKED
+			"$IPT" -A ATTK_CHECK -m recent --update --seconds 600 --hitcount 7 --name ATTK --rsource -j ATTACKED
 
 
 			########################################################
@@ -105,21 +105,21 @@ setup_brute_force() {
 			#######################################################
 
 			# logging attack (but limit logging)
-			$IPT -A ATTACKED -m limit --limit 5/min -j LOG --log-prefix "$IPT (Rule ATTACKED): " --log-level 7
+			"$IPT" -A ATTACKED -m limit --limit 5/min -j LOG --log-prefix "$IPT (Rule ATTACKED): " --log-level 7
 
 			# paket BANNED: 1. remember in BANNED resent-list (processed/updated at beginning)
 			#               2. drop paket
-			$IPT -A ATTACKED -m recent --set --name BANNED --rsource -j DROP
+			"$IPT" -A ATTACKED -m recent --set --name BANNED --rsource -j DROP
 
 		#####################################################
 		# ~~~~ paket (still) valid ~~~~ -> ACCEPT
 		####################################################
-		$IPT -A ATTK_CHECK -j RETURN
+		"$IPT" -A ATTK_CHECK -j RETURN
 
 		#####################################################
 		# accept pakets that I have checked
 		####################################################
-		$IPT -A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
+		"$IPT" -A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
 
 }
 
@@ -142,8 +142,8 @@ if [ "$1" = "start" ]; then
 
 	#SNAT all traffic to backbone which comes from tbb only (set source=node-ip) 
 	#DON'T SNAT OGMs
-	iptables -w -t nat -A POSTROUTING -o $BACKBONE_DEV -p udp --dport 4305:4307 -j ACCEPT
-	iptables -w -t nat -A POSTROUTING -o $BACKBONE_DEV  -s $_ddmesh_nonprimary_ip -j SNAT --to-source $_ddmesh_ip
+	iptables -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p udp --dport 4305:4307 -j ACCEPT
+	iptables -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -s "$_ddmesh_nonprimary_ip" -j SNAT --to-source "$_ddmesh_ip"
 
 	#masquerade all to vpn tunnel
 	#iptables -w -t nat -A POSTROUTING -o vpn+ -j MASQUERADE
@@ -177,41 +177,36 @@ if [ "$1" = "start" ]; then
 
 	#--- input backbone ----------
 	#bmx
-	iptables -w -A INPUT -p udp -i $BACKBONE_DEV --dport 4305 -j ACCEPT
-	iptables -w -A INPUT -p udp -i $BACKBONE_DEV --dport 4306 -j ACCEPT
-	iptables -w -A INPUT -p udp -i $BACKBONE_DEV --dport 4307 -j ACCEPT
+	iptables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4305 -j ACCEPT
+	iptables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4306 -j ACCEPT
+	iptables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4307 -j ACCEPT
 	iptables -w -A INPUT -p udp -i lo --dport 4305 -j ACCEPT
 	iptables -w -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
 	iptables -w -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
 
-	#nuttcp
-	iptables -w -A INPUT -i $BACKBONE_DEV -d $_ddmesh_ip -p tcp --dport 5010 -j ACCEPT
-	iptables -w -A INPUT -i $BACKBONE_DEV -d $_ddmesh_ip -p tcp --dport 5011 -j ACCEPT
-
 	#iperf3
-	iptables -w -A INPUT -i $BACKBONE_DEV -d $_ddmesh_ip -p tcp --dport 5201 -j ACCEPT
-	iptables -w -A INPUT -i $BACKBONE_DEV -d $_ddmesh_ip -p udp --dport 5201 -j ACCEPT
-	iptables -w -A INPUT -i $BAT_DEV -d  $BAT_IP -p tcp --dport 5201 -j ACCEPT
-	iptables -w -A INPUT -i $BAT_DEV -d  $BAT_IP -p udp --dport 5201 -j ACCEPT
+	iptables -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p tcp --dport 5201 -j ACCEPT
+	iptables -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p udp --dport 5201 -j ACCEPT
+	iptables -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p tcp --dport 5201 -j ACCEPT
+	iptables -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p udp --dport 5201 -j ACCEPT
 
 	#dns
-	iptables -w -A INPUT -i $BACKBONE_DEV -p udp --dport 53 -j ACCEPT
+	iptables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
 
 	#ssh
-	iptables -w -A INPUT -i $BACKBONE_DEV -p TCP --dport 22 -j ACCEPT
+	iptables -w -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 22 -j ACCEPT
 
 	#http
-	iptables -w -A INPUT -i $BACKBONE_DEV -p TCP --dport 80 -j ACCEPT
-	iptables -w -A INPUT -i icvpn -p tcp --dport 80 -j ACCEPT
+	iptables -w -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 80 -j ACCEPT
 
 
 	#---- input eth0 --------------
 
 	#vtun backbone
-	iptables -w -A INPUT -i $WAN_DEV -p tcp --dport 5000 -j ACCEPT
-	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 5000 -j ACCEPT
-	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 5001 -j ACCEPT
-	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 5002 -j ACCEPT
+	iptables -w -A INPUT -i "$WAN_DEV" -p tcp --dport 5000 -j ACCEPT
+	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5000 -j ACCEPT
+	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5001 -j ACCEPT
+	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5002 -j ACCEPT
 	
 	#
 	# include custom user rules
@@ -219,7 +214,7 @@ if [ "$1" = "start" ]; then
 	. /etc/firewall.user
 
 	#drop packages before logging
-	iptables -w -A INPUT -i $WAN_DEV -p udp --dport 137 -j DROP
+	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 137 -j DROP
 
 	iptables -w -A INPUT -j LOG --log-prefix "DROP IPv4 INPUT: "
 	iptables -w -A INPUT -j DROP
@@ -239,24 +234,24 @@ if [ "$1" = "start" ]; then
 	iptables -w -A stat_to_ovpn -j RETURN
 	iptables -w -N stat_from_ovpn 2>/dev/null
 	iptables -w -A stat_from_ovpn -j RETURN
-	iptables -w -A statistic_forward -i $BACKBONE_DEV -o vpn+ -j stat_to_ovpn
+	iptables -w -A statistic_forward -i "$BACKBONE_DEV" -o vpn+ -j stat_to_ovpn
 	iptables -w -A statistic_forward -i bat+ -o vpn+ -j stat_to_ovpn
-	iptables -w -A statistic_forward -i vpn+ -o $BACKBONE_DEV -j stat_from_ovpn
+	iptables -w -A statistic_forward -i vpn+ -o "$BACKBONE_DEV" -j stat_from_ovpn
 
 	iptables -w -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 	iptables -w -A FORWARD -p icmp -j ACCEPT
 
-	iptables -w -A FORWARD -i $BACKBONE_DEV -o $BACKBONE_DEV -j ACCEPT
+	iptables -w -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
 
 	#dns; da in nvram.conf der dns eingetragen ist und eine routing rule fuer dns erzeugt,
 	#damit locale aufloesung geht, gibt es probleme wenn aus dem freifunk netz dns anfragen 
 	#via gleichem dns server (wie in resolv.conf) kommen. diese werden von firewall geblockt.
 	#erlaube dns anfragen via localem server
-	iptables -w -A FORWARD -i $BACKBONE_DEV -p udp --dport 53 -j ACCEPT
+	iptables -w -A FORWARD -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
 	iptables -w -A FORWARD -i bat+ -p udp --dport 53 -j ACCEPT
 
 	#allow forward to openvpn tunnel 
-	iptables -w -A FORWARD -i $BACKBONE_DEV -o vpn+ -j ACCEPT
+	iptables -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
 	iptables -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
 
 	#block any other
