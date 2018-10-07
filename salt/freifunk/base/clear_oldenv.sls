@@ -53,3 +53,6 @@
 /usr/share/doc/libgeoip1/examples/geolitecountryv6.sh:
   file.absent
 
+
+/var/statistic:
+  file.absent

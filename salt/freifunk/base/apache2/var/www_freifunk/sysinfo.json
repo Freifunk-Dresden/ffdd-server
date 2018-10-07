@@ -4,20 +4,20 @@ echo 'Content-Type: application/json;charset=UTF-8'
 echo ''
 
 
-BMXD_DB_PATH=/var/lib/freifunk/bmxd
-mkdir -p /var/statistic/
-touch /var/statistic/gateway_usage
+BMXD_DB_PATH='/var/lib/freifunk/bmxd'
 
-ddmesh_node=$(nvram get ddmesh_node)
+ddmesh_node="$(nvram get ddmesh_node)"
 test -z "$ddmesh_node" && exit
 
-eval $(ddmesh-ipcalc.sh -n $ddmesh_node)
+eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 
-wan_device=$(nvram get ifname)
+wan_device="$(nvram get ifname)"
 wifi_device=$(l=$(grep : /proc/net/wireless);l=${l%:*};echo ${l##* })
-wifi2_device=
-vpn=vpn0
-gwt=bat0
+wifi2_device=''
+vpn='vpn0'
+gwt='bat0'
+
+#"version":"$(sed -n '/^#version/{s#^.* ##;p}' "$(nvram get install_dir)/init_server.sh")",
 
 cat << EOM
 {
@@ -30,7 +30,7 @@ EOM
 #node info
 cat << EOM
 		"firmware":{
-			"version":"$(sed -n '/^#version/{s#^.* ##;p}' $(nvram get install_dir)/init_server.sh)",
+			"version":"",
 			"DISTRIB_ID":"$(lsb_release -si)",
 			"DISTRIB_RELEASE":"$(lsb_release -sr)",
 			"DISTRIB_REVISION":"",
@@ -42,14 +42,14 @@ cat << EOM
 			"uptime":"$(uptime)",
 			"uname":"$(uname -a)",
 			"nameserver": [
-$(cat /etc/resolv.conf* | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##')
+$(cat /etc/resolv.conf | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##')
 			],
 			"date":"$(date)",
 			"board":"",
 			"model":"",
 			"model2":"",
 			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*:##;p}')",
-			"bmxd":"$(cat $BMXD_DB_PATH/status)",
+			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
 			"autoupdate":"$(nvram get autoupdate)"
 		},
 		"common":{
@@ -73,7 +73,6 @@ $(cat /etc/resolv.conf* | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	
 		"backbone":{
 			"accept":[
 EOM
-
 			IFS='
 '
 			for i in $(nvram show 2>/dev/null | grep "^backbone_range_[0-9]" | sed 's#^.*=##')
@@ -111,23 +110,22 @@ EOM
 			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
 			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
 			echo "				\"traffic_ovpn\" : \"$rx,$tx\"," 
-			
-			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann	
+
+			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann
 			# Also hier fuer die server, das interface befragen
 			for iface in $(cat /proc/net/dev | sed -n '3,${s#^[	 ]*\([^:]\+\).*#\1#p}')
-                        do
+			do
 				if [ "$iface" = "tbb_fastd2" ]; then
-	                                iface_alias="tbb_fastd"
-        	                        echo "		\"traffic_$iface_alias\": \"$(cat /proc/net/dev | grep $iface: | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+					iface_alias="tbb_fastd"
+					echo "		\"traffic_$iface_alias\": \"$(cat /proc/net/dev | grep $iface: | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
-                        done
+			done
 
 cat<<EOM
 $(cat /proc/meminfo | sed 's#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#')
 			"cpu_load" : "$(cat /proc/loadavg)",
 			"cpu_stat" : "$(cat /proc/stat | sed -n '/^cpu[ 	]\+/{s# \+# #;p}')",
-			"gateway_usage" : [
-$(cat /var/statistic/gateway_usage | sed 's#\([^:]*\):\(.*\)#\t\t\t\t{"\1":"\2"},#' | sed '$s#,[ 	]*$##') ]
+			"gateway_usage" : []
 		},
 EOM
 
@@ -139,11 +137,11 @@ cat<<EOM
 				"route":{
 					"link":[
 $(ip route list table bat_route | sed -n '/scope[ ]\+link/{s#^\([0-9./]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","interface":"\2"},#;p}' | sed '$s#,[ 	]*$##') ]
-	  			},
+				},
 				"hna":{
 					"link":[
 $(ip route list table bat_hna | sed -n '/scope[ ]\+link/{s#^\([0-9./]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","interface":"\2"},#;p}' | sed '$s#,[ 	]*$##') ],
-		  		"global":[
+				"global":[
 $(ip route list table bat_hna | sed -n '/scope[ ]\+link/d;s#^\([0-9./]\+\)[	 ]\+via[	 ]\+\([0-9.]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","via":"\2","interface":"\3"},#p' | sed '$s#,[ 	]*$##') ]
 				}
 			},
