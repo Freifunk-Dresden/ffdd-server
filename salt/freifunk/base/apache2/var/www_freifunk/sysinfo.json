@@ -28,7 +28,7 @@ EOM
 #node info
 cat << EOM
 		"firmware":{
-			"version":"$(sed -n "/^#version/{s#^.* ##;p}" "$(nvram get install_dir)/init_server.sh")",
+			"version":"$(sed -n '/^#version/{s#^.* ##;p}' "$(nvram get install_dir)/init_server.sh")",
 			"DISTRIB_ID":"$(lsb_release -si)",
 			"DISTRIB_RELEASE":"$(lsb_release -sr)",
 			"DISTRIB_REVISION":"",
@@ -46,7 +46,7 @@ $(cat /etc/resolv.conf* | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	
 			"board":"",
 			"model":"",
 			"model2":"",
-			"cpuinfo":"$(sed -n "/^vendor_id/{s#^.*:##;p}" /proc/cpuinfo)",
+			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*:##;p}')",
 			"bmxd":"$(cat $BMXD_DB_PATH/status)",
 			"autoupdate":"$(nvram get autoupdate)"
 		},
