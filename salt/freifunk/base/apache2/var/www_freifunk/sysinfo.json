@@ -17,7 +17,6 @@ wifi2_device=''
 vpn='vpn0'
 gwt='bat0'
 
-#"version":"$(sed -n '/^#version/{s#^.* ##;p}' "$(nvram get install_dir)/init_server.sh")",
 
 cat << EOM
 {
@@ -30,7 +29,7 @@ EOM
 #node info
 cat << EOM
 		"firmware":{
-			"version":"",
+			"version":"$(cat /etc/freifunk-server-version)",
 			"DISTRIB_ID":"$(lsb_release -si)",
 			"DISTRIB_RELEASE":"$(lsb_release -sr)",
 			"DISTRIB_REVISION":"",

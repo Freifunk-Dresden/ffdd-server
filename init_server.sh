@@ -77,11 +77,11 @@ rm /root/.bashrc >/dev/null 2>&1
 rm /etc/issue.net >/dev/null 2>&1
 
 
-# create static nvram.conf
+# ensure nvram and nvram.conf are present
 printf '\n### Check "nvram" Setup ..\n';
 
 if [ ! -f /etc/nvram.conf ]; then
-	printf '\n### Create New /etc/nvram.conf\n';
+	printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n';
 
 	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 	# for initial nvram autosetup

@@ -17,8 +17,12 @@ case "$1" in
 		sed -i "s/${2}=.*/${2}=/g" /etc/nvram.conf
 	;;
 
+	version)
+		sed -n "/^#version/{s#^.* ##;p}" "$($0 get install_dir)"/init_server.sh
+	;;
+
 	*)
-		printf 'usage: nvram [get name] [set name value] [unset name] [show]\n';
+		printf 'usage: nvram [get name] [set name value] [unset name] [show] [version]\n';
 		exit 0
 	;;
 esac

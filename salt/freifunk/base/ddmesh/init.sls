@@ -1,11 +1,14 @@
 # firmware version
+{% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
+
 /etc/freifunk-server-version:
   file.managed:
     - contents:
-      - 0.01
+      - {{ freifunk_version }}
     - user: root
     - group: root
-    - mode: 600
+    - mode: 644
+
 
 #
 # Freifunk Crontab
