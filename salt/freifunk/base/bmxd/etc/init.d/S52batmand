@@ -10,12 +10,12 @@
 # Description:       bmxd
 ### END INIT INFO
 
-ARG1=$1
+ARG1="$1"
 
-DAEMON=bmxd
-DAEMON_PATH=/usr/bin
-DB_PATH=/var/lib/freifunk/bmxd
-RUN_STATUS_FILE=/var/run/batman-status-running
+DAEMON='bmxd'
+DAEMON_PATH='/usr/local/bin'
+DB_PATH='/var/lib/freifunk/bmxd'
+RUN_STATUS_FILE='/var/run/batman-status-running'
 
 
 if [ ! -d "$DB_PATH" ]; then
@@ -99,7 +99,7 @@ case "$ARG1" in
 
   check)
 	test -z "$(pidof -s "$DAEMON")" && logger -s "$DAEMON not running - restart" && "$0" restart && exit
-		test -n "$(pidof -s "$DAEMON")" && test ! -f "$RUN_STATUS_FILE" && (
+	test -n "$(pidof -s "$DAEMON")" && test ! -f "$RUN_STATUS_FILE" && (
 	touch "$RUN_STATUS_FILE"
 		"$DAEMON_PATH"/"$DAEMON" -c --gateways > "$DB_PATH/gateways"
 		"$DAEMON_PATH"/"$DAEMON" -c --services > "$DB_PATH/services"

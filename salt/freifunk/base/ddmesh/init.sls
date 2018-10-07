@@ -44,13 +44,6 @@
     - require:
       - user: freifunk
 
-/var/lib/freifunk/compiled-tools:
-  file.directory:
-    - user: freifunk
-    - group: freifunk
-    - file_mode: 775
-    - dir_mode: 755
-
 #
 # Logs
 /var/log/freifunk:

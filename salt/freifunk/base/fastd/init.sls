@@ -1,4 +1,4 @@
-/var/lib/freifunk/compiled-tools/fastd:
+/usr/local/src/fastd:
   file.recurse:
     - source:
       - salt://fastd/compiled-tools/fastd
@@ -12,11 +12,11 @@
 
 compile_fastd:
   cmd.run:
-    - name: "cd /var/lib/freifunk/compiled-tools/fastd/ && bash build.sh"
+    - name: "cd /usr/local/src/fastd/ && bash build.sh"
     - require:
-      - file: /var/lib/freifunk/compiled-tools/fastd
+      - file: /usr/local/src/fastd
     - onchanges:
-      - file: /var/lib/freifunk/compiled-tools/fastd
+      - file: /usr/local/src/fastd
 
 
 /etc/fastd:

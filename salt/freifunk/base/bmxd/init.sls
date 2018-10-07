@@ -1,4 +1,4 @@
-/var/lib/freifunk/compiled-tools/bmx:
+/usr/local/src/bmx:
   file.recurse:
     - source:
       - salt://bmxd/compiled-tools/bmx
@@ -12,11 +12,11 @@
 
 compile_bmxd:
   cmd.run:
-    - name: "cd /var/lib/freifunk/compiled-tools/bmx/bmxd/ && make && make strip && cp bmxd /usr/bin/"
+    - name: "cd /usr/local/src/bmx/bmxd/ && make && make strip && cp bmxd /usr/local/bin/"
     - require:
-      - file: /var/lib/freifunk/compiled-tools/bmx
+      - file: /usr/local/src/bmx
     - onchanges:
-      - file: /var/lib/freifunk/compiled-tools/bmx
+      - file: /usr/local/src/bmx
 
 /etc/init.d/S52batmand:
   file.managed:
