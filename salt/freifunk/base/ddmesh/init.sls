@@ -127,13 +127,6 @@
     - group: root
     - mode: 755
 
-/usr/local/bin/freifunk-gateway-info.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/freifunk-gateway-info.sh
-    - user: root
-    - group: root
-    - mode: 755
-
 /usr/local/bin/freifunk-gateway-status.sh:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/freifunk-gateway-status.sh
