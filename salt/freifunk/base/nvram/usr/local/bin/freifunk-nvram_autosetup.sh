@@ -21,7 +21,7 @@ get_default_interface() {
 
 # function: find local node id
 get_ddmesh_nodeid() {
-	nodeid="$(/usr/local/bin/freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"
+	nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"
 }
 
 # function: generate ddmesh_registerkey
