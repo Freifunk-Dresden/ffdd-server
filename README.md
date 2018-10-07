@@ -107,9 +107,9 @@ wget:
 ```
 sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/master/init_server.sh -O -)"
 ```
-<br/>
 
 Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summary for local" noch Failed's angezeigt werden.
+<br/>
 
 * Manuelle Anpassung der Variablen.<br/>
 

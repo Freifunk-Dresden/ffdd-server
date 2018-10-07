@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # (Salt managed)
 
-echo "usage: register_node.sh [new_node]"
-echo ""
+printf 'usage: register_node.sh [new_node]\n\n'
 
 node="$(nvram get ddmesh_node)"
 key="$(nvram get ddmesh_registerkey)"
@@ -12,24 +11,33 @@ key="$(nvram get ddmesh_registerkey)"
 #node=1
 #key="_dummy_reserved:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
 
-echo "local node: [$node]"
-echo "local key: [$key]"
+printf 'local node: [%s]\n' "$node"
+printf 'local key: [%s]\n\n' "$key"
 
-echo "Try to register node [$node], key [$key]"
+printf 'Try to register node [%s], key [%s]\n\n' "$node" "$key"
 n="$(wget -O - "http://register.freifunk-dresden.de/bot.php?node=$node&registerkey=$key" 2>/dev/null)"
 
-cmd=$(echo "$n" | sed -n '/^OK/p;/^ERROR/p;/^INFO/p' )
+
+cmd="$(echo "$n" | sed -n '/^OK/p;/^ERROR/p;/^INFO/p')"
 case "$cmd" in
-	OK*) 
-			node=$(echo $n | sed 's#.*:\([0-9]\+\).*#\1#')
-			echo "node=$node"
-			echo "updated."
-			
-		;;
-	ERROR*) 	echo $n
-		;;
-	INFO*)		echo $n
-		;;
-	*)		echo $n
-		;;
+
+  OK*)
+	node="$(echo $n | sed 's#.*:\([0-9]\+\).*#\1#')"
+	printf 'node=%s\nupdated.\n' "$node"
+	;;
+
+  ERROR*)
+	printf '%s\n' "$n"
+	;;
+
+  INFO*)
+	printf '%s\n' "$n"
+	;;
+
+  *)
+	printf '%s\n' "$n"
+	;;
+
 esac
+
+exit 0

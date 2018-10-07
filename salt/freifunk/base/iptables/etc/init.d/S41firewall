@@ -10,17 +10,17 @@
 # Description:       set freifunk firewall
 ### END INIT INFO
 
-BACKBONE_DEV=tbb+
+BACKBONE_DEV='tbb+'
 WAN_DEV="$(nvram get ifname)"
 
 # needed to speedtest through gateway tunnel.
 # BAT_IP is for bmxd server currently fixed (defined by bmxd internally)
 # BUT future releases of bmxd may replace .0.0 with the lower values of
 # _ddmesh_ip
-BAT_DEV=bat0
-BAT_IP=169.254.0.0
+BAT_DEV='bat0'
+BAT_IP='169.254.0.0'
 
-eval "$(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))"
+eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 
 # http://www.thatsgeeky.com/2011/01/limiting-brute-force-attacks-with-iptables/
 # http://www.thatsgeeky.com/2011/02/escalating-consequences-with-iptables/
@@ -32,8 +32,8 @@ table=BRUTE_FORCE
 
 setup_brute_force() {
 
-	IPT=iptables
-	test "$1" = "ipv6" && IPT=ip6tables
+	IPT='iptables'
+	test "$1" = "ipv6" && IPT='ip6tables'
 
 	"$IPT" -F "$table"
 	"$IPT" -X "$table"
@@ -58,14 +58,14 @@ setup_brute_force() {
 	# pre checks
 	#####################################################
 	#einige laender verbieten (fuer aufbauende verbindungen, max 10 pro rule)
-	#"$IPT" -A $table  -m state --state NEW -m geoip --source-country CN,RU -j DROP
-	#"$IPT" -A $table  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: " 
-	#"$IPT" -A $table  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -j DROP
-	#"$IPT" -A $table  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: "
-	#"$IPT" -A $table  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -j DROP
+	#"$IPT" -A "$table"  -m state --state NEW -m geoip --source-country CN,RU -j DROP
+	#"$IPT" -A "$table"  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: " 
+	#"$IPT" -A "$table"  -p tcp --dport 22 -m state --state NEW -m geoip ! --source-country DE -j DROP
+	#"$IPT" -A "$table"  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -m limit --limit 5/min -j LOG --log-prefix "DROP GEO: "
+	#"$IPT" -A "$table"  -p tcp --dport 5000 -m state --state NEW -m geoip ! --source-country DE -j DROP
 
-	#"$IPT" -A $table  -m state --state NEW -m geoip ! --source-country DE,FR,AT,CH,CZ,SK,PL,FI,NO,DK,SE,ES -j DROP
-	#"$IPT" -A $table  -m state --state NEW -m geoip ! --source-country SE,ES,GB,NL -j DROP
+	#"$IPT" -A "$table"  -m state --state NEW -m geoip ! --source-country DE,FR,AT,CH,CZ,SK,PL,FI,NO,DK,SE,ES -j DROP
+	#"$IPT" -A "$table"  -m state --state NEW -m geoip ! --source-country SE,ES,GB,NL -j DROP
 
 	# ALWAYS allow ONLY from germany
 	"$IPT" -A "$table" -p tcp --dport 22 -m state --state NEW -m geoip --source-country DE -j ACCEPT
@@ -212,6 +212,7 @@ if [ "$1" = "start" ]; then
 	# include custom user rules
 	#
 	. /etc/firewall.user
+
 
 	#drop packages before logging
 	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 137 -j DROP

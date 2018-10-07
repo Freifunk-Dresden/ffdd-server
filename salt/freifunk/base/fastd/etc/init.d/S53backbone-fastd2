@@ -108,6 +108,7 @@ case "$1" in
 	printf 'Stopping backbone network...\n'
 	if [ -f "$PID_FILE" ]; then
 		kill "$(cat $PID_FILE)"
+		sleep 1
 		rm -f "$PID_FILE"
 	fi
 	;;

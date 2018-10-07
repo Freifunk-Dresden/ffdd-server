@@ -9,47 +9,45 @@
 # 60000 - 65278   Reserviert
 # 65279           broadcast (10.200.255.255)
 ##############################################
-export NODE_MIN=1001
-export NODE_MAX=59999
+export NODE_MIN='1001'
+export NODE_MAX='59999'
 
 export ARG1="$1"
 export ARG2="$2"
 
+
 if [ "$ARG1" = "" ]
 then
-	echo ""
-        echo "ddmesh-ipcalc.sh (awk) Stephan Enderlein (c) 2015 V4"
-	echo ""
-        echo "Calculates all the addresses for the ddmesh freifunk node"
-	echo "usage: ddmesh-ipcalc.sh [-t] [-n node] | [ipv4 ip]"
-	echo "-t        run ipcalc test"
-	echo "-n node   0- calulate ip"
-	echo "<ipv4 ip>      caluclate node"
-	echo ""
-        exit 1
+	printf '\n\tddmesh-ipcalc.sh (awk) Stephan Enderlein (c) 2015 V4\n'
+	printf '\n\tCalculates all the addresses for the ddmesh freifunk node\n'
+	printf '\nusage: ddmesh-ipcalc.sh [-t] [-n node] | [ipv4 ip]\n'
+	printf '  -t\t\t run ipcalc test\n'
+	printf '  -n node\t 0- calulate ip\n'
+	printf '  <ipv4 ip>\t caluclate node\n\n'
+	exit 1
 fi
 
 if [ "$ARG1" = "-t" ]; then
-	eval $($0 -n 0)
-	n=0
-	echo "Testing nodes $n-$_ddmesh_max"
-	_ddmesh_max=10
-	while [ $n -le $_ddmesh_max ]
+	eval "$($0 -n 0)"
+	n='0'
+	printf 'Testing nodes %s-%s\n' "$n" "$_ddmesh_max"
+	_ddmesh_max='10'
+	while [ "$n" -le "$_ddmesh_max" ]
 	do
- 		eval $($0 -n $n)
- 		r=$($0 $_ddmesh_ip)
- 		echo "$n - $_ddmesh_ip - $r" 
- 		if [ $n -ne $r ]; then
+ 		eval "$($0 -n $n)"
+ 		r="$($0 $_ddmesh_ip)"
+ 		printf '%s - %s - %s\n' "$n" "$_ddmesh_ip" "$r"
+ 		if [ "$n" -ne "$r" ]; then
  			echo "ERROR"
  			exit 1
  		fi
- 		n=$(($n + 1))
+ 		n="$(("$n" + 1))"
 	done
 	exit 0
 fi
 
-awk -v arg1="$ARG1" -v arg2="$ARG2" '
 
+awk -v arg1="$ARG1" -v arg2="$ARG2" '
 
  function lookup_ip(ip)
  {
@@ -65,7 +63,7 @@ awk -v arg1="$ARG1" -v arg2="$ARG2" '
 
 	print node
  }
- 
+
  function lookup_node(node)
  {
 	#parameter check
@@ -80,7 +78,7 @@ awk -v arg1="$ARG1" -v arg2="$ARG2" '
 	_minor			= (node % 255) + 1 
 	_meshnet		= "10"
 
-	nodeip		= _meshnet "." _primary_major "." _middle "." _minor 
+	nodeip		= _meshnet "." _primary_major "." _middle "." _minor
 	nonprimary_ip	= _meshnet "." _nonprimary_major "." _middle "." _minor
 	meshpre		= 16
 	meshnetmask	= "255.255.0.0"
@@ -89,9 +87,9 @@ awk -v arg1="$ARG1" -v arg2="$ARG2" '
 	mesh6pre	= "48"
 	mesh6net	= "fd11:11ae:7466::"
 	# client range
-	
+
 	mesh6nodenet	= "fd11:11ae:7466:" sprintf("%x", node) "::"
-	mesh6ip		= mesh6nodenet "1" 
+	mesh6ip		= mesh6nodenet "1"
 	mesh6nodepre	= "64"
 
 	print "export _ddmesh_min=\""ENVIRON["NODE_MIN"]"\""
@@ -119,3 +117,5 @@ awk -v arg1="$ARG1" -v arg2="$ARG2" '
 	exit 0;
  }
 '
+
+exit 0
