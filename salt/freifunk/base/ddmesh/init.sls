@@ -1,3 +1,12 @@
+# firmware version
+/etc/freifunk-server-version:
+  file.managed:
+    - contents:
+      - 0.01
+    - user: root
+    - group: root
+    - mode: 600
+
 #
 # Freifunk Crontab
 #
