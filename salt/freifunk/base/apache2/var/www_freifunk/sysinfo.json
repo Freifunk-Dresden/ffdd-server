@@ -4,20 +4,18 @@ echo 'Content-Type: application/json;charset=UTF-8'
 echo ''
 
 
-BMXD_DB_PATH=/var/lib/freifunk/bmxd
-mkdir -p /var/statistic/
-touch /var/statistic/gateway_usage
+BMXD_DB_PATH='/var/lib/freifunk/bmxd'
 
-ddmesh_node=$(nvram get ddmesh_node)
+ddmesh_node="$(nvram get ddmesh_node)"
 test -z "$ddmesh_node" && exit
 
-eval $(ddmesh-ipcalc.sh -n $ddmesh_node)
+eval "$(ddmesh-ipcalc.sh -n $ddmesh_node)"
 
-wan_device=$(nvram get ifname)
-wifi_device=$(l=$(grep : /proc/net/wireless);l=${l%:*};echo ${l##* })
-wifi2_device=
-vpn=vpn0
-gwt=bat0
+wan_device="$(nvram get ifname)"
+wifi_device="$(l=$(grep : /proc/net/wireless);l=${l%:*};echo ${l##* })"
+wifi2_device=''
+vpn='vpn0'
+gwt='bat0'
 
 cat << EOM
 {
@@ -30,25 +28,25 @@ EOM
 #node info
 cat << EOM
 		"firmware":{
-			"version":"",
-			"DISTRIB_ID":"",
-			"DISTRIB_RELEASE":"",
+			"version":"$(sed -n "/^#version/{s#^.* ##;p}" "$(nvram get install_dir)/init_server.sh")",
+			"DISTRIB_ID":"$(lsb_release -si)",
+			"DISTRIB_RELEASE":"$(lsb_release -sr)",
 			"DISTRIB_REVISION":"",
-			"DISTRIB_CODENAME":"",
-			"DISTRIB_TARGET":"",
-			"DISTRIB_DESCRIPTION":""
+			"DISTRIB_CODENAME":"$(lsb_release -sc)",
+			"DISTRIB_TARGET":"$(uname -m)",
+			"DISTRIB_DESCRIPTION":"$(lsb_release -sd)"
 		},
 		"system":{
 			"uptime":"$(uptime)",
 			"uname":"$(uname -a)",
 			"nameserver": [
-$(cat /var/etc/resolv.conf.dynamic | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##')
+$(cat /etc/resolv.conf* | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##')
 			],
 			"date":"$(date)",
 			"board":"",
 			"model":"",
 			"model2":"",
-			"cpuinfo":"$(cat /proc/cpuinfo | sed -n '/system type/s#.*:[ 	]*##p')",
+			"cpuinfo":"$(sed -n "/^vendor_id/{s#^.*:##;p}" /proc/cpuinfo)",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)"
 		},
 		"common":{
@@ -76,9 +74,9 @@ EOM
 '
 			for i in $(nvram show 2>/dev/null | grep "^backbone_range_[0-9]" | sed 's#^.*=##')
 			do
-				IFS=' :'; set $i
-				start=$1
-				count=$2
+				IFS=' :'; set "$i"
+				start="$1"
+				count="$2"
 				end=$(($start+$count-1))
 				echo "				{\"first\":\"$start\",\"last\":\"$end\"},"
 			done 
@@ -86,7 +84,7 @@ EOM
 '
 			for i in $(nvram show 2>/dev/null | grep "^backbone_accept_[0-9]" | sed 's#^.*=##')
 			do
-				IFS=' :'; set $i
+				IFS=' :'; set "$i"
 				echo "				{\"first\":\"$1\",\"last\":\"$1\"},"
 			done 
 			echo "				{\"first\":\"\",\"last\":\"\"}"
@@ -106,26 +104,25 @@ cat<<EOM
 			"dhcp_lease" : "0",
 EOM
 
-			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
-			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
+			rx="$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')"
+			tx="$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')"
 			echo "				\"traffic_ovpn\" : \"$rx,$tx\"," 
 			
 			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann	
 			# Also hier fuer die server, das interface befragen
-			for iface in $(cat /proc/net/dev | sed -n '3,${s#^[	 ]*\([^:]\+\).*#\1#p}')
-                        do
+			for iface in "$(cat /proc/net/dev | sed -n '3,${s#^[	 ]*\([^:]\+\).*#\1#p}')"
+			do
 				if [ "$iface" = "tbb_fastd2" ]; then
-	                                iface_alias="tbb_fastd"
-        	                        echo "		\"traffic_$iface_alias\": \"$(cat /proc/net/dev | grep $iface: | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+					iface_alias="tbb_fastd"
+					echo "		\"traffic_$iface_alias\": \"$(cat /proc/net/dev | grep $iface: | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
-                        done
+			done
 
 cat<<EOM
 $(cat /proc/meminfo | sed 's#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#')
 			"cpu_load" : "$(cat /proc/loadavg)",
 			"cpu_stat" : "$(cat /proc/stat | sed -n '/^cpu[ 	]\+/{s# \+# #;p}')",
-			"gateway_usage" : [
-$(cat /var/statistic/gateway_usage | sed 's#\([^:]*\):\(.*\)#\t\t\t\t{"\1":"\2"},#' | sed '$s#,[ 	]*$##') ]
+			"gateway_usage" : ""
 		},
 EOM
 
@@ -137,11 +134,11 @@ cat<<EOM
 				"route":{
 					"link":[
 $(ip route list table bat_route | sed -n '/scope[ ]\+link/{s#^\([0-9./]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","interface":"\2"},#;p}' | sed '$s#,[ 	]*$##') ]
-	  			},
+				},
 				"hna":{
 					"link":[
 $(ip route list table bat_hna | sed -n '/scope[ ]\+link/{s#^\([0-9./]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","interface":"\2"},#;p}' | sed '$s#,[ 	]*$##') ],
-		  		"global":[
+				"global":[
 $(ip route list table bat_hna | sed -n '/scope[ ]\+link/d;s#^\([0-9./]\+\)[	 ]\+via[	 ]\+\([0-9.]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","via":"\2","interface":"\3"},#p' | sed '$s#,[ 	]*$##') ]
 				}
 			},

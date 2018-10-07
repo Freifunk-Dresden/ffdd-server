@@ -7,6 +7,9 @@
 /etc/php5:
   file.absent
 
+/etc/fastd/cmd.sh:
+  file.absent
+
 
 /usr/bin/nvram:
   file.absent
