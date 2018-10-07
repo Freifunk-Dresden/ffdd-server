@@ -34,6 +34,7 @@ else
 	printf 'OS not supported yet!\n'; exit 0;
 fi
 
+
 # update system
 printf '\n### Update System ..\n';
 
@@ -69,10 +70,12 @@ else
 	cd "$INSTALL_DIR" ; git pull origin master
 fi
 
+
 # small salt fix to create templates (replace: false)
 cp /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
 rm /root/.bashrc >/dev/null 2>&1
 rm /etc/issue.net >/dev/null 2>&1
+
 
 # create static nvram.conf
 printf '\n### Check "nvram" Setup ..\n';
@@ -86,6 +89,7 @@ if [ ! -f /etc/nvram.conf ]; then
 else
 	printf '\n### /etc/nvram.conf exists.\n';
 	printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
+	NOTICE="$(printf '\n# Notice: Please check /etc/nvram.conf.diff ! And fix your config!\n')"
 
 	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf.default
 	diff /etc/nvram.conf.default /etc/nvram.conf > /etc/nvram.conf.diff
@@ -112,6 +116,7 @@ printf '\n### Start Initial System. (please wait!)\n';
 
 salt-call state.highstate --local
 
+
 #
 # -- Cleanup System --
 #
@@ -119,6 +124,8 @@ salt-call state.highstate --local
 printf '\n### .. All done! Cleanup System ..\n';
 
 "$PKGMNGR" autoremove
+
+printf '%s\n' "$NOTICE"
 
 
 # Exit gracefully.
