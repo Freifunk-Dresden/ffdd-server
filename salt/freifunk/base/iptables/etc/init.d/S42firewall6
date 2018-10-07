@@ -10,7 +10,7 @@
 # Description:       set freifunk firewall
 ### END INIT INFO
 
-BACKBONE_DEV=tbb+
+BACKBONE_DEV='tbb+'
 WAN_DEV="$(nvram get ifname)"
 
 eval "$(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))"
@@ -60,12 +60,6 @@ if [ "$1" = "start" ]; then
 	ip6tables -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
 	ip6tables -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
 
-		#nuttcp
-		ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 5010 -j ACCEPT
-		ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 5011 -j ACCEPT
-		ip6tables -A INPUT -i bmx+ -p tcp --dport 5010 -j ACCEPT
-		ip6tables -A INPUT -i bmx+ -p tcp --dport 5011 -j ACCEPT
-
 	#dns
 	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 53 -j ACCEPT
 	ip6tables -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
@@ -75,6 +69,13 @@ if [ "$1" = "start" ]; then
 
 	#http
 	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 80 -j ACCEPT
+
+	#iperf3
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 5201 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p udp --dport 5201 -j ACCEPT
+	ip6tables -A INPUT -i bat+ -p tcp --dport 5201 -j ACCEPT
+	ip6tables -A INPUT -i bat+ -p udp --dport 5201 -j ACCEPT
+
 
 	#---- input eth0 --------------
 

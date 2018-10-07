@@ -104,14 +104,6 @@
     - group: root
     - mode: 755
 
-/usr/local/bin/ddmesh-nuttcp.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/ddmesh-nuttcp.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-
 /usr/local/bin/freifunk-register-local-node.sh:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/freifunk-register-local-node.sh
