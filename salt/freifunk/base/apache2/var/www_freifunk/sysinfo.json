@@ -5,6 +5,8 @@ echo ''
 
 
 BMXD_DB_PATH=/var/lib/freifunk/bmxd
+mkdir -p /var/statistic/
+touch /var/statistic/gateway_usage
 
 ddmesh_node=$(nvram get ddmesh_node)
 test -z "$ddmesh_node" && exit
@@ -71,6 +73,7 @@ $(cat /etc/resolv.conf* | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	
 		"backbone":{
 			"accept":[
 EOM
+
 			IFS='
 '
 			for i in $(nvram show 2>/dev/null | grep "^backbone_range_[0-9]" | sed 's#^.*=##')
@@ -123,7 +126,8 @@ cat<<EOM
 $(cat /proc/meminfo | sed 's#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#')
 			"cpu_load" : "$(cat /proc/loadavg)",
 			"cpu_stat" : "$(cat /proc/stat | sed -n '/^cpu[ 	]\+/{s# \+# #;p}')",
-			"gateway_usage" : []
+			"gateway_usage" : [
+$(cat /var/statistic/gateway_usage | sed 's#\([^:]*\):\(.*\)#\t\t\t\t{"\1":"\2"},#' | sed '$s#,[ 	]*$##') ]
 		},
 EOM
 
