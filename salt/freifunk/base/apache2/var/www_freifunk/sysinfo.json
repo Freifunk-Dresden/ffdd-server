@@ -47,7 +47,8 @@ $(cat /etc/resolv.conf* | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	
 			"model":"",
 			"model2":"",
 			"cpuinfo":"$(sed -n "/^vendor_id/{s#^.*:##;p}" /proc/cpuinfo)",
-			"bmxd" : "$(cat $BMXD_DB_PATH/status)"
+			"bmxd":"$(cat $BMXD_DB_PATH/status)",
+			"autoupdate":"$(nvram get autoupdate)"
 		},
 		"common":{
 			"city":"$(nvram get city)",
