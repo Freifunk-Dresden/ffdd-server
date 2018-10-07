@@ -123,7 +123,7 @@ cat<<EOM
 $(cat /proc/meminfo | sed 's#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#')
 			"cpu_load" : "$(cat /proc/loadavg)",
 			"cpu_stat" : "$(cat /proc/stat | sed -n '/^cpu[ 	]\+/{s# \+# #;p}')",
-			"gateway_usage" : ""
+			"gateway_usage" : []
 		},
 EOM
 
