@@ -80,14 +80,14 @@ EOM
 				count="$2"
 				end=$(($start+$count-1))
 				echo "				{\"first\":\"$start\",\"last\":\"$end\"},"
-			done 
+			done
 			IFS='
 '
 			for i in $(nvram show 2>/dev/null | grep "^backbone_accept_[0-9]" | sed 's#^.*=##')
 			do
 				IFS=' :'; set "$i"
 				echo "				{\"first\":\"$1\",\"last\":\"$1\"},"
-			done 
+			done
 			echo "				{\"first\":\"\",\"last\":\"\"}"
 			#reset IFS
 			IFS='
@@ -105,13 +105,13 @@ cat<<EOM
 			"dhcp_lease" : "0",
 EOM
 
-			rx="$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')"
-			tx="$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')"
-			echo "				\"traffic_ovpn\" : \"$rx,$tx\"," 
-			
-			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann	
+			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
+			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
+			echo "				\"traffic_ovpn\" : \"$rx,$tx\","
+
+			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann
 			# Also hier fuer die server, das interface befragen
-			for iface in "$(cat /proc/net/dev | sed -n '3,${s#^[	 ]*\([^:]\+\).*#\1#p}')"
+			for iface in $(cat /proc/net/dev | sed -n '3,${s#^[	 ]*\([^:]\+\).*#\1#p}')
 			do
 				if [ "$iface" = "tbb_fastd2" ]; then
 					iface_alias="tbb_fastd"
