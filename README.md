@@ -144,7 +144,7 @@ Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet 
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch von salt mitgeladen.
 
 * Änderung des Installations Path<br/>
-Dies benötigt eine Änderung der Variable "install_dir" in der '/etc/nvram.conf' sowie in 'init_server.sh' (/srv/ffdd-server)!
+Dies benötigt eine Änderung der Variable "install_dir" in der '/etc/nvram.conf' und 'init_server.sh' (/srv/ffdd-server) sowie die korrektur des "file_roots" in der '/etc/salt/minion.d/freifunk-masterless.conf'!
 
 Wichig
 ----
