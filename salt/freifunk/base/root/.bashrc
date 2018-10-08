@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=10000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -93,6 +93,16 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+
+alias psa='ps -axuwf'
+
+# LOG
+alias jwarn='journalctl --system -x | grep warn'
+alias jfail='journalctl --system -x | grep fail'
+alias jerr='journalctl --system -x | grep error'
+alias jdeni='journalctl --system -x | grep denied'
+
+# Git diff
 alias gitdiff='git difftool -t idiff -y'
 
 
@@ -120,12 +130,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
+alias showip='curl ifconfig.me/ip'
+alias speedtest='curl http://speedtest.belwue.net/10G > /dev/null'
 alias speedtest-tele2='wget -O /dev/null http://90.130.70.73/10GB.zip --report-speed=bits'
 alias speedtest-ovh='wget -O /dev/null http://213.186.33.6/files/10Gb.dat --report-speed=bits'
 
 cat <<EOM
 -----------------------------------------------------
 tools:
+    showip
+    speedtest
 	speedtest-tele2
 	speedtest-ovh
 -----------------------------------------------------
