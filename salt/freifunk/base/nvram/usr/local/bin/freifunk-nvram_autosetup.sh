@@ -6,8 +6,6 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 #
 # Get variables from /etc/nvram.conf
-ifname="$(nvram get ifname)"
-
 ddmesh_node="$(nvram get ddmesh_node)"
 ddmesh_key="$(nvram get ddmesh_registerkey)"
 
@@ -39,13 +37,6 @@ gen_fastd_key() {
 
 	rm -f /tmp/.ffdd_h.txt
 }
-
-
-# Check default Interface is correct
-get_default_interface
-if [ "$ifname" != "$def_if" ]; then
-	nvram set ifname "$def_if"
-fi
 
 
 if [[ "$ddmesh_key" = '' ]] && [[ "$fastd_secret" = '' ]]; then

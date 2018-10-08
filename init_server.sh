@@ -10,16 +10,22 @@
 # -- Global Parameter --
 #
 
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
-INSTALL_DIR="/srv/ffdd-server"
+INSTALL_DIR='/srv/ffdd-server'
+
+
+# function: find default gateway interface
+get_default_interface() {
+	def_if="$(ip ro lis | awk '/default/ { print $5 }')"
+}
 
 #
-# -- RUN Installation --
+# -- Check & Setup System --
 #
 
 # check root permission
-if "$EUID" -ne 0 ; then printf 'Please run as root!\n'; exit 0; fi
+if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 0; fi
 
 # check Distribution
 if [ -f /etc/debian_version ]; then
@@ -77,38 +83,45 @@ rm /root/.bashrc >/dev/null 2>&1
 rm /etc/issue.net >/dev/null 2>&1
 
 
-# ensure nvram and nvram.conf are present
+# ensure nvram and nvram.conf are present and correct
 printf '\n### Check "nvram" Setup ..\n';
 
-if [ ! -f /etc/nvram.conf ]; then
-	printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n';
+	if [ ! -f /etc/nvram.conf ]; then
+		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n';
 
-	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
-	# initial nvram
-	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
-else
-	printf '\n### /etc/nvram.conf exists.\n';
-	printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
-	NOTICE="$(printf '\n# Notice: Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff !\n')"
+		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
+		# initial nvram
+		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
+	else
+		printf '\n### /etc/nvram.conf exists.\n';
+		printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
+		NOTICE="$(printf '\n# Notice: Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff !\n')"
 
-	# check new options are set
-	au="$(grep -c autoupdate < /etc/nvram.conf)"
-	insdir="$(grep -c install_dir < /etc/nvram.conf)"
+		# check new options are set
+		au="$(grep -c autoupdate < /etc/nvram.conf)"
+		insdir="$(grep -c install_dir < /etc/nvram.conf)"
 
-	# check autoupdate
-	if [ "$au" -lt 1 ]; then
-		sed -i '1s/^/\nautoupdate=1\n\n/' /etc/nvram.conf
-		sed -i '1s/^/\n# set autoupdate (0=off 1=on)/' /etc/nvram.conf
+		# check autoupdate
+		if [ "$au" -lt 1 ]; then
+			sed -i '1s/^/\nautoupdate=1\n\n/' /etc/nvram.conf
+			sed -i '1s/^/\n# set autoupdate (0=off 1=on)/' /etc/nvram.conf
+		fi
+		# check install path
+		if [ "$insdir" -lt 1 ]; then
+			{ echo "install_dir=$INSTALL_DIR"; cat /etc/nvram.conf; } >/etc/nvram.conf.new
+				mv /etc/nvram.conf.new /etc/nvram.conf
+		fi
+
+		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf.default
+		diff /etc/nvram.conf.default /etc/nvram.conf > /etc/nvram.conf.diff
 	fi
-	# check install path
-	if [ "$insdir" -lt 1 ]; then
-		{ echo "install_dir=$INSTALL_DIR"; cat /etc/nvram.conf; } >/etc/nvram.conf.new
-			mv /etc/nvram.conf.new /etc/nvram.conf
-	fi
 
-	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf.default
-	diff /etc/nvram.conf.default /etc/nvram.conf > /etc/nvram.conf.diff
-fi
+	ifn="$(nvram get ifname)"
+	# check default Interface is correct set
+	get_default_interface
+	if [ "$ifn" != "$def_if" ]; then
+		nvram set ifname "$def_if"
+	fi
 
 
 # create clean salt enviroment
@@ -122,6 +135,21 @@ file_roots:
   base:
     - $INSTALL_DIR/salt/freifunk/base
 EOF
+
+
+# ensure running services are stopped
+printf '\n### Ensure Services are Stopped ..\n';
+for services in S90iperf3 apache2 S52batmand S53backbone-fastd2 openvpn@openvpn S40network S42firewall6 S41firewall
+do
+	# check service exists
+	if [ "$(systemctl list-unit-files | grep -c $services)" -ge 1 ]; then
+		# true: stop it
+		if [ "$(systemctl status $services | grep -c running)" -ge 1 ]; then
+			systemctl stop "$services" >/dev/null 2>&1
+		fi
+	fi
+done
+
 
 #
 # -- Initial System --
