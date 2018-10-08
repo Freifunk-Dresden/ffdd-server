@@ -12,7 +12,7 @@
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-INSTALL_DIR="/opt/ffdd-server"
+INSTALL_DIR="/srv/ffdd-server"
 
 #
 # -- RUN Installation --
@@ -84,12 +84,27 @@ if [ ! -f /etc/nvram.conf ]; then
 	printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n';
 
 	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
-	# for initial nvram autosetup
+	# initial nvram
 	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
 else
 	printf '\n### /etc/nvram.conf exists.\n';
 	printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
-	NOTICE="$(printf '\n# Notice: Please check /etc/nvram.conf.diff ! And fix your config!\n')"
+	NOTICE="$(printf '\n# Notice: Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff !\n')"
+
+	# check new options are set
+	au="$(grep -c autoupdate < /etc/nvram.conf)"
+	insdir="$(grep -c install_dir < /etc/nvram.conf)"
+
+	# check autoupdate
+	if [ "$au" -lt 1 ]; then
+		sed -i '1s/^/\nautoupdate=1\n\n/' /etc/nvram.conf
+		sed -i '1s/^/\n# set autoupdate (0=off 1=on)/' /etc/nvram.conf
+	fi
+	# check install path
+	if [ "$insdir" -lt 1 ]; then
+		{ echo "install_dir=$INSTALL_DIR"; cat /etc/nvram.conf; } >/etc/nvram.conf.new
+			mv /etc/nvram.conf.new /etc/nvram.conf
+	fi
 
 	cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf.default
 	diff /etc/nvram.conf.default /etc/nvram.conf > /etc/nvram.conf.diff

@@ -94,8 +94,8 @@ installiert, Files kopiert und am Ende noch einige Tools compiliert werden müss
 
 git:
 ```
-git clone https://github.com/cremesk/ffdd-server.git /opt/ffdd-server
-cd /opt/ffdd-server && ./init-server.sh
+git clone https://github.com/cremesk/ffdd-server.git /srv/ffdd-server
+cd /srv/ffdd-server && ./init-server.sh
 ```
 Alternative Installations Möglichkeiten:
 
@@ -141,7 +141,10 @@ Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet 
 
 **Optional:**<br/>
 * /etc/firewall.user<br/>
-Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in /etc/init.d/S41firewall eingebunden und automatisch von salt mitgeladen.
+Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch von salt mitgeladen.
+
+* Änderung des Installations Path<br/>
+Dies benötigt eine Änderung der Variable "install_dir" in der '/etc/nvram.conf' sowie in 'init_server.sh' (/srv/ffdd-server)!
 
 Wichig
 ----
