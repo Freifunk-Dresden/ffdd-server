@@ -19,7 +19,7 @@ INSTALL_DIR="/srv/ffdd-server"
 #
 
 # check root permission
-if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 0; fi
+if "$EUID" -ne 0 ; then printf 'Please run as root!\n'; exit 0; fi
 
 # check Distribution
 if [ -f /etc/debian_version ]; then
