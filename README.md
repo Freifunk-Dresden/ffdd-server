@@ -147,8 +147,7 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 Dies benötigt eine Änderung der Variable "install_dir" in der '/etc/nvram.conf' und 'init_server.sh' (/srv/ffdd-server) sowie die korrektur des "file_roots" in der '/etc/salt/minion.d/freifunk-masterless.conf'!
 
 **Hinweis:**<br/>
-Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt<br/>
-empfiehlt es sich erneut die '/srv/ffdd-server/init_server.sh' auszuführen.
+Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt empfiehlt es sich<br/> erneut die '/srv/ffdd-server/init_server.sh' auszuführen.
 
 Wichig
 ----
