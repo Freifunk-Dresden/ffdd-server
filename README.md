@@ -52,7 +52,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - Da VServer Anbieter verschieden sind, kann die Installation abbrechen. Hier sollten erfahrene Leute die Installation anpassen und mir einen Hinweis geben. Als Vserver kann **NICHT** jeder Anbieter genutzt werden.
 <br/>
-Wichtig ist, dass tun/tap devices und alle möglichen iptables module möglich sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz (Platzmangel auf Routern, bmxd unterstützt dieses nicht)
+**Wichtig** ist, dass tun/tap devices und alle möglichen iptables module möglich sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz (Platzmangel auf Routern, bmxd unterstützt dieses nicht)
 
 Vorausetzungen
 ----
@@ -145,6 +145,10 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 
 * Änderung des Installations Path<br/>
 Dies benötigt eine Änderung der Variable "install_dir" in der '/etc/nvram.conf' und 'init_server.sh' (/srv/ffdd-server) sowie die korrektur des "file_roots" in der '/etc/salt/minion.d/freifunk-masterless.conf'!
+
+**Hinweis:**<br/>
+Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt<br/>
+empfiehlt es sich erneut die '/srv/ffdd-server/init_server.sh' auszuführen.
 
 Wichig
 ----
