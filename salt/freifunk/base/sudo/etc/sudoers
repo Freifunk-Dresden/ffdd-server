@@ -15,7 +15,7 @@ Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/b
 # User alias specification
 
 # Cmnd alias specification
-Cmnd_Alias	BMXD=/usr/bin/bmxd * 
+Cmnd_Alias	BMXD=/usr/local/bin/bmxd * 
 Cmnd_Alias	INET_TUNNEL=/usr/local/bin/freifunk-gateway-info.sh *
 Cmnd_Alias	STAT_A=/sbin/iptables -w -xvn -L stat_from_ovpn
 Cmnd_Alias	STAT_B=/sbin/iptables -w -xvn -L stat_to_ovpn
