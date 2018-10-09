@@ -85,8 +85,7 @@ Codename:       vivid
 ```
 
 **Wichtig:**<br/>
-Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** sowie **/etc/fastd/fastd2.conf**<br>
-solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
 * Folgends cloned und Installiert das Repository. (Bitte verwendet eurer eignes geclontes Repository.)<br/>
 Es wird beim ersten Durchführen eine kurze Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
@@ -107,6 +106,7 @@ wget:
 ```
 sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/master/init_server.sh -O -)"
 ```
+<br/>
 
 Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summary for local" noch Failed's angezeigt werden.
 <br/>
