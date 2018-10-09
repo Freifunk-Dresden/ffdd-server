@@ -86,12 +86,15 @@ rm /etc/issue.net >/dev/null 2>&1
 # ensure nvram and nvram.conf are present and correct
 printf '\n### Check "nvram" Setup ..\n';
 
+	if [ ! -f /usr/local/bin/nvram ]; then
+		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
+	fi
+
 	if [ ! -f /etc/nvram.conf ]; then
 		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n';
 
 		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
-		# initial nvram
-		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
+
 	else
 		printf '\n### /etc/nvram.conf exists.\n';
 		printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
@@ -112,7 +115,7 @@ printf '\n### Check "nvram" Setup ..\n';
 				mv /etc/nvram.conf.new /etc/nvram.conf
 		fi
 
-		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf.default
+		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf.default
 		diff /etc/nvram.conf.default /etc/nvram.conf > /etc/nvram.conf.diff
 	fi
 
