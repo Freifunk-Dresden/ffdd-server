@@ -93,6 +93,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+alias freifunk-call='salt-call state.highstate --local'
 
 alias psa='ps -axuwf'
 
