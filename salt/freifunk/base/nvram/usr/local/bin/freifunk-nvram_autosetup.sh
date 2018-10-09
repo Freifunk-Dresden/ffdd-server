@@ -12,11 +12,6 @@ ddmesh_key="$(nvram get ddmesh_registerkey)"
 fastd_secret="$(nvram get fastd_secret)"
 
 
-# function: find default gateway interface
-get_default_interface() {
-	def_if=$(route | awk '/default/ { print $8 }')
-}
-
 # function: find local node id
 get_ddmesh_nodeid() {
 	nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"

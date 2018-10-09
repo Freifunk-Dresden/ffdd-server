@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version 0.01
+#version 0.0.2
 ###
 #
 #  Freifunk Dresden Server - Installation & Update Script

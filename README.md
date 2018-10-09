@@ -1,4 +1,4 @@
-# Freifunk Dresden: Basic Vserver (current version 0.01)
+# Freifunk Dresden: Basic Vserver (current version 0.0.2)
 Configures an Ubuntu-Server (at least 16.04) or Debian (8/9) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[see UPDATE News](https://github.com/cremesk/ffdd-server/blob/master/UPDATES.md)**
@@ -140,14 +140,13 @@ salt-call state.highstate --local -l debug
 Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet werden.<br/>
 
 **Optional:**<br/>
-* /etc/firewall.user<br/>
-Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch von salt mitgeladen.
-
-* Änderung des Installations Path<br/>
-Dies benötigt eine Änderung der Variable "install_dir" in der '/etc/nvram.conf' und 'init_server.sh' (/srv/ffdd-server) sowie die korrektur des "file_roots" in der '/etc/salt/minion.d/freifunk-masterless.conf'!
+* _/etc/firewall.user_<br/>
+Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
+* _Änderung des Installations Path_<br/>
+Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Autoupdate mehr gewährleistet werden kann! Es sollte reichen sich einen Symlink zu erstellen.
 
 **Hinweis:**<br/>
-Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt empfiehlt es sich<br/> erneut die '/srv/ffdd-server/init_server.sh' auszuführen.
+Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' auszuführt werden.
 
 Wichig
 ----
