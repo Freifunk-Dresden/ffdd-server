@@ -15,7 +15,7 @@ cat<<EOM
 <tr><th>Node</th><th>Ip</th><th>Device</th><th>IP</th><th>RTQ</th><th>vom Nachbarn (RQ)</th><th>zum Nachbarn (TQ)</th></tr>
 EOM
 
-sudo /usr/bin/bmxd -c --links | awk '
+sudo /usr/local/bin/bmxd -c --links | awk '
  function getnode(ip) {
  	split($0,a,".");
  	f1=a[3]*255;f2=a[4]-1;
@@ -52,7 +52,7 @@ cat<<EOM
 <tr><th>Node</th><th>Ip</th><th>BRC</th><th>via Routing Interface</th><th>via Router</th></tr>
 EOM
 
-sudo /usr/bin/bmxd -c --originators | awk '
+sudo /usr/local/bin/bmxd -c --originators | awk '
  function getnode(ip) {
  	split($0,a,".");
  	f1=a[3]*255;f2=a[4]-1;
@@ -88,7 +88,7 @@ cat<<EOM
 <tr><th>Node</th><th>Ip</th><th>IP Adressen/Netzwerke</th></tr>
 EOM
 
-sudo /usr/bin/bmxd -c --hnas | awk '
+sudo /usr/local/bin/bmxd -c --hnas | awk '
  function getnode(ip) {
  	split($0,a,".");
  	f1=a[3]*255;f2=a[4]-1;
@@ -120,7 +120,7 @@ cat<<EOM
 <tr><th></th><th>Node</th><th>Ip</th><th>Best Next Hop</th><th>#</th><th></th></tr>
 EOM
 
-sudo /usr/bin/bmxd -c --gateways | awk '
+sudo /usr/local/bin/bmxd -c --gateways | awk '
  function getnode(ip) {
  	split($0,a,".");
  	f1=a[3]*255;f2=a[4]-1;
