@@ -116,11 +116,15 @@ printf '\n### Check "nvram" Setup ..\n';
 		diff /etc/nvram.conf.default /etc/nvram.conf > /etc/nvram.conf.diff
 	fi
 
-	ifn="$(nvram get ifname)"
 	# check default Interface is correct set
 	get_default_interface
-	if [ "$ifn" != "$def_if" ]; then
+	if [ "$(nvram get ifname)" != "$def_if" ]; then
 		nvram set ifname "$def_if"
+	fi
+
+	# check install_dir is correct set
+	if [ "$(nvram get install_dir)" != "$INSTALL_DIR" ]; then
+		nvram set install_dir "$INSTALL_DIR"
 	fi
 
 

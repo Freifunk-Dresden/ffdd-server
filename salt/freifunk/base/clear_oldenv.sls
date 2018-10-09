@@ -14,6 +14,9 @@
 /usr/bin/nvram:
   file.absent
 
+/usr/bin/bmxd:
+  file.absent
+
 /usr/bin/conntrack.sh:
   file.absent
 
