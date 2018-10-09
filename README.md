@@ -1,4 +1,4 @@
-# Freifunk Dresden: Basic Vserver (current version 0.0.2)
+# Freifunk Dresden: Basic Vserver (current version 0.0.3)
 Configures an Ubuntu-Server (at least 16.04) or Debian (8/9) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[see UPDATE News](https://github.com/cremesk/ffdd-server/blob/master/UPDATES.md)**
