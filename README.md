@@ -27,8 +27,7 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
   (siehe http://wiki.freifunk-dresden.de/). Es wird vom eigentlich Author nicht mehr weiterentwickelt oder gepflegt. Für die Dresdener-Firmware wurden einige Fehler behoben.
 
 - Anpassungen:
-  Speziell gilt das für den IP Bereich und der Knotenberechnung. Aus Knotennummern werden mit ddmesh-ipcalc.sh alle notwendigen IP Adressen berechnet.<br/>
-  (siehe http://wiki.freifunk-dresden.de/index.php/Technische_Information#Berechnung_IP_Adressen)<br/>
+  Speziell gilt das für den IP Bereich und der Knotenberechnung. Aus Knotennummern werden mit ddmesh-ipcalc.sh alle notwendigen IP Adressen berechnet. (siehe [Technische Information](http://wiki.freifunk-dresden.de/index.php/Technische_Information#Berechnung_IP_Adressen))<br/>
   <br/>
   Freifunk Dresden verwendet zwei IP Bereiche, eines für die Knoten selber (10.200.0.0/16) und eines für das Backbone (10.201.0.0/16). Dieses ist technisch bedingt. Wird bei freifunk.net nur ein solcher Bereich reserviert (z.b. 10.13.0.0/16), so muss das Script ddmesh-ipcalc.sh in der Berechnung angepasst werden, so dass zwei separate Bereich entstehen. Die Bereiche für 10.13.0.0/16 würden dann 10.13.0.0/17 und 10.128.0.0/17 sein.<br/>
   <br/>
@@ -92,18 +91,18 @@ Es wird beim ersten Durchführen eine kurze Zeit in anspruch nehmen da einige Pa
 installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
 
 git:
-```
+```bash
 git clone https://github.com/cremesk/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server && ./init-server.sh
 ```
 Alternative Installations Möglichkeiten:
 
 curl:
-```
+```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/cremesk/ffdd-server/master/init_server.sh)"
 ```
 wget:
-```
+```bash
 sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/master/init_server.sh -O -)"
 ```
 <br/>
@@ -130,7 +129,7 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
 * Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
 Wir wollen aber sehen ob alles läuft und auch alles erfolgreich initialisiert wird:
 
-```
+```bash
 salt-call state.highstate --local
 
 # Debug Mode
