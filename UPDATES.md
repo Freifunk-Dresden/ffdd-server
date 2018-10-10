@@ -1,20 +1,25 @@
 # Freifunk Dresden: Basic Vserver Updates
-**(current version 0.0.3)**
+**(current version 0.0.4)**
 <br/>
+
+_**version 0.0.4**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.4.md)
+
+- Bugfix
 <br/>
-version 0.0.3 - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.3.md)
+
+_**version 0.0.3**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.3.md)
 
 - Bugfixes
+<br/>
 
-
-version 0.0.2 - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.2.md)
+_**version 0.0.2**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.2.md)
 
 - Bugfixes and Optimizing
 - add /etc/freifunk-server-version
 - add /etc/firewall.users
 - add Autosetup for new Servers (without configured nvram.conf)
+<br/>
 
-
-version 0.01 - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.01.md)
+_**version 0.01**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.01.md)
 
 - Initial Commit from Git-Repository [ddmesh/vserver-base](https://github.com/ddmesh/vserver-base)
