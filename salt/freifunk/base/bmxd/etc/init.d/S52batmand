@@ -125,22 +125,6 @@ case "$ARG1" in
 	;;
 
   hna)
-	#add icvpn / zebra routes, except my private 172.16er and 172.22 (ljubiana conflicts luebeck)
-
-	#add 172er as one hna to avoid udp_data_size exceeded
-	#$DAEMON_PATH/$DAEMON -c -a '172.16.0.0/12'
-
-	#combine all 10er ranges, except dresden (10.192.0.0/11). all other masks match all other ip ranges
-	#$DAEMON_PATH/$DAEMON -c -a '10.0.0.0/9'
-	#$DAEMON_PATH/$DAEMON -c -a '10.128.0.0/10'
-	#$DAEMON_PATH/$DAEMON -c -a '10.224.0.0/11'
-
-	#add other hna (except previous added ranges and except 10.200er 10.201er to avoid client conflicts with freifunk knoten die auch einen client range haben)	
-	#	for i in $(ip ro lis ta zebra | sed -n 's# .*$##;/^172\.*/d;/^104\.*/d;p' | sed 's#^\([0-9]\+\)\.\([0-9]\+\)\..*#\1.\2.0.0/16#' | sort -u)
-	#	do
-	#		echo "add icvpn hna: $i"
-	#		$DAEMON_PATH/$DAEMON -c -a "$i"
-	#	done
 	exit 1
 	;;
 

@@ -65,13 +65,6 @@ logger -s -t "$LOGGER_TAG" "hosts: [$gw_ping]"
 
 #determine all possible gateways
 
-#icvpn gateways; prefere 
-default_icvpn_ifname=icvpn
-prefer_icvpn_hosts="10.207.0.130:$default_icvpn_ifname 10.207.0.131:$default_icvpn_ifname"
-icvpn_default_route="$prefer_icvpn_hosts $(for i in $(ip ro lis ta zebra | cut -d' ' -f3|sort -u);do echo -n $i:$default_icvpn_ifname' '; done)"
-echo "WAN:$default_wan_ifname via preferred hosts: $prefer_icvpn_hosts"
-
-
 default_lan_ifname=$(nvram get ifname)
 default_lan_gateway=$(ip route list table main | sed -n "/default via [0-9.]\+ dev $default_lan_ifname/{s#.*via \([0-9.]\+\).*#\1#p}")
 if [ -n "$default_lan_gateway" -a -n "$default_lan_ifname" ]; then
@@ -106,7 +99,7 @@ ok=false
 IFS=' '
 #start with vpn, because this is prefered gateway, then WAN and lates LAN
 #(there is no forwarding to lan allowed by firewall)
-#for g in $vpn_default_route $icvpn_default_route $lan_default_route
+#for g in $vpn_default_route $lan_default_route
 for g in $default_vpn_route_list $lan_default_route 
 do
 logger -s -t "$LOGGER_TAG" "try: $g"

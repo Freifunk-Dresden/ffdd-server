@@ -44,7 +44,7 @@ setup_routing() {
 	#ip rule $1 to $_ddmesh_dhcpnetwork/$_ddmesh_dhcprangemask table main priority 303
 
 	#icvpn
-	ip rule "$1" to 10.207.0.0/16 table main priority 304
+	#ip rule "$1" to 10.207.0.0/16 table main priority 304
 
 	# special DNS routing, always via public tunnel if exist.
 	ip rule "$1" lookup public_dns priority 350
@@ -59,9 +59,6 @@ setup_routing() {
 #bmx_mesh table: #created by bmx6:ip rule $1 table bmx_mesh priority 500
 	ip rule "$1" to 10.0.0.0/8 table bat_hna priority 501
 	ip rule "$1" to 172.16.0.0/12 table bat_hna priority 502
-
-	#zebra after local gateway, weil ispone auch aus dem 172er netz verteilt
-	#ip rule $1 table zebra priority 550 
 
 	#avoid ip packages go through bmx_gateway if bmx6 has removed entries from its tables
 	#at this point only let inet ips go further. let all other network ips (10er) be unreachable
@@ -136,7 +133,7 @@ case "$1" in
 	;;
   check)
 	# count rules, if one is missing then restart network
-	expected='18 '
+	expected='17 '
 	nrules="$(ip rule | wc -l)"
 	printf 'IP rules check: expected:%s, current:%s\n' "$expected" "$nrules"
 	if [ "$nrules" -lt "$expected" ]; then
