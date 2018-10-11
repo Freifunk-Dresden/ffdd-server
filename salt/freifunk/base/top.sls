@@ -49,5 +49,4 @@ base:
 
     - iperf3
     - apache2
-    - php
     - monitorix

@@ -29,8 +29,6 @@ apache2_pkgs:
       - apache2-utils
       - libapache2-mod-fcgid
       - libapache2-mod-auth-plain
-      - libapache2-mod-php
-      - libapache2-mod-geoip
       - libapache2-mod-authnz-pam
       - pwauth
 
