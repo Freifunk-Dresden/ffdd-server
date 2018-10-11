@@ -25,7 +25,7 @@ setup_routing() {
 	#priority 99 is used for ping gateway check
 
 	#linux container
-	ip rule "$1" to 10.0.3.0/24 lookup main prio 200
+	#ip rule "$1" to 10.0.3.0/24 lookup main prio 200
 
 	#no private ranges (10er, 172er are freifunk ranges and must pass
 	ip rule "$1" to 192.168.0.0/16 table main priority 300
@@ -133,7 +133,7 @@ case "$1" in
 	;;
   check)
 	# count rules, if one is missing then restart network
-	expected='17 '
+	expected='16'
 	nrules="$(ip rule | wc -l)"
 	printf 'IP rules check: expected:%s, current:%s\n' "$expected" "$nrules"
 	if [ "$nrules" -lt "$expected" ]; then
