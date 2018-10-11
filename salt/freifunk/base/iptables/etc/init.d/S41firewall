@@ -24,6 +24,7 @@ eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 
 # http://www.thatsgeeky.com/2011/01/limiting-brute-force-attacks-with-iptables/
 # http://www.thatsgeeky.com/2011/02/escalating-consequences-with-iptables/
+#
 # inhalt: ATTACK / BANNED
 # cat /proc/net/xt_recent/*
 
@@ -147,15 +148,6 @@ if [ "$1" = "start" ]; then
 
 	#masquerade all to vpn tunnel
 	#iptables -w -t nat -A POSTROUTING -o vpn+ -j MASQUERADE
-
-	# snat all lxc traffic to freifunk network
-	# this allows to access the freifunk network from other lxc container
-	# all container must setup a routing entry to lxc.vpn1
-	#iptables -w -t nat -A POSTROUTING -o tbb+ -s 192.168.1.0/24 -j SNAT --to-source 10.200.1.1
-	#iptables -w -I FORWARD -i eth0 -o tbb+ -j ACCEPT
-
-	# wen using lxc, masq all traffic which goes via eth0 (like DNS,vpn)
-	# iptables -w -t nat -o eth0 -A POSTROUTING -j MASQUERADE
 
 #----- setup INPUT rules -----
 	echo "setting up INPUT rules ..."

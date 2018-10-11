@@ -19,7 +19,6 @@
 248	ping_unreachable
 247	unreachable
 53	public_dns
-200	zebra
 
 #
 # bmx6
