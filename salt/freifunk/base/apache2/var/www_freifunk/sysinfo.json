@@ -20,7 +20,7 @@ gwt='bat0'
 
 cat << EOM
 {
- "version":"10",
+ "version":"9",
  "timestamp":"$(date +'%s')",
  "data":{
 
