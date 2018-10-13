@@ -18,6 +18,7 @@ apache2:
     - watch:
       - pkg: apache2
       - file: /etc/apache2/sites-enabled/001-freifunk.conf
+      - file: /etc/apache2/conf-enabled/letsencrypt.conf
       - file: /etc/apache2/conf-enabled/monitorix.conf
     - require:
       - pkg: apache2
@@ -32,6 +33,49 @@ apache2_pkgs:
       - libapache2-mod-authnz-pam
       - pwauth
 
+
+/etc/apache2/sites-enabled/000-default.conf:
+  file.absent
+
+/var/www/html/index.html:
+  file.absent
+
+
+/etc/apache2/sites-enabled/001-freifunk.conf:
+  file.managed:
+    - source:
+      - salt://apache2/etc/apache2/sites-enabled/001-freifunk.tmpl
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+
+/etc/apache2/conf-enabled/letsencrypt.conf:
+  file.managed:
+    - source:
+      - salt://apache2/etc/apache2/conf-enabled/letsencrypt.conf
+    - user: root
+    - group: root
+    - mode: 644
+
+
+/var/lib/letsencrypt/.well-known:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 777
+    - dir_mode: 777
+
+/var/www_freifunk:
+  file.recurse:
+    - source:
+      - salt://apache2/var/www_freifunk
+    - user: www-data
+    - group: www-data
+    - file_mode: 755
+    - dir_mode: 755
+
+
 apache2_mod_authnz_external:
   cmd.run:
     - name: /usr/sbin/a2enmod authnz_external
@@ -41,11 +85,6 @@ apache2_mod_cgi:
   cmd.run:
     - name: /usr/sbin/a2enmod cgi
     - unless: "[ -f /etc/apache2/mods-enabled/cgi.load ]"
-
-apache2_mod_ssl:
-  cmd.run:
-    - name: /usr/sbin/a2enmod ssl
-    - unless: "[ -f /etc/apache2/mods-enabled/ssl.load ]"
 
 apache2_mod_proxy:
   cmd.run:
@@ -57,7 +96,6 @@ apache2_mod_proxy_http:
     - name: /usr/sbin/a2enmod proxy_http
     - unless: "[ -f /etc/apache2/mods-enabled/proxy_http.load ]"
 
-#modules for changing links of html
 apache2_mod_proxy_html:
   cmd.run:
     - name: /usr/sbin/a2enmod proxy_html
@@ -78,43 +116,7 @@ apache2_mod_xml2enc:
     - name: /usr/sbin/a2enmod xml2enc
     - unless: "[ -f /etc/apache2/mods-enabled/xml2enc.load ]"
 
-#modules for changing html header (send 
 apache2_mod_headers:
   cmd.run:
     - name: /usr/sbin/a2enmod headers
     - unless: "[ -f /etc/apache2/mods-enabled/headers.load ]"
-
-
-#{% if grains['os'] == 'Ubuntu'%}
-#/etc/apache2/ssl:
-#  file.managed:
-#    - name: /etc/apache2/ssl/
-#    - clean: True
-#{% endif %}
-
-/etc/apache2/sites-enabled/000-default.conf:
-  file.absent
-
-/var/www/html/index.html:
-  file.absent
-
-/etc/apache2/sites-enabled/001-freifunk.conf:
-  file.managed:
-    - source:
-      - salt://apache2/etc/apache2/sites-enabled/001-freifunk.conf
-    - user: root
-    - group: root
-    - mode: 644
-    - watch:
-      - pkg: apache2
-
-/var/www_freifunk:
-  file.recurse:
-    - source:
-      - salt://apache2/var/www_freifunk
-    - user: www-data
-    - group: www-data
-    - file_mode: 775
-    - dir_mode: 775
-    - watch:
-      - pkg: apache2

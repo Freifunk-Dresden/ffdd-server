@@ -1,0 +1,38 @@
+# (Salt managed)
+{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
+{% set nodeip = salt['cmd.shell']("ifconfig bmx_prime | grep inet | awk '/inet/ {print $2}'") %}
+#NameVirtualHost *:443
+<VirtualHost *:443>
+	ServerName {{ nodeid }}.freifunk-dresden.de
+	ServerAlias {{ nodeip }}.freifunk-dresden.de
+	ServerAlias {{ nodeip }}
+	ServerAdmin webmaster@localhost
+
+	SSLEngine On
+	SSLCertificateFile /etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/cert.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/privkey.pem
+	SSLCertificateChainFile /etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/chain.pem
+
+	include /etc/apache2/conf-enabled/ssl-params.conf
+
+	# redirect if not found, to avoid displaying other internal stuff
+	ErrorDocument 404 /
+
+	DocumentRoot /var/www_freifunk
+	<Directory /var/www_freifunk>
+		AllowOverride None
+		AddHandler cgi-script .cgi
+		AddHandler cgi-script .json
+		Options -Indexes +ExecCGI +MultiViews +FollowSymLinks +Includes
+		Require all granted
+	</Directory>
+
+	CustomLog /var/log/apache2/freifunk-ssl_access.log combined
+	ErrorLog /var/log/apache2/freifunk-ssl_error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+	LogLevel warn
+
+	include /etc/apache2/conf-enabled/monitorix.conf
+
+</VirtualHost>

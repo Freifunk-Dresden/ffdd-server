@@ -1,10 +1,13 @@
 # (Salt managed)
-
+{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
+{% set nodeip = salt['cmd.shell']("ifconfig bmx_prime | grep inet | awk '/inet/ {print $2}'") %}
 #NameVirtualHost *:80
 #local virtual server: info / node page
 <VirtualHost *:80>
-#	ServerName vpnXXX.freifunk-dresden.de
-#       ServerAdmin webmaster@localhost
+	ServerName {{ nodeid }}.freifunk-dresden.de
+	ServerAlias {{ nodeip }}.freifunk-dresden.de
+	ServerAlias {{ nodeip }}
+#	ServerAdmin webmaster@localhost
 
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /
@@ -24,17 +27,7 @@
 	# Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
 	LogLevel warn
 
+	include /etc/apache2/conf-enabled/letsencrypt.conf
 	include /etc/apache2/conf-enabled/monitorix.conf
+
 </VirtualHost>
-
-
-#NameVirtualHost *:443
-#<VirtualHost *:443>
-#	ServerName freifunk-dresden.de 
-#
-#	SSLEngine on
-#	SSLCACertificatePath /etc/apache2/ssl
-#	SSLCertificateKeyFile /etc/apache2/ssl/server.key
-#	SSLCertificateFile /etc/apache2/ssl/server.crt
-#
-#</VirtualHost>
