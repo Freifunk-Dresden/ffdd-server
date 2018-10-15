@@ -1,7 +1,7 @@
 # (Salt managed)
 # >/dev/null 2>/dev/null disables email alert sent by cron.d
-
-PATH=/usr/local/bin:/usr/bin:/bin:/sbin
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # ip rules check. needed on linux container based vservers like the ones offered by webtropia
 0-59/1	*	* * *	root	/etc/init.d/S40network check

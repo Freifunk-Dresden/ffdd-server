@@ -1,3 +1,7 @@
 # (Salt managed)
 # purge-old-kernels and update grub every day
-23 5 * * * root su -c "purge-old-kernels --keep 2 -qy && update-grub2 >/dev/null 2>&1"
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+23 5 * * * root	/usr/bin/purge-old-kernels --keep 2 -qy && update-grub2 >/dev/null 2>&1

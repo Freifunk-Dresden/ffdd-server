@@ -1,3 +1,6 @@
 # (Salt managed)
 # Execute a local salt-call every 10 minutes
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
 */10 * * * * root /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
