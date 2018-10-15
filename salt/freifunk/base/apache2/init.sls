@@ -59,21 +59,13 @@ apache2_pkgs:
     - mode: 644
 
 
-/var/lib/letsencrypt:
-  file.directory:
-    - user: root
-    - group: root
-    - file_mode: 755
-    - dir_mode: 755
-
 /var/lib/letsencrypt/.well-known:
   file.directory:
     - user: www-data
     - group: www-data
     - file_mode: 755
     - dir_mode: 755
-    - require:
-      - file: /var/lib/letsencrypt
+    - makedirs: True
 
 /var/www_freifunk:
   file.recurse:
@@ -83,6 +75,9 @@ apache2_pkgs:
     - group: www-data
     - file_mode: 755
     - dir_mode: 755
+    - recurse:
+      - user
+      - group
 
 
 apache2_mod_authnz_external:

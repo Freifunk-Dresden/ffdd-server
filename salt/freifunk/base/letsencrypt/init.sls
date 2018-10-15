@@ -2,7 +2,6 @@ letsencrypt:
   pkg.installed:
     - names:
       - certbot
-      - python-certbot-apache
 
 
 apache2_mod_ssl:
@@ -42,10 +41,10 @@ generate_certificate:
 
 
 {% if salt['file.directory_exists']('/etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/cert.pem') %}
-/etc/apache2/sites-enabled/002-freifunk-ssl.conf:
+/etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.managed:
     - source:
-      - salt://letsencrypt/etc/apache2/sites-enabled/002-freifunk-ssl.tmpl
+      - salt://letsencrypt/etc/apache2/sites-enabled/001-freifunk-ssl.tmpl
     - template: jinja
     - user: root
     - group: root
@@ -60,7 +59,7 @@ apache2_ssl:
     - enable: True
     - restart: True
     - watch:
-      - file: /etc/apache2/sites-enabled/002-freifunk-ssl.conf
+      - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
       - file: /etc/apache2/conf-enabled/ssl-params.conf
 
 /etc/cron.d/certbot:
