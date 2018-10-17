@@ -40,13 +40,10 @@ generate_dhparam:
 {% if vpnid != '' %}
 generate_certificate:
   cmd.run:
-    #- name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ vpnid }}.{{ ffdom }} -d {{ nodeid }}.{{ ffdom }} -d {{ nodeip }}.{{ ffdom }} --non-interactive
     - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ vpnid }}.{{ ffdom }} --non-interactive
-    - unless: "[-f /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem ]"
-{% endif %}
+    - unless: "[ -f /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem ]"
 
 
-{% if salt['file.directory_exists']('/etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem') %}
 /etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.managed:
     - source:
@@ -55,6 +52,7 @@ generate_certificate:
     - user: root
     - group: root
     - mode: 644
+
 
 apache2_ssl:
   service:
@@ -67,6 +65,7 @@ apache2_ssl:
     - watch:
       - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
       - file: /etc/apache2/conf-enabled/ssl-params.conf
+
 
 /etc/cron.d/certbot:
   file.managed:

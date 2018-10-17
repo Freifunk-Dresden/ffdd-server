@@ -15,8 +15,6 @@
 	SSLCertificateKeyFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/privkey.pem
 	SSLCertificateChainFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/chain.pem
 
-	include /etc/apache2/conf-enabled/ssl-params.conf
-
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /
 
