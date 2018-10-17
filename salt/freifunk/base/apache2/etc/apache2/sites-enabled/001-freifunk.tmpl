@@ -1,10 +1,12 @@
 # (Salt managed)
 {% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
-{% set nodeip = salt['cmd.shell']("ifconfig bmx_prime | grep inet | awk '/inet/ {print $2}'") %}
+{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | grep inet | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
+{% set vpnid = salt['cmd.shell']("grep -R $(nvram get fastd_public) /etc/fastd/peers2 | egrep -o 'vpn[0-9]+'") %}
 #NameVirtualHost *:80
 #local virtual server: info / node page
 <VirtualHost *:80>
 	ServerName {{ nodeid }}.freifunk-dresden.de
+	ServerAlias {{ vpnid }}.freifunk-dresden.de
 	ServerAlias {{ nodeip }}.freifunk-dresden.de
 	ServerAlias {{ nodeip }}
 #	ServerAdmin webmaster@localhost

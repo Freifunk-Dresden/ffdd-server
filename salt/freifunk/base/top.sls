@@ -49,5 +49,5 @@ base:
 
     - iperf3
     - apache2
-#    - letsencrypt
+    - letsencrypt
     - monitorix

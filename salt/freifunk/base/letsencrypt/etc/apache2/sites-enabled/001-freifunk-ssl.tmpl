@@ -1,17 +1,19 @@
 # (Salt managed)
 {% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
-{% set nodeip = salt['cmd.shell']("ifconfig bmx_prime | grep inet | awk '/inet/ {print $2}'") %}
+{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | grep inet | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
+{% set vpnid = salt['cmd.shell']("grep -R $(nvram get fastd_public) /etc/fastd/peers2 | egrep -o 'vpn[0-9]+'") %}
 #NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerName {{ nodeid }}.freifunk-dresden.de
+	ServerAlias {{ vpnid }}.freifunk-dresden.de
 	ServerAlias {{ nodeip }}.freifunk-dresden.de
 	ServerAlias {{ nodeip }}
 	ServerAdmin webmaster@localhost
 
 	SSLEngine On
-	SSLCertificateFile /etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/cert.pem
-	SSLCertificateKeyFile /etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/privkey.pem
-	SSLCertificateChainFile /etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/chain.pem
+	SSLCertificateFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/privkey.pem
+	SSLCertificateChainFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/chain.pem
 
 	include /etc/apache2/conf-enabled/ssl-params.conf
 

@@ -1,8 +1,11 @@
 letsencrypt:
+  {% if grains['os'] == 'Ubuntu' %}
+  pkgrepo.managed:
+    - ppa: certbot/certbot
+  {% endif %}
   pkg.installed:
-    - names:
-      - certbot
-
+    - name: certbot
+    - refresh: True
 
 apache2_mod_ssl:
   cmd.run:
@@ -28,19 +31,22 @@ generate_dhparam:
     - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 
-{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
-{% set nodeip = salt['cmd.shell']("ifconfig bmx_prime | grep inet | awk '/inet/ {print $2}'") %}
+#{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
+#{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | grep inet | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
+{% set vpnid = salt['cmd.shell']("grep -R $(nvram get fastd_public) /etc/fastd/peers2 | egrep -o 'vpn[0-9]+'") %}
+{% set ffdom = 'freifunk-dresden.de' %}
 
 
-{% if nodeip != '' %}
+{% if vpnid != '' %}
 generate_certificate:
   cmd.run:
-    - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ nodeid }}.freifunk-dresden.de -d {{ nodeip }}.freifunk-dresden.de
-    - unless: "[-f /etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/cert.pem ]"
+    #- name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ vpnid }}.{{ ffdom }} -d {{ nodeid }}.{{ ffdom }} -d {{ nodeip }}.{{ ffdom }} --non-interactive
+    - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ vpnid }}.{{ ffdom }} --non-interactive
+    - unless: "[-f /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem ]"
 {% endif %}
 
 
-{% if salt['file.directory_exists']('/etc/letsencrypt/live/{{ nodeid }}.freifunk-dresden.de/cert.pem') %}
+{% if salt['file.directory_exists']('/etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem') %}
 /etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.managed:
     - source:
@@ -70,5 +76,4 @@ apache2_ssl:
     - mode: 600
     - require:
       - pkg: cron
-
 {% endif %}

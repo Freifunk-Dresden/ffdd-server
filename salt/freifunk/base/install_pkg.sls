@@ -42,3 +42,11 @@ install_pkg:
       - bwm-ng
       - iptraf
       - vnstat
+
+      - python-apt
+
+{% if grains['os'] == 'Ubuntu' %}
+      - software-properties-common
+      - python-software-properties
+      - python-pycurl
+{% endif %}
