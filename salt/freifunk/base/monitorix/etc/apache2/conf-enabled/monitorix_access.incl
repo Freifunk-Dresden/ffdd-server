@@ -1,0 +1,12 @@
+# Apache rules to restrict access to Monitorix:
+#
+Order deny,allow
+Deny from all
+Allow from 127.0.0.1 10.200.0.0/15
+AllowOverride None
+
+# Don't forget to add a username in .htpasswd with the 'htpasswd' command.
+#AuthType Basic
+#AuthUserFile /etc/apache2/.htpasswd
+#AuthName "Monitorix: Restricted access, sorry."
+#Require valid-user

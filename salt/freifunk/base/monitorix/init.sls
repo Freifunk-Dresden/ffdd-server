@@ -23,6 +23,7 @@ monitorix:
       - pkg: monitorix
       - pkg: apache2
 
+
 /etc/monitorix/monitorix.conf:
   file.managed:
     - source:
@@ -34,12 +35,28 @@ monitorix:
     - require:
       - pkg: monitorix
 
+
 apache2_mod_status:
   cmd.run:
     - name: /usr/sbin/a2enmod status
     - require:
       - pkg: apache2
     - unless: "[ -f /etc/apache2/mods-enabled/status.load ]"
+
+apache2_mod_auth_basic:
+  cmd.run:
+    - name: /usr/sbin/a2enmod auth_basic
+    - unless: "[ -f /etc/apache2/mods-enabled/auth_basic.load ]"
+
+
+/etc/apache2/conf-enabled/monitorix_access.incl:
+  file.managed:
+    - source:
+      - salt://monitorix/etc/apache2/conf-enabled/monitorix_access.incl
+    - user: root
+    - group: root
+    - mode: 644
+    - replace: false
 
 /etc/apache2/conf-enabled/monitorix.conf:
   file.managed:
@@ -50,3 +67,4 @@ apache2_mod_status:
     - mode: 644
     - require:
       - pkg: apache2
+      - file: /etc/apache2/conf-enabled/monitorix_access.incl
