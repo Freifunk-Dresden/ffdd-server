@@ -1,5 +1,11 @@
 # Freifunk Dresden: Basic Vserver Updates
-**(current version 0.0.6)**
+**(current version 0.0.7)**
+<br/>
+
+_**version 0.0.7**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.7.md)
+
+- Bugfixes and Optimizing
+- Enable Letsencrypt for https
 <br/>
 
 _**version 0.0.6**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.6.md)
