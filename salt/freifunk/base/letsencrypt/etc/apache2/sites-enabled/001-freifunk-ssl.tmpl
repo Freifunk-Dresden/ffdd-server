@@ -5,7 +5,9 @@
 #NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerName {{ nodeid }}.freifunk-dresden.de
+	{% if vpnid != '' %}
 	ServerAlias {{ vpnid }}.freifunk-dresden.de
+	{% endif %}
 	ServerAlias {{ nodeip }}.freifunk-dresden.de
 	ServerAlias {{ nodeip }}
 	ServerAdmin webmaster@localhost
