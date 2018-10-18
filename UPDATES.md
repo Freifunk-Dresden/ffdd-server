@@ -1,5 +1,10 @@
 # Freifunk Dresden: Basic Vserver Updates
-**(current version 0.0.7)**
+**(current version 0.0.8)**
+<br/>
+
+_**version 0.0.8**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.8.md)
+
+- Bugfixes and Optimizing
 <br/>
 
 _**version 0.0.7**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v0.0.7.md)
