@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # This is the configuration file for Openvpn
 #
 # Start only these VPNs automatically via init script.

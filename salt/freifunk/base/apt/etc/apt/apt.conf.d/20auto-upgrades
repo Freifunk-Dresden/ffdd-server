@@ -1,3 +1,3 @@
-// (Salt managed)
+// ### This file managed by Salt, do not edit by hand! ###
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";

@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # logrotate fuer logging conntract settings and current value
 # /usr/bin/local/conntrack.sh
 

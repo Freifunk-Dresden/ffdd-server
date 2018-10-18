@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # purge-old-kernels and update grub every day
 
 SHELL=/bin/sh

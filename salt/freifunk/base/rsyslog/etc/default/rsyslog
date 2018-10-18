@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # Options for rsyslogd
 # -x disables DNS lookups for remote messages
 # -c compatibility mode

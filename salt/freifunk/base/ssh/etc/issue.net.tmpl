@@ -1,0 +1,3 @@
+{% set servername = salt['cmd.shell']('/usr/local/bin/nvram get servername') %}------------------------------
+ Freifunk {{ servername }}
+------------------------------

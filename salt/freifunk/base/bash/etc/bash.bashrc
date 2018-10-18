@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # System-wide .bashrc file for interactive bash(1) shells.
 
 # To enable the settings / commands in this file for login shells as well,

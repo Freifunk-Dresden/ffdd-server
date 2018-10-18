@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # https://www.linode.com/docs/uptime/logs/use-logrotate-to-manage-log-files#control-log-file-permissions
 
 /var/log/freifunk/router/*.log {

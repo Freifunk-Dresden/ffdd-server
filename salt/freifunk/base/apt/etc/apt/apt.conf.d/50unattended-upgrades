@@ -1,4 +1,5 @@
-// (Salt managed)
+// ### This file managed by Salt, do not edit by hand! ###
+
 // Automatically upgrade packages from these (origin:archive) pairs
 Unattended-Upgrade::Allowed-Origins {
 	"${distro_id}:${distro_codename}-security";

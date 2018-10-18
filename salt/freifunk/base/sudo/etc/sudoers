@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # This file MUST be edited with the 'visudo' command as root.
 #
 # Please consider adding local content in /etc/sudoers.d/ instead of

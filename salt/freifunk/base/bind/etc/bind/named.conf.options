@@ -1,4 +1,5 @@
-// (Salt-Managed)
+// ### This file managed by Salt, do not edit by hand! ###
+
 options {
 	directory "/var/cache/bind";
 

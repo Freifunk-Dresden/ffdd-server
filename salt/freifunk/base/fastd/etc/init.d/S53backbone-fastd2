@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 ### BEGIN INIT INFO
 # Provides:          S53backbone-fastd2
 # Required-Start:    S40network

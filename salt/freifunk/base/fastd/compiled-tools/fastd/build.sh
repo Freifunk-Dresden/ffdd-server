@@ -1,7 +1,6 @@
 #!/bin/bash
-
-
-#file created by me to compile fastd
+### This file managed by Salt, do not edit by hand! ###
+#
 # fastd + libuecc
 # https://projects.universe-factory.net/projects/fastd/wiki/Building
 # https://projects.universe-factory.net/projects/fastd/files

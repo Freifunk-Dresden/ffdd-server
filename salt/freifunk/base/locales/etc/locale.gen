@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # Locale to be generated
 #
 # This file lists locales that you wish to have built. You can find a list

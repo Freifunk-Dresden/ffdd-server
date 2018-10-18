@@ -1,4 +1,4 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
 {% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
 {% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | grep inet | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
 {% set vpnid = salt['cmd.shell']("grep -R $(nvram get fastd_public) /etc/fastd/peers2 | egrep -o 'vpn[0-9]+'") %}

@@ -1,4 +1,6 @@
-# letsencrypt / certbot - (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
+# letsencrypt / certbot for ssl certs
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 

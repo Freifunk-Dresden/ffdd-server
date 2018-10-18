@@ -1,4 +1,5 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # Cron configuration options
 
 # Uncomment this option for LSB name support in /etc/cron.d/

@@ -1,4 +1,5 @@
-" (Salt managed)
+" ### This file managed by Salt, do not edit by hand! ###
+
 " Vim configuration file, in effect when invoked as "vi". The aim of this
 " configuration file is to provide a Vim environment as compatible with the
 " original vi as possible. Note that ~/.vimrc configuration files as other

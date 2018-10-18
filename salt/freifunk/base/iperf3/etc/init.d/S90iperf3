@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 ### BEGIN INIT INFO
 # Provides:          S90iperf3
 # Required-Start:    $network

@@ -23,8 +23,8 @@ ssh:
 /etc/issue.net:
   file.managed:
     - source:
-      - salt://ssh/etc/issue.net
+      - salt://ssh/etc/issue.net.tmpl
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
-    - replace: false

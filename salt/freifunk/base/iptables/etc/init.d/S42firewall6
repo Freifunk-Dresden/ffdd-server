@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 ### BEGIN INIT INFO
 # Provides:          S42firewall6
 # Required-Start:    41firewall

@@ -1,3 +1,5 @@
+// ### This file managed by Salt, do not edit by hand! ###
+
 forwarders {
 	194.150.168.168; 46.182.19.48;
 };
