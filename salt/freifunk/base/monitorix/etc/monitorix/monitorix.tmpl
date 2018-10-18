@@ -1,11 +1,13 @@
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
+#
 # Monitorix - configuration file
 #
 # See monitorix.conf(5) manpage for a detailed description of each option.
 #
-
+{% set servername = salt['cmd.shell']('/usr/local/bin/nvram get servername') %}
+{% set ifname = salt['cmd.shell']('/usr/local/bin/nvram get ifname') %}
 title = Freifunk Server 
-hostname = Freifunk Server
+hostname = {{ servername }}
 theme_color = black
 refresh_rate = 150
 iface_mode = graph
@@ -61,36 +63,28 @@ imap_log_date_format = %b %d
 secure_log_date_format = %b %e
 
 
-<piwik_tracking>
-	enabled = n
-	url = "://example.com/piwik/"
-	sid = "1"
-	img = "http://example.com/piwik/piwik.php?idsite=1"
-</piwik_tracking>
-
-
 # Graphs (de)activation
 # -----------------------------------------------------------------------------
 <graph_enable>
 	system		= y
 	kern		= y
 	proc		= y
+	process		= y
 	hptemp		= n
 	lmsens		= n
 	nvidia		= n
 	disk		= n
-	fs		= y
-	zfs		= n
-	du		= n
-	net		= y
+	fs			= y
+	zfs			= n
+	du			= n
+	net			= y
 	netstat		= y
 	libvirt		= n
-	process		= n
 	serv		= y
 	mail		= n
 	port		= y
 	user		= y
-	ftp		= n
+	ftp			= n
 	apache		= y
 	nginx		= n
 	lighttpd	= n
@@ -101,16 +95,16 @@ secure_log_date_format = %b %e
 	nfss		= n
 	nfsc		= n
 	bind		= n
-	ntp		= n
+	ntp			= y
 	fail2ban	= n
 	icecast		= n
 	raspberrypi	= n
 	phpapc		= n
 	memcached	= n
 	apcupsd		= n
-	nut		= n
+	nut			= n
 	wowza		= n
-	int		= y
+	int			= y
 	verlihub	= n
 </graph_enable>
 
@@ -136,9 +130,9 @@ secure_log_date_format = %b %e
 	<list>
 		user	= y
 		nice	= y
-		sys	= y
-		iow	= y
-		irq	= y
+		sys		= y
+		iow		= y
+		irq		= y
 		sirq	= y
 		steal	= y
 		guest	= y
@@ -160,6 +154,25 @@ secure_log_date_format = %b %e
 </proc>
 
 
+# PROCESS graph
+# -----------------------------------------------------------------------------
+<process>
+	<list>
+		0 = sshd, fastd, bmxd, openvpn, ntpd, named, httpd
+	</list>
+	<desc>
+		sshd	= SSH
+		fastd	= Fastd2
+		bmxd	= bmx
+		openvpn = OpenVPN-Tunnel
+		named	= Bind
+		httpd	= Apache
+	</desc>
+	rigid = 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	limit = 100, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000
+</process>
+
+
 # HPTEMP graph
 # -----------------------------------------------------------------------------
 <hptemp>
@@ -175,7 +188,7 @@ secure_log_date_format = %b %e
 	<list>
 		core0	= Core 0
 		core1	= Core 1
-		mb0	= M/B Temp
+		mb0		= M/B Temp
 		cpu0	= CPU Temp
 		fan0	= fan1
 		fan1	= fan2
@@ -269,15 +282,15 @@ secure_log_date_format = %b %e
 # NET graph
 # -----------------------------------------------------------------------------
 <net>
-	list = eth0, bat0, tbb_fastd2, vpn0, vpn1
+	list = {{ ifname }}, bat0, tbb_fastd2, vpn0, vpn1
 	<desc>
-		eth0 = FastEthernet LAN, 0, 10000000
+		{{ ifname }} = FastEthernet LAN, 0, 10000000
 		bat0 = bmxd Gateway, 0, 10000000
 		tbb_fastd2 = fastd Gateway, 0, 10000000
 		vpn0 = Openvpn-Tunnel, 0, 10000000
 		vpn1 = Openvpn-Tunnel, 0, 10000000
 	</desc>
-	gateway = eth0
+	gateway = {{ ifname }}
 </net>
 
 
@@ -302,22 +315,6 @@ secure_log_date_format = %b %e
 	rigid = 2, 0, 0, 0
 	limit = 100, 1000, 1000, 1000
 </libvirt>
-
-
-# PROCESS graph
-# -----------------------------------------------------------------------------
-<process>
-	<list>
-		0 = httpd, sshd, fastd, vtund, openvpn, ntpd, named, mysqld, clamd, imap, sendmail
-	</list>
-	<desc>
-		httpd = Apache
-		imap = Dovecot
-		named = Bind
-	</desc>
-	rigid = 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	limit = 100, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000
-</process>
 
 
 # SERV graph
@@ -763,28 +760,28 @@ logo_bottom = logo_bot.png
 	remote	= 300x100
 </graph_size>
 
-graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net, netstat, libvirt, process, serv, mail, port, user, ftp, apache, nginx, lighttpd, mysql, varnish, pagespeed, squid, nfss, nfsc, bind, ntp, fail2ban, icecast, raspberrypi, phpapc, memcached, apcupsd, nut, wowza, int, verlihub
+graph_name = system, kern, proc, process, hptemp, lmsens, nvidia, disk, fs, zfs, du, net, netstat, libvirt, serv, mail, port, user, ftp, apache, nginx, lighttpd, mysql, varnish, pagespeed, squid, nfss, nfsc, bind, ntp, fail2ban, icecast, raspberrypi, phpapc, memcached, apcupsd, nut, wowza, int, verlihub
 
 <graph_title>
 	system		= System load average and usage
 	kern		= Global kernel usage
 	proc		= Kernel usage per processor
+	process		= Processes statistics
 	hptemp		= HP ProLiant System Health
 	lmsens		= LM-Sensors and GPU temperatures
 	nvidia		= NVIDIA temperatures and usage
 	disk		= Disk drive temperatures and health
-	fs		= Filesystem usage and I/O activity
-	zfs		= ZFS statistics
-	du		= Directory usage
-	net		= Network traffic and usage
+	fs			= Filesystem usage and I/O activity
+	zfs			= ZFS statistics
+	du			= Directory usage
+	net			= Network traffic and usage
 	netstat		= Netstat statistics
 	libvirt		= Libvirt statistics
-	process		= Processes statistics
 	serv		= System services demand
 	mail		= Mail statistics
 	port		= Network port traffic
 	user		= Users using the system
-	ftp		= FTP statistics
+	ftp			= FTP statistics
 	apache		= Apache statistics
 	nginx		= Nginx statistics
 	lighttpd	= Lighttpd statistics
@@ -795,16 +792,16 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	nfss		= NFS server statistics
 	nfsc		= NFS client statistics
 	bind		= BIND statistics
-	ntp		= NTP statistics
+	ntp			= NTP statistics
 	fail2ban	= Fail2ban statistics
 	icecast		= Icecast Streaming Media Server
 	raspberrypi	= Raspberry Pi sensor statistics
 	phpapc		= Alternative PHP Cache statistics
 	memcached	= Memcached statistics
 	apcupsd		= APC UPS statistics
-	nut		= Network UPS Tools statistics
+	nut			= Network UPS Tools statistics
 	wowza		= Wowza Media Server
-	int		= Devices interrupt activity
+	int			= Devices interrupt activity
 	verlihub	= VerliHub statistics
 </graph_title>
 
@@ -839,7 +836,7 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	_zfs3		= L2ARC cache
 	_zfs4		= Pool data usage
 	_zfs5		= Pool usage
-	_du		= Directory usage
+	_du			= Directory usage
 	_net1		= Network traffic
 	_net2		= Network packets
 	_net3		= Network errors

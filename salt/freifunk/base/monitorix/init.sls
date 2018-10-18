@@ -27,11 +27,11 @@ monitorix:
 /etc/monitorix/monitorix.conf:
   file.managed:
     - source:
-      - salt://monitorix/etc/monitorix/monitorix.conf
+      - salt://monitorix/etc/monitorix/monitorix.tmpl
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
-    - replace: false
     - require:
       - pkg: monitorix
 
