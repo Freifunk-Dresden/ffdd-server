@@ -16,13 +16,6 @@
     - require:
       - file: /etc/nvram.conf
 
-/usr/local/bin/freifunk-nvram_autosetup.sh:
-  file.managed:
-    - source: salt://nvram/usr/local/bin/freifunk-nvram_autosetup.sh
-    - user: root
-    - group: root
-    - mode: 755
-
 
 #
 # autoconfigure a new server
@@ -30,6 +23,14 @@
 {% from 'config.jinja' import ddmesh_registerkey %}
 
 {% if ddmesh_registerkey == '' %}
+
+/usr/local/bin/freifunk-nvram_autosetup.sh:
+  file.managed:
+    - source: salt://nvram/usr/local/bin/freifunk-nvram_autosetup.sh
+    - user: root
+    - group: root
+    - mode: 755
+
 ddmesh_autosetup:
   cmd.run:
     - name: /usr/local/bin/freifunk-nvram_autosetup.sh
@@ -37,4 +38,8 @@ ddmesh_autosetup:
       - file: /etc/nvram.conf
       - file: /usr/local/bin/nvram
       - file: /usr/local/bin/freifunk-nvram_autosetup.sh
+
 {% endif %}
+
+/usr/local/bin/freifunk-nvram_autosetup.sh:
+  file.absent
