@@ -1,6 +1,6 @@
 cron:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: cron
 
 /etc/default/cron:
   file.managed:

@@ -1,6 +1,6 @@
 salt-minion:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: salt-minion
   service:
     - dead
     - enable: False

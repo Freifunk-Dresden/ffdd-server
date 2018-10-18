@@ -31,16 +31,11 @@ generate_dhparam:
     - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 
-#{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
-#{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | grep inet | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
-{% set vpnid = salt['cmd.shell']("grep -R $(nvram get fastd_public) /etc/fastd/peers2 | egrep -o 'vpn[0-9]+'") %}
-{% set ffdom = 'freifunk-dresden.de' %}
-
-
+{% from 'config.jinja' import vpnid %}
 {% if vpnid != '' %}
 generate_certificate:
   cmd.run:
-    - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ vpnid }}.{{ ffdom }} --non-interactive
+    - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ vpnid }}.freifunk-dresden.de --non-interactive
     - unless: "[ -f /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem ]"
 
 
@@ -57,9 +52,7 @@ generate_certificate:
 apache2_ssl:
   service:
     - running
-    {% if grains['os'] == 'Debian' or grains['os'] == 'Ubuntu' or grains['os'] == 'Gentoo' %}
     - name: apache2
-    {% endif %}
     - enable: True
     - restart: True
     - watch:

@@ -1,6 +1,6 @@
 iproute2:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: iproute2
 
 /etc/iproute2/rt_tables:
   file.managed:

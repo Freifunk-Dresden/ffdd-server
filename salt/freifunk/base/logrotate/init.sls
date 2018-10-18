@@ -2,8 +2,8 @@
 # Freifunk logrotate
 #
 logrotate:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: logrotate
 
 /etc/logrotate.d/freifunk:
   file.managed:

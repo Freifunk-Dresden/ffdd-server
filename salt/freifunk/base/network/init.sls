@@ -1,6 +1,6 @@
 #conntrackd:
-#  pkg:
-#    - installed
+#  pkg.installed:
+#     - name: conntrackd
 
 /etc/init.d/S40network:
   file.managed:

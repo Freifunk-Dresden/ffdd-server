@@ -1,6 +1,6 @@
 iperf3:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: iperf3
 
 
 /etc/init.d/S90iperf3:

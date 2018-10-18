@@ -27,10 +27,9 @@
 #
 # autoconfigure a new server
 #
-{% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_registerkey') %}
+{% from 'config.jinja' import ddmesh_registerkey %}
 
 {% if ddmesh_registerkey == '' %}
-
 ddmesh_autosetup:
   cmd.run:
     - name: /usr/local/bin/freifunk-nvram_autosetup.sh

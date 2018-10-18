@@ -1,6 +1,6 @@
 sudo:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: sudo
   require:
     - file: /etc/sudoers
 

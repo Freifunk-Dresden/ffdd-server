@@ -1,6 +1,6 @@
 ssh:
   pkg.installed:
-    - name: 'openssh-server'
+    - name: openssh-server
   service.running:
     - enable: True
     - restart: True

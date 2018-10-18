@@ -1,6 +1,6 @@
 ntp:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: ntp
   service:
     - running
     - enable: True

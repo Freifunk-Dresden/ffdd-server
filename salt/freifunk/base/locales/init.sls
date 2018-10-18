@@ -1,6 +1,6 @@
 locales:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: locales
 
 /etc/locale.gen:
   file.managed:

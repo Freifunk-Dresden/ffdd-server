@@ -1,5 +1,5 @@
 # firmware version
-{% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
+{% from 'config.jinja' import freifunk_version %}
 
 /etc/freifunk-server-version:
   file.managed:

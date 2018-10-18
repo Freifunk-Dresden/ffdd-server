@@ -1,3 +1,3 @@
 systemd:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: systemd

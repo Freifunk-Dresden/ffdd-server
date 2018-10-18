@@ -1,6 +1,6 @@
 openvpn:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: openvpn
   service.running:
     - name: openvpn@openvpn.service
     - enable: True

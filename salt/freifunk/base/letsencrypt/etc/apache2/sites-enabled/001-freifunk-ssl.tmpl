@@ -1,14 +1,10 @@
 ### This file managed by Salt, do not edit by hand! ###
-#
-{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
-{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | grep inet | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
-{% set vpnid = salt['cmd.shell']("grep -R $(nvram get fastd_public) /etc/fastd/peers2 | egrep -o 'vpn[0-9]+'") %}
+{% from 'config.jinja' import nodeid %} {% from 'config.jinja' import nodeip %} {% from 'config.jinja' import vpnid %}
 #NameVirtualHost *:443
+#local virtual server: info / node page
 <VirtualHost *:443>
 	ServerName {{ nodeid }}.freifunk-dresden.de
-	{% if vpnid != '' %}
 	ServerAlias {{ vpnid }}.freifunk-dresden.de
-	{% endif %}
 	ServerAlias {{ nodeip }}.freifunk-dresden.de
 	ServerAlias {{ nodeip }}
 	ServerAdmin webmaster@localhost

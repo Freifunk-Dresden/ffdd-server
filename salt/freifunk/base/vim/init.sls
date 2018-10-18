@@ -1,6 +1,6 @@
 vim:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: vim
 
 /etc/vimrc:
   file.managed:

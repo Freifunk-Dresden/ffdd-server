@@ -1,6 +1,6 @@
 rsyslog:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: rsyslog
   service.running:
     - enable: True
     - restart: True

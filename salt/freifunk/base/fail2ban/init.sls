@@ -2,8 +2,8 @@
 # Fail2ban (intrusion prevention)
 #
 fail2ban:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: fail2ban
   service:
     - running
     - name: fail2ban
