@@ -87,9 +87,13 @@ add_outgoing()
 	local key="$(wget -q -O - http://"$host"/sysinfo.json | jq -r '.data.common.fastd_pubkey')"
 
 	if [ -z "$key" ]; then
-		printf 'can not fetch fastd_pubkey from http://%s/sysinfo.json!\n' "$host"
-		printf 'Please use: %s add_connect <host> <port> <fastd_pubkey>\n' "$(basename "$0")"
-		local key="$3"
+		if [ -z "$3" ]; then
+			printf 'can not fetch fastd_pubkey from http://%s/sysinfo.json!\n' "$host"
+			printf 'Please use: %s add_connect <host> <port> <fastd_pubkey>\n' "$(basename "$0")"
+			exit 0
+		else
+			local key="$3"
+		fi
 	fi
 
 	if [ -n "$host" ] && [ -n "$port" ] && [ -n "$key" ]; then
