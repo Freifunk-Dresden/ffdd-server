@@ -1,13 +1,13 @@
 ### This file managed by Salt, do not edit by hand! ###
-{% from 'config.jinja' import nodeid, nodeip, vpnid %}
+#{% from 'config.jinja' import nodeid, nodeip, vpnid %}
 #NameVirtualHost *:443
 #local virtual server: info / node page
 <VirtualHost *:443>
-	ServerName {{ nodeid }}.freifunk-dresden.de
-	ServerAlias {{ vpnid }}.freifunk-dresden.de
-	ServerAlias {{ nodeip }}.freifunk-dresden.de
-	ServerAlias {{ nodeip }}
-	ServerAdmin webmaster@localhost
+#	ServerName {{ nodeid }}.freifunk-dresden.de
+#	ServerAlias {{ vpnid }}.freifunk-dresden.de
+#	ServerAlias {{ nodeip }}.freifunk-dresden.de
+#	ServerAlias {{ nodeip }}
+#	ServerAdmin webmaster@localhost
 
 	SSLEngine On
 	SSLCertificateFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem
