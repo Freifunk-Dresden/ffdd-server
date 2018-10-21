@@ -3,5 +3,5 @@
 # check Autoupdate every day
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
-3 5 * * * root /usr/local/bin/freifunk-autoupdate >/dev/null 2>&1
+{% from 'config.jinja' import ctime %}
+{{ ctime }} 3 * * * root /usr/local/bin/freifunk-autoupdate >/dev/null 2>&1

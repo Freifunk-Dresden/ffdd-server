@@ -3,7 +3,7 @@
 # >/dev/null 2>/dev/null disables email alert sent by cron.d
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
+{% from 'config.jinja' import ctime %}
 # ip rules check. needed on linux container based vservers like the ones offered by webtropia
 0-59/1	*	* * *	root	/etc/init.d/S40network check
 
@@ -17,7 +17,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 0-59/5	*	* * *	root	/usr/local/bin/freifunk-gateway-check.sh >/dev/null 2>&1
 
 #every 2h
-0		*/2	* * *	root	/usr/local/bin/freifunk-register-local-node.sh >/dev/null 2>&1
+{{ ctime }}	*/2	* * *	root	/usr/local/bin/freifunk-register-local-node.sh >/dev/null 2>&1
 
 #update geoip db (once a day)
-22		3	* * *	root	/usr/share/xt_geoip/update.sh >/dev/null 2>&1
+{{ ctime }}	3	* * *	root	/usr/share/xt_geoip/update.sh >/dev/null 2>&1

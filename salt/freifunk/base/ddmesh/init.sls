@@ -16,6 +16,7 @@
 /etc/cron.d/freifunk:
   file.managed:
     - source: salt://ddmesh/etc/cron.d/freifunk
+    - template: jinja
     - user: root
     - group: root
     - mode: 600
@@ -26,6 +27,7 @@
 /etc/cron.d/freifunk-autoupdate:
   file.managed:
     - source: salt://ddmesh/etc/cron.d/freifunk-autoupdate
+    - template: jinja
     - user: root
     - group: root
     - mode: 600
