@@ -44,6 +44,7 @@ install_pkg:
       - vnstat
 
       - python-apt
+      - jq
 
 {% if grains['os'] == 'Ubuntu' %}
       - software-properties-common

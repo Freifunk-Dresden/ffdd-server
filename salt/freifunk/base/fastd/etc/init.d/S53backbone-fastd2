@@ -69,7 +69,7 @@ add_incomming()
 	local key="$1"
 	local comment="$2"
 	
-	if [ -n "$key" -a -n "$comment" ]; then
+	if [ -n "$key" ] && [ -n "$comment" ]; then
 		#echo "[$key:$comment]"
 		FILE="$CONF_DIR/$CONF_PEERS/accept_$key.conf"
 		echo "# $comment" > "$FILE"
@@ -79,16 +79,22 @@ add_incomming()
 	fi
 }
 
-				
+
 add_outgoing()
 {
 	local host="$1"  #hostname or ip
 	local port="$2"
-	local key="$3"
+	local key="$(wget -q -O - http://"$host"/sysinfo.json | jq -r '.data.common.fastd_pubkey')"
 
-	if [ -n "$host" -a -n "$port" -a -n "$key" ]; then
+	if [ -z "$key" ]; then
+		printf 'can not fetch fastd_pubkey from http://%s/sysinfo.json!\n' "$host"
+		printf 'Please use: %s add_connect <host> <port> <fastd_pubkey>\n' "$(basename "$0")"
+		local key="$3"
+	fi
+
+	if [ -n "$host" ] && [ -n "$port" ] && [ -n "$key" ]; then
 		echo "[$host:$port:$key]"
-		FILE="$CONF_DIR/$CONF_PEERS/connect_$host_$port.conf"
+		FILE="$CONF_DIR/$CONF_PEERS/connect_${host}_$port.conf"
 		echo "key \"$key\";" > "$FILE"
 		echo "remote ipv4 \"$host\":$port;" >> "$FILE"
 	else
@@ -138,7 +144,7 @@ case "$1" in
 	host="$2"
 	port="$3"
 	key="$4"
-	add_outgoing "$host" "$port" "$key"
+	add_outgoing "$host" "$port"
 	#reload config
 	test -f "$PID_FILE" && kill -SIGHUP "$(cat $PID_FILE)"
 	;;
@@ -150,7 +156,7 @@ case "$1" in
    *)
 	printf 'usage: %s [start | stop | restart | reload | genkey | get_public_key | add_accept | add_connect\n' "$(basename "$0")"
 	printf '  add_accept <pubkey> <comment>\n'
-	printf '\tadd_connect <host> <port> <pubkey>\n'
+	printf '  add_connect <host> <port>\n'
 esac
 
 exit 0

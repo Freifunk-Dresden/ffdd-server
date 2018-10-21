@@ -36,17 +36,17 @@ compile_fastd:
     - require:
       - file: /etc/fastd
 
-/etc/fastd/peers2:
-  file.recurse:
-    - source:
-      - salt://fastd/etc/fastd/peers2
-    - user: root
-    - group: root
-    - file_mode: 644
-    - dir_mode: 644
-    - replace: false
-    - require:
-      - file: /etc/fastd
+#/etc/fastd/peers2:
+#  file.recurse:
+#    - source:
+#      - salt://fastd/etc/fastd/peers2
+#    - user: root
+#    - group: root
+#    - file_mode: 644
+#    - dir_mode: 644
+#    - replace: false
+#    - require:
+#      - file: /etc/fastd
 
 /etc/init.d/S53backbone-fastd2:
   file.managed:
