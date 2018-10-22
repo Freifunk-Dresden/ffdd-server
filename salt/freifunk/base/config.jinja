@@ -4,6 +4,8 @@
 #
 
 {% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
+{% set install_dir = salt['cmd.shell']('/usr/local/bin/nvram get install_dir') %}
+{% set ct_bmxd = '/salt/freifunk/base/bmxd/compiled-tools/bmxd' %}
 
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_registerkey') %}
 {% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}

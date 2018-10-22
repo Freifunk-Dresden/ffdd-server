@@ -16,9 +16,8 @@
 # 02110-1301, USA
 #
 
-REVISION =	"$(shell git show --abbrev-commit | sed -n '1{s/.* //p}')"
-DATE=		"$(shell git show --abbrev-commit | sed -n '3{s/Date:[ ]\+\(.*\) +.*/\1/p}' )"
-REVISION_VERSION =\"-git:[$(REVISION):$(DATE)]\"
+REVISION = $(shell cat /usr/local/src/bmxd/revision_version)
+REVISION_VERSION =\"-src:[$(REVISION)]\"
 
 
 CFLAGS += -pedantic -Wall -W -Wno-unused-parameter -Os -g3 -std=gnu99 -I./
