@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-#version 0.0.8
+version="0.0.10"
+branch="B_STABLE"
+# use: "_fix.."
+fix=""
+tag="T_RELEASE"
 ###
 #
 #  Freifunk Dresden Server - Installation & Update Script
@@ -72,9 +76,11 @@ printf '\n### Install/Update Repository..\n';
 
 if [ ! -d "$INSTALL_DIR" ]; then
 	git clone https://github.com/cremesk/ffdd-server.git "$INSTALL_DIR"
-else
-	cd "$INSTALL_DIR" ; git pull origin master
 fi
+
+	cd "$INSTALL_DIR"
+	git checkout "$branch""_v""$version"
+	git pull origin "$tag""_v""$version""$fix"
 
 
 # small salt fix to create templates (replace: false)
@@ -102,12 +108,18 @@ printf '\n### Check "nvram" Setup ..\n';
 
 		# check new options are set
 		au="$(grep -c autoupdate < /etc/nvram.conf)"
+		rl="$(grep -c release < /etc/nvram.conf)"
 		insdir="$(grep -c install_dir < /etc/nvram.conf)"
 
 		# check autoupdate
 		if [ "$au" -lt 1 ]; then
 			sed -i '1s/^/\nautoupdate=1\n\n/' /etc/nvram.conf
 			sed -i '1s/^/\n# set autoupdate (0=off 1=on)/' /etc/nvram.conf
+		fi
+		# check release
+		if [ "$rl" -lt 1 ]; then
+			sed -i '1s/^/\nrelease=stable\n\n/' /etc/nvram.conf
+			sed -i '1s/^/\n# release (stable or dev)/' /etc/nvram.conf
 		fi
 		# check install path
 		if [ "$insdir" -lt 1 ]; then
