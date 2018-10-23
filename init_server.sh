@@ -2,7 +2,7 @@
 version="0.0.10"
 branch="B_STABLE"
 # use: "_fix.."
-fix=""
+fix="_fix1"
 tag="T_RELEASE"
 ###
 #
@@ -79,6 +79,7 @@ if [ ! -d "$INSTALL_DIR" ]; then
 fi
 
 	cd "$INSTALL_DIR"
+	git pull origin master
 	git checkout "$branch""_v""$version"
 	git pull origin "$tag""_v""$version""$fix"
 

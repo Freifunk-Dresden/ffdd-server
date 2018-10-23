@@ -9,6 +9,9 @@ fix=$(sed -n "/^fix/{s#^.*=##;p}" "$install_dir"/init_server.sh | cut -d'"' -f2)
 
 
 if [ "$(nvram get autoupdate)" -eq 1 ]; then
+	if [ ! -d "$install_dir" ]; then
+		git clone https://github.com/cremesk/ffdd-server.git "$install_dir"
+	fi
 	cd "$install_dir"
 
 	if [ "$(nvram get release)" == 'stable' ]; then
@@ -17,6 +20,7 @@ if [ "$(nvram get autoupdate)" -eq 1 ]; then
 		tag="T_TESTING"
 	fi
 
+	git pull origin master
 	git checkout "$branch""_v""$version"
 	git pull origin "$tag""_v""$version""$fix"
 
