@@ -19,7 +19,6 @@ cat<<EOF
 <meta http-equiv="expires" content="0">
 <LINK HREF="/css/ff.css" REL="StyleSheet" TYPE="text/css">
 <link rel="shortcut icon" href="/images/favicon.ico">
-<script type="text/javascript" src="/js/jquery.js"></script>
 <meta name="author" content="Stephan Enderlein">
 <meta name="robots" content="noindex">
 </HEAD>

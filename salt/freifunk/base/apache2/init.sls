@@ -40,22 +40,6 @@ apache2_pkgs:
     - group: root
     - mode: 644
 
-/etc/apache2/conf-enabled/letsencrypt.conf:
-  file.managed:
-    - source:
-      - salt://apache2/etc/apache2/conf-enabled/letsencrypt.conf
-    - user: root
-    - group: root
-    - mode: 644
-
-
-/var/lib/letsencrypt/.well-known:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - file_mode: 755
-    - dir_mode: 755
-    - makedirs: True
 
 /var/www_freifunk:
   file.recurse:

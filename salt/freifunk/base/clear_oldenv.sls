@@ -59,3 +59,10 @@
 
 /var/statistic:
   file.absent
+
+
+/var/www_freifunk/images/flags:
+  file.absent
+
+/var/www_freifunk/js:
+  file.absent

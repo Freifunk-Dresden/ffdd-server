@@ -13,6 +13,14 @@ apache2_mod_ssl:
     - unless: "[ -f /etc/apache2/mods-enabled/ssl.load ]"
 
 
+/etc/apache2/conf-enabled/letsencrypt.conf:
+  file.managed:
+    - source:
+      - salt://letsencrypt/etc/apache2/conf-enabled/letsencrypt.conf
+    - user: root
+    - group: root
+    - mode: 644
+
 /etc/apache2/conf-enabled/ssl-params.conf:
   file.managed:
     - source:
@@ -20,6 +28,15 @@ apache2_mod_ssl:
     - user: root
     - group: root
     - mode: 644
+
+
+/var/lib/letsencrypt/.well-known:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 755
+    - dir_mode: 755
+    - makedirs: True
 
 
 #
