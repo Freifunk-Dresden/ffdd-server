@@ -4,14 +4,14 @@
 ### BEGIN INIT INFO
 # Provides:          S40network
 # Required-Start:    $remote_fs $network $syslog
-# Required-Stop:     
+# Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: setup freifunk routing
-# Description:       setup freifunk routing 
+# Description:       setup freifunk routing
 ### END INIT INFO
 
-write_throw_rules () {
+write_throw_rules() {
 #$1 add|del
 #$2 is routing-table
 #$3 type:throw|unreachable
@@ -32,7 +32,7 @@ setup_routing() {
 	#router is client: 169.254.x.y allow packets going to bat0
 	#router is gatway: 169.254.x.y allow packets going to bat0
 	ip rule "$1" to 169.254.0.0/16 table bat_default priority 301
-	ip rule "$1" to 169.254.0.0/16 table main priority 302 
+	ip rule "$1" to 169.254.0.0/16 table main priority 302
 
 
 	#allow wifi broadcast for batman (actually it sends packetes directly to if without routing table)
@@ -50,7 +50,7 @@ setup_routing() {
 
 	#batman tables
 	ip rule "$1" to 10.200.0.0/15 table bat_route priority 500
-#bmx_mesh table: #created by bmx6:ip rule $1 table bmx_mesh priority 500
+	#bmx_mesh table: #created by bmx6:ip rule $1 table bmx_mesh priority 500
 	ip rule "$1" to 10.0.0.0/8 table bat_hna priority 501
 	ip rule "$1" to 172.16.0.0/12 table bat_hna priority 502
 
@@ -60,30 +60,24 @@ setup_routing() {
 	ip rule "$1" to 10.0.0.0/8 table unreachable priority 580
 	ip rule "$1" to 172.16.0.0/12 table unreachable priority 581
 
-#bmx table: process inet ips #created by bmx6:ip rule $1 table bmx_gateway priority 502
+	#bmx table: process inet ips #created by bmx6:ip rule $1 table bmx_gateway priority 502
 
-# 505: here would be route_bat
+	# 505: here would be route_bat
 
 	#stop any routing here, to avoid using default gatways in default routing table
 	#those gateways are checked and added to gateway table if valid
 	ip rule "$1" table unreachable priority 600
 	ip route "$1" unreachable default table unreachable
 
-# die iif lo regel geht irgendwie nicht, die packte fallen alle bis zu unreachable durch
-# kann also nur mit ip6tables verhindern, dass was von anderen interfaces was zum eth0 rausgeht
-#ip -6 rule $1 iif lo table main priority 10
-#ip -6 rule $1 table unreachable priority 600
-#ip -6 route $1 unreachable default table unreachable
 
-#return a quick answer instead running in timeout
-#(will disturb adding default gateway)
-#ip route $1 prohibit default
-
-#set some routes 
+	#set some routes
 	#add local gateway rule; this ensures that local internet access can not be blocked via invalid batman_hna
 	write_throw_rules "$1" local_gateway throw
+
 	g="$(ip route list table main | grep default)"
-	ip route "$1" $g table local_gateway
+	sg="${g% }"
+	ip route "$1" $sg table local_gateway
+
 
 	#gateway_check.sh will setup the throw rules. this call is only used to clean gateway table
 	if [ "$1" = "del" ]; then
@@ -95,9 +89,6 @@ setup_routing() {
 set_conntrack() {
 
 	#increment nf_conntrack_max from about 31000-65535 (depending on vserver provider)
-	#ispone has a small value of 31000 and this will lead to ignoring any network packets
-	#ispone koennte evt diesen wert runter setzen, damit der server online erscheint aber nichts mehr macht.
-	#aber das ist nicht sicher.
 	#daher habe ich einen cron job aufgesetzt, der die aktuellen conntrack werte alle 5 min loggt.
 	#http://pc-freak.net/blog/resolving-nf_conntrack-table-full-dropping-packet-flood-message-in-dmesg-linux-kernel-log/
 	#oder auch im git-repo: administration/documentation/nf_conntrack.html
@@ -110,21 +101,24 @@ set_conntrack() {
 	if [ -f /sys/module/nf_conntrack/parameters/hashsize ]; then
 		echo 32768 > /sys/module/nf_conntrack/parameters/hashsize
 	fi
-
 }
+
 
 case "$1" in
   start)
 	set_conntrack
 	setup_routing add
-	;;
+  ;;
+
   stop)
 	setup_routing del
-	;;
+  ;;
+
   restart)
 	"$0" stop
 	"$0" start
-	;;
+  ;;
+
   check)
 	# count rules, if one is missing then restart network
 	expected='16'
@@ -135,5 +129,6 @@ case "$1" in
 		"$0" stop
 		"$0" start
 	fi
-	;;
+  ;;
+
 esac

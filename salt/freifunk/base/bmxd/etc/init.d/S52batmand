@@ -3,7 +3,7 @@
 #
 ### BEGIN INIT INFO
 # Provides:          S52batmand
-# Required-Start:    S41firewall
+# Required-Start:    S41firewall S53backbone-fastd2
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
@@ -27,7 +27,7 @@ fi
 eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 
 
-NUMBER_OF_CLIENTS="$(nvram get backbone_max_tunnel)"
+#NUMBER_OF_CLIENTS="$(nvram get backbone_max_tunnel)"
 
 ROUTING_CLASS="$(nvram get batman_routing_class)"
 ROUTING_CLASS="${ROUTING_CLASS:-3}"
@@ -38,8 +38,8 @@ GATEWAY_CLASS="${GATEWAY_CLASS:-8mbit/8mbit}"
 GATEWAY_CLASS="-g $GATEWAY_CLASS"
 
 PREFERED_GATEWAY="$(nvram get bmxd_prefered_gateway)"
-test -n "$PREFERED_GATEWAY" && PREFERED_GATEWAY="-p $PREFERED_GATEWAY"
-printf '%s\n' "$PREFERED_GATEWAY"
+test -n "$PREFERED_GATEWAY" && PREFERED_GATEWAY="-p $PREFERED_GATEWAY" \
+&& printf '%s\n' "$PREFERED_GATEWAY"
 
 # create a virtual interface for primary interface. loopback has 
 # 127er IP would be broadcasted
@@ -52,12 +52,11 @@ if [ "$1" = "start" ]; then
 	ip link set dev "$PRIMARY_IF" up
 fi
 
-#_IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
 _IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
 
-#default start with no gatway.will be updated by gateway_check.sh
+# default start with no gatway.will be updated by gateway_check.sh
 # (register,info,...).ddmesh.de MUSS per hna mitgeteilt werden, da sonst der linux kernel irgendwie packete verwirft, die ein zweitesmal durch laufen
-#aber vpn.ddmesh.de nicht, da sonst der router keine vpn verbindung üer das internet aufbauen kann. 
+# aber vpn.ddmesh.de nicht, da sonst der router keine vpn verbindung üer das internet aufbauen kann. 
 #HNA="-a 195.42.115.56/32"
 SPECIAL_OPTS='--throw-rules 0 --prio-rules 0'
 TUNNEL_OPTS='--one-way-tunnel 1 --two-way-tunnel 2'
@@ -69,37 +68,38 @@ test -x "$DAEMON_PATH"/"$DAEMON" || exit 0
 case "$ARG1" in
   start)
 	printf 'Starting %s: opt: %s\n' "$DAEMON" "$DAEMON_OPTS"
+	sleep 3		# wait for start bmxd
 #	echo /tmp/coredump > /proc/sys/kernel/core_pattern
 #	ulimit -c unlimited
 	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS"
 #	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" -d4
-	;;
+  ;;
 
   stop)
 	printf 'Stopping %s:\n' "$DAEMON"
 	killall -9 "$DAEMON"
-	ip link set dev "$PRIMARY_IF" down 
+	ip link set dev "$PRIMARY_IF" down
 	ip addr del "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
-	;;
+  ;;
 
   restart|force-reload)
 	"$0" stop
 	sleep 5
 	"$0" start
-	;;
+  ;;
 
   gateway)
 	printf '%s -c %s\n' "$DAEMON" "$GATEWAY_CLASS"
 	"$DAEMON_PATH"/"$DAEMON" -c "$GATEWAY_CLASS"
-	;;
+  ;;
 
   no_gateway)
 	printf '%s -c %s\n' "$DAEMON" "$ROUTING_CLASS"
 	"$DAEMON_PATH/$DAEMON" -c "$ROUTING_CLASS"
-	;;
+  ;;
 
   check)
-	test -z "$(pidof -s "$DAEMON")" && logger -s "$DAEMON not running - restart" && "$0" restart && exit
+	test -z "$(pidof -s "$DAEMON")" && logger -s "$DAEMON not running - restart" && "$0" restart && exit 0
 	test -n "$(pidof -s "$DAEMON")" && test ! -f "$RUN_STATUS_FILE" && (
 	touch "$RUN_STATUS_FILE"
 		"$DAEMON_PATH"/"$DAEMON" -c --gateways > "$DB_PATH/gateways"
@@ -112,26 +112,25 @@ case "$ARG1" in
 
 	rm "$RUN_STATUS_FILE"
 	)
-
-	;;
+  ;;
 
   addif)
 	"$DAEMON_PATH"/"$DAEMON" -c --dev "$2"
 	touch "$IF_FILES"/"$2"
-	;;
+  ;;
 
   delif)
 	"$DAEMON_PATH"/"$DAEMON" -c --dev -"$2"
 	rm "$IF_FILES"/"$2"
-	;;
+  ;;
 
   hna)
 	exit 1
-	;;
+  ;;
 
   *)
 	printf 'Usage: %s {start|stop|restart|gateway|no_gateway|checkif|addif|delif|hna}\n' "$(basename "$0")"
-	;;
+  ;;
 
 esac
 
