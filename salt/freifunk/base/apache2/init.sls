@@ -35,8 +35,7 @@ apache2_pkgs:
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.managed:
     - source:
-      - salt://apache2/etc/apache2/sites-enabled/001-freifunk.tmpl
-    - template: jinja
+      - salt://apache2/etc/apache2/sites-enabled/001-freifunk.conf
     - user: root
     - group: root
     - mode: 644
@@ -76,10 +75,32 @@ apache2_mod_authnz_external:
     - name: /usr/sbin/a2enmod authnz_external
     - unless: "[ -f /etc/apache2/mods-enabled/authnz_external.load ]"
 
+
+apache2_mod_mpmevent:
+  cmd.run:
+    - name: /usr/sbin/a2dismod mpm_event
+    - unless: "[ ! -f /etc/apache2/mods-enabled/mpm_event.load ]"
+
+apache2_mod_mpmworker:
+  cmd.run:
+    - name: /usr/sbin/a2dismod mpm_worker
+    - unless: "[ ! -f /etc/apache2/mods-enabled/mpm_worker.load ]"
+
+apache2_mod_mpmprefork:
+  cmd.run:
+    - name: /usr/sbin/a2enmod mpm_prefork
+    - unless: "[ -f /etc/apache2/mods-enabled/mpm_prefork.load ]"
+
+
 apache2_mod_cgi:
   cmd.run:
-    - name: /usr/sbin/a2enmod cgi
-    - unless: "[ -f /etc/apache2/mods-enabled/cgi.load ]"
+    - name: /usr/sbin/a2dismod cgi
+    - unless: "[ ! -f /etc/apache2/mods-enabled/cgi.load ]"
+
+apache2_mod_cgid:
+  cmd.run:
+    - name: /usr/sbin/a2enmod cgid
+    - unless: "[ -f /etc/apache2/mods-enabled/cgid.load ]"
 
 apache2_mod_proxy:
   cmd.run:
