@@ -71,8 +71,6 @@ setup_brute_force() {
 
 	# ALWAYS allow ONLY from germany
 	"$IPT" -A "$table" -p tcp --dport 22 -m state --state NEW -m geoip --source-country DE -j ACCEPT
-	"$IPT" -A "$table" -p tcp --dport 5000 -m state --state NEW -m geoip --source-country DE -j ACCEPT
-	"$IPT" -A "$table" -p udp --dport 5001 -m state --state NEW -m geoip --source-country DE -j ACCEPT
 	"$IPT" -A "$table" -p udp --dport 5002 -m state --state NEW -m geoip --source-country DE -j ACCEPT
 
 	#####################################################
@@ -137,7 +135,7 @@ if [ "$1" = "start" ]; then
 	iptables -w -A OUTPUT -j T_BACKBONE_O
 
 #----- setup NAT rules -----
-	echo "setting up SNAT/MASQUERADE rules ..."
+	printf 'setting up SNAT/MASQUERADE rules ...\n'
 
 	#dont SNAT locally generated packets target for local
 	iptables -w -t nat -A POSTROUTING -o lo -j ACCEPT
@@ -151,7 +149,7 @@ if [ "$1" = "start" ]; then
 	#iptables -w -t nat -A POSTROUTING -o vpn+ -j MASQUERADE
 
 #----- setup INPUT rules -----
-	echo "setting up INPUT rules ..."
+	printf 'setting up INPUT rules ...\n'
 
 	#accept answers
 	iptables -w -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
@@ -195,10 +193,7 @@ if [ "$1" = "start" ]; then
 
 	#---- input eth0 --------------
 
-	#vtun backbone
-	iptables -w -A INPUT -i "$WAN_DEV" -p tcp --dport 5000 -j ACCEPT
-	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5000 -j ACCEPT
-	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5001 -j ACCEPT
+	# fastd2 backbone
 	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5002 -j ACCEPT
 	
 	#
@@ -214,7 +209,7 @@ if [ "$1" = "start" ]; then
 	iptables -w -A INPUT -j DROP
 
 #----- setup FORWARD rules -----
-	echo "setting up FORWARD rules ..."
+	printf 'setting up FORWARD rules ...\n'
 
 	# wird gebraucht, wenn auf server zwei fastd instanzen mit alter und neuer mtu laufen.
 	# bat0 selectiert die kleinste mtu und damit passen dann antworten nicht mehr ins bat0.
@@ -253,7 +248,7 @@ if [ "$1" = "start" ]; then
 	iptables -w -A FORWARD -j DROP
 
 #----- setup OUTPUT rules -----
-	echo "setting up OUTPUT rules ..."
+	printf 'setting up OUTPUT rules ...\n'
 
 	# mark all icmp packages that comming from localhost. 
 	# during gateway check a special fmwark routing rule ensurs that only
