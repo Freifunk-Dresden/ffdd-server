@@ -1,28 +1,18 @@
 #!/usr/bin/env bash
+### This file managed by Salt, do not edit by hand! ###
 # check Autoupdate every day (Salt managed)
 # used by: /etc/cron.d/freifunk-autoupdate.conf
 install_dir="$(nvram get install_dir)"
-version="$(nvram version)"
-
-branch=$(sed -n "/^branch/{s#^.*=##;p}" "$install_dir"/init_server.sh | cut -d'"' -f2)
-fix=$(sed -n "/^fix/{s#^.*=##;p}" "$install_dir"/init_server.sh | cut -d'"' -f2)
-
+branch="$(nvram get branch)"
 
 if [ "$(nvram get autoupdate)" -eq 1 ]; then
-	if [ ! -d "$install_dir" ]; then
-		git clone https://github.com/cremesk/ffdd-server.git "$install_dir"
-	fi
+	
+	rm -rf "$install_dir"
+	git clone https://github.com/cremesk/ffdd-server.git "$install_dir"
 	cd "$install_dir"
 
-	if [ "$(nvram get release)" == 'stable' ]; then
-		tag="T_RELEASE"
-	else
-		tag="T_TESTING"
-	fi
-
-	git pull origin master
-	git checkout "$branch""_v""$version"
-	git pull origin "$tag""_v""$version""$fix"
+	git checkout "$branch"
+	git pull origin "$branch"
 
 	salt-call state.highstate --local
 else
