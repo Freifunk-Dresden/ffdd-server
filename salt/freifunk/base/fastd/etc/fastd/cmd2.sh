@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
 
 #commands $1: up, down, connect, establish, disestablish, verify
 

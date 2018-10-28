@@ -113,7 +113,7 @@ case "$1" in
 
 	generate_fastd_conf
 	"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon
-	;;
+  ;;
 
   stop)
 	printf 'Stopping backbone network...\n'
@@ -122,45 +122,46 @@ case "$1" in
 		sleep 1
 		rm -f "$PID_FILE"
 	fi
-	;;
+  ;;
 
   restart)
 	"$0" stop
 	sleep 2
 	"$0" start
-	;;
+  ;;
 
   genkey)
 	fastd --generate-key
-	;;
+  ;;
 
   get_public_key)
 	nvram get fastd_public
-	;;
+  ;;
 
   add_accept)
 	key="$2"
 	comment="$3"
 	add_incomming "$key" "$comment"
-	;;
+  ;;
 
   add_connect)
 	host="$2"
 	port="$3"
 	key="$4"
-	add_outgoing "$host" "$port"
+	add_outgoing "$host" "$port" "$key"
 	#reload config
 	test -f "$PID_FILE" && kill -SIGHUP "$(cat $PID_FILE)"
-	;;
+  ;;
 
    reload)
 	test -f "$PID_FILE" && kill -SIGHUP "$(cat $PID_FILE)"
-	;;
+  ;;
 
    *)
 	printf 'usage: %s [start | stop | restart | reload | genkey | get_public_key | add_accept | add_connect\n' "$(basename "$0")"
 	printf '  add_accept <pubkey> <comment>\n'
 	printf '  add_connect <host> <port>\n'
+	printf '  or: add_connect <host> <port> <key>\n'
 esac
 
 exit 0
