@@ -1,6 +1,9 @@
+{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
+
 openvpn:
   pkg.installed:
     - name: openvpn
+  {% if ddmesh_disable_gateway == '0' %}
   service.running:
     - name: openvpn@openvpn.service
     - enable: True
@@ -20,6 +23,16 @@ openvpn:
       - file: /lib/systemd/system/openvpn@.service
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
+
+/etc/openvpn/openvpn.conf:
+  file.exists
+
+  {% elif ddmesh_disable_gateway == '1' %}
+  service.dead:
+    - name: openvpn@openvpn.service
+    - enable: False
+  {% endif %}
+
 
 /etc/default/openvpn:
   file.managed:
@@ -41,9 +54,6 @@ openvpn:
       - pkg: systemd
       - pkg: openvpn
 
-
-/etc/openvpn/openvpn.conf:
-  file.exists
 
 /etc/openvpn/gen-config.sh:
   file.managed:

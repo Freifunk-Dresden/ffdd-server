@@ -1,3 +1,4 @@
+### This file managed by Salt, do not edit by hand! ###
 [Unit]
 Description=OpenVPN connection to %i
 PartOf=openvpn.service
