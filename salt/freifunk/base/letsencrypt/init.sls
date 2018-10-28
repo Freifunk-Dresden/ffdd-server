@@ -31,12 +31,15 @@ generate_dhparam:
     - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 
-{% from 'config.jinja' import vpnid %}
-{% if vpnid != '' %}
+{% from 'config.jinja' import ffdom, hostname %}
+{%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short" ) -%}
+{%- set hdns = salt['cmd.shell']("host " ~ hostname ~ " | grep -v " ~ ffip ~ " 2>&1 > /dev/null; if [ $? -eq 0 ]; then ; printf '%s\n' " ~ hostname ~ " ; fi || true") -%}
+
+{% if hdns != '' %}
 generate_certificate:
   cmd.run:
-    - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ vpnid }}.freifunk-dresden.de --non-interactive
-    - unless: "[ -f /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem ]"
+    - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ hostname }} --non-interactive
+    - unless: "[ -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
 /etc/apache2/sites-enabled/001-freifunk-ssl.conf:
@@ -47,7 +50,7 @@ generate_certificate:
     - user: root
     - group: root
     - mode: 644
-
+    - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 apache2_ssl:
   service:
@@ -58,6 +61,7 @@ apache2_ssl:
     - watch:
       - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
       - file: /etc/apache2/conf-enabled/ssl-params.conf
+    - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
 /etc/cron.d/certbot:
@@ -68,4 +72,6 @@ apache2_ssl:
     - mode: 600
     - require:
       - pkg: cron
+    - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
+
 {% endif %}

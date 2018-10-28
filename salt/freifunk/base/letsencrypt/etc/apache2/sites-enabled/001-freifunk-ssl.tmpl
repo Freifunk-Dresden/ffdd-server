@@ -1,18 +1,14 @@
 ### This file managed by Salt, do not edit by hand! ###
-#{% from 'config.jinja' import nodeid, nodeip, vpnid %}
+{% from 'config.jinja' import hostname %}
 #NameVirtualHost *:443
 #local virtual server: info / node page
 <VirtualHost *:443>
-#	ServerName {{ nodeid }}.freifunk-dresden.de
-#	ServerAlias {{ vpnid }}.freifunk-dresden.de
-#	ServerAlias {{ nodeip }}.freifunk-dresden.de
-#	ServerAlias {{ nodeip }}
 #	ServerAdmin webmaster@localhost
 
 	SSLEngine On
-	SSLCertificateFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/cert.pem
-	SSLCertificateKeyFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/privkey.pem
-	SSLCertificateChainFile /etc/letsencrypt/live/{{ vpnid }}.freifunk-dresden.de/chain.pem
+	SSLCertificateFile /etc/letsencrypt/live/{{ hostname }}/cert.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/{{ hostname }}/privkey.pem
+	SSLCertificateChainFile /etc/letsencrypt/live/{{ hostname }}/chain.pem
 
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /
