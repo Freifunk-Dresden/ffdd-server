@@ -1,4 +1,4 @@
-# Freifunk Dresden: Basic Vserver (current version 0.0.10)
+# Freifunk Dresden: Basic Vserver (current version 1.0.1)
 Configures an Ubuntu-Server (at least 16.04) or Debian (8/9) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[see UPDATE News](https://github.com/cremesk/ffdd-server/blob/master/UPDATES.md)**
@@ -51,6 +51,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - Da VServer Anbieter verschieden sind, kann die Installation abbrechen. Hier sollten erfahrene Leute die Installation anpassen und mir einen Hinweis geben. Als Vserver kann **NICHT** jeder Anbieter genutzt werden.
 <br/>
+
 **Wichtig** ist, dass tun/tap devices und alle möglichen iptables module möglich sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz (Platzmangel auf Routern, bmxd unterstützt dieses nicht)
 
 Vorausetzungen
@@ -84,26 +85,29 @@ Codename:       vivid
 ```
 
 **Wichtig:**<br/>
-Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+* _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br/><br/>
+* Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+<br/>
 
-* Folgends cloned und Installiert das Repository. (Bitte verwendet eurer eignes geclontes Repository.)<br/>
+Folgends cloned und Installiert das Repository. (Bitte verwendet eurer eignes geclontes Repository.)<br/>
 Es wird beim ersten Durchführen eine kurze Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
 installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
 
 git:
 ```bash
 git clone https://github.com/cremesk/ffdd-server.git /srv/ffdd-server
-cd /srv/ffdd-server && ./init-server.sh
+cd /srv/ffdd-server
+git checkout T_RELEASE_latest && ./init-server.sh
 ```
 Alternative Installations Möglichkeiten:
 
 curl:
 ```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/cremesk/ffdd-server/master/init_server.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/cremesk/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 wget:
 ```bash
-sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/master/init_server.sh -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
 
@@ -123,10 +127,13 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
   # please creates openvpn.conf with:
     ./genconfig.sh yourvpnclient.conf/.ovpn
   # for vpn user and password use:
-    /etc/openvpn/openvpn.login 
+    /etc/openvpn/openvpn.login
+*/etc/fastd/peers2/
+  # To Create a Fastd2 Connection use:
+    '/etc/init.d/S53backbone-fastd add_connect vpnX.freifunk-dresden.de 5002'
 ```
 
-* Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
+Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
 Wir wollen aber sehen ob alles läuft und auch alles erfolgreich initialisiert wird:
 
 ```bash
@@ -145,7 +152,11 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Autoupdate mehr gewährleistet werden kann! Es sollte reichen sich einen Symlink zu erstellen.
 
 **Hinweis:**<br/>
-Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' auszuführt werden.
+Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt oder es generell Probleme mit Services auf dem Server gibt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' ausgeführt werden. Um auf ganz sicher zu gehen auch die aktuelle Version zu nutzen:
+
+```bash
+rm -rf /srv/ffdd-server && sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+```
 
 Wichig
 ----
@@ -163,8 +174,8 @@ Development
 
 Links
 ----
-[Freifunk Dresden](www.freifunk-dresden.de)<br>
-[Wiki: Freifunk Dresden](wiki.freifunk-dresden.de)<br>
+[Freifunk Dresden](https://www.freifunk-dresden.de)<br>
+[Wiki: Freifunk Dresden](https://wiki.freifunk-dresden.de)<br>
 [Google+](http://google.com/+FreifunkDresden%EF%BB%BF/about)<br>
 [Google+ Community](https://plus.google.com/communities/108088672678522515509)<br>
 [Facebook](https://www.facebook.com/FreifunkDresden)

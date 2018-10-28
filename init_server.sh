@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-version="0.0.10"
-branch="B_STABLE"
-# use: "_fix.."
-fix="_fix1"
-tag="T_RELEASE"
+#version="1.0.1"
+#branch="B_RELEASE"
+#fix=""
+tag="T_RELEASE_latest"
 ###
 #
 #  Freifunk Dresden Server - Installation & Update Script
@@ -21,7 +20,7 @@ INSTALL_DIR='/srv/ffdd-server'
 
 # function: find default gateway interface
 get_default_interface() {
-	def_if="$(ip ro lis | awk '/default/ { print $5 }')"
+	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
 }
 
 #
@@ -77,11 +76,11 @@ printf '\n### Install/Update Repository..\n';
 if [ ! -d "$INSTALL_DIR" ]; then
 	git clone https://github.com/cremesk/ffdd-server.git "$INSTALL_DIR"
 fi
+cd "$INSTALL_DIR"
 
-	cd "$INSTALL_DIR"
-	git pull origin master
-	git checkout "$branch""_v""$version"
-	git pull origin "$tag""_v""$version""$fix"
+	git fetch
+	git checkout "$tag"
+	git pull -f origin "$tag"
 
 
 # small salt fix to create templates (replace: false)
@@ -105,25 +104,21 @@ printf '\n### Check "nvram" Setup ..\n';
 	else
 		printf '\n### /etc/nvram.conf exists.\n';
 		printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
-		NOTICE="$(printf '\n# Notice: Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff !\n')"
+		NOTICE="$(printf 'Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff !\n')"
 
 		# check new options are set
-		au="$(grep -c autoupdate < /etc/nvram.conf)"
-		rl="$(grep -c release < /etc/nvram.conf)"
-		insdir="$(grep -c install_dir < /etc/nvram.conf)"
-
 		# check autoupdate
-		if [ "$au" -lt 1 ]; then
+		if [ -z "$(nvram get autoupdate)" ]; then
 			sed -i '1s/^/\nautoupdate=1\n\n/' /etc/nvram.conf
 			sed -i '1s/^/\n# set autoupdate (0=off 1=on)/' /etc/nvram.conf
 		fi
 		# check release
-		if [ "$rl" -lt 1 ]; then
-			sed -i '1s/^/\nrelease=stable\n\n/' /etc/nvram.conf
-			sed -i '1s/^/\n# release (stable or dev)/' /etc/nvram.conf
+		if [ -z "$(nvram get branch)" ]; then
+			sed -i '1s/^/\nbranch=T_RELEASE_latest\n\n/' /etc/nvram.conf
+			sed -i '1s/^/\n# Git-Branch/' /etc/nvram.conf
 		fi
 		# check install path
-		if [ "$insdir" -lt 1 ]; then
+		if [ -z "$(nvram get install_dir)" ]; then
 			{ echo "install_dir=$INSTALL_DIR"; cat /etc/nvram.conf; } >/etc/nvram.conf.new
 				mv /etc/nvram.conf.new /etc/nvram.conf
 		fi
@@ -162,7 +157,7 @@ printf '\n### Ensure Services are Stopped ..\n';
 for services in S90iperf3 apache2 S52batmand S53backbone-fastd2 openvpn@openvpn S40network S42firewall6 S41firewall
 do
 	# check service exists
-	if [ "$(systemctl list-unit-files | grep -c $services)" -ge 1 ]; then
+	if [ "$(systemctl list-units | grep -c $services)" -ge 1 ]; then
 		# true: stop it
 		if [ "$(systemctl status $services | grep -c running)" -ge 1 ]; then
 			systemctl stop "$services" >/dev/null 2>&1
@@ -188,8 +183,9 @@ printf '\n### .. All done! Cleanup System ..\n';
 
 "$PKGMNGR" autoremove
 
-printf '%s\n' "$NOTICE"
-
+printf '# Notice:\n  %s\n' "$NOTICE"
+printf '\n  * /etc/fastd/peers2/\n\t# To Create a Fastd2 Connection use:\n'
+printf '\t/etc/init.d/S53backbone-fastd2 add_connect vpn/nodeX.freifunk-dresden.de 5002\n'
 
 # Exit gracefully.
 exit 0
