@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+### This file managed by Salt, do not edit by hand! ###
 #
 # Freifunk - Autosetup for /etc/nvram.conf
 #

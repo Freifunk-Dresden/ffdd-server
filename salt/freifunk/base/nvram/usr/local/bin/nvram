@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+### This file managed by Salt, do not edit by hand! ###
 
 case "$1" in
 	show)
@@ -18,7 +19,7 @@ case "$1" in
 	;;
 
 	version)
-		sed -n "/^version/{s#^.*=##;p}" "$(nvram get install_dir)"/init_server.sh | cut -d'"' -f2
+		sed -n "/^#version/{s#^.*=##;p}" "$(nvram get install_dir)"/init_server.sh | cut -d'"' -f2
 	;;
 
 	*)

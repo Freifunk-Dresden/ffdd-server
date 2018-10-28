@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
 #
 #     0 - 99      vserver
 #   900 -   999   temp Knoten, bei Inbetriebnahme

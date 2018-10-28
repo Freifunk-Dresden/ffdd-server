@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
 
 printf 'usage: register_node.sh [new_node]\n\n'
 

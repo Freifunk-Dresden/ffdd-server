@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# (Salt managed)
+### This file managed by Salt, do not edit by hand! ###
 
 iface="$(ip ro lis ta public_gateway | sed -n '/default/s#.*\(vpn.*\)$#\1#p')"
 #echo "OPENVPN interface: $iface"
