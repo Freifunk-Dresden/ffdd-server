@@ -31,9 +31,11 @@ install_pkg:
       # purge old kernels
       - byobu
 
+      - ethtool
       - psmisc
       - bridge-utils
       - tcpdump
+      - netcat
       - lftp
       - fping
       - dnsutils
