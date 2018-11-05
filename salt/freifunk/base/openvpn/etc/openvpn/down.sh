@@ -9,7 +9,7 @@ iptables -w -t nat -D POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local
 
 #update gateway infos and routing tables, fast after openvpn closes connection
 #Run in background, else openvpn blocks
-/usr/local/bin/freifunk-gateway-check.sh&
+/usr/local/bin/freifunk-gateway-check.sh &
 
 #tell always "ok" to openvpn;else in case of errors of "ip route..." openvpn exits
 exit 0

@@ -4,7 +4,9 @@
 openvpn:
   pkg.installed:
     - name: openvpn
-  {% if ddmesh_disable_gateway == '0' %}
+
+{% if ddmesh_disable_gateway == '0' %}
+vpn0_service:
   service.running:
     - name: openvpn@openvpn.service
     - enable: True
@@ -29,7 +31,7 @@ openvpn:
   file.exists
 
 {% if ovpn1 == '1' %}
-openvpn1:
+vpn1_service:
   service.running:
     - name: openvpn@openvpn1.service
     - enable: True
@@ -54,11 +56,19 @@ openvpn1:
   file.exists
 {% endif %}
 
-  {% elif ddmesh_disable_gateway == '1' %}
+{% elif ddmesh_disable_gateway == '1' %}
+vpn0_service_dead:
   service.dead:
-    - name: openvpn.service
-    - enable: False
-  {% endif %}
+    - name: openvpn@openvpn.service
+    - enable: false
+
+{% if ovpn1 == '1' %}
+vpn1_service_dead:
+  service.dead:
+    - name: openvpn@openvpn1.service
+    - enable: false
+{% endif %}
+{% endif %}
 
 
 /etc/default/openvpn:
