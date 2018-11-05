@@ -18,16 +18,16 @@ setup_gateway_table() {
 	unset v
 	eval "$(ip ro lis ta "$gateway_table" | awk '/default/ {print "d="$5";v="$3}')"
 	printf 'old: dev=%s, via=%s\n' "$d" "$v"
-	if [ "$dev" = "$d" ] &&  [ "$via" = "$v" ]; then
+	if [ "$dev" = "$d" ] && [ "$via" = "$v" ]; then
 		return
 	fi
 
-	#clear table	
+	#clear table
 	ip route flush table "$gateway_table" 2>/dev/null
 
 	#redirect gateway ip directly to gateway interface
 	ip route add "$via"/32 dev "$dev" table "$gateway_table" 2>/dev/null
-	
+
 	#jump over freifunk ranges
 	ip route add throw 10.0.0.0/8 table "$gateway_table" 2>/dev/null
 	ip route add throw 172.16.0.0/12 table "$gateway_table" 2>/dev/null
@@ -49,7 +49,7 @@ IFS=' '
 printf '%s,%s\n' "$pname" "$mypid"
 for i in $(pidof "$pname")
 do
-  test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
+	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
 done
 
 $DEBUG && printf '%s\n' "start"
@@ -77,13 +77,13 @@ printf 'LAN:%s via %s\n' "$default_lan_ifname" "$default_lan_gateway"
 
 for ifname in vpn0 vpn1
 do
-        eval default_"$ifname"_ifname="$ifname"
-        eval default_"$ifname"_gateway="$(ip route list table gateway_pool| sed -n "/default via [0-9.]\+ dev $ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
-        eval valid_ifname=\$default_"$ifname"_ifname
-        eval valid_gateway=\$default_"$ifname"_gateway
-        if [ -n "$valid_ifname" ] && [ -n "$valid_gateway" ]; then
-                default_vpn_route_list="$default_vpn_route_list $valid_gateway:$valid_ifname"
-        fi
+	eval default_"$ifname"_ifname="$ifname"
+	eval default_"$ifname"_gateway="$(ip route list table gateway_pool| sed -n "/default via [0-9.]\+ dev $ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
+	eval valid_ifname=\$default_"$ifname"_ifname
+	eval valid_gateway=\$default_"$ifname"_gateway
+	if [ -n "$valid_ifname" ] && [ -n "$valid_gateway" ]; then
+		default_vpn_route_list="$default_vpn_route_list $valid_gateway:$valid_ifname"
+	fi
 done
 printf 'default_vpn_route_list=%s\n' "$default_vpn_route_list"
 
@@ -93,25 +93,25 @@ ok='false'
 IFS=' '
 #start with vpn, because this is prefered gateway, then WAN and lates LAN
 #(there is no forwarding to lan allowed by firewall)
-for g in $default_vpn_route_list $lan_default_route 
+for g in $default_vpn_route_list $lan_default_route
 do
 logger -s -t "$LOGGER_TAG" "try: $g"
 	printf '===========\n'
 	printf 'try: %s\n' "$g"
 	dev="${g#*:}"
 	via="${g%:*}"
- 
+
 	$DEBUG && printf 'via=%s, dev=%s\n' "$via" "$dev"
 
-	#add ping rule before all others;only pings from this host (no forwards) 
+	#add ping rule before all others;only pings from this host (no forwards)
 	ip rule del iif lo fwmark 0x11 priority "$ip_rule_priority" table ping 2>/dev/null
 	ip rule add iif lo fwmark 0x11 priority "$ip_rule_priority" table ping
 	ip rule del iif lo fwmark 0x11 priority "$ip_rule_priority_unreachable" table ping_unreachable 2>/dev/null
 	ip rule add iif lo fwmark 0x11 priority "$ip_rule_priority_unreachable" table ping_unreachable
 
 	#no check of gateway, it might not return icmp reply, also
-	#it might not be reachable because of routing rules 
-		
+	#it might not be reachable because of routing rules
+
 	#add ping hosts to special ping table
 	ip route flush table ping
 	ip route flush table ping_unreachable
@@ -134,7 +134,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 	printf 'number IPs: %s\n' "$numIPs"
 
 	$DEBUG && ip ro li ta ping
-	
+
 	#activate routes
 	ip route flush cache
 
@@ -150,7 +150,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 	do
 		$DEBUG && printf 'ping to: %s\n' "$ip"
 		ping -c 2 -w 10 "$ip"  2>&1 && countSuccessful="$((countSuccessful+1))"
-		
+
 		if [ "$countSuccessful" -ge "$minSuccessful" ]; then
 			ok='true'
 			break
@@ -171,10 +171,10 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 
 		dev_is_vpn='1'	#default
 		#always add wan or lan to local gateway
-		if [ "$dev" = "$default_lan_ifname" ]; then	
+		if [ "$dev" = "$default_lan_ifname" ]; then
 			logger -s -t "$LOGGER_TAG" "Set local gateway: dev:$dev, ip:$via"
 			setup_gateway_table "$dev" "$via" local_gateway
-			dev_is_vpn='0'	# reset	
+			dev_is_vpn='0'	# reset
 		fi
 
 		$DEBUG && printf 'dev_is_vpn=%s\n' "$dev_is_vpn"
@@ -190,7 +190,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 
 			/etc/init.d/S52batmand gateway
 
-			# select correct dns 
+			# select correct dns
 			BIND_FORWARDER_FILE="/etc/bind/openvpn.forwarder"
 			rm -f "$BIND_FORWARDER_FILE"
 			ln -s "$BIND_FORWARDER_FILE"."$dev" "$BIND_FORWARDER_FILE"
@@ -202,7 +202,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			logger -s -t "$LOGGER_TAG" "Clear public gateway."
 			ok='false'
 		fi
-		
+
 		break;
 	fi
 
