@@ -10,17 +10,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 # ip rules check. needed on linux container based vservers like the ones offered by webtropia
 */1	*	* * *	root	/etc/init.d/S40network check
 
-#running check
+# batmand check every 1 minutes
 */1	*	* * *	root	/etc/init.d/S52batmand check >/dev/null 2>&1
 
-#update (ddmesh.de ip, icvpn) hna every hour, but 30minutes shifted
-30	*	* * *	root	/etc/init.d/S52batmand hna >/dev/null 2>&1
-
-#every 5 minutes start
+# Gateway check every 5 minutes
 */5	*	* * *	root	/usr/local/bin/freifunk-gateway-check.sh >/dev/null 2>&1
 
-#every 2h
+# register local node every 2h
 {{ ctime }}	*/2	* * *	root	/usr/local/bin/freifunk-register-local-node.sh >/dev/null 2>&1
 
-#update geoip db (once a day)
+# update geoip db (once a day)
 {{ ctime }}	3	* * *	root	/usr/share/xt_geoip/update.sh >/dev/null 2>&1
