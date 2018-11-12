@@ -170,7 +170,17 @@ Bitte einhalten:
 
 Development
 ----
-[more Informations](https://github.com/cremesk/ffdd-server/blob/master/salt/freifunk/dev/top.sls)
+Um eine andere Release-Version zu benutzen ist ein notwendig in der /etc/nvram.conf die Option "branch=" anzupassen.
+
+Default (Stable):
+```
+branch=T_RELEASE_latest
+```
+
+Development:
+```
+branch=master
+```
 
 Links
 ----
