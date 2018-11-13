@@ -3,6 +3,8 @@ Configures an Ubuntu-Server (at least 16.04) or Debian (8/9) as Freifunk-Dresden
 
 **[see UPDATE News](https://github.com/cremesk/ffdd-server/blob/master/UPDATES.md)**
 
+**[see Documentation - German](https://wiki.freifunk-dresden.de/index.php/Server_Internes)**
+
 Freifunk Ziel
 ----
 Freifunk hat es sich zum Ziel gesetzt, Menschen möglichst flächendeckend mit freiem WLAN zu versorgen. Freier Zugang zu Informationen ist nicht nur eine Quelle für Wissen, sondern kann sich auch positiv auf die wirtschaftliche und kulturelle Entwicklung einer Stadt, Region und Land auswirken, da das Internet in der heutigen Zeit sicher ein fester Bestandteil des täglichen Lebens geworden ist. Freifunk bietet die Möglichkeit, Internet per WLAN frei zu nutzen - ohne Zugangssperren und sicher, da der Internettraffic via verschlüsselten Internettunnel (VPN) ins Ausland geroutet wird. 
