@@ -15,6 +15,7 @@ bind:
       - pkg: bind9
       - pkg: openvpn
       - service: S40network
+      - service: S41firewall
 
 
 /lib/systemd/system/bind9.service:

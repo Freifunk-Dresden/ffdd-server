@@ -14,6 +14,7 @@ apache2:
     - require:
       - pkg: apache2
       - service: S40network
+      - service: S41firewall
 
 apache2_pkgs:
   pkg.installed:

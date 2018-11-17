@@ -22,6 +22,8 @@ monitorix:
     - require:
       - pkg: monitorix
       - pkg: apache2
+      - service: S40network
+      - service: S41firewall
 
 
 /etc/monitorix/monitorix.conf:
