@@ -9,8 +9,12 @@ devel:
       - bison
       - flex
       - zlibc
+{% if grains['os'] == 'Ubuntu' and grains['osrelease'] == '18.04' %}
+      - libcurl4
+{% else %}
       - libcurl3
-      #- gnupg-curl
+{% endif %}
+
 
 devel_fastd:
   pkg.installed:

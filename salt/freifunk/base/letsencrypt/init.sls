@@ -50,7 +50,7 @@ generate_dhparam:
 
 {% from 'config.jinja' import ffdom, hostname %}
 {%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short" ) -%}
-{%- set hdns = salt['cmd.shell']("host " ~ hostname ~ " | grep -v " ~ ffip ~ " 2>&1 > /dev/null; if [ $? -eq 0 ]; then ; printf '%s\n' " ~ hostname ~ " ; fi || true") -%}
+{%- set hdns = salt['cmd.shell']("host " ~ hostname ~ " | grep -v " ~ ffip ~ " 2>&1 > /dev/null; if [ $? -eq 0 ]; then printf '%s\n' " ~ hostname ~ " ; fi || true") -%}
 
 {% if hdns != '' %}
 generate_certificate:
