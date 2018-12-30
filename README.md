@@ -1,5 +1,5 @@
 # Freifunk Dresden: Basic Vserver (current version 1.0.1)
-Configures an Ubuntu-Server (at least 16.04) or Debian (8/9) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
+Configures an Debian (8/9) or Ubuntu-Server LTS (16.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[see UPDATE News](https://github.com/cremesk/ffdd-server/blob/master/UPDATES.md)**
 
@@ -20,7 +20,7 @@ ein Freifunk Knoten und ist soweit konfiguriert, dass dieser eine Knotenwebseite
 Der Vserver ist auf Freifunk Dresden zugeschnitten. Soll dieses als Basis für andere Freifunk Communities
 verwendet werden, müssen Anpassungen gemacht werden.
 
-- Es empfielt sich dringend für andere Communities, dieses Repository zu clonen, da hier generelle Umstellungen zusammen mit der passenden Firmware für Dresnder Anforderungen erfolgen.<br/>
+- Es empfielt sich dringend für andere Communities, dieses Repository zu clonen, da hier generelle Umstellungen zusammen mit der passenden Firmware für Dresdener Anforderungen erfolgen.<br/>
 Communities sollten dann auf das geclonte Repository (gilt auch für das "firmware" Repository) aufbauen. Jede Community trägt die alleinige Verantwortung und Kontrolle über ihr Netz und sollte eigene Erfahrene Leute/Admins bereitstellen. Hilfe von Dresden ist aber jederzeit möglich, aber Administrative Aufgaben oder Garantien werden nicht übernommen, da das einfach den organisatorischen Aufwand sprengt.<br/>
 Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses weiter wächst.
 
@@ -59,8 +59,8 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 Vorausetzungen
 ----
 
-* Notwendig ist eine Ubuntu minimal (15.04/16.04) oder Debian (8/9) Installation.<br/>
-  Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop!
+* Notwendig ist eine Debian (8/9) oder Ubuntu-Server LTS (16.04) Installation.<br/>
+  Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop! (Empfehlung: Debian)
 * Speicher: mind. 1GByte RAM, 2GByte Swap<br/>
 * Netzwerk: min. 100Mbit/s<br/>
   Wenn weniger so sollte man nicht soviele Tunnel aufbauen und die bekanntgegebene Gateway-Geschwindigkeit in /etc/nvram.conf reduzieren. Das sollte man einfach über einen längeren Zeitraum beobachten und den niedrigstens Wert verwenden. Dazu aber den Traffic von verschiedenen Knoten aus testen!
@@ -73,18 +73,8 @@ Vorausetzungen
 Installation
 ----
 
-* Bringe Ubuntu/Debian auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
+* Bringe Debian/Ubuntu auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
 (https://help.ubuntu.com/community/UpgradeNotes)<br/>
-
-* Am Ende kann die Ubuntu-Version mit überprüft werden.<br/>
-lsb_release -a
-```
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 16.04
-Release:        16.04
-Codename:       vivid
-```
 
 **Wichtig:**<br/>
 * _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br/><br/>
