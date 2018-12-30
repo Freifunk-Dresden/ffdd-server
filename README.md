@@ -122,7 +122,7 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
     /etc/openvpn/openvpn.login
 */etc/fastd/peers2/
   # To Create a Fastd2 Connection use:
-    '/etc/init.d/S53backbone-fastd add_connect vpnX.freifunk-dresden.de 5002'
+    '/etc/init.d/S53backbone-fastd2 add_connect vpnX.freifunk-dresden.de 5002'
 ```
 
 Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
