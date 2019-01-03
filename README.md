@@ -1,4 +1,4 @@
-# Freifunk Dresden: Basic Vserver (current version 1.0.1)
+# Freifunk Dresden: ffdd-server (current version 1.0.1)
 Configures an Debian (8/9) or Ubuntu-Server LTS (16.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[see UPDATE News](https://github.com/cremesk/ffdd-server/blob/master/UPDATES.md)**
@@ -9,7 +9,7 @@ Freifunk Ziel
 ----
 Freifunk hat es sich zum Ziel gesetzt, Menschen möglichst flächendeckend mit freiem WLAN zu versorgen. Freier Zugang zu Informationen ist nicht nur eine Quelle für Wissen, sondern kann sich auch positiv auf die wirtschaftliche und kulturelle Entwicklung einer Stadt, Region und Land auswirken, da das Internet in der heutigen Zeit sicher ein fester Bestandteil des täglichen Lebens geworden ist. Freifunk bietet die Möglichkeit, Internet per WLAN frei zu nutzen - ohne Zugangssperren und sicher, da der Internettraffic via verschlüsselten Internettunnel (VPN) ins Ausland geroutet wird. 
 
-Basic Vserver
+Freifunk Dresden Server (ffdd-server)
 ----
 
 Dieses Repository bildet die minimale Funktionalität eines Servers für Freifunk Dresden. Der Vserver arbeitet wie

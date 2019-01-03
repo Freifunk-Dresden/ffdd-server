@@ -1,4 +1,4 @@
-# Freifunk Dresden: Basic Vserver Updates
+# Freifunk Dresden: ffdd-server Updates
 **(current version 1.0.1)**
 <br/>
 
