@@ -47,7 +47,7 @@
   file.absent
 
 
-/usr/share/xt_geoip/xt_geoip_build.sh:
+/usr/share/xt_geoip:
   file.absent
 
 /usr/share/doc/libgeoip1/examples/geolitecountryv4.sh:
@@ -66,3 +66,13 @@
 
 /var/www_freifunk/js:
   file.absent
+
+
+# remove old packages
+remove_old_pkg:
+  pkg.removed:
+    - names:
+      - libtext-csv-xs-perl
+      - geoip-database
+      - xtables-addons-dkms
+      # - linux-source

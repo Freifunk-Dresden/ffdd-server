@@ -18,6 +18,3 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # register local node every 2h
 {{ ctime }}	*/2	* * *	root	/usr/local/bin/freifunk-register-local-node.sh >/dev/null 2>&1
-
-# update geoip db (once a day)
-{{ ctime }}	3	* * *	root	/usr/share/xt_geoip/update.sh >/dev/null 2>&1

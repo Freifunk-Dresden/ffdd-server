@@ -1,52 +1,7 @@
-#install some helpers to exclude brute force attacks
-#http://www.atwillys.de/content/linux/blocking-countries-using-geoip-and-iptables-on-ubuntu/
-
 iptables:
   pkg.installed:
     - names:
       - iptables
-      #linux sources are needed for xtables-addons-dkms
-      - linux-source
-      #perl
-      - libtext-csv-xs-perl
-      #geoip database
-      - geoip-database
-      #iptables modules for geoip
-      - xtables-addons-dkms
-
-# GeoIP for xtables-addons
-/usr/share/xt_geoip:
-  file.directory:
-    - user: root
-    - group: root
-    - file_mode: 755
-    - dir_mode: 755
-    - require:
-      - pkg: iptables
-
-/usr/share/xt_geoip/update.sh:
-  file.managed:
-    - source: salt://iptables/usr/share/xt_geoip/update.sh
-    - user: root
-    - group: root
-    - mode: 755
-    - require:
-      - pkg: iptables
-      - file: /usr/share/xt_geoip
-
-xt_geoip_dl:
-  cmd.run:
-    - name: cd /usr/share/xt_geoip ; /usr/lib/xtables-addons/xt_geoip_dl
-    - require:
-      - file: /usr/share/xt_geoip
-    - unless: "[ -f /usr/share/xt_geoip/GeoIPCountryWhois.csv ]"
-
-xt_geoip_build:
-  cmd.run:
-    - name: /usr/lib/xtables-addons/xt_geoip_build -D /usr/share/xt_geoip /usr/share/xt_geoip/GeoIPCountryWhois.csv
-    - require:
-      - cmd: xt_geoip_dl
-    - unless: "[ -d /usr/share/xt_geoip/BE ]"
 
 
 # IPv4 Firewall
