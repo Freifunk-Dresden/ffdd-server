@@ -49,10 +49,11 @@ generate_dhparam:
 
 
 {% from 'config.jinja' import ffdom, hostname %}
-{%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short" ) -%}
-{%- set hdns = salt['cmd.shell']("host " ~ hostname ~ " | grep -v " ~ ffip ~ " 2>&1 > /dev/null; if [ $? -eq 0 ]; then printf '%s\n' " ~ hostname ~ " ; fi || true") -%}
+{%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short || true") -%}
+{%- set check_fqdn = salt['cmd.shell']("h=" ~ hostname ~ " ; if [[ ${h//[^.]} != '' ]]; then printf '%s\n' " ~ hostname ~ " ; fi || true") -%}
+{%- set check_host = salt['cmd.shell']("host " ~ check_fqdn ~ " | grep -v " ~ ffip ~ " 2>&1 > /dev/null; if [ $? -eq 0 ]; then printf '%s\n' " ~ hostname ~ " ; fi || true") -%}
 
-{% if hdns != '' %}
+{% if check_host != '' %}
 generate_certificate:
   cmd.run:
     - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost --webroot -w /var/lib/letsencrypt/ -d {{ hostname }} --non-interactive
