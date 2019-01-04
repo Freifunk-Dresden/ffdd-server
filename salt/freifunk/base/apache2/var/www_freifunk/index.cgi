@@ -73,45 +73,6 @@ sudo /usr/local/bin/bmxd -c --originators | awk '
 
 cat<<EOM
 </table><br />
-<table border="0" cellspacing="0" cellpadding="1" width="100%">
-<tr>
-<td class="quality"><div class="quality1"></div>perfekt</td>
-<td class="quality"><div class="quality2"></div>ausreichend</td>
-<td class="quality"><div class="quality3"></div>schlecht</td>
-<td class="quality"><div class="quality4"></div>unbenutzbar</td></tr>
-</table>
-</fieldset>
-<br>
-<fieldset class="bubble">
-<legend>HNA</legend>
-<table>
-<tr><th>Node</th><th>Ip</th><th>IP Adressen/Netzwerke</th></tr>
-EOM
-
-sudo /usr/local/bin/bmxd -c --hnas | awk '
- function getnode(ip) {
- 	split($0,a,".");
- 	f1=a[3]*255;f2=a[4]-1;
- 	return f1+f2;
- }
- BEGIN {c=1;count=1;}
- {
-
-	if(match($0,"^[0-9]+[.][0-9]+[.][0-9]+[.][0-9]"))
- 	{
- 		rest=substr($0,index($0,$2))
- 		gsub("/ ","/",rest)
- 		gsub(" +","<br />",rest)
- 		printf("<tr class=\"colortoggle%d\"><td>%s</td><td><a href=\"http://%s/\">%s</a></td><td>%s</td></tr>\n",c,getnode($1),$1,$1,rest);
-		if(c==1)c=2;else c=1;
-		count=count+1;
-	}
- }
- END { printf("<tr><th>Anzahl: </th><td colspan=\"2\">%d</td></tr>", count);}
-'
-
-cat<<EOM
-</table><br />
 </fieldset>
 <br/>
 <fieldset class="bubble">
