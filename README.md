@@ -81,7 +81,7 @@ Installation
 * Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 <br/>
 
-Folgends cloned und Installiert das Repository. (Bitte verwendet eurer eignes geclontes Repository.)<br/>
+Folgends cloned und Installiert das Repository.<br/>
 Es wird beim ersten Durchführen eine kurze Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
 installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
 
@@ -111,7 +111,6 @@ Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summa
 Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
 ```
 */etc/hostname
-*/etc/issue.net
 */etc/nvram.conf
   *servername
   *contact
