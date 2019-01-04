@@ -3,17 +3,16 @@
 echo 'Content-Type: application/json;charset=UTF-8'
 echo ''
 
-
 BMXD_DB_PATH='/var/lib/freifunk/bmxd'
+
 
 ddmesh_node="$(nvram get ddmesh_node)"
 test -z "$ddmesh_node" && exit
 
 eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 
+
 wan_device="$(nvram get ifname)"
-wifi_device=$(l=$(grep : /proc/net/wireless);l=${l%:*};echo ${l##* })
-wifi2_device=''
 vpn='vpn0'
 gwt='bat0'
 
@@ -47,7 +46,7 @@ $(cat /etc/resolv.conf | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]
 			"board":"",
 			"model":"",
 			"model2":"",
-			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*:##;p}')",
+			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*: ##;p}')",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
 			"autoupdate":"$(nvram get autoupdate)"
 		},
