@@ -18,7 +18,7 @@ ein Freifunk Knoten und ist soweit konfiguriert, dass dieser eine Knotenwebseite
 
 **HINWEIS:**
 Der Vserver ist auf Freifunk Dresden zugeschnitten. Soll dieses als Basis für andere Freifunk Communities
-verwendet werden, müssen Anpassungen gemacht werden. (Bitte [Issue](https://github.com/cremesk/ffdd-server/issues) im Github erstellen)
+verwendet werden, müssen Anpassungen gemacht werden. Bitte ein [Issue](https://github.com/cremesk/ffdd-server/issues) im Github erstellen.
 
 - Es empfielt sich dringend für andere Communities, dieses Repository zu forken, da hier generelle Umstellungen zusammen mit der passenden Firmware für Dresdener Anforderungen erfolgen.<br/>
 Communities sollten dann auf das geforkte Repository (gilt auch für das "firmware" Repository) aufbauen. Jede Community trägt die alleinige Verantwortung und Kontrolle über ihr Netz und sollte eigene Erfahrene Leute/Admins bereitstellen. Hilfe von Dresden ist aber jederzeit möglich, aber Administrative Aufgaben oder Garantien werden nicht übernommen, da das einfach den organisatorischen Aufwand sprengt.<br/>
@@ -57,12 +57,16 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 Vorausetzungen
 ----
 
-* Notwendig ist eine Debian (8/9) oder Ubuntu-Server LTS (16.04) Installation.<br/>
+- Notwendig ist eine Debian (8/9) oder Ubuntu-Server LTS (16.04) Installation.<br/>
   Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop! (Empfehlung: Debian)
-* Speicher: min. 1GByte RAM, 2GByte Swap<br/>
-* Netzwerk: min. 100Mbit/s<br/>
-* Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn
-* Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen KVM, LXC und XEN sehr gut.
+
+- Speicher: min. 1GByte RAM, 2GByte Swap
+
+- Netzwerk: min. 100Mbit/s
+
+- Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn.
+
+- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen KVM, LXC und XEN sehr gut.
 
 Installation
 ----
@@ -71,9 +75,11 @@ Installation
 (https://help.ubuntu.com/community/UpgradeNotes)<br/>
 
 **Wichtig:**<br/>
-* Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.<br/><br/>
-* _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
-* _Änderung des Installations Path in /etc/nvram.conf_<br/>
+- Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+
+- _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
+
+- _Änderung des Installations Path in /etc/nvram.conf_<br/>
 Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! >>> Es sollte reichen sich einen Symlink zu erstellen.
 <br/>
 
@@ -102,7 +108,7 @@ sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/T_RELEASE_la
 Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summary for local" noch Failed's angezeigt werden.
 <br/>
 
-* Manuelle Anpassung der Variablen.<br/>
+- Manuelle Anpassung der Variablen.<br/>
 
 Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
 ```
@@ -133,7 +139,7 @@ salt-call state.highstate --local -l debug
 Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet werden.<br/>
 
 **Optional:**<br/>
-* _/etc/firewall.user_<br/>
+- _/etc/firewall.user_<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
 
 **Hinweis:**<br/>
@@ -148,10 +154,10 @@ Wichig
 Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal** wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
 
 Bitte einhalten:
-* Ändern der BSSID auf eine eigenen!
-* Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
-* Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
-* /usr/local/bin/ddmesh-ipcalc.sh muss angepasst werden!
+- Ändern der BSSID auf eine eigenen!
+- Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
+- Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
+- /usr/local/bin/ddmesh-ipcalc.sh muss angepasst werden!
 
 Development
 ----
