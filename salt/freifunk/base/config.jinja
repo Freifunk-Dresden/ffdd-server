@@ -15,7 +15,7 @@
 {% set servername = salt['cmd.shell']('/usr/local/bin/nvram get servername') %}
 {% set hostname = salt['cmd.shell']('cat /etc/hostname') %}
 {% set ifname = salt['cmd.shell']('/usr/local/bin/nvram get ifname') %}
-{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | grep inet | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
+{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
 
 {# used for crontab minutes #}
 {%- set ctime = salt['cmd.shell']('expr ' ~ nodeid ~ ' % 60 || true') %}
