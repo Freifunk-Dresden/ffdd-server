@@ -16,6 +16,10 @@ wan_device="$(nvram get ifname)"
 vpn='vpn0'
 gwt='bat0'
 
+# Board and Model Information
+chassis="$(hostnamectl status | awk '/Chassis/ {print $2}')"
+virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
+
 
 cat << EOM
 {
@@ -43,9 +47,9 @@ cat << EOM
 $(cat /etc/resolv.conf | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##')
 			],
 			"date":"$(date)",
-			"board":"",
-			"model":"",
-			"model2":"",
+			"board":"$(printf '%s\n' $chassis)",
+			"model":"$(printf '%s\n' $(if [ ! -z $virtualization ]; then echo $virtualization; fi))",
+			"model2":"$(printf '%s%s\n' $chassis $(if [ ! -z $virtualization ]; then echo '-'$virtualization; fi))",
 			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*: ##;p}')",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
 			"autoupdate":"$(nvram get autoupdate)"

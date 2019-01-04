@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DATE="18.5.2007"
+export DATE="28.10.2018"
 export TITLE="Allgemein > Nodes"
 . ./cgi-bin-pre.cgi
 
