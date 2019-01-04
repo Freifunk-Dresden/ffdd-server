@@ -12,21 +12,20 @@ Freifunk hat es sich zum Ziel gesetzt, Menschen möglichst flächendeckend mit f
 Freifunk Dresden Server (ffdd-server)
 ----
 
-Dieses Repository bildet die minimale Funktionalität eines Servers für Freifunk Dresden. Der Vserver arbeitet wie
+Dieses Repository bildet die Funktionalität eines Servers für Freifunk Dresden. Der Vserver arbeitet wie
 ein Freifunk Knoten und ist soweit konfiguriert, dass dieser eine Knotenwebseite anbietet, Backboneverbindungen
 (fastd2) akzeptiert und via Openvpn Internettunnel für den Internetverkehr aus dem Freifunknetz aufbauen kann.
 
 **HINWEIS:**
 Der Vserver ist auf Freifunk Dresden zugeschnitten. Soll dieses als Basis für andere Freifunk Communities
-verwendet werden, müssen Anpassungen gemacht werden.
+verwendet werden, müssen Anpassungen gemacht werden. (Bitte [Issue](https://github.com/cremesk/ffdd-server/issues) im Github erstellen)
 
-- Es empfielt sich dringend für andere Communities, dieses Repository zu clonen, da hier generelle Umstellungen zusammen mit der passenden Firmware für Dresdener Anforderungen erfolgen.<br/>
-Communities sollten dann auf das geclonte Repository (gilt auch für das "firmware" Repository) aufbauen. Jede Community trägt die alleinige Verantwortung und Kontrolle über ihr Netz und sollte eigene Erfahrene Leute/Admins bereitstellen. Hilfe von Dresden ist aber jederzeit möglich, aber Administrative Aufgaben oder Garantien werden nicht übernommen, da das einfach den organisatorischen Aufwand sprengt.<br/>
+- Es empfielt sich dringend für andere Communities, dieses Repository zu forken, da hier generelle Umstellungen zusammen mit der passenden Firmware für Dresdener Anforderungen erfolgen.<br/>
+Communities sollten dann auf das geforkte Repository (gilt auch für das "firmware" Repository) aufbauen. Jede Community trägt die alleinige Verantwortung und Kontrolle über ihr Netz und sollte eigene Erfahrene Leute/Admins bereitstellen. Hilfe von Dresden ist aber jederzeit möglich, aber Administrative Aufgaben oder Garantien werden nicht übernommen, da das einfach den organisatorischen Aufwand sprengt.<br/>
 Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses weiter wächst.
 
 - Routingprotokoll BMXD:
-  Diese Protokoll wurde anstelle von bmx6 oder bmx-advanced aus verschiedenen Gründen gewählt<br/>
-  (siehe http://wiki.freifunk-dresden.de/). Es wird vom eigentlich Author nicht mehr weiterentwickelt oder gepflegt. Für die Dresdener-Firmware wurden einige Fehler behoben.
+  Diese Protokoll wurde anstelle von bmx6 oder bmx-advanced aus verschiedenen Gründen gewählt. Es wird vom eigentlich Author nicht mehr weiterentwickelt oder gepflegt. Für die Dresdener-Firmware wurden einige Fehler behoben. (siehe [http://wiki.freifunk-dresden.de/](http://wiki.freifunk-dresden.de/))
 
 - Anpassungen:
   Speziell gilt das für den IP Bereich und der Knotenberechnung. Aus Knotennummern werden mit ddmesh-ipcalc.sh alle notwendigen IP Adressen berechnet. (siehe [Technische Information](http://wiki.freifunk-dresden.de/index.php/Technische_Information#Berechnung_IP_Adressen))<br/>
@@ -36,17 +35,16 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
   Das Script ddmesh-ipcalc.sh wird ebenfalls in der Firmware verwendet, welches dort auch angepasst werden muss.<br/>
   In der Firmware gibt es zwei weitere Stellen, die dafür angepasst werden müssen. Das sind /www/nodes.cgi und /www/admin/nodes.cgi. Hier wurde auf den Aufruf von ddmesh-ipcalc.sh verzichtet und die Berechnung direkt gemacht, da die Ausgabe der Router-Webpage extrem lange dauern würde.<br/>
   <br/>
-  In  /etc/nvram.conf werden die meisten Einstellungen für den Vserver hinterlegt.<br/>
-  Evt. kann noch /etc/issuer.net angepasst werden, was beim Betreiben von mehreren Vservern hilfreich ist.
+  In  /etc/nvram.conf werden die meisten Einstellungen für den Vserver hinterlegt.
 
 - Weiterhin verwendet das Freifunk Dresden Netz als Backbone-VPN Tool fastd2.
   
   fastd2 ist ein für Freifunk entwickeltes VPN, welches eine schnelle und zuverlässige Verbindung bereitstellt.<br/>
-  Bei der aktuellen Installation werden alle Verbindungen von Freifunk-Router zum Server zugelassen, welche sich mit dem korrekten Public-Key des Servers verbinden. Dieser Public-Key kann über http://<ip-des-knotens>/sysinfo-json.cgi ausgelesen werden.<br/>
-  Verbindet sich ein Router mit einem Server erfolgreich, so "lernt" der Server diese Verbindung und erzeugt ein entsprechendes Konfigurationsfile unterhalb von '/etc/fastd/peers2'<br/>
+  Bei der aktuellen Installation werden alle Verbindungen von Freifunk-Router zum Server zugelassen, welche sich mit dem korrekten Public-Key des Servers verbinden. Dieser Public-Key kann über http://ip-des-knotens/sysinfo-json.cgi ausgelesen werden.<br/>
+  Verbindet sich ein Router mit einem Server erfolgreich, so "lernt" der Server diese Verbindung und erzeugt ein entsprechendes Konfigurationsfile unterhalb von '/etc/fastd/peers2'.<br/>
   Später kann der Server umgestellt werden, so dass nur noch dort abgelegte Konfigurationen (Verbindungen) akzeptiert werden. Gesteuert wird dieses durch das Konfigurationsfile von fastd (/etc/fastd/fastd2.conf).
  
-- /etc/openvpn enthält ein Script, mit dem verschiede Openvpn Konfiguration von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.
+- /etc/openvpn enthält ein Script, mit dem verschiede Openvpn Konfigurationen von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.<br/>
 Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stufe das lokale Internet testet und wenn dieses funktioniert, wird das Openvpn Internet geprüft. Ist das Openvpn Internet verfügbar, wird dieser Vserver als Internet-Gateway im Freifunknetz bekannt gegeben.
 
 - Auch der Vserver arbeitet als DNS Server für die Knoten, die ihn als Gateway ausgewählt haben. Der Vserver leitet allerdings die DNS Anfragen nicht über den Openvpn Tunnel, sondern geht direkt über den VServer Anbieter raus.
@@ -54,21 +52,17 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 - Da VServer Anbieter verschieden sind, kann die Installation abbrechen. Hier sollten erfahrene Leute die Installation anpassen und mir einen Hinweis geben. Als Vserver kann **NICHT** jeder Anbieter genutzt werden.
 <br/>
 
-**Wichtig** ist, dass tun/tap devices und alle möglichen iptables module möglich sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz (Platzmangel auf Routern, bmxd unterstützt dieses nicht)
+**Wichtig** ist, dass tun/tap devices und alle möglichen iptables module verfügbar sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz. (Platzmangel auf Routern und bmxd unterstützt dieses nicht)
 
 Vorausetzungen
 ----
 
 * Notwendig ist eine Debian (8/9) oder Ubuntu-Server LTS (16.04) Installation.<br/>
   Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop! (Empfehlung: Debian)
-* Speicher: mind. 1GByte RAM, 2GByte Swap<br/>
+* Speicher: min. 1GByte RAM, 2GByte Swap<br/>
 * Netzwerk: min. 100Mbit/s<br/>
-  Wenn weniger so sollte man nicht soviele Tunnel aufbauen und die bekanntgegebene Gateway-Geschwindigkeit in /etc/nvram.conf reduzieren. Das sollte man einfach über einen längeren Zeitraum beobachten und den niedrigstens Wert verwenden. Dazu aber den Traffic von verschiedenen Knoten aus testen!
-  ```
-  batman_gateway_class="4mbit/4mbit"
-  ```
 * Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn
-* Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen KVM, XEN und LXC sehr gut.
+* Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen KVM, LXC und XEN sehr gut.
 
 Installation
 ----
@@ -77,8 +71,10 @@ Installation
 (https://help.ubuntu.com/community/UpgradeNotes)<br/>
 
 **Wichtig:**<br/>
-* _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br/><br/>
-* Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+* Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.<br/><br/>
+* _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
+* _Änderung des Installations Path in /etc/nvram.conf_<br/>
+Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! >>> Es sollte reichen sich einen Symlink zu erstellen.
 <br/>
 
 Folgends cloned und Installiert das Repository.<br/>
@@ -139,8 +135,6 @@ Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet 
 **Optional:**<br/>
 * _/etc/firewall.user_<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
-* _Änderung des Installations Path_<br/>
-Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Autoupdate mehr gewährleistet werden kann! Es sollte reichen sich einen Symlink zu erstellen.
 
 **Hinweis:**<br/>
 Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt oder es generell Probleme mit Services auf dem Server gibt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' ausgeführt werden. Um auf ganz sicher zu gehen auch die aktuelle Version zu nutzen:
@@ -175,8 +169,9 @@ branch=master
 
 Links
 ----
-[Freifunk Dresden](https://www.freifunk-dresden.de)<br>
-[Wiki: Freifunk Dresden](https://wiki.freifunk-dresden.de)<br>
-[Google+](http://google.com/+FreifunkDresden%EF%BB%BF/about)<br>
-[Google+ Community](https://plus.google.com/communities/108088672678522515509)<br>
+[Freifunk Dresden](https://www.freifunk-dresden.de)<br/>
+[Wiki: Freifunk Dresden](https://wiki.freifunk-dresden.de)<br/>
+[Bugtracker](https://bt.freifunk-dresden.de/index.php?do=tasklist&project=3)<br/>
+[Google+](http://google.com/+FreifunkDresden%EF%BB%BF/about)<br/>
+[Google+ Community](https://plus.google.com/communities/108088672678522515509)<br/>
 [Facebook](https://www.facebook.com/FreifunkDresden)
