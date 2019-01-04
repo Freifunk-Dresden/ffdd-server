@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DATE="18.10.2018";SCRIPT=${0#/rom}
+export DATE="28.10.2018";SCRIPT=${0#/rom}
 export TITLE="Allgemein: Status"
 . ./cgi-bin-pre.cgi
 
