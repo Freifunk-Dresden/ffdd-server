@@ -103,10 +103,8 @@ case "$ARG1" in
 	test -n "$(pidof -s "$DAEMON")" && test ! -f "$RUN_STATUS_FILE" && (
 	touch "$RUN_STATUS_FILE"
 		"$DAEMON_PATH"/"$DAEMON" -c --gateways > "$DB_PATH/gateways"
-		"$DAEMON_PATH"/"$DAEMON" -c --services > "$DB_PATH/services"
 		"$DAEMON_PATH"/"$DAEMON" -c --links > "$DB_PATH/links"
 		"$DAEMON_PATH"/"$DAEMON" -c --originators > "$DB_PATH/originators"
-		"$DAEMON_PATH"/"$DAEMON" -c --hnas > "$DB_PATH/hnas"
 		"$DAEMON_PATH"/"$DAEMON" -c --status > "$DB_PATH/status"
 		"$DAEMON_PATH"/"$DAEMON" -ci > "$DB_PATH/info"
 
