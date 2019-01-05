@@ -23,7 +23,7 @@ virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
 
 cat << EOM
 {
- "version":"9",
+ "version":"14",
  "timestamp":"$(date +'%s')",
  "data":{
 
@@ -41,7 +41,7 @@ cat << EOM
 			"DISTRIB_DESCRIPTION":"$(lsb_release -sd)"
 		},
 		"system":{
-			"uptime":"$(uptime)",
+			"uptime":"$(cat /proc/uptime)",
 			"uname":"$(uname -a)",
 			"nameserver": [
 $(cat /etc/resolv.conf | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##')

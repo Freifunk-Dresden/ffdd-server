@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version="1.0.1"
+#version="1.0.2"
 #branch="B_RELEASE"
 #fix="1"
 tag="T_RELEASE_latest"
