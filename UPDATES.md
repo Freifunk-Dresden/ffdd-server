@@ -1,5 +1,11 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.1)**
+**(current version 1.0.2)**
+<br/>
+
+_**version 1.0.2**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v1.0.2.md)
+
+- Release Version 1.0.2
+- Bugfixes, Optimizing and cleanup old code
 <br/>
 
 _**version 1.0.1**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v1.0.1.md)
