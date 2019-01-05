@@ -18,17 +18,17 @@ done
 
 if [ "$(nvram get autoupdate)" -eq 1 ]; then
 	# check connection before remove install_dir
-	PING_CMD="ping -t 3 -c 1 github.com > /dev/null 2>&1"
+	PING_CMD="ping -t 30 -c 1 github.com > /dev/null 2>&1"
 	eval "$PING_CMD"
 
-	if [[ $? -eq 0 ]]; then
+	if [[ "$?" -eq 0 ]]; then
 		rm -rf "$install_dir"
 	else
 		# wait for internet connection
 		while true; do
 			eval "$PING_CMD"
 
-			if [[ $? -eq 0 ]]; then
+			if [[ "$?" -eq 0 ]]; then
 				rm -rf "$install_dir"
 				break
 			else
