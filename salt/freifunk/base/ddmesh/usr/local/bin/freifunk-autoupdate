@@ -9,7 +9,7 @@ branch="$(nvram get branch)"
 mypid="$$"
 pname="${0##*/}"
 IFS=' '
-printf '%s,%s\n' "$pname" "$mypid"
+printf '%s pid: %s\n\n' "$pname" "$mypid"
 for i in $(pidof "$pname")
 do
 	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
