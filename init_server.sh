@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #version="1.0.1"
 #branch="B_RELEASE"
-#fix=""
+#fix="1"
 tag="T_RELEASE_latest"
 ###
 #
