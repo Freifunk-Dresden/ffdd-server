@@ -92,9 +92,7 @@ rm /etc/issue.net >/dev/null 2>&1
 # ensure nvram and nvram.conf are present and correct
 printf '\n### Check "nvram" Setup ..\n';
 
-	if [ ! -f /usr/local/bin/nvram ]; then
-		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
-	fi
+	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
 
 	if [ ! -f /etc/nvram.conf ]; then
 		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n';
@@ -104,7 +102,7 @@ printf '\n### Check "nvram" Setup ..\n';
 	else
 		printf '\n### /etc/nvram.conf exists.\n';
 		printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
-		NOTICE="$(printf 'Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff !\n')"
+		NOTICE="$(printf 'Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff!\n')"
 
 		# check new options are set
 		# check autoupdate
@@ -119,7 +117,7 @@ printf '\n### Check "nvram" Setup ..\n';
 		fi
 		# check install path
 		if [ -z "$(nvram get install_dir)" ]; then
-			{ echo "install_dir=$INSTALL_DIR"; cat /etc/nvram.conf; } >/etc/nvram.conf.new
+			{ printf '# install_dir !Please do not touch!\ninstall_dir=%s\n\n' $INSTALL_DIR; cat /etc/nvram.conf; } >/etc/nvram.conf.new
 				mv /etc/nvram.conf.new /etc/nvram.conf
 		fi
 
@@ -183,7 +181,7 @@ printf '\n### .. All done! Cleanup System ..\n';
 
 "$PKGMNGR" autoremove
 
-printf '# Notice:\n  %s\n' "$NOTICE"
+printf '\n# Notice:\n  %s\n' "$NOTICE"
 printf '\n  * /etc/fastd/peers2/\n\t# To Create a Fastd2 Connection use:\n'
 printf '\t/etc/init.d/S53backbone-fastd2 add_connect vpn/nodeX.freifunk-dresden.de 5002\n'
 
