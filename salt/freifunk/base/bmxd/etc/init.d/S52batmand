@@ -55,12 +55,9 @@ fi
 _IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
 
 # default start with no gatway.will be updated by gateway_check.sh
-# (register,info,...).ddmesh.de MUSS per hna mitgeteilt werden, da sonst der linux kernel irgendwie packete verwirft, die ein zweitesmal durch laufen
-# aber vpn.ddmesh.de nicht, da sonst der router keine vpn verbindung üer das internet aufbauen kann. 
-#HNA="-a 195.42.115.56/32"
 SPECIAL_OPTS='--throw-rules 0 --prio-rules 0'
 TUNNEL_OPTS='--one-way-tunnel 1 --two-way-tunnel 2'
-DAEMON_OPTS="$SPECIAL_OPTS $TUNNEL_OPTS $ROUTING_CLASS $PREFERED_GATEWAY $HNA $_IF"
+DAEMON_OPTS="$SPECIAL_OPTS $TUNNEL_OPTS $ROUTING_CLASS $PREFERED_GATEWAY $_IF"
 
 
 test -x "$DAEMON_PATH"/"$DAEMON" || exit 0
@@ -127,7 +124,7 @@ case "$ARG1" in
   ;;
 
   *)
-	printf 'Usage: %s {start|stop|restart|gateway|no_gateway|checkif|addif|delif|hna}\n' "$(basename "$0")"
+	printf 'Usage: %s {start|stop|restart|gateway|no_gateway|checkif|addif|delif}\n' "$(basename "$0")"
   ;;
 
 esac
