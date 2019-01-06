@@ -27,6 +27,26 @@ cat<<EOF
 <TR><th>Freier Speicher:</th><TD>$(cat /proc/meminfo | grep MemFree | cut -d':' -f2) von $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2)</TD></TR>
 </table>
 </fieldset>
+<br>
+<fieldset class="bubble">
+<legend>Service Status</legend>
+<table>
+<TR><th colspan="1">&nbsp;</th><th>Active-State</th></TR>
+$(
+	services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban bind9 apache2 monitorix openvpn@openvpn openvpn@openvpn1'
+	for s in $services
+	do
+		printf '<TR><th width=250px>%s:</th>' "$s"
+		if [ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ]; then
+			printf '<TD><img src="/images/yes.png"></TD>'
+		else
+			printf '<TD><img src="/images/no.gif"></TD>'
+		fi
+		printf '</TR>\n'
+	done
+)
+</table>
+</fieldset>
 EOF
 
 . ./cgi-bin-post.cgi
