@@ -2,7 +2,6 @@
 echo Content-type: text/html
 echo
 
-. ./functions.sh
 eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
 
 #apache does not proxy to local website -> need to extract ".freifunk.dyndns.org" if present
