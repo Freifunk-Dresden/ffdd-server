@@ -46,7 +46,7 @@ cat<<EOF
 <TR><TD HEIGHT="5" COLSPAN="5"></TD></TR>
 <TR>
 <TD COLSPAN="5"><TABLE WIDTH="100%" BORDER="0" CELLPADDING="0" CELLSPACING="0">
- <TR><TD HEIGHT="33"><font size="4"><b>$(nvram get servername)</b></font></TD>
+ <TR><TD HEIGHT="33"><font size="4"><b>$(/usr/local/bin/nvram get servername)</b></font></TD>
  <TD ALIGN="right" HEIGHT="33"></TD>
 <TD HEIGHT="33" WIDTH="150" valign="bottom"><IMG ALT="" BORDER="0" HEIGHT="33" SRC="/images/ff-logo-1r.gif" WIDTH="150"></TD></tr>
  </TABLE></TD> 
