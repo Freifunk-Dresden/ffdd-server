@@ -152,13 +152,15 @@ EOF
 
 # ensure running services are stopped
 printf '\n### Ensure Services are Stopped ..\n';
-for services in S90iperf3 apache2 S52batmand S53backbone-fastd2 openvpn@openvpn S40network S42firewall6 S41firewall
+
+services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban bind9 apache2 monitorix openvpn@openvpn openvpn@openvpn1'
+for s in $services
 do
 	# check service exists
-	if [ "$(systemctl list-units | grep -c $services)" -ge 1 ]; then
+	if [ "$(systemctl list-units | grep -c "$s")" -ge 1 ]; then
 		# true: stop it
-		if [ "$(systemctl status $services | grep -c running)" -ge 1 ]; then
-			systemctl stop "$services" >/dev/null 2>&1
+		if [ "$(systemctl show -p ActiveState "$s" | cut -d'=' -f2 | grep -c inactive)" -lt 1 ]; then
+			systemctl stop "$s" >/dev/null 2>&1
 		fi
 	fi
 done
