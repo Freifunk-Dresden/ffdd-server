@@ -20,6 +20,7 @@ cat<<EOF
 <tr><td COLSPAN="5"><table class="navibar" width="100%">
 <TR>
 <TD COLSPAN="4" HEIGHT="19"><ADDRESS CLASS="magenta">Stand: $DATE</ADDRESS></TD>
+<TD HEIGHT="19" WIDTH="150"><SPAN CLASS="magenta"><A CLASS="magenta" HREF="javascript:location.href=location.href;"><IMG ALT="" BORDER="0" HEIGHT="14" SRC="/images/ff-arrow-top.gif" WIDTH="14">Seitenanfang</A></SPAN></TD>
 </TR></table></td></tr>
 </TABLE>
 </BODY>
