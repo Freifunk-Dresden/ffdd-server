@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ### This file managed by Salt, do not edit by hand! ###
 # check Autoupdate every day (Salt managed)
-# used by: /etc/cron.d/freifunk-autoupdate.conf
+# used by: /etc/cron.d/freifunk-autoupdate
 install_dir="$(nvram get install_dir)"
 branch="$(nvram get branch)"
 
