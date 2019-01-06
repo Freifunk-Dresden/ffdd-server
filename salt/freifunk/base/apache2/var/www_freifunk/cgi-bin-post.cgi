@@ -10,13 +10,6 @@ cat<<EOF
 <IMG ALT="" BORDER="0" HEIGHT="62" SRC="/images/ff-logo-3.gif" WIDTH="150">
 </TD>
 </TR>
-<TR>
-<TD HEIGHT="5" WIDTH="150"></TD>
-<TD HEIGHT="5" WIDTH="5"></TD>
-<TD HEIGHT="5"></TD>
-<TD HEIGHT="5" WIDTH="5"></TD>
-<TD HEIGHT="5" WIDTH="150"></TD>
-</TR>
 <tr><td COLSPAN="5"><table class="navibar" width="100%">
 <TR>
 <TD COLSPAN="4" HEIGHT="19"><ADDRESS CLASS="magenta">Stand: $DATE</ADDRESS></TD>
