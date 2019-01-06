@@ -18,7 +18,7 @@ cat<<EOF
 <fieldset class="bubble">
 <legend>Allgemeines</legend>
 <table>
-<TR><th>Knoten-IP-Adresse:</th><TD>$(ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//')</TD></TR>
+<TR><th width=250px>Knoten-IP-Adresse:</th><TD>$(ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//')</TD></TR>
 <TR><th>Nameserver:</th><TD>$(grep nameserver /etc/resolv.conf | sed 's#nameserver##g')</TD></TR>
 <TR><th>Ger&auml;telaufzeit:</th><TD>$(uptime)</TD></TR>
 <TR><th>Prozesse:</th><TD>$(ps --no-headers xa | wc -l)</TD></TR>
