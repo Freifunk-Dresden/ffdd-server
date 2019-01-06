@@ -18,6 +18,14 @@ cat<<EOF
 <fieldset class="bubble">
 <legend>Allgemeines</legend>
 <table>
+<TR><th width=250px>Internet-Gateway:</th><TD>$(
+	if [ "$(/usr/local/bin/nvram get ddmesh_disable_gateway)" = '0' ]; then
+		printf '<img src="/images/yes.png">'
+	else
+		printf '<img src="/images/no.gif">'
+	fi
+	printf '</TD></TR>\n'
+)
 <TR><th width=250px>Knoten-IP-Adresse:</th><TD>$(ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//')</TD></TR>
 <TR><th>Nameserver:</th><TD>$(grep nameserver /etc/resolv.conf | sed 's#nameserver##g')</TD></TR>
 <TR><th>Ger&auml;telaufzeit:</th><TD>$(uptime)</TD></TR>
@@ -36,13 +44,13 @@ $(
 	services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban bind9 apache2 monitorix openvpn@openvpn openvpn@openvpn1'
 	for s in $services
 	do
-		printf '<TR><th width=250px>%s:</th>' "$s"
+		printf '<TR><th width=250px>%s:</th><TD>' "$s"
 		if [ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ]; then
-			printf '<TD><img src="/images/yes.png"></TD>'
+			printf '<img src="/images/yes.png">'
 		else
-			printf '<TD><img src="/images/no.gif"></TD>'
+			printf '<img src="/images/no.gif">'
 		fi
-		printf '</TR>\n'
+		printf '</TD></TR>\n'
 	done
 )
 </table>
