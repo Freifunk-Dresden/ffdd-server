@@ -27,8 +27,19 @@ get_default_interface() {
 # -- Check & Setup System --
 #
 
+# kill running instance
+mypid="$$"
+pname="${0##*/}"
+IFS=' '
+printf '%s pid: %s\n' "$pname" "$mypid"
+for i in $(pidof "$pname")
+do
+	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
+done
+
 # check root permission
 if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 0; fi
+
 
 # check Distribution
 if [ -f /etc/debian_version ]; then
@@ -49,9 +60,8 @@ printf '\n### Update System ..\n';
 
 "$PKGMNGR" update
 "$PKGMNGR" -y upgrade
-"$PKGMNGR" -y --fix-missing install
 "$PKGMNGR" -y dist-upgrade
-"$PKGMNGR" -y --fix-broken install
+
 
 # install basic software
 printf '\n### Instaĺl Basic Software..\n';
@@ -100,6 +110,7 @@ printf '\n### Check "nvram" Setup ..\n';
 		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 
 	else
+		# Temp.-Part to update old servers
 		printf '\n### /etc/nvram.conf exists.\n';
 		printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
 		NOTICE="$(printf 'Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff!\n')"
