@@ -9,10 +9,10 @@ cat<<EOF
 <br>
 <fieldset class="bubble">
 <legend>Kontakt</legend>
-<pre>
-<b>Name:</b>	$(/usr/local/bin/nvram get contact_name)
-<b>Mail:</b>	$(/usr/local/bin/nvram get contact_email)
-</pre>
+<table>
+<TR><th width=250px>Name:</th><TD>$(/usr/local/bin/nvram get contact_name)</TD></TR>
+<TR><th width=250px>E-Mail:</th><TD>$(/usr/local/bin/nvram get contact_email)</TD></TR>
+</table>
 </fieldset>
 <br>
 <fieldset class="bubble">
