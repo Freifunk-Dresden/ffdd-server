@@ -20,7 +20,19 @@ cat<<EOF
 <table>
 <TR><th width=250px>Internet-Gateway:</th><TD>$(
 	if [ "$(/usr/local/bin/nvram get ddmesh_disable_gateway)" = '0' ]; then
-		printf '<img src="/images/yes.png">'
+		vpnservice='openvpn@openvpn openvpn@openvpn1'
+		vs='0'
+		for s in $vpnservice
+		do
+			if [ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ]; then
+				vs='1'
+			fi
+		done
+		if [ "$vs" == '1' ]; then
+			printf '<img src="/images/yes.png">'
+		else
+			printf '<img src="/images/no.gif">'
+		fi
 	else
 		printf '<img src="/images/no.gif">'
 	fi
