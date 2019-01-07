@@ -18,24 +18,30 @@ done
 
 if [ "$(nvram get autoupdate)" -eq 1 ]; then
 	# check connection before remove install_dir
-	PING_CMD="ping -t 30 -c 1 github.com > /dev/null 2>&1"
+	PING_CMD="ping -w 10 -c 1 github.com > /dev/null 2>&1"
 	eval "$PING_CMD"
 
-	if [[ "$?" -eq 0 ]]; then
-		rm -rf "$install_dir"
-	else
+	if [ "$?" -ne 0 ]; then
 		# wait for internet connection
+		c='0'
 		while true; do
 			eval "$PING_CMD"
 
-			if [[ "$?" -eq 0 ]]; then
-				rm -rf "$install_dir"
+			if [ "$?" -eq 0 ]; then
 				break
 			else
-				sleep 3
+				c="$((c+1))"
+				if [ "$c" -lt '100' ]; then
+					sleep 1
+				else
+					printf 'no internet connection!\n'
+					exit 0
+				fi
 			fi
 		done
 	fi
+
+	rm -rf "$install_dir"
 
 	git clone https://github.com/cremesk/ffdd-server.git "$install_dir"
 	cd "$install_dir"
@@ -44,6 +50,8 @@ if [ "$(nvram get autoupdate)" -eq 1 ]; then
 	git pull origin "$branch"
 
 	salt-call state.highstate --local
+
 else
+	printf 'Auto-Update is deactivated in /etc/nvram.conf!\n'
 	exit 0;
 fi
