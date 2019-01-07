@@ -19,31 +19,35 @@ cat<<EOF
 <legend>Allgemeines</legend>
 <table>
 <TR><th width=250px>Internet-Gateway:</th><TD>$(
-	if [ "$(/usr/local/bin/nvram get ddmesh_disable_gateway)" = '0' ]; then
+	if [ "$(/usr/local/bin/nvram get ddmesh_disable_gateway)" -eq '0' ]; then
 		vpnservice='openvpn@openvpn openvpn@openvpn1'
 		vs='0'
 		for s in $vpnservice
 		do
-			if [ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ]; then
-				vs='1'
-			fi
+			[ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ] && vs='1'
 		done
-		if [ "$vs" == '1' ]; then
-			printf '<img src="/images/yes.png">'
-		else
-			printf '<img src="/images/no.gif">'
-		fi
+		if [ "$vs" -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi
 	else
+		vs='0'
 		printf '<img src="/images/no.gif">'
 	fi
 	printf '</TD></TR>\n'
+
+	# Print Selected-Gateway then VPN inactive
+	if [ "$vs" -eq '0' ]; then
+		INET_GW="$(cat /var/lib/freifunk/bmxd/gateways | sed -n 's#^[	 ]*=>[	 ]\+\([0-9.]\+\).*$#\1#p')"
+		NODEID="$(/usr/local/bin/ddmesh-ipcalc.sh $INET_GW)"
+		re='^[0-9]+$'
+		printf '<TR><th>Selected-Gateway:</th><TD>%s %s</TD></TR>\n' "$INET_GW" "$(if [[ $NODEID =~ $re ]]; then printf '(%s)\n' $NODEID; fi)"
+	fi
 )
-<TR><th width=250px>Knoten-IP-Adresse:</th><TD>$(ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//')</TD></TR>
+<TR><th width=250px>Auto-Update:</th><TD>$(if [ $(/usr/local/bin/nvram get autoupdate) -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi)</TD></TR>
+<TR><th>Knoten-IP-Adresse:</th><TD>$(ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//')</TD></TR>
 <TR><th>Nameserver:</th><TD>$(grep nameserver /etc/resolv.conf | sed 's#nameserver##g')</TD></TR>
 <TR><th>Ger&auml;telaufzeit:</th><TD>$(uptime)</TD></TR>
 <TR><th>Prozesse:</th><TD>$(ps --no-headers xa | wc -l)</TD></TR>
 <TR><th>System:</th><TD>$(uname -a)</TD></TR>
-<TR><th>Firmware-Version:</th><TD>Freifunk Dresden Server Edition $(cat /etc/freifunk-server-version)</TD></TR>
+<TR><th>Firmware-Version:</th><TD>Freifunk Dresden Server Edition - $(cat /etc/freifunk-server-version) (Branch: $(/usr/local/bin/nvram get branch))</TD></TR>
 <TR><th>Freier Speicher:</th><TD>$(cat /proc/meminfo | grep MemFree | cut -d':' -f2) von $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2)</TD></TR>
 </table>
 </fieldset>
