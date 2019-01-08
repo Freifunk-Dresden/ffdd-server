@@ -13,7 +13,7 @@ eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 
 # store fix value for interface name (used later by awk script to map nettype)
 # in firmware this and similar variables are set by ddmesh-utils-network-info.sh
-tbb_fastd_ifname=tbb_fastd
+export tbb_fastd_ifname=tbb_fastd2
 
 wan_device="$(nvram get ifname)"
 vpn='vpn0'
