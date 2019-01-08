@@ -11,6 +11,9 @@ test -z "$ddmesh_node" && exit
 
 eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 
+# store fix value for interface name (used later by awk script to map nettype)
+# in firmware this and similar variables are set by ddmesh-utils-network-info.sh
+tbb_fastd_ifname=tbb_fastd
 
 wan_device="$(nvram get ifname)"
 vpn='vpn0'
@@ -117,7 +120,7 @@ EOM
 					}
 					BEGIN {
 						# map iface to net type
-						nettype_lookup[ENVIRON["tbb_fastd2"]]="backbone";
+						nettype_lookup[ENVIRON["tbb_fastd_ifname"]]="backbone";
 					}
 					{
 						if(match($0,"^[0-9]+[.][0-9]+[.][0-9]+[.][0-9]"))
