@@ -4,7 +4,7 @@
 
 _**version 1.0.2**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v1.0.2.md)
 
-- Release Version 1.0.2
+- Final Release Version 1.0.2
 - add Support for Ubuntu 18.04 LTS
 - update sysinfo.json to version 14
 - Bugfixes, Optimizing and cleanup old code
