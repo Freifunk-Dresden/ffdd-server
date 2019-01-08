@@ -16,6 +16,8 @@ cat<<EOF
 <table>
 <TR><th width="250">Name:</th><TD>$(nvram get contact_name)</TD></TR>
 <TR><th width="250">E-Mail:</th><TD>$(nvram get contact_email)</TD></TR>
+<TR><th width="250">Location:</th><TD>$(nvram get contact_location)</TD></TR>
+<TR><th width="250">Note:</th><TD>$(nvram get contact_note)</TD></TR>
 </table>
 </fieldset>
 <br>
