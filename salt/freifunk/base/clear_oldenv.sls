@@ -61,10 +61,25 @@
   file.absent
 
 
+/var/www_freifunk/05-status:
+  file.absent
+
+/var/www_freifunk/06-nodes:
+  file.absent
+
+/var/www_freifunk/functions.sh:
+  file.absent
+
+/var/www_freifunk/infopage:
+  file.absent
+
 /var/www_freifunk/images/flags:
   file.absent
 
 /var/www_freifunk/js:
+  file.absent
+
+/var/www_freifunk/services.cgi:
   file.absent
 
 
