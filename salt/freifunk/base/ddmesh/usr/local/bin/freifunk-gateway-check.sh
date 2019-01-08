@@ -39,6 +39,27 @@ setup_gateway_table() {
 	ip route add default via "$via" dev "$dev" table "$gateway_table"
 }
 
+setup_gateway_loadbalancing() {
+		vpn_probability="$(nvram get vpn_probability)"
+		test -z "$vpn_probability" && vpn_probability="0.5"
+
+		# add and ensure rules not double present
+		iptables -w -t mangle -C PREROUTING -j CONNMARK --restore-mark >/dev/null 2>&1
+		[ "$?" -eq '1' ] && iptables -w -t mangle -A PREROUTING -j CONNMARK --restore-mark
+
+		iptables -w -t mangle -C PREROUTING -m mark ! --mark 0 -j ACCEPT >/dev/null 2>&1
+		[ "$?" -eq '1' ] && iptables -w -t mangle -A PREROUTING -m mark ! --mark 0 -j ACCEPT
+
+		iptables -w -t mangle -C PREROUTING -j MARK --set-mark 250 >/dev/null 2>&1
+		[ "$?" -eq '1' ] && iptables -w -t mangle -A PREROUTING -j MARK --set-mark 250
+
+		iptables -w -t mangle -C PREROUTING -m statistic --mode random --probability "$vpn_probability" -j MARK --set-mark 251 >/dev/null 2>&1
+		[ "$?" -eq '1' ] && iptables -w -t mangle -A PREROUTING -m statistic --mode random --probability "$vpn_probability" -j MARK --set-mark 251
+
+		iptables -w -t mangle -C PREROUTING -j CONNMARK --save-mark >/dev/null 2>&1
+		[ "$?" -eq '1' ] && iptables -w -t mangle -A PREROUTING -j CONNMARK --save-mark
+}
+
 
 logger -s -t "$LOGGER_TAG" "gateway check start."
 
@@ -46,7 +67,7 @@ logger -s -t "$LOGGER_TAG" "gateway check start."
 mypid="$$"
 pname="${0##*/}"
 IFS=' '
-printf '%s,%s\n' "$pname" "$mypid"
+printf '%s pid: %s\n\n' "$pname" "$mypid"
 for i in $(pidof "$pname")
 do
 	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
@@ -86,6 +107,14 @@ do
 	fi
 done
 printf 'default_vpn_route_list=%s\n' "$default_vpn_route_list"
+
+
+# Gateway Loadbalancing
+gateway_load='0'
+# then vpn0 and vpn1 active
+if [ "$(grep -o 'vpn' <<< "$default_vpn_route_list" | wc -l)" -eq '2' ]; then
+	gateway_load='1'
+fi
 
 
 #try each gateway
@@ -184,14 +213,25 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 		# If internet is disabled, add only vpn if detected.
 		# When lan/wan gateway gets lost, also vpn get lost
 		# If only vpn get lost, remove public gateway
-		if [ "$(nvram get ddmesh_disable_gateway)" = "0" ] && [ "$dev_is_vpn" = "1" ]; then
+		if [ "$(nvram get ddmesh_disable_gateway)" -eq "0" ] && [ "$dev_is_vpn" -eq "1" ]; then
 			logger -s -t "$LOGGER_TAG" "Set public gateway: dev:$dev, ip:$via"
-			setup_gateway_table "$dev" "$via" public_gateway
+			if [ "$dev" = 'vpn0' ]; then
+				setup_gateway_table "$dev" "$via" public_gateway1
+			elif [ "$dev" = 'vpn1' ]; then
+				setup_gateway_table "$dev" "$via" public_gateway2
+			fi
+
+			if [ "$gateway_load" -eq '1' ]; then
+				setup_gateway_loadbalancing
+			else
+				# remove loadbalancing rules
+				iptables -w -t mangle -F PREROUTING
+			fi
 
 			/etc/init.d/S52batmand gateway
 
 			# select correct dns
-			BIND_FORWARDER_FILE="/etc/bind/openvpn.forwarder"
+			BIND_FORWARDER_FILE='/etc/bind/openvpn.forwarder'
 			rm -f "$BIND_FORWARDER_FILE"
 			ln -s "$BIND_FORWARDER_FILE"."$dev" "$BIND_FORWARDER_FILE"
 			service bind9 reload
@@ -203,7 +243,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			ok='false'
 		fi
 
-		break;
+		if [ "$dev" = 'vpn0' ] && [ "$gateway_load" -eq '1' ]; then true; else break; fi
 	fi
 
 done
@@ -219,8 +259,13 @@ if ! "$ok"; then
 	$DEBUG && printf 'no gateway\n'
 	logger -s -t "$LOGGER_TAG" "no gateway"
 
-	#remove all in default route from public_gateway table
-	ip route flush table public_gateway 2>/dev/null
+	#remove all in default route from public_gateway (vpn0) & public_gateway2 (vpn1) table
+	ip route flush table public_gateway1 2>/dev/null
+	ip route flush table public_gateway2 2>/dev/null
+
+	# remove loadbalancing rules
+	iptables -w -t mangle -F PREROUTING
+
 	/etc/init.d/S52batmand no_gateway
 
 	# when we have a openvpn network interface and ok='false'

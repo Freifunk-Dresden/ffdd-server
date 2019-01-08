@@ -46,7 +46,13 @@ setup_routing() {
 
 	#route local and lan traffic through own internet gateway
 	ip rule "$1" iif lo table local_gateway priority 400
-	ip rule "$1" table public_gateway priority 401
+
+	# fallback (use: vpn0 || vpn1)
+	ip rule "$1" table public_fallback priority 401
+	# vpn0
+	ip rule "$1" table public_gateway1 priority 402
+	# vpn1
+	ip rule "$1" table public_gateway2 priority 402
 
 	#batman tables
 	ip rule "$1" to 10.200.0.0/15 table bat_route priority 500
@@ -81,7 +87,12 @@ setup_routing() {
 
 	#gateway_check.sh will setup the throw rules. this call is only used to clean gateway table
 	if [ "$1" = "del" ]; then
-		ip route flush table public_gateway 2>/dev/null
+		# vpn0
+		ip route flush table public_gateway1 2>/dev/null
+		# vpn1
+		ip route flush table public_gateway2 2>/dev/null
+		# fallback
+		ip route flush table public_fallback 2>/dev/null
 	fi
 }
 
