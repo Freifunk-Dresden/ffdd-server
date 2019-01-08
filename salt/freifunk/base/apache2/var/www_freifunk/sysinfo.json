@@ -50,6 +50,7 @@ cat << EOM
 			"model2":"$(printf '%s%s\n' $chassis $(if [ ! -z $virtualization ]; then echo '-'$virtualization; fi))",
 			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*: ##;p}')",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
+			"node_type":"server",
 			"autoupdate":$(nvram get autoupdate)
 		},
 		"common":{
