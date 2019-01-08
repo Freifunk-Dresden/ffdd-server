@@ -43,28 +43,27 @@ cat << EOM
 		"system":{
 			"uptime":"$(cat /proc/uptime)",
 			"uname":"$(uname -a)",
-			"nameserver": [
-$(cat /etc/resolv.conf | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##')
-			],
+			"nameserver": [ $(cat /etc/resolv.conf | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' | sed '$s#,##') ],
 			"date":"$(date)",
 			"board":"$(printf '%s\n' $chassis)",
 			"model":"$(printf '%s\n' $(if [ ! -z $virtualization ]; then echo $virtualization; fi))",
 			"model2":"$(printf '%s%s\n' $chassis $(if [ ! -z $virtualization ]; then echo '-'$virtualization; fi))",
 			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*: ##;p}')",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
-			"autoupdate":"$(nvram get autoupdate)"
+			"autoupdate":$(nvram get autoupdate)
 		},
 		"common":{
 			"city":"$(nvram get city)",
 			"node":"$_ddmesh_node",
 			"domain":"$_ddmesh_domain",
 			"ip":"$_ddmesh_ip",
-			"fastd_pubkey":"$(/etc/init.d/S53backbone-fastd2 get_public_key)"
+			"fastd_pubkey":"$(/etc/init.d/S53backbone-fastd2 get_public_key)",
+			"network_id":""
 		},
 		"gps":{
-			"latitude":"$(nvram get gps_latitude)",
-			"longitude":"$(nvram get gps_longitude)",
-			"altitude":"$(nvram get gps_altitude)"
+			"latitude":$(nvram get gps_latitude),
+			"longitude":$(nvram get gps_longitude),
+			"altitude":$(nvram get gps_altitude)
 		},
 		"contact":{
 			"name":"$(nvram get contact_name)",
@@ -72,43 +71,16 @@ $(cat /etc/resolv.conf | sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]
 			"email":"$(nvram get contact_email)",
 			"note":"$(nvram get contact_note)"
 		},
-		"backbone":{
-			"accept":[
-EOM
-			IFS='
-'
-			for i in $(nvram show 2>/dev/null | grep "^backbone_range_[0-9]" | sed 's#^.*=##')
-			do
-				IFS=' :'; set $i
-				start=$1
-				count=$2
-				end=$(($start+$count-1))
-				echo "				{\"first\":\"$start\",\"last\":\"$end\"},"
-			done 
-			IFS='
-'
-			for i in $(nvram show 2>/dev/null | grep "^backbone_accept_[0-9]" | sed 's#^.*=##')
-			do
-				IFS=' :'; set $i
-				echo "				{\"first\":\"$1\",\"last\":\"$1\"},"
-			done 
-			echo "				{\"first\":\"\",\"last\":\"\"}"
-			#reset IFS
-			IFS='
-'
-
-cat << EOM
-			]
-		},
 EOM
 
+#statistic info
 cat<<EOM
 		"statistic" : {
-			"accepted_user_count" : "0",
-			"dhcp_count" : "0",
-			"dhcp_lease" : "0",
+			"clients" : "",
+			"accepted_user_count":0,
+			"dhcp_count":0,
+			"dhcp_lease":"0",
 EOM
-
 			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
 			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
 			echo "				\"traffic_ovpn\" : \"$rx,$tx\"," 
@@ -124,65 +96,65 @@ EOM
 			done
 
 cat<<EOM
-$(cat /proc/meminfo | sed 's#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#')
+			$(cat /proc/meminfo | sed -n '/^MemTotal\|^MemFree\|^Buffers\|^Cached/{s#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#p}')
 			"cpu_load" : "$(cat /proc/loadavg)",
 			"cpu_stat" : "$(cat /proc/stat | sed -n '/^cpu[ 	]\+/{s# \+# #;p}')",
-			"gateway_usage" : []
+			"gateway_usage" : [
+			$(cat /var/statistic/gateway_usage | sed 's#\([^:]*\):\(.*\)#\t\t\t\t{"\1":"\2"},#' | sed '$s#,[ 	]*$##') ]
 		},
 EOM
 
 #bmxd
-#$(ip route list table bat_route | sed 's#\(.*\)#			"\1",#; $s#,[ 	]*$##') ],
 cat<<EOM
 		"bmxd":{
-			"routing_tables":{
-				"route":{
-					"link":[
-$(ip route list table bat_route | sed -n '/scope[ ]\+link/{s#^\([0-9./]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","interface":"\2"},#;p}' | sed '$s#,[ 	]*$##') ]
-				},
-				"hna":{
-					"link":[
-$(ip route list table bat_hna | sed -n '/scope[ ]\+link/{s#^\([0-9./]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","interface":"\2"},#;p}' | sed '$s#,[ 	]*$##') ],
-				"global":[
-$(ip route list table bat_hna | sed -n '/scope[ ]\+link/d;s#^\([0-9./]\+\)[	 ]\+via[	 ]\+\([0-9.]\+\)[	 ]\+dev[	 ]\+\([^	 ]\+\).*#\t\t\t\t\t\t{"target":"\1","via":"\2","interface":"\3"},#p' | sed '$s#,[ 	]*$##') ]
-				}
-			},
+			"links":[
+EOM
+				cat $BMXD_DB_PATH/links | awk '
+					function getnode(ip) {
+						split($0,a,".");
+						f1=a[3]*255;f2=a[4]-1;
+						return f1+f2;
+					}
+					BEGIN {
+						# map iface to net type
+						nettype_lookup[ENVIRON["tbb_fastd2"]]="backbone";
+					}
+					{
+						if(match($0,"^[0-9]+[.][0-9]+[.][0-9]+[.][0-9]"))
+						{
+							printf("\t\t\t\t{\"node\":\"%d\", \"ip\":\"%s\", \"interface\":\"%s\",\"rtq\":\"%d\", \"rq\":\"%d\", \"tq\":\"%d\",\"type\":\"%s\"}, \n",
+								getnode($1),$3,$2,$4,$5,$6, nettype_lookup[$2]);
+						}
+					}
+				' | sed '$s#,[	 ]*$##'
+cat<<EOM
+			],
 			"gateways":{
 				"selected":"$(cat $BMXD_DB_PATH/gateways | sed -n 's#^[	 ]*=>[	 ]\+\([0-9.]\+\).*$#\1#p')",
 				"preferred":"$(cat $BMXD_DB_PATH/gateways | sed -n '1,1s#^.*preferred gateway:[	 ]\+\([0-9.]\+\).*$#\1#p')",
 				"gateways":[
-$(cat $BMXD_DB_PATH/gateways | sed -n '
-				/^[	 ]*$/d
-				1,1d
-				s#^[	 =>]*\([0-9.]\+\).*$#\t\t\t\t{"ip":"\1"},#p
+					$(cat $BMXD_DB_PATH/gateways | sed -n '
+					/^[	 ]*$/d
+					1,1d
+					s#^[	 =>]*\([0-9.]\+\).*$#\t\t\t\t{"ip":"\1"},#p
 				' | sed '$s#,[	 ]*$##') ]
 			},
-			"info":[
-$(cat $BMXD_DB_PATH/info | sed 's#^[ 	]*\(.*\)$#\t\t\t\t"\1",#; $s#,[ 	]*$##') ]
+			"info":[ $(cat $BMXD_DB_PATH/info | sed 's#^[ 	]*\(.*\)$#\t\t\t\t"\1",#; $s#,[ 	]*$##') ]
 		},
 		"connections":[
 EOM
-netstat -tn 2>/dev/null | grep ESTABLISHED | awk '
-	{
-		split($4,a,":");
-		split($5,b,":");
-		if(match(a[1],"169.254")) a[1]=ENVIRON["_ddmesh_ip"]
-		#allow display node ip
-		if(a[1] == ENVIRON["_ddmesh_ip"])
-		{
-			printf("\t\t\t{\"local\":{\"ip\":\"%s\",\"port\":\"%s\"},\"foreign\":{\"ip\":\"%s\",\"port\":\"%s\"}},\n",a[1],a[2],b[1],b[2]);
-		}
-	}' | sed '$s#,[ 	]*$##'
+			netstat -tn 2>/dev/null | grep ESTABLISHED | awk ' {
+				split($4,a,":");
+				split($5,b,":");
+				if(match(a[1],"169.254")) a[1]=ENVIRON["_ddmesh_ip"]
+				#allow display node ip
+				if(a[1] == ENVIRON["_ddmesh_ip"])
+				{
+					printf("\t\t\t{\"local\":{\"ip\":\"%s\",\"port\":\"%s\"},\"foreign\":{\"ip\":\"%s\",\"port\":\"%s\"}},\n",a[1],a[2],b[1],b[2]);
+				}
+			}' | sed '$s#,[ 	]*$##'
 cat << EOM
 		]
-EOM
-
-# remove last comma
-#$s#,[ 	]*$##
-
-cat << EOM
-  }
+	}
 }
 EOM
-
-
