@@ -13,6 +13,7 @@ base:
     - root
     - users
     - bash
+    - inputrc
     - vim
 
     - locales
