@@ -10,6 +10,9 @@
 /etc/fastd/cmd.sh:
   file.absent
 
+/etc/init.d/S53backbone-fastd:
+  file.absent
+
 
 /usr/bin/nvram:
   file.absent
