@@ -83,6 +83,7 @@ case "$ARG1" in
 	"$0" stop
 	sleep 5
 	"$0" start
+	/usr/local/bin/freifunk-gateway-check.sh
   ;;
 
   gateway)
