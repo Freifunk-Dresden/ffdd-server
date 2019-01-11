@@ -68,7 +68,7 @@ Vorausetzungen
 
 - Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn.
 
-- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen KVM, LXC und XEN sehr gut.
+- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), LXC, XEN und OPENVZ sehr gut.
 
 Installation
 ----
@@ -153,12 +153,12 @@ rm -rf /srv/ffdd-server && sh -c "$(wget https://raw.githubusercontent.com/creme
 
 Wichig
 ----
-Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal** wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
+Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal**, wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
 
 Bitte einhalten:
-- Ändern der BSSID auf eine eigenen!
+- Ändern der BSSID auf eine eigene!
 - Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
-- Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
+- Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
 - /usr/local/bin/ddmesh-ipcalc.sh muss angepasst werden!
 
 Development
