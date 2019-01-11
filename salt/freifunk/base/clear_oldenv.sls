@@ -10,6 +10,12 @@
 /etc/fastd/cmd.sh:
   file.absent
 
+/etc/init.d/S52bmx6:
+  file.absent
+
+/etc/init.d/S53backbone:
+  file.absent
+
 /etc/init.d/S53backbone-fastd:
   file.absent
 
