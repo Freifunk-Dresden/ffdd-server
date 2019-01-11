@@ -1,9 +1,23 @@
 vnstat:
   pkg.installed:
     - name: vnstat
-  service.running:
+  service:
+    - running
     - enable: True
     - restart: True
+    - watch:
+      - file: /etc/vnstat.conf
+    - require:
+      - file: /etc/vnstat.conf
+
+/etc/vnstat.conf:
+  file.managed:
+    - source:
+      - salt://vnstat/etc/vnstat.tmpl
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
 
 
 vnstat_bat0:
@@ -86,4 +100,4 @@ vnstat_vpn1:
 apache2_mod_php:
   cmd.run:
     - name: /usr/sbin/a2enmod php7.0
-    - unless: "[ ! -f /etc/apache2/mods-enabled/php7.0.load ]"
+    - unless: "[ -f /etc/apache2/mods-enabled/php7.0.load ]"
