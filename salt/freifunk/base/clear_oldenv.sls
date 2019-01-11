@@ -10,6 +10,12 @@
 /etc/fastd/cmd.sh:
   file.absent
 
+/etc/init.d/S52bmx6:
+  file.absent
+
+/etc/init.d/S53backbone:
+  file.absent
+
 /etc/init.d/S53backbone-fastd:
   file.absent
 
@@ -28,7 +34,6 @@
 
 /usr/bin/ddmesh-nuttcp.sh:
   file.absent
-
 
 /usr/bin/freifunk-gateway-check.sh:
   file.absent
@@ -63,6 +68,8 @@
 /var/statistic:
   file.absent
 
+/var/www_freifunk/04-monitorix:
+  file.absent
 
 /var/www_freifunk/05-status:
   file.absent
