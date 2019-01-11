@@ -24,6 +24,7 @@ apache2_pkgs:
       - libapache2-mod-fcgid
       - libapache2-mod-auth-plain
       - libapache2-mod-authnz-pam
+      - libapache2-mod-authnz-external
       - pwauth
 
 
