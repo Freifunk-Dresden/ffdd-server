@@ -13,7 +13,7 @@ cat<<EOF
 <HTML>
 <HEAD>
 <TITLE>VPN - $TITLE</TITLE>
-<META CONTENT="text/html; charset=iso-8859-1" HTTP-EQUIV="Content-Type">
+<META CONTENT="text/html; charset=utf-8" HTTP-EQUIV="Content-Type">
 <META CONTENT="no-cache" HTTP-EQUIV="cache-control">
 <meta http-equiv="expires" content="0">
 <LINK HREF="/css/ff.css" REL="StyleSheet" TYPE="text/css">
