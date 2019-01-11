@@ -1,13 +1,20 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.2)**
+**(current version 1.0.3)**
+<br/>
+
+_**version 1.0.3**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v1.0.3.md)
+
+- Final Release Version 1.0.3
+	- add vnstat Traffic Statistik Dashboard
+	- small Bugfixes
 <br/>
 
 _**version 1.0.2**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v1.0.2.md)
 
 - Final Release Version 1.0.2
-- add Support for Ubuntu 18.04 LTS
-- update sysinfo.json to version 14
-- Bugfixes, Optimizing and cleanup old code
+	- add Support for Ubuntu 18.04 LTS
+	- update sysinfo.json to version 14
+	- Bugfixes, Optimizing and cleanup old code
 <br/>
 
 _**version 1.0.1_fix1**_ - [see details](https://github.com/cremesk/ffdd-server/tree/master/updates/v1.0.1_fix1.md)
