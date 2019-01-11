@@ -103,3 +103,5 @@ apache2_mod_php:
   cmd.run:
     - name: /usr/sbin/a2enmod php*
     - unless: "[ -f /etc/apache2/mods-enabled/php*.load ]"
+    - require:
+      - pkg: php
