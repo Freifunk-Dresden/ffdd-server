@@ -28,6 +28,16 @@ vnstat_vpn1:
     - unless: "[ -f /var/lib/vnstat/vpn1 ]"
     - unless: "[ ! -f /etc/openvpn/openvpn1.conf ]"
 
+/var/lib/vnstat:
+  file.directory:
+    - user: vnstat
+    - group: vnstat
+    - file_mode: 755
+    - dir_mode: 755
+    - recurse:
+      - user
+      - group
+
 
 /var/www_vnstat:
   file.recurse:
@@ -72,7 +82,6 @@ vnstat_vpn1:
     - require:
       - pkg: apache2
       - file: /etc/apache2/conf-enabled/vnstat_access.incl
-
 
 apache2_mod_php:
   cmd.run:
