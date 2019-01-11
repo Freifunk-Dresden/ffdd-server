@@ -20,6 +20,8 @@ vnstat:
     - mode: 644
 
 
+# initialize interface
+# wan default enabled in nvstat.conf
 vnstat_bat0:
   cmd.run:
     - name: /usr/bin/vnstat -u -i bat0
