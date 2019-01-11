@@ -93,7 +93,7 @@ git:
 ```bash
 git clone https://github.com/cremesk/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
-git checkout T_RELEASE_latest && ./init-server.sh
+git checkout T_RELEASE_latest && ./init_server.sh
 ```
 Alternative Installations Möglichkeiten:
 
