@@ -19,6 +19,9 @@
 /etc/init.d/S53backbone-fastd:
   file.absent
 
+/etc/init.d/S90nuttcp:
+  file.absent
+
 
 /usr/bin/nvram:
   file.absent
