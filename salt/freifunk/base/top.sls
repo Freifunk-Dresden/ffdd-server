@@ -50,5 +50,7 @@ base:
 
     - iperf3
     - apache2
+    - php
     - letsencrypt
     - monitorix
+    - vnstat

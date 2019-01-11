@@ -11,6 +11,7 @@ apache2:
       - file: /etc/apache2/sites-enabled/001-freifunk.conf
       - file: /etc/apache2/conf-enabled/letsencrypt.conf
       - file: /etc/apache2/conf-enabled/monitorix.conf
+      - file: /etc/apache2/conf-enabled/vnstat.conf
     - require:
       - pkg: apache2
       - service: S40network
