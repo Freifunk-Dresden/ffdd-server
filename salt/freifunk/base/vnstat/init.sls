@@ -73,7 +73,8 @@ vnstat_vpn1:
       - pkg: apache2
       - file: /etc/apache2/conf-enabled/vnstat_access.incl
 
+
 apache2_mod_php:
   cmd.run:
-    - name: /usr/sbin/a2enmod php
+    - name: /usr/sbin/a2enmod php7.0
     - unless: "[ ! -f /etc/apache2/mods-enabled/php7.0.load ]"
