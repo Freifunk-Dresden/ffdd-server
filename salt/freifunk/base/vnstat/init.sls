@@ -1,3 +1,4 @@
+# Network Traffic Monitor
 vnstat:
   pkg.installed:
     - name: vnstat
@@ -6,8 +7,10 @@ vnstat:
     - enable: True
     - restart: True
     - watch:
+      - pkg: vnstat
       - file: /etc/vnstat.conf
     - require:
+      - pkg: vnstat
       - file: /etc/vnstat.conf
 
 /etc/vnstat.conf:
@@ -53,6 +56,7 @@ vnstat_vpn1:
       - group
 
 
+# Web Traffic Dashboard
 /var/www_vnstat:
   file.recurse:
     - source:
@@ -96,6 +100,7 @@ vnstat_vpn1:
     - require:
       - pkg: apache2
       - file: /etc/apache2/conf-enabled/vnstat_access.incl
+
 
 apache2_mod_php:
   cmd.run:
