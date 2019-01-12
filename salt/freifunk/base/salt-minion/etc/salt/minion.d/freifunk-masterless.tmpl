@@ -1,0 +1,9 @@
+### This file managed by Salt, do not edit by hand! ###
+#
+# ffdd-server - salt-minion masterless configuration file
+#
+{% from 'config.jinja' import install_dir %}
+file_client: local
+file_roots:
+  base:
+    - {{ install_dir }}/salt/freifunk/base
