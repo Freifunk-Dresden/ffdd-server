@@ -13,6 +13,7 @@ vnstat:
       - pkg: vnstat
       - file: /etc/vnstat.conf
 
+# Configuration
 /etc/vnstat.conf:
   file.managed:
     - source:
@@ -45,6 +46,7 @@ vnstat_vpn1:
     - name: /usr/bin/vnstat -u -i vpn1
     - onlyif: test ! -f /var/lib/vnstat/vpn1 && test -f /etc/openvpn/openvpn1.conf
 
+# set correct file permissions
 /var/lib/vnstat:
   file.directory:
     - user: vnstat
@@ -69,6 +71,7 @@ vnstat_vpn1:
       - user
       - group
 
+# define own interfaces
 /var/www_vnstat/config.php:
   file.managed:
     - source:
@@ -81,6 +84,15 @@ vnstat_vpn1:
       - file: /var/www_vnstat
 
 
+# enable Apache2 Module PHP
+apache2_mod_php:
+  cmd.run:
+    - name: /usr/sbin/a2enmod php*
+    - unless: "[ -f /etc/apache2/mods-enabled/php*.load ]"
+    - require:
+      - pkg: php
+
+# enable vnstat Apache2 config
 /etc/apache2/conf-enabled/vnstat_access.incl:
   file.managed:
     - source:
@@ -89,6 +101,8 @@ vnstat_vpn1:
     - group: root
     - mode: 644
     - replace: false
+    - require:
+      - pkg: apache2
 
 /etc/apache2/conf-enabled/vnstat.conf:
   file.managed:
@@ -100,11 +114,3 @@ vnstat_vpn1:
     - require:
       - pkg: apache2
       - file: /etc/apache2/conf-enabled/vnstat_access.incl
-
-
-apache2_mod_php:
-  cmd.run:
-    - name: /usr/sbin/a2enmod php*
-    - unless: "[ -f /etc/apache2/mods-enabled/php*.load ]"
-    - require:
-      - pkg: php

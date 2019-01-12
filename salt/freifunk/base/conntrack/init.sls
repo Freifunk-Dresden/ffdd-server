@@ -1,4 +1,4 @@
-# conntrack
+# conntrack (increase active connection limit)
 /usr/local/bin/conntrack.sh:
   file.managed:
     - source: salt://conntrack/usr/local/bin/conntrack.sh
@@ -8,6 +8,7 @@
     - require:
       - pkg: cron
 
+# check connection limit
 /etc/cron.d/conntrack:
   file.managed:
     - source: salt://conntrack/etc/cron.d/conntrack
@@ -18,6 +19,7 @@
       - pkg: cron
       - file: /usr/local/bin/conntrack.sh
 
+# archive conntrack logs
 /etc/logrotate.d/conntrack:
   file.managed:
     - source:

@@ -39,7 +39,7 @@ apache2_pkgs:
   file.absent
 
 
-# enable freifunk-dresden server page
+# enable FFDD server page
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.managed:
     - source:

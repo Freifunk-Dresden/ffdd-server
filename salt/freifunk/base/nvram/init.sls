@@ -1,12 +1,4 @@
-/etc/nvram.conf:
-  file.managed:
-    - source:
-      - salt://nvram/etc/nvram.conf
-    - user: root
-    - group: root
-    - mode: 644
-    - replace: false
-
+# FFDD Config Management
 /usr/local/bin/nvram:
   file.managed:
     - source: salt://nvram/usr/local/bin/nvram
@@ -16,6 +8,20 @@
     - require:
       - file: /etc/nvram.conf
 
+# Configuration
+/etc/nvram.conf:
+  file.managed:
+    - source:
+      - salt://nvram/etc/nvram.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - replace: false
+
+
+#
+# autoconfigure a new server
+#
 /usr/local/bin/freifunk-nvram_autosetup.sh:
   file.managed:
     - source: salt://nvram/usr/local/bin/freifunk-nvram_autosetup.sh
@@ -23,9 +29,7 @@
     - group: root
     - mode: 755
 
-#
-# autoconfigure a new server
-#
+
 {% from 'config.jinja' import ddmesh_registerkey %}
 
 {% if ddmesh_registerkey == '' %}

@@ -50,6 +50,5 @@ install_pkg:
 
 {% if grains['os'] == 'Ubuntu' %}
       - software-properties-common
-      # - python-software-properties
       - python-pycurl
 {% endif %}

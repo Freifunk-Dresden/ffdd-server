@@ -1,3 +1,4 @@
+# DNS Server
 bind:
   pkg.installed:
     - names:
@@ -17,7 +18,7 @@ bind:
       - service: S40network
       - service: S41firewall
 
-
+# Service
 /lib/systemd/system/bind9.service:
   file.managed:
     - source: salt://bind/lib/systemd/system/bind9.service
@@ -28,6 +29,7 @@ bind:
       - pkg: systemd
       - pkg: bind9
 
+# Configuration
 /etc/bind/named.conf.options:
   file.managed:
     - source:
@@ -49,6 +51,7 @@ bind:
     - require:
       - pkg: bind
 
+# Logs
 /var/log/named:
   file.directory:
     - user: bind

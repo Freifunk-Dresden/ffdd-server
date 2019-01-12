@@ -1,3 +1,4 @@
+# Secure Shell
 ssh:
   pkg.installed:
     - name: openssh-server
@@ -9,6 +10,7 @@ ssh:
     - require:
       - file: /etc/ssh/sshd_config
 
+# Configuration
 /etc/ssh/sshd_config:
   file.managed:
     - source:
@@ -20,6 +22,7 @@ ssh:
     - watch_in:
       - service: ssh
 
+# SSH-Login Information
 /etc/issue.net:
   file.managed:
     - source:

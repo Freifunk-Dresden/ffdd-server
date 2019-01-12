@@ -1,7 +1,9 @@
+# time-based job scheduler
 cron:
   pkg.installed:
     - name: cron
 
+# Configuration
 /etc/default/cron:
   file.managed:
     - source:

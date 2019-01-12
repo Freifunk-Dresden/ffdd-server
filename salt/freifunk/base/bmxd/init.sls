@@ -1,3 +1,4 @@
+# FFDD Batmand Network
 {% from 'config.jinja' import install_dir, ct_bmxd %}
 
 /usr/local/src/bmxd:
@@ -12,6 +13,7 @@
       - pkg: devel
       - user: freifunk
 
+# revision: md5sum over sources (exclude: 'Makefile')
 /usr/local/bin/freifunk-get_bmxd_revision.sh:
   file.managed:
     - contents: |
@@ -27,6 +29,8 @@
     - mode: 755
 
 
+# Compling
+# needs devel.sls (compiling tools)
 get_bmxd_revision:
   cmd.run:
     - name: "/usr/local/bin/freifunk-get_bmxd_revision.sh"
@@ -37,11 +41,13 @@ compile_bmxd:
   cmd.run:
     - name: "cd /usr/local/src/bmxd/ && make && make strip && cp -f bmxd /usr/local/bin/"
     - require:
+      - pkg: devel
       - file: /usr/local/src/bmxd
     - onchanges:
       - file: /usr/local/src/bmxd
 
 
+# Service
 /etc/init.d/S52batmand:
   file.managed:
     - source: salt://bmxd/etc/init.d/S52batmand

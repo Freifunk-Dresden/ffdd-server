@@ -93,8 +93,8 @@ cd "$INSTALL_DIR"
 	git pull -f origin "$tag"
 
 
-# small salt fix to create templates (replace: false)
-cp /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
+# small helper for salt to create templates (replace: false)
+cp -fv /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
 rm -f /root/.bashrc >/dev/null 2>&1
 rm -f /etc/inputrc >/dev/null 2>&1
 
@@ -107,7 +107,7 @@ printf '\n### Check "nvram" Setup ..\n';
 	if [ ! -f /etc/nvram.conf ]; then
 		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n';
 
-		cp -v "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
+		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 
 	else
 		# Temp.-Part to update old servers
@@ -148,16 +148,22 @@ printf '\n### Check "nvram" Setup ..\n';
 	fi
 
 
-# create clean salt enviroment
+# create clean masterless salt enviroment
 printf '\n### Check Salt Enviroment ..\n';
 
-rm -f /etc/salt/minion.d/*.conf
+rm -fv /etc/salt/minion.d/*.conf
 
 cat > /etc/salt/minion.d/freifunk-masterless.conf <<EOF
+### This file managed by Salt, do not edit by hand! ###
+#
+# ffdd-server - salt-minion masterless configuration file
+#
+
 file_client: local
 file_roots:
   base:
     - $INSTALL_DIR/salt/freifunk/base
+
 EOF
 
 
