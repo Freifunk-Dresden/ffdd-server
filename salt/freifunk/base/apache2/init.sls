@@ -1,3 +1,4 @@
+# Apache2 Webserver
 apache2:
   pkg.installed:
     - name: apache2
@@ -8,6 +9,8 @@ apache2:
     - restart: True
     - watch:
       - pkg: apache2
+      - pkg: monitorix
+      - pkg: vnstat
       - file: /etc/apache2/sites-enabled/001-freifunk.conf
       - file: /etc/apache2/conf-enabled/letsencrypt.conf
       - file: /etc/apache2/conf-enabled/monitorix.conf
@@ -28,6 +31,7 @@ apache2_pkgs:
       - pwauth
 
 
+# disable default page
 /etc/apache2/sites-enabled/000-default.conf:
   file.absent
 
@@ -35,6 +39,7 @@ apache2_pkgs:
   file.absent
 
 
+# enable freifunk-dresden server page
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.managed:
     - source:
@@ -42,7 +47,6 @@ apache2_pkgs:
     - user: root
     - group: root
     - mode: 644
-
 
 /var/www_freifunk:
   file.recurse:
@@ -57,6 +61,7 @@ apache2_pkgs:
       - group
 
 
+# check Apache2 Modules
 apache2_mod_authnz_external:
   cmd.run:
     - name: /usr/sbin/a2enmod authnz_external
@@ -88,6 +93,7 @@ apache2_mod_cgid:
   cmd.run:
     - name: /usr/sbin/a2enmod cgid
     - unless: "[ -f /etc/apache2/mods-enabled/cgid.load ]"
+
 
 apache2_mod_proxy:
   cmd.run:
