@@ -1,4 +1,6 @@
 # Network Traffic Monitor
+{% from 'config.jinja' import ifname %}
+
 vnstat:
   pkg.installed:
     - name: vnstat
@@ -25,25 +27,29 @@ vnstat:
 
 
 # initialize interface
-# wan default enabled in nvstat.conf
+vnstat_{{ ifname }}:
+  cmd.run:
+    - name: /usr/bin/vnstat -u -i {{ ifname }}
+    - onlyif: test ! -f /var/lib/vnstat/{{ ifname }}
+
 vnstat_bat0:
   cmd.run:
     - name: /usr/bin/vnstat -u -i bat0
-    - unless: "[ -f /var/lib/vnstat/bat0 ]"
+    - onlyif: test ! -f /var/lib/vnstat/bat0
 
 vnstat_tbb_fastd2:
   cmd.run:
     - name: /usr/bin/vnstat -u -i tbb_fastd2
-    - unless: "[ -f /var/lib/vnstat/tbb_fastd2 ]"
+    - onlyif: test ! -f /var/lib/vnstat/tbb_fastd2
 
 vnstat_vpn0:
   cmd.run:
-    - name: /usr/bin/vnstat -u -i vpn0
+    - name: /usr/bin/vnstat -u -i vpn0 && systemctl restart vnstat
     - onlyif: test ! -f /var/lib/vnstat/vpn0 && test -f /etc/openvpn/openvpn.conf
 
 vnstat_vpn1:
   cmd.run:
-    - name: /usr/bin/vnstat -u -i vpn1
+    - name: /usr/bin/vnstat -u -i vpn1 && systemctl restart vnstat
     - onlyif: test ! -f /var/lib/vnstat/vpn1 && test -f /etc/openvpn/openvpn1.conf
 
 # set correct file permissions
@@ -56,6 +62,12 @@ vnstat_vpn1:
     - recurse:
       - user
       - group
+
+# restart vnstat
+vnstat_restart:
+  cmd.run:
+    - name: systemctl restart vnstat
+    - onlyif: test ! -f /var/lib/vnstat/.{{ ifname }} || test ! -f /var/lib/vnstat/.bat0 || test ! -f /var/lib/vnstat/.tbb_fastd2
 
 
 # Web Traffic Dashboard
@@ -91,6 +103,7 @@ apache2_mod_php:
     - unless: "[ -f /etc/apache2/mods-enabled/php*.load ]"
     - require:
       - pkg: php
+
 
 # enable vnstat Apache2 config
 /etc/apache2/conf-enabled/vnstat_access.incl:

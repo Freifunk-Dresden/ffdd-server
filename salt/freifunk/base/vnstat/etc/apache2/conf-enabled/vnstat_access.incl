@@ -8,5 +8,5 @@ AllowOverride None
 # Don't forget to add a username in .htpasswd with the 'htpasswd' command.
 #AuthType Basic
 #AuthUserFile /etc/apache2/.htpasswd
-#AuthName "Monitorix: Restricted access, sorry."
+#AuthName "vnstat Traffic Dashboard: Restricted access, sorry."
 #Require valid-user
