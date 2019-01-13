@@ -1,3 +1,4 @@
+# transferring log messages (server for logging from nodes)
 rsyslog:
   pkg.installed:
     - name: rsyslog
@@ -14,6 +15,7 @@ rsyslog:
       - file: /etc/rsyslog.d/10-freifunk.conf
 
 
+# Configuration
 /etc/rsyslog.conf:
   file.managed:
     - source:

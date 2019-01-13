@@ -1,7 +1,5 @@
-#conntrackd:
-#  pkg.installed:
-#     - name: conntrackd
-
+# FFDD Network Rules
+# Configuration
 /etc/init.d/S40network:
   file.managed:
     - source: salt://network/etc/init.d/S40network
@@ -12,6 +10,7 @@
       - pkg: iproute2
       - file: /etc/iproute2/rt_tables
 
+# Service
 rc.d_S40network:
   cmd.run:
     - name: /usr/sbin/update-rc.d S40network defaults

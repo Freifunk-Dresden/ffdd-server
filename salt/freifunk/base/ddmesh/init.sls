@@ -1,4 +1,6 @@
-# firmware version
+# Freifunk Dresden Configurations
+#
+# Firmware Version
 {% from 'config.jinja' import freifunk_version %}
 
 /etc/freifunk-server-version:
@@ -11,7 +13,7 @@
 
 
 #
-# Freifunk Crontab
+# Crontabs
 #
 /etc/cron.d/freifunk:
   file.managed:
@@ -47,7 +49,7 @@
 
 
 #
-# Freifunk Directories
+# Directories
 #
 /var/lib/freifunk:
   file.directory:
@@ -60,6 +62,7 @@
 
 #
 # Logs
+# (used by rsyslog clients)
 /var/log/freifunk:
   file.directory:
     - user: root
@@ -99,7 +102,7 @@
       - pkg: rsyslog
 
 #
-# Freifunk Scripts
+# Scripts
 #
 /usr/local/bin/freifunk-autoupdate:
   file.managed:

@@ -1,3 +1,4 @@
+# keyboard mapping
 /etc/inputrc:
   file.managed:
     - source: salt://inputrc/etc/inputrc

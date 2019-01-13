@@ -64,7 +64,7 @@ $(free | sed -n '2,${s#[ 	]*\(.*\):[ 	]*\([0-9]\+\)[ 	]*\([0-9]\+\)[ 	]*\([0-9]*
 <legend>Service Status</legend>
 <table>
 $(
-	services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban bind9 apache2 monitorix openvpn@openvpn openvpn@openvpn1'
+	services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban bind9 apache2 vnstat monitorix openvpn@openvpn openvpn@openvpn1'
 	for s in $services
 	do
 		printf '<TR><th width="250">%s:</th><TD>' "$s"

@@ -1,10 +1,9 @@
-#
-# Freifunk logrotate
-#
+# logfile rotation, compression and removal
 logrotate:
   pkg.installed:
     - name: logrotate
 
+# Configuration
 /etc/logrotate.d/freifunk:
   file.managed:
     - source:

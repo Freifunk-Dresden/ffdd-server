@@ -4,6 +4,7 @@ base:
     - clear_oldenv
 
     - apt
+
     # remove conflicting packages
     - remove_pkg
     # basic software and tools
@@ -12,6 +13,7 @@ base:
 
     - root
     - users
+
     - bash
     - inputrc
     - vim
@@ -50,5 +52,7 @@ base:
 
     - iperf3
     - apache2
+    - php
     - letsencrypt
     - monitorix
+    - vnstat

@@ -1,9 +1,10 @@
+# FFDD Firewall
 iptables:
   pkg.installed:
     - names:
       - iptables
 
-
+#
 # IPv4 Firewall
 /etc/init.d/S41firewall:
   file.managed:
@@ -14,6 +15,7 @@ iptables:
     - require:
       - pkg: iptables
 
+# Custom USer Firewall-Rules
 /etc/firewall.user:
   file.managed:
     - source: salt://iptables/etc/firewall.user
@@ -25,6 +27,7 @@ iptables:
       - file: /etc/init.d/S41firewall
       - pkg: iptables
 
+# IPv4 Service
 rc.d_S41firewall:
   cmd.run:
     - name: /usr/sbin/update-rc.d S41firewall defaults
@@ -47,7 +50,7 @@ S41firewall:
       - service: S40network
       - file: /etc/firewall.user
 
-
+#
 # IPv6 Firewall
 /etc/init.d/S42firewall6:
   file.managed:
@@ -58,6 +61,7 @@ S41firewall:
     - require:
       - pkg: iptables
 
+# IPv6 Service
 rc.d_S42firewall6:
   cmd.run:
     - name: /usr/sbin/update-rc.d S42firewall6 defaults

@@ -1,6 +1,4 @@
-#
-# Fail2ban (intrusion prevention)
-#
+# Fail2ban (intrusion prevention system)
 fail2ban:
   pkg.installed:
     - name: fail2ban
@@ -20,6 +18,7 @@ fail2ban:
       - service: S41firewall
 
 
+# Configuration
 /etc/fail2ban/fail2ban.conf:
   file.managed:
     - source: salt://fail2ban/etc/fail2ban/fail2ban.conf

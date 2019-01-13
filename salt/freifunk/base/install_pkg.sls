@@ -26,6 +26,7 @@ install_pkg:
       - mlocate
       - gawk
       - zip
+      - unzip
       - gzip
 
       # purge old kernels
@@ -43,13 +44,11 @@ install_pkg:
       # network traffic measurements
       - bwm-ng
       - iptraf
-      - vnstat
 
       - python-apt
       - jq
 
 {% if grains['os'] == 'Ubuntu' %}
       - software-properties-common
-      # - python-software-properties
       - python-pycurl
 {% endif %}

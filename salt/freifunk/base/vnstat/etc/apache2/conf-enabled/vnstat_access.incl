@@ -1,0 +1,12 @@
+# Apache rules to restrict access to vnstat:
+#
+Order deny,allow
+Deny from all
+Allow from 127.0.0.1 10.200.0.0/15
+AllowOverride None
+
+# Don't forget to add a username in .htpasswd with the 'htpasswd' command.
+#AuthType Basic
+#AuthUserFile /etc/apache2/.htpasswd
+#AuthName "vnstat Traffic Dashboard: Restricted access, sorry."
+#Require valid-user

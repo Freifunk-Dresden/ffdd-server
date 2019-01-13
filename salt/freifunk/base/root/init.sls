@@ -1,3 +1,4 @@
+# default root env
 /root/.bashrc:
   file.managed:
     - source: salt://root/.bashrc
