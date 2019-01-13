@@ -43,7 +43,7 @@ if [ "$(nvram get autoupdate)" -eq 1 ]; then
 
 	rm -rf "$install_dir"
 
-	git clone https://github.com/cremesk/ffdd-server.git "$install_dir"
+	git clone https://github.com/Freifunk-Dresden/ffdd-server "$install_dir"
 	cd "$install_dir"
 
 	git checkout "$branch"

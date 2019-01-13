@@ -1,9 +1,9 @@
 # Freifunk Dresden: ffdd-server (current version 1.0.3)
 Configures an Debian (8/9) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
-**[latest Stable Release](https://github.com/cremesk/ffdd-server/tree/T_RELEASE_latest)**
+**[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)**
 
-**[see UPDATE News](https://github.com/cremesk/ffdd-server/blob/master/UPDATES.md)**
+**[see UPDATE News](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/UPDATES.md)**
 
 **[see Documentation - German](https://wiki.freifunk-dresden.de/index.php/Server_Internes)**
 
@@ -20,7 +20,7 @@ ein Freifunk Knoten und ist soweit konfiguriert, dass dieser eine Knotenwebseite
 
 **HINWEIS:**
 Der Vserver ist auf Freifunk Dresden zugeschnitten. Soll dieses als Basis für andere Freifunk Communities
-verwendet werden, müssen Anpassungen gemacht werden. Bitte ein [Issue](https://github.com/cremesk/ffdd-server/issues) im Github erstellen.
+verwendet werden, müssen Anpassungen gemacht werden. Bitte ein [Issue](https://github.com/Freifunk-Dresden/ffdd-server/issues) im Github erstellen.
 
 - Es empfielt sich dringend für andere Communities, dieses Repository zu forken, da hier generelle Umstellungen zusammen mit der passenden Firmware für Dresdener Anforderungen erfolgen.<br/>
 Communities sollten dann auf das geforkte Repository (gilt auch für das "firmware" Repository) aufbauen. Jede Community trägt die alleinige Verantwortung und Kontrolle über ihr Netz und sollte eigene Erfahrene Leute/Admins bereitstellen. Hilfe von Dresden ist aber jederzeit möglich, aber Administrative Aufgaben oder Garantien werden nicht übernommen, da das einfach den organisatorischen Aufwand sprengt.<br/>
@@ -91,7 +91,7 @@ installiert, Files kopiert und am Ende noch einige Tools compiliert werden müss
 
 git:
 ```bash
-git clone https://github.com/cremesk/ffdd-server.git /srv/ffdd-server
+git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 git checkout T_RELEASE_latest && ./init_server.sh
 ```
@@ -99,11 +99,11 @@ Alternative Installations Möglichkeiten:
 
 curl:
 ```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/cremesk/ffdd-server/T_RELEASE_latest/init_server.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 wget:
 ```bash
-sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
 
@@ -148,7 +148,7 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt oder es generell Probleme mit Services auf dem Server gibt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' ausgeführt werden. Um auf ganz sicher zu gehen auch die aktuelle Version zu nutzen:
 
 ```bash
-rm -rf /srv/ffdd-server && sh -c "$(wget https://raw.githubusercontent.com/cremesk/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+rm -rf /srv/ffdd-server && sh -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 
 Wichig

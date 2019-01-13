@@ -84,7 +84,7 @@ done
 printf '\n### Install/Update Repository..\n';
 
 if [ ! -d "$INSTALL_DIR" ]; then
-	git clone https://github.com/cremesk/ffdd-server.git "$INSTALL_DIR"
+	git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
 fi
 cd "$INSTALL_DIR"
 
