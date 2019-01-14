@@ -117,6 +117,7 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
 */etc/hostname
 */etc/nvram.conf
   *servername
+  *ifname
   *contact
 */etc/openvpn/
   # please creates openvpn.conf with:

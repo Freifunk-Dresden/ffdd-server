@@ -113,7 +113,6 @@ printf '\n### Check "nvram" Setup ..\n';
 		# Temp.-Part to update old servers
 		printf '\n### /etc/nvram.conf exists.\n';
 		printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n';
-		NOTICE="$(printf 'Please check config options in /etc/nvram.conf & /etc/nvram.conf.diff!\n')"
 
 		# check new options are set
 		# check autoupdate
@@ -200,7 +199,7 @@ printf '\n### .. All done! Cleanup System ..\n';
 
 "$PKGMNGR" autoremove
 
-printf '\n# Notice:\n  %s\n' "$NOTICE"
+printf '\n# Notice:\n  * Please check config options in /etc/nvram.conf\n'
 printf '\n  * /etc/fastd/peers2/\n\t# To Create a Fastd2 Connection use:\n'
 printf '\t/etc/init.d/S53backbone-fastd2 add_connect vpn/nodeX.freifunk-dresden.de 5002\n'
 
