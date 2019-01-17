@@ -40,6 +40,11 @@ done
 # check root permission
 if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 0; fi
 
+# check tun device is available
+if [ ! -e /dev/net/tun ]; then
+	printf '\tThe TUN device is not available!\nYou need to enable TUN before running this script!\n'
+	exit 0
+fi
 
 # check Distribution
 if [ -f /etc/debian_version ]; then
