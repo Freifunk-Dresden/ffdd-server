@@ -84,32 +84,13 @@ PS1="${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[0
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls -F --color=auto'
-    alias dir='ls -lF --color=auto'
-    #alias vdir='vdir --color=auto'
+    alias ls='ls -lah -F --color=auto'
+    alias dir='ls -lah F --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-
-alias freifunk-call='salt-call state.highstate --local'
-
-alias psa='ps -axuwf'
-
-# LOG
-alias jwarn='journalctl --system -x | grep warn'
-alias jfail='journalctl --system -x | grep fail'
-alias jerr='journalctl --system -x | grep error'
-alias jdeni='journalctl --system -x | grep denied'
-
-# Git diff
-alias gitdiff='git difftool -t idiff -y'
-
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -130,19 +111,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-alias showip='curl ifconfig.me/ip'
-alias speedtest='curl http://speedtest.belwue.net/10G > /dev/null'
-alias speedtest-tele2='wget -O /dev/null http://90.130.70.73/10GB.zip --report-speed=bits'
-alias speedtest-ovh='wget -O /dev/null http://213.186.33.6/files/10Gb.dat --report-speed=bits'
-
-cat <<EOM
------------------------------------------------------
-tools:
-    showip
-    speedtest
-	speedtest-tele2
-	speedtest-ovh
------------------------------------------------------
-EOM
-

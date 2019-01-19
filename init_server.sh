@@ -100,7 +100,8 @@ cd "$INSTALL_DIR"
 
 # small helper for salt to create templates (replace: false)
 cp -fv /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
-rm -f /root/.bashrc >/dev/null 2>&1
+cp -fv /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
+rm -f /root/.bash_aliases >/dev/null 2>&1
 rm -f /etc/inputrc >/dev/null 2>&1
 
 
