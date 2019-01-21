@@ -38,7 +38,7 @@ install_pkg:
       - tcpdump
       - netcat
       - lftp
-      - fping
+      - inetutils-ping
       - dnsutils
 
       # network traffic measurements
