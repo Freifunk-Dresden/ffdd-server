@@ -64,7 +64,14 @@ EOF
 
 if [ -z "$NOMENU" ]
 then
- for inc in ./[0-9][0-9]-*;do cat $inc;done
+	for inc in [0-9][0-9]-*; do
+		# menu may be a script that generates html
+		if [ "${inc#*.}" = "sh" ]; then
+			/bin/sh $inc
+		else
+			cat $inc;
+		fi
+	done
 fi
 
 cat<<EOF
