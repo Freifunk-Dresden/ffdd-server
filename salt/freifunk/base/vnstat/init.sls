@@ -113,7 +113,7 @@ apache2_mod_php:
     - user: root
     - group: root
     - mode: 644
-    - replace: false
+    #- replace: false
     - require:
       - pkg: apache2
 
