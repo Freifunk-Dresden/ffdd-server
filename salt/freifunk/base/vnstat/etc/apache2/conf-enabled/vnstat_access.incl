@@ -1,7 +1,7 @@
 # Apache rules to restrict access to vnstat:
 #
 Order deny,allow
-Deny from all
+#Deny from all
 Allow from 127.0.0.1 10.200.0.0/15
 AllowOverride None
 
