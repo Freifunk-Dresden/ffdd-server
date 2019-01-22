@@ -14,5 +14,5 @@ remove_resolvconf:
         nameserver 127.0.0.1
     - user: root
     - group: root
-    - mode: 755
+    - mode: 644
     - attrs: i
