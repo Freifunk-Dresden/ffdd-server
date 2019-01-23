@@ -172,17 +172,19 @@ secure_log_date_format = %b %e
 # -----------------------------------------------------------------------------
 <process>
 	<list>
-		0 = sshd, fastd, bmxd, openvpn, ntp, named, apache2, iperf3
+		0 = sshd, fastd, bmxd, openvpn, ntpd, named, rsyslogd, fail2ban, apache2, iperf3
 	</list>
 	<desc>
-		sshd	= SSH
-		fastd	= Fastd2
-		bmxd	= bmx
-		openvpn = OpenVPN-Tunnel
-		ntp 	= NTP
-		named	= Bind
-		apache2	= Apache
-		iperf3 	= iperf3
+		sshd		= SSH
+		fastd		= Fastd2
+		bmxd		= bmx
+		openvpn		= OpenVPN-Tunnel
+		ntpd 		= NTP
+		named		= Bind
+		rsyslogd	= rsyslog
+		fail2ban	= Fail2ban
+		apache2		= Apache
+		iperf3		= iperf3
 	</desc>
 	rigid = 2, 0, 0, 0, 0, 0, 0, 0
 	limit = 100, 1000, 1000, 1000, 1000, 1000, 1000, 1000
@@ -445,15 +447,16 @@ secure_log_date_format = %b %e
 	<desc>
 		80	= HTTP,    	tcp, in, 0, 1000
 		443	= HTTPS,   	tcp, in, 0, 1000
-		22	= SSH,     	tcp, in, 0, 1000
-		53	= DNS,     	udp, in, 0, 1000
-		1194u	= OPENVPN-UDP, 	udp, out, 0, 1000
-		1194t	= OPENVPN-TCP, 	tcp, out, 0, 1000
+		22	= SSH,     	tcp, in/out, 0, 1000
+		53	= DNS,     	udp, in/out, 0, 1000
+		123	= NTP,     	udp, in/out, 0, 1000
+		1194u	= OPENVPN-UDP, 	udp, in/out, 0, 1000
+		1194t	= OPENVPN-TCP, 	tcp, in/out, 0, 1000
 		4305	= BMXD,			udp, in/out, 0, 1000
 		5002	= FASTD2,   	udp, in/out, 0, 1000
 		5201	= iperf3,   	tcp, in/out, 0, 1000
 	</desc>
-	graphs_per_row = 3
+	graphs_per_row = 2
 </port>
 
 
