@@ -3,6 +3,7 @@ echo Content-type: text/html
 echo
 
 eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
+nodeid="$(nvram get ddmesh_node)"
 
 #apache does not proxy to local website -> need to extract ".freifunk.dyndns.org" if present
 #BASE=$HTTP_HOST
@@ -12,7 +13,7 @@ eval $(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))
 cat<<EOF
 <HTML>
 <HEAD>
-<TITLE>VPN - $TITLE</TITLE>
+<TITLE>FFDD VPN - Node $nodeid - $TITLE</TITLE>
 <META CONTENT="text/html; charset=utf-8" HTTP-EQUIV="Content-Type">
 <META CONTENT="no-cache" HTTP-EQUIV="cache-control">
 <meta http-equiv="expires" content="0">
