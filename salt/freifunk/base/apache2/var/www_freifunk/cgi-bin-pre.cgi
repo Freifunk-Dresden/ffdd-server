@@ -63,14 +63,13 @@ cat<<EOF
  <table VALIGN="top" border="0" width="150">
 EOF
 
-if [ -z "$NOMENU" ]
-then
+if [ -z "$NOMENU" ]; then
 	for inc in [0-9][0-9]-*; do
 		# menu may be a script that generates html
 		if [ "${inc#*.}" = "sh" ]; then
-			/bin/sh $inc
+			/bin/bash "$inc"
 		else
-			cat $inc;
+			cat "$inc";
 		fi
 	done
 fi
