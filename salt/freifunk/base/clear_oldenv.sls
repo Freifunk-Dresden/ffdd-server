@@ -4,6 +4,9 @@
   file.absent
 
 
+/etc/apache2/conf-enabled/vnstat_access.incl:
+  file.absent
+
 /etc/php5:
   file.absent
 
