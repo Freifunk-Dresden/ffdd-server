@@ -80,6 +80,9 @@
 /var/www_freifunk/06-nodes:
   file.absent
 
+/var/www_freifunk/06-monitorix:
+  file.absent
+
 /var/www_freifunk/functions.sh:
   file.absent
 

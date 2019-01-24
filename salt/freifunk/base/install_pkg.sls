@@ -47,6 +47,7 @@ install_pkg:
 
       - python-apt
       - jq
+      - grepcidr
 
 {% if grains['os'] == 'Ubuntu' %}
       - software-properties-common
