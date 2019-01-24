@@ -1,4 +1,5 @@
 # provides /etc/resolv.conf
+{%- set resolv_conf = '/etc/resolv.conf' %}
 
 # remove conflicting packages
 remove_resolvconf:
@@ -6,7 +7,7 @@ remove_resolvconf:
     - names:
       - resolvconf
 
-/etc/resolv.conf:
+{{ resolv_conf }}:
   file.managed:
     - contents: |
         search ffdd
@@ -16,3 +17,10 @@ remove_resolvconf:
     - group: root
     - mode: 644
     - attrs: i
+
+# force chattr +i
+{{ resolv_conf }}-locked:
+  cmd.run:
+    - name: chattr +i {{ resolv_conf }}
+    - onchanges:
+      - file: {{ resolv_conf }}
