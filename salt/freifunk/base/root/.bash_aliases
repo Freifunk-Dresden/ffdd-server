@@ -39,6 +39,8 @@ alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --repo
 cat <<EOM
 -----------------------------------------------------
 tools:
+    freifunk-autoupdate
+    freifunk-call ( salt-call state.highstate --local )
     showip
     speedtest-ovh
     speedtest-belwue
