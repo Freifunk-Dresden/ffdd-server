@@ -27,16 +27,6 @@ get_default_interface() {
 # -- Check & Setup System --
 #
 
-# kill running instance
-mypid="$$"
-pname="${0##*/}"
-IFS=' '
-printf '%s pid: %s\n' "$pname" "$mypid"
-for i in $(pidof "$pname")
-do
-	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
-done
-
 # check root permission
 if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 0; fi
 
@@ -175,7 +165,7 @@ EOF
 # ensure running services are stopped
 printf '\n### Ensure Services are Stopped ..\n';
 
-services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban bind9 apache2 monitorix openvpn@openvpn openvpn@openvpn1'
+services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban apache2 monitorix openvpn@openvpn openvpn@openvpn1'
 for s in $services
 do
 	# check service exists
