@@ -99,11 +99,11 @@ Alternative Installations Möglichkeiten:
 
 curl:
 ```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 wget:
 ```bash
-sh -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
 
@@ -149,7 +149,7 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt oder es generell Probleme mit Services auf dem Server gibt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' ausgeführt werden. Um auf ganz sicher zu gehen auch die aktuelle Version zu nutzen:
 
 ```bash
-rm -rf /srv/ffdd-server && sh -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+rm -rf /srv/ffdd-server && bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 
 Wichig
