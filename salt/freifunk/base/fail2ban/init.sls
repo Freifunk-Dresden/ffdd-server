@@ -20,7 +20,7 @@ fail2ban:
 # Fail2ban Installation Check
 fail2ban_check:
   cmd.run:
-    - name: mkdir -p /var/run/fail2ban ; /etc/init.d/fail2ban restart
+    - name: logger -t "rc.local" "restart fail2ban" ; mkdir -p /var/run/fail2ban ; /usr/sbin/service fail2ban restart
     - unless: "[ -d /var/run/fail2ban ]"
 
 # Configuration

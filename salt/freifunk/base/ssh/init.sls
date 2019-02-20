@@ -13,7 +13,7 @@ ssh:
 # SSH Installation Check
 ssh_check:
   cmd.run:
-    - name: mkdir -p /var/run/sshd ; /etc/init.d/ssh restart
+    - name: logger -t "rc.local" "restart sshd" ; mkdir -p /var/run/sshd ; /usr/sbin/service ssh restart
     - unless: "[ -d /var/run/sshd ]"
 
 # Configuration
