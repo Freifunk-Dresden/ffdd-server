@@ -10,6 +10,12 @@ ssh:
     - require:
       - file: /etc/ssh/sshd_config
 
+# SSH Installation Check
+ssh_check:
+  cmd.run:
+    - name: mkdir -p /var/run/sshd ; /etc/init.d/ssh restart
+    - unless: "[ -d /var/run/sshd ]"
+
 # Configuration
 /etc/ssh/sshd_config:
   file.managed:
