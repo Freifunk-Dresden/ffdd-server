@@ -2,6 +2,7 @@
 install_pkg:
   pkg.installed:
     - names:
+      - dbus
       - lsb-release
 
       - zsh
