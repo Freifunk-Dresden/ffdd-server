@@ -17,6 +17,11 @@ fail2ban:
       - service: S40network
       - service: S41firewall
 
+# Fail2ban Installation Check
+ssh_check:
+  cmd.run:
+    - name: mkdir -p /var/run/fail2ban ; /etc/init.d/fail2ban restart
+    - unless: "[ -d /var/run/fail2ban ]"
 
 # Configuration
 /etc/fail2ban/fail2ban.conf:
