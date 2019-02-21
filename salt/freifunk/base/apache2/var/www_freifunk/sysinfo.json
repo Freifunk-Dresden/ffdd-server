@@ -65,9 +65,9 @@ cat << EOM
 			"network_id":"1206"
 		},
 		"gps":{
-			"latitude":$(nvram get gps_latitude),
-			"longitude":$(nvram get gps_longitude),
-			"altitude":$(nvram get gps_altitude)
+			"latitude":$(gps_la="$(nvram get gps_latitude)"; [ "$gps_la" != '' ] && echo "$gps_la" || echo '0'),
+			"longitude":$(gps_lo="$(nvram get gps_longitude)"; [ "$gps_lo" != '' ] && echo "$gps_lo" || echo '0'),
+			"altitude":$(gps_al="$(nvram get gps_altitude)"; [ "$gps_al" != '' ] && echo "$gps_al" || echo '0')
 		},
 		"contact":{
 			"name":"$(nvram get contact_name)",
