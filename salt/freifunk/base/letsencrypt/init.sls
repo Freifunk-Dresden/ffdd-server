@@ -8,6 +8,16 @@ letsencrypt:
     - name: certbot
     - refresh: True
 
+# Configuration
+/etc/letsencrypt/cli.ini:
+  file.managed:
+    - source:
+      - salt://letsencrypt/etc/letsencrypt/cli.ini
+    - user: root
+    - group: root
+    - mode: 644
+
+
 # SSL Apache2 Module
 apache2_mod_ssl:
   cmd.run:
@@ -47,7 +57,7 @@ apache2_mod_ssl:
 #
 generate_dhparam:
   cmd.run:
-    - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 2048
+    - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096
     - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 
@@ -57,6 +67,7 @@ generate_dhparam:
 {%- set check_fqdn = salt['cmd.shell']("h=" ~ hostname ~ " ; [[ ${h//[^.]} != '' ]] && host $h | grep -v " ~ ffip ~ " 2>&1 > /dev/null ; if [ $? -eq 0 ]; then echo $h ; fi || true") -%}
 
 {% if check_fqdn != '' %}
+
 generate_certificate:
   cmd.run:
     - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost.com --webroot -w /var/lib/letsencrypt/ -d {{ hostname }} --non-interactive
@@ -85,6 +96,7 @@ apache2_ssl:
       - file: /etc/apache2/conf-enabled/ssl-params.conf
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
+
 #
 # automatically renew certs
 /etc/cron.d/certbot:
@@ -96,5 +108,18 @@ apache2_ssl:
     - require:
       - pkg: cron
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
+
+
+#
+# Temp. Force Renew dhparm and certs
+#
+force-renew-ssl:
+  cmd.run:
+    - name: "touch /etc/ssl/temp-check-ssl && /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096 && /usr/bin/certbot -q renew --force-renewal --renew-hook 'systemctl reload apache2'"
+    - unless: "[ -f /etc/ssl/temp-check-ssl ]"
+
+# Deativated Force-Renew
+#/etc/ssl/temp-check-ssl:
+#  file.absent
 
 {% endif %}
