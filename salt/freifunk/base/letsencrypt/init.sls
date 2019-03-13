@@ -113,13 +113,13 @@ apache2_ssl:
 #
 # Temp. Force Renew dhparm and certs
 #
-#force-renew-ssl:
-#  cmd.run:
-#    - name: "touch /etc/ssl/temp-check-ssl ; /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096 ; /usr/bin/certbot -q renew --force-renewal --renew-hook 'systemctl reload apache2'"
-#    - unless: "[ -f /etc/ssl/temp-check-ssl ]"
+force-renew-ssl:
+  cmd.run:
+    - name: "touch /etc/ssl/temp-check-ssl ; /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096 ; /usr/bin/certbot -q renew --force-renewal --renew-hook 'systemctl reload apache2'"
+    - unless: "[ -f /etc/ssl/temp-check-ssl ]"
 
 # Deativated Force-Renew
-/etc/ssl/temp-check-ssl:
-  file.absent
+#/etc/ssl/temp-check-ssl:
+#  file.absent
 
 {% endif %}
