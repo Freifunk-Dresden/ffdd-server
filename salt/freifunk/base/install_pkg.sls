@@ -26,6 +26,8 @@ install_pkg:
       # misc
       - mlocate
       - gawk
+      - tar
+      - bzip2
       - zip
       - unzip
       - gzip
@@ -39,7 +41,7 @@ install_pkg:
       - tcpdump
       - netcat
       - lftp
-      - inetutils-ping
+      - iputils-ping
       - dnsutils
 
       # network traffic measurements
