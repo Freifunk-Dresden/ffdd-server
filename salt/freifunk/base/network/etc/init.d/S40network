@@ -118,7 +118,7 @@ case "$1" in
 
   check)
 	# count rules, if one is missing then restart network
-	expected='16'
+	expected='13'
 	nrules="$(ip rule | wc -l)"
 	printf 'IP rules check: expected:%s, current:%s\n' "$expected" "$nrules"
 	if [ "$nrules" -lt "$expected" ]; then
