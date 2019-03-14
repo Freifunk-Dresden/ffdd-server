@@ -1,5 +1,5 @@
 # provides /etc/resolv.conf
-{%- set resolv_conf = '/etc/resolvconf/resolv.conf.d/base' %}
+{%- set resolv_conf = '/etc/resolvconf/resolv.conf.d/head' %}
 
 # temp. remove old chattr on /etc/resolv.conf
 /etc/resolv.conf-unlock:
