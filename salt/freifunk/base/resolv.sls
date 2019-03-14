@@ -5,8 +5,6 @@
 /etc/resolv.conf-unlock:
   cmd.run:
     - name: chattr -i /etc/resolv.conf
-    - onchanges:
-      - file: /etc/resolv.conf
 #
 
 pkg_resolvconf:
