@@ -30,7 +30,6 @@ setup_gateway_table() {
 
 	#jump over freifunk ranges
 	ip route add throw 10.0.0.0/8 table "$gateway_table" 2>/dev/null
-	ip route add throw 172.16.0.0/12 table "$gateway_table" 2>/dev/null
 
 	#jump over private ranges
 	ip route add throw 192.168.0.0/16 table "$gateway_table" 2>/dev/null

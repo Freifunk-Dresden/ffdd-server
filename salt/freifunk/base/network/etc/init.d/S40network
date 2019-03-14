@@ -18,7 +18,6 @@ write_throw_rules() {
 
 	#jump over freifunk ranges
 	ip route "$1" "$3" 10.0.0.0/8 table "$2"
-	ip route "$1" "$3" 172.16.0.0/12 table "$2"
 }
 
 setup_routing() {
@@ -52,13 +51,11 @@ setup_routing() {
 	ip rule "$1" to 10.200.0.0/15 table bat_route priority 500
 	#bmx_mesh table: #created by bmx6:ip rule $1 table bmx_mesh priority 500
 	ip rule "$1" to 10.0.0.0/8 table bat_hna priority 501
-	ip rule "$1" to 172.16.0.0/12 table bat_hna priority 502
 
 	#avoid ip packages go through bmx_gateway if bmx6 has removed entries from its tables
 	#at this point only let inet ips go further. let all other network ips (10er) be unreachable
 	#to speed up routing and avoid loops within same node
 	ip rule "$1" to 10.0.0.0/8 table unreachable priority 580
-	ip rule "$1" to 172.16.0.0/12 table unreachable priority 581
 
 	#bmx table: process inet ips #created by bmx6:ip rule $1 table bmx_gateway priority 502
 
