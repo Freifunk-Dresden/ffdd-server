@@ -1,16 +1,11 @@
 # provides /etc/resolv.conf
 {%- set resolv_conf = '/etc/resolvconf/resolv.conf.d/head' %}
 
-# temp. remove old chattr on /etc/resolv.conf
-/etc/resolv.conf-unlock:
-  cmd.run:
-    - name: chattr -i /etc/resolv.conf
-#
-
 pkg_resolvconf:
   pkg.installed:
     - name: resolvconf
 
+# Configuration
 {{ resolv_conf }}:
   file.managed:
     - contents: |
