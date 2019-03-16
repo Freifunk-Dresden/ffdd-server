@@ -11,19 +11,22 @@ wireguard:
     - dist: unstable
     - file: /etc/apt/sources.list.d/wireguard.list
   {% endif %}
+
   {% if grains['os'] == 'Ubuntu' %}
   pkgrepo.managed:
     - ppa: wireguard/wireguard
   {% endif %}
+
   pkg.installed:
     - name: wireguard
     - refresh: True
-  {% if grains['os'] == 'Debian' %}
-  unstable_pkg_prio:
-    cmd.run:
-      - name: "printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable"
-      - unless: "[ -f /etc/apt/preferences.d/limit-unstable ]"
-  {% endif %}
+
+{% if grains['os'] == 'Debian' %}
+unstable_pkg_prio:
+  cmd.run:
+    - name: "printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable"
+    - unless: "[ -f /etc/apt/preferences.d/limit-unstable ]"
+{% endif %}
 
 
 # Service Start then Gateway Option Enabled
