@@ -72,14 +72,8 @@ S52batmand:
     - watch:
       - file: /etc/init.d/S52batmand
       - file: /usr/local/src/bmxd
-      - service: S41firewall
-      - service: S53backbone-fastd2
-    - require:
-      - file: /etc/init.d/S52batmand
-      - file: /usr/local/src/bmxd
+      - file: /etc/init.d/S40network
+      - file: /etc/init.d/S41firewall
       - service: S40network
       - service: S41firewall
       - service: S53backbone-fastd2
-    - onchanges:
-      - file: /etc/init.d/S40network
-      - file: /etc/init.d/S41firewall
