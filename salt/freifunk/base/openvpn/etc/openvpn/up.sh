@@ -19,7 +19,7 @@ iptables -w -t nat -A POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local
 #openvpn
 /usr/local/bin/freifunk-gateway-check.sh no-ovpn-restart&
 
-BIND_FORWARDER_FILE="/etc/bind/openvpn.forwarder.$dev"
+BIND_FORWARDER_FILE="/etc/bind/vpn.forwarder.$dev"
 DEFAULT_DNS="8.8.8.8; 8.8.4.4;"		# semicolon is IMPORTANT
 
 # flush public_dns routing table

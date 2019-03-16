@@ -40,10 +40,10 @@ bind:
     - require:
       - pkg: bind
 
-/etc/bind/openvpn.forwarder:
+/etc/bind/vpn.forwarder:
   file.managed:
     - source:
-      - salt://bind/etc/bind/openvpn.forwarder
+      - salt://bind/etc/bind/vpn.forwarder
     - user: root
     - group: root
     - mode: 644

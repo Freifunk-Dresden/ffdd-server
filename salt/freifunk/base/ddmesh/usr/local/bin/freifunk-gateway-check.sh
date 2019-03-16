@@ -190,7 +190,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			/etc/init.d/S52batmand gateway
 
 			# select correct dns
-			BIND_FORWARDER_FILE="/etc/bind/openvpn.forwarder"
+			BIND_FORWARDER_FILE="/etc/bind/vpn.forwarder"
 			rm -f "$BIND_FORWARDER_FILE"
 			ln -s "$BIND_FORWARDER_FILE"."$dev" "$BIND_FORWARDER_FILE"
 			service bind9 reload
