@@ -13,7 +13,7 @@ openvpn:
 {% if ovpn0 == '1' %}
 vpn0_service:
   service.running:
-    - name: openvpn@openvpn.service
+    - name: openvpn@openvpn-vpn0.service
     - enable: True
     - restart: True
     - watch:
@@ -42,7 +42,7 @@ vpn0_service:
 {% if ovpn1 == '1' %}
 vpn1_service:
   service.running:
-    - name: openvpn@openvpn1.service
+    - name: openvpn@openvpn-vpn1.service
     - enable: True
     - restart: True
     - watch:
@@ -72,14 +72,14 @@ vpn1_service:
 {% if ovpn0 == '1' %}
 vpn0_service_dead:
   service.dead:
-    - name: openvpn@openvpn.service
+    - name: openvpn@openvpn-vpn0.service
     - enable: false
 {% endif %}
 
 {% if ovpn1 == '1' %}
 vpn1_service_dead:
   service.dead:
-    - name: openvpn@openvpn1.service
+    - name: openvpn@openvpn-vpn1.service
     - enable: false
 {% endif %}
 {% endif %}

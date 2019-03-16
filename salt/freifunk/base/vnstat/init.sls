@@ -45,12 +45,12 @@ vnstat_tbb_fastd2:
 vnstat_vpn0:
   cmd.run:
     - name: /usr/bin/vnstat -u -i vpn0 && systemctl restart vnstat
-    - onlyif: test ! -f /var/lib/vnstat/vpn0 && test -f /etc/openvpn/openvpn.conf
+    - onlyif: test ! -f /var/lib/vnstat/vpn0 && test -f /etc/openvpn/openvpn-vpn0.conf
 
 vnstat_vpn1:
   cmd.run:
     - name: /usr/bin/vnstat -u -i vpn1 && systemctl restart vnstat
-    - onlyif: test ! -f /var/lib/vnstat/vpn1 && test -f /etc/openvpn/openvpn1.conf
+    - onlyif: test ! -f /var/lib/vnstat/vpn1 && test -f /etc/openvpn/openvpn-vpn1.conf
 
 # set correct file permissions
 /var/lib/vnstat:
