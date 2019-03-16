@@ -30,20 +30,18 @@ wireguard:
 {% if ddmesh_disable_gateway == '0' %}
 # VPN 0
 {% if wgvpn0 == '1' %}
-vpn0_service:
+wgvpn0_service:
   service.running:
     - name: wireguard@vpn0.service
     - enable: True
     - restart: True
     - watch:
       - file: /etc/wireguard/vpn0.conf
-      - file: /lib/systemd/system/wg-quick@.service
       - service: S41firewall
     - require:
       - service: S40network
       - service: S41firewall
       - file: /etc/wireguard/vpn0.conf
-      - file: /lib/systemd/system/wg-quick@.service
     - onlyif: test -f /etc/wireguard/vpn0.conf
 
 /etc/wireguard/vpn0.conf:
@@ -52,20 +50,18 @@ vpn0_service:
 
 # VPN 1
 {% if wgvpn1 == '1' %}
-vpn1_service:
+wgvpn1_service:
   service.running:
     - name: wireguard@vpn1.service
     - enable: True
     - restart: True
     - watch:
       - file: /etc/wireguard/vpn1.conf
-      - file: /lib/systemd/system/wg-quick@.service
       - service: S41firewall
     - require:
       - service: S40network
       - service: S41firewall
       - file: /etc/wireguard/vpn1.conf
-      - file: /lib/systemd/system/wg-quick@.service
     - onlyif: test -f /etc/wireguard/vpn1.conf
 
 /etc/wireguard/vpn1.conf:
@@ -75,31 +71,19 @@ vpn1_service:
 # Service Start then Gateway Option Disabled
 {% elif ddmesh_disable_gateway == '1' %}
 {% if wgvpn0 == '1' %}
-vpn0_service_dead:
+wgvpn0_service_dead:
   service.dead:
     - name: wireguard@vpn0.service
     - enable: false
 {% endif %}
 
 {% if wgvpn1 == '1' %}
-vpn1_service_dead:
+wgvpn1_service_dead:
   service.dead:
     - name: wireguard@vpn1.service
     - enable: false
 {% endif %}
 {% endif %}
-
-
-/lib/systemd/system/wg-quick@.service:
-  file.managed:
-    - source: salt://wireguard/lib/systemd/system/wg-quick@.service
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - pkg: systemd
-      - pkg: wireguard
-
 
 # Helper Scripts for FFDD
 /etc/wireguard/gen-config.sh:
