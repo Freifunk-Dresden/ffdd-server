@@ -32,7 +32,7 @@ wireguard:
 {% if wgvpn0 == '1' %}
 wgvpn0_service:
   service.running:
-    - name: wireguard@vpn0.service
+    - name: wg-quick@vpn0.service
     - enable: True
     - restart: True
     - watch:
@@ -52,7 +52,7 @@ wgvpn0_service:
 {% if wgvpn1 == '1' %}
 wgvpn1_service:
   service.running:
-    - name: wireguard@vpn1.service
+    - name: wg-quick@vpn1.service
     - enable: True
     - restart: True
     - watch:
@@ -73,14 +73,14 @@ wgvpn1_service:
 {% if wgvpn0 == '1' %}
 wgvpn0_service_dead:
   service.dead:
-    - name: wireguard@vpn0.service
+    - name: wg-quick@vpn0.service
     - enable: false
 {% endif %}
 
 {% if wgvpn1 == '1' %}
 wgvpn1_service_dead:
   service.dead:
-    - name: wireguard@vpn1.service
+    - name: wg-quick@vpn1.service
     - enable: false
 {% endif %}
 {% endif %}
