@@ -16,26 +16,29 @@ setup_gateway_table() {
 	#check if changed
 	unset d
 	unset v
-	eval "$(ip ro lis ta "$gateway_table" | awk '/default/ {print "d="$5";v="$3}')"
+	eval $(ip ro lis ta $gateway_table | awk '/default via/ {print "d="$5";v="$3} /default dev/ {print "d="$3";v=none"}')
 	printf 'old: dev=%s, via=%s\n' "$d" "$v"
-	if [ "$dev" = "$d" ] && [ "$via" = "$v" ]; then
-		return
-	fi
+	[ "$dev" = "$d" ] && [ "$via" = "$v" ] && return
 
 	#clear table
 	ip route flush table "$gateway_table" 2>/dev/null
 
 	#redirect gateway ip directly to gateway interface
-	ip route add "$via"/32 dev "$dev" table "$gateway_table" 2>/dev/null
+	test "$via" = "none" || ip route add "$via"/32 dev "$dev" table "$gateway_table" 2>/dev/null
 
 	#jump over freifunk ranges
 	ip route add throw 10.0.0.0/8 table "$gateway_table" 2>/dev/null
+	ip route add throw 172.16.0.0/12 table "$gateway_table" 2>/dev/null
 
 	#jump over private ranges
 	ip route add throw 192.168.0.0/16 table "$gateway_table" 2>/dev/null
 
 	#add default route (which has wider range than throw, so it is processed after throw)
-	ip route add default via "$via" dev "$dev" table "$gateway_table"
+	if [ "$via" = "none" ]; then
+		ip route add default dev "$dev" table "$gateway_table"
+	else
+		ip route add default via "$via" dev "$dev" table "$gateway_table"
+	fi
 }
 
 
@@ -80,6 +83,11 @@ do
 	eval default_"$ifname"_gateway="$(ip route list table gateway_pool| sed -n "/default via [0-9.]\+ dev $ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
 	eval valid_ifname=\$default_"$ifname"_ifname
 	eval valid_gateway=\$default_"$ifname"_gateway
+
+	#in case we do not have a "via", replace it with "none". this is checked later
+	if [ -z "$valid_gateway" ]; then
+		valid_gateway="$(ip route list table gateway_pool | sed -n "/default dev $ifname/{s#.*#none#p}")"
+	fi
 	if [ -n "$valid_ifname" ] && [ -n "$valid_gateway" ]; then
 		default_vpn_route_list="$default_vpn_route_list $valid_gateway:$valid_ifname"
 	fi
@@ -116,7 +124,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 	ip route flush table ping_unreachable
 
 	#add route to gateway, to avoid routing via freifunk
-	ip route add "$via"/32 dev "$dev" table ping
+	test "$via" = "none" || ip route add "$via"/32 dev "$dev" table ping
 
 	# ping must be working for at least the half of IPs
 	IFS=' '
@@ -124,15 +132,20 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 	for ip in $gw_ping
 	do
 		$DEBUG && printf 'add ping route ip:%s\n' "$ip"
-		ip route add "$ip" via "$via" dev "$dev" table ping
+		if [ "$via" = "none" ]; then
+			ip route add "$ip" dev "$dev" table ping
+		else
+			ip route add "$ip" via "$via" dev "$dev" table ping
+		fi
 		ip route add unreachable "$ip" table ping_unreachable
 		$DEBUG && printf 'route: %s\n' "$(ip route get "$ip")"
-		$DEBUG && printf 'route via:%s\n' "$(ip route get "$via")"
+	#	$DEBUG && printf 'route via:%s\n' "$(ip route get "$via")"
 		numIPs="$((numIPs+1))"
 	done
 	printf 'number IPs: %s\n' "$numIPs"
 
 	$DEBUG && ip ro li ta ping
+	ip ro li ta ping
 
 	#activate routes
 	ip route flush cache
