@@ -164,7 +164,7 @@ EOF
 # ensure running services are stopped
 printf '\n### Ensure Services are Stopped ..\n';
 
-services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban apache2 monitorix openvpn@openvpn openvpn@openvpn1'
+services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban apache2 monitorix openvpn@openvpn-vpn0 openvpn@openvpn-vpn1 wg-quick@vpn0 wg-quick@vpn1'
 for s in $services
 do
 	# check service exists
@@ -194,9 +194,18 @@ printf '\n### .. All done! Cleanup System ..\n';
 
 "$PKGMNGR" autoremove
 
-printf '\n# Notice:\n  * Please check config options in /etc/nvram.conf\n'
-printf '\n  * /etc/fastd/peers2/\n\t# To Create a Fastd2 Connection use:\n'
+printf '\n# Notice:\n'
+printf ' * Please check config options in /etc/nvram.conf\n'
+printf ' * /etc/fastd/peers2/\n'
+printf '\t# To Create a Fastd2 Connection use:\n'
 printf '\t/etc/init.d/S53backbone-fastd2 add_connect vpn/nodeX.freifunk-dresden.de 5002\n'
+printf ' * /etc/openvpn\n'
+printf '\t# To Create a openvpn configuration use:\n'
+printf '\t/etc/openvpn/gen-config vpn0 <original-provider-config-file>\n'
+printf ' * /etc/wireguard/\n'
+printf '\t# To Create a wireguard configuration use:\n'
+printf '\t/etc/wireguard/gen-config vpn1 <original-provider-config-file>\n'
+
 
 # Exit gracefully.
 exit 0

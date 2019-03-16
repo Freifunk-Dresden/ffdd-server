@@ -45,11 +45,12 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
   Bei der aktuellen Installation werden alle Verbindungen von Freifunk-Router zum Server zugelassen, welche sich mit dem korrekten Public-Key des Servers verbinden. Dieser Public-Key kann über http://ip-des-knotens/sysinfo-json.cgi ausgelesen werden.<br/>
   Verbindet sich ein Router mit einem Server erfolgreich, so "lernt" der Server diese Verbindung und erzeugt ein entsprechendes Konfigurationsfile unterhalb von '/etc/fastd/peers2'.<br/>
   Später kann der Server umgestellt werden, so dass nur noch dort abgelegte Konfigurationen (Verbindungen) akzeptiert werden. Gesteuert wird dieses durch das Konfigurationsfile von fastd (/etc/fastd/fastd2.conf).
- 
-- /etc/openvpn enthält ein Script, mit dem verschiede Openvpn Konfigurationen von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.<br/>
-Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stufe das lokale Internet testet und wenn dieses funktioniert, wird das Openvpn Internet geprüft. Ist das Openvpn Internet verfügbar, wird dieser Vserver als Internet-Gateway im Freifunknetz bekannt gegeben.
 
-- Auch der Vserver arbeitet als DNS Server für die Knoten, die ihn als Gateway ausgewählt haben. Der Vserver leitet allerdings die DNS Anfragen nicht über den Openvpn Tunnel, sondern geht direkt über den VServer Anbieter raus.
+- Der VServer unterstützt derzeit zwei VPN Implementationen Openvpn und Wireguard. Wireguard ist aber noch im BETA-Zustand.<br/>
+  /etc/openvpn (/etc/wireguard) enthält je ein Script, mit dem verschiede VPN Konfigurationen von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.<br/>
+Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stufe das lokale Internet testet und wenn dieses funktioniert, wird das Openvpn/Wireguard Internet geprüft. Ist das Openvpn/Wireguard Internet verfügbar, wird dieser Vserver als Internet-Gateway im Freifunknetz bekannt gegeben.
+
+- Der Vserver selbst arbeitet ebenfalls als DNS Server für die Knoten, die ihn als Gateway ausgewählt haben. Die DNS Anfragen werden dabei auch über den VPN Tunnel geleitet.
 
 - Da VServer Anbieter verschieden sind, kann die Installation abbrechen. Hier sollten erfahrene Leute die Installation anpassen und mir einen Hinweis geben. Als Vserver kann **NICHT** jeder Anbieter genutzt werden.
 <br/>
