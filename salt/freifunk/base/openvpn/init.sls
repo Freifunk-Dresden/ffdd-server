@@ -69,10 +69,12 @@ vpn1_service:
 
 # Service Start then Gateway Option Disabled
 {% elif ddmesh_disable_gateway == '1' %}
+{% if ovpn0 == '1' %}
 vpn0_service_dead:
   service.dead:
     - name: openvpn@openvpn.service
     - enable: false
+{% endif %}
 
 {% if ovpn1 == '1' %}
 vpn1_service_dead:
