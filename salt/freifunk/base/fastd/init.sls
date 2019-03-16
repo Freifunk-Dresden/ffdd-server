@@ -72,3 +72,6 @@ S53backbone-fastd2:
       - file: /etc/init.d/S53backbone-fastd2
       - service: S40network
       - service: S41firewall
+    - onchanges:
+      - file: /etc/init.d/S40network
+      - file: /etc/init.d/S41firewall
