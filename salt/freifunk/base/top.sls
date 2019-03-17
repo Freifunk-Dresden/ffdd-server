@@ -48,6 +48,7 @@ base:
     # Services
     - ssh
     - openvpn
+    - wireguard
     - bind
 
     - iperf3

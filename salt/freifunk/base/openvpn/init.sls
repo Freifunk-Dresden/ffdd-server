@@ -1,6 +1,7 @@
 # OpenVPN Gateway Tunnel
 {% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
-{% set ovpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn1.conf && echo "1" || true') %}
+{% set ovpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn0.conf && echo "1" || true') %}
+{% set ovpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn1.conf && echo "1" || true') %}
 
 openvpn:
   pkg.installed:
@@ -9,14 +10,15 @@ openvpn:
 # Service Start then Gateway Option Enabled
 {% if ddmesh_disable_gateway == '0' %}
 # VPN 0
-vpn0_service:
+{% if ovpn0 == '1' %}
+ovpn0_service:
   service.running:
-    - name: openvpn@openvpn.service
+    - name: openvpn@openvpn-vpn0.service
     - enable: True
     - restart: True
     - watch:
       - file: /etc/default/openvpn
-      - file: /etc/openvpn/openvpn.conf
+      - file: /etc/openvpn/openvpn-vpn0.conf
       - file: /lib/systemd/system/openvpn@.service
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
@@ -25,25 +27,27 @@ vpn0_service:
       - service: S40network
       - service: S41firewall
       - file: /etc/default/openvpn
-      - file: /etc/openvpn/openvpn.conf
+      - file: /etc/openvpn/openvpn-vpn0.conf
       - file: /lib/systemd/system/openvpn@.service
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
-    - onlyif: test -f /etc/openvpn/openvpn.conf
+    - onlyif: test -f /etc/openvpn/openvpn-vpn0.conf
 
-/etc/openvpn/openvpn.conf:
+/etc/openvpn/openvpn-vpn0.conf:
   file.exists
+
+{% endif %}
 
 # VPN 1
 {% if ovpn1 == '1' %}
-vpn1_service:
+ovpn1_service:
   service.running:
-    - name: openvpn@openvpn1.service
+    - name: openvpn@openvpn-vpn1.service
     - enable: True
     - restart: True
     - watch:
       - file: /etc/default/openvpn
-      - file: /etc/openvpn/openvpn1.conf
+      - file: /etc/openvpn/openvpn-vpn1.conf
       - file: /lib/systemd/system/openvpn@.service
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
@@ -52,28 +56,30 @@ vpn1_service:
       - service: S40network
       - service: S41firewall
       - file: /etc/default/openvpn
-      - file: /etc/openvpn/openvpn1.conf
+      - file: /etc/openvpn/openvpn-vpn1.conf
       - file: /lib/systemd/system/openvpn@.service
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
-    - onlyif: test -f /etc/openvpn/openvpn1.conf
+    - onlyif: test -f /etc/openvpn/openvpn-vpn1.conf
 
-/etc/openvpn/openvpn1.conf:
+/etc/openvpn/openvpn-vpn1.conf:
   file.exists
 
 {% endif %}
 
 # Service Start then Gateway Option Disabled
 {% elif ddmesh_disable_gateway == '1' %}
-vpn0_service_dead:
+{% if ovpn0 == '1' %}
+ovpn0_service_dead:
   service.dead:
-    - name: openvpn@openvpn.service
+    - name: openvpn@openvpn-vpn0.service
     - enable: false
+{% endif %}
 
 {% if ovpn1 == '1' %}
-vpn1_service_dead:
+ovpn1_service_dead:
   service.dead:
-    - name: openvpn@openvpn1.service
+    - name: openvpn@openvpn-vpn1.service
     - enable: false
 {% endif %}
 {% endif %}

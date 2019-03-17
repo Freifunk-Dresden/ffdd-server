@@ -47,38 +47,9 @@ cat<<EOM
 <br>
 
 <fieldset class="bubble">
-<legend>Freifunk Knoten</legend>
-<table>
-<tr><th>Node</th><th>Ip</th><th>BRC</th><th>via Routing Interface</th><th>via Router</th></tr>
-EOM
-
-sudo /usr/local/bin/bmxd -c --originators | awk '
- function getnode(ip) {
- 	split($0,a,".");
- 	f1=a[3]*255;f2=a[4]-1;
- 	return f1+f2;
- }
- BEGIN {c=1;count=0;}
- {
-
-	if(match($0,"^[0-9]+[.][0-9]+[.][0-9]+[.][0-9]"))
-	{
- 		printf("<tr class=\"colortoggle%d\"><td>%s</td><td><a href=\"http://%s/\">%s</a></td><td class=\"quality_%s\">%s</td><td>%s</td><td>%s</td></tr>\n",c,getnode($1),$1,$1,$4,$4,$2,$3);
-		if(c==1)c=2;else c=1;
-		count=count+1;
-	}
- }
- END { printf("<tr><th>Anzahl: </th><td colspan=\"4\">%d</td></tr>", count);}
-'
-
-cat<<EOM
-</table><br />
-</fieldset>
-<br/>
-<fieldset class="bubble">
 <legend>Gateways</legend>
 <table>
-<tr><th></th><th>Node</th><th>Ip</th><th>Best Next Hop</th><th>#</th><th></th></tr>
+<tr><th>Aktiv</th><th>Node</th><th>Ip</th><th>Best Next Hop</th><th>#</th><th></th></tr>
 EOM
 
 sudo /usr/local/bin/bmxd -c --gateways | awk '
@@ -106,6 +77,37 @@ sudo /usr/local/bin/bmxd -c --gateways | awk '
 
 cat<<EOM
 </table>
+</fieldset>
+
+<br/>
+
+<fieldset class="bubble">
+<legend>Freifunk Knoten</legend>
+<table>
+<tr><th>Node</th><th>Ip</th><th>BRC</th><th>via Routing Interface</th><th>via Router</th></tr>
+EOM
+
+sudo /usr/local/bin/bmxd -c --originators | awk '
+ function getnode(ip) {
+ 	split($0,a,".");
+ 	f1=a[3]*255;f2=a[4]-1;
+ 	return f1+f2;
+ }
+ BEGIN {c=1;count=0;}
+ {
+
+	if(match($0,"^[0-9]+[.][0-9]+[.][0-9]+[.][0-9]"))
+	{
+ 		printf("<tr class=\"colortoggle%d\"><td>%s</td><td><a href=\"http://%s/\">%s</a></td><td class=\"quality_%s\">%s</td><td>%s</td><td>%s</td></tr>\n",c,getnode($1),$1,$1,$4,$4,$2,$3);
+		if(c==1)c=2;else c=1;
+		count=count+1;
+	}
+ }
+ END { printf("<tr><th>Anzahl: </th><td colspan=\"4\">%d</td></tr>", count);}
+'
+
+cat<<EOM
+</table><br />
 </fieldset>
 EOM
 
