@@ -121,5 +121,5 @@ wgvpn1_service_dead:
       - pkg: wireguard
 
 
-#{% if kernel_pkg_check >= '1' %}
+{# if kernel_pkg_check >= '1' #}
 {% endif %}
