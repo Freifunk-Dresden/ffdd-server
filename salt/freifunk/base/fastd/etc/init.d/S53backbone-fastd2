@@ -112,7 +112,9 @@ case "$1" in
 	printf 'Starting backbone...\n'
 
 	generate_fastd_conf
-	"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon
+	# if fastd failes, return error to systemd, else salt always gets an active working status
+	# and would not restart fastd. 
+	"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon || exit 1
   ;;
 
   stop)

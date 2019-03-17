@@ -68,7 +68,8 @@ case "$ARG1" in
 	sleep 3		# wait for start bmxd
 #	echo /tmp/coredump > /proc/sys/kernel/core_pattern
 #	ulimit -c unlimited
-	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS"
+	# return error code to systemd to reflect correct status
+	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" || exit 1
 #	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" -d4
   ;;
 
