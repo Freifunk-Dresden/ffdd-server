@@ -29,6 +29,18 @@ unstable_pkg_prio:
 {% endif %}
 
 
+# Wireguard needs linux-headers
+{% set kernel_release = salt['cmd.shell']("uname -r") %}
+{%- set kernel_pkg_check = salt['cmd.shell']('apt-cache search linux-headers-' ~ kernel_release ~ ' | wc -l') %}
+
+{% if kernel_pkg_check >= '1' %}
+linux-headers:
+  pkg.installed:
+    - name: linux-headers-{{ kernel_release }}
+    - refresh: True
+{% endif %}
+
+
 # Service Start then Gateway Option Enabled
 {% if ddmesh_disable_gateway == '0' %}
 # VPN 0
