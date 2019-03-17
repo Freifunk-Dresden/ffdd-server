@@ -11,7 +11,7 @@ openvpn:
 {% if ddmesh_disable_gateway == '0' %}
 # VPN 0
 {% if ovpn0 == '1' %}
-vpn0_service:
+ovpn0_service:
   service.running:
     - name: openvpn@openvpn-vpn0.service
     - enable: True
@@ -40,7 +40,7 @@ vpn0_service:
 
 # VPN 1
 {% if ovpn1 == '1' %}
-vpn1_service:
+ovpn1_service:
   service.running:
     - name: openvpn@openvpn-vpn1.service
     - enable: True
@@ -70,14 +70,14 @@ vpn1_service:
 # Service Start then Gateway Option Disabled
 {% elif ddmesh_disable_gateway == '1' %}
 {% if ovpn0 == '1' %}
-vpn0_service_dead:
+ovpn0_service_dead:
   service.dead:
     - name: openvpn@openvpn-vpn0.service
     - enable: false
 {% endif %}
 
 {% if ovpn1 == '1' %}
-vpn1_service_dead:
+ovpn1_service_dead:
   service.dead:
     - name: openvpn@openvpn-vpn1.service
     - enable: false
