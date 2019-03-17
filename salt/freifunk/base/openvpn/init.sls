@@ -3,6 +3,19 @@
 {% set ovpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn0.conf && echo "1" || true') %}
 {% set ovpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn1.conf && echo "1" || true') %}
 
+
+# Temp. rename old config
+tmp_rename_ovpn_conf:
+  cmd.run:
+    - name: "mv /etc/openvpn/openvpn.conf /etc/openvpn/openvpn-vpn0.conf"
+    - unless: "[ ! -f /etc/openvpn/openvpn.conf ]"
+
+tmp_rename_ovpn1_conf:
+  cmd.run:
+    - name: mv /etc/openvpn/openvpn1.conf /etc/openvpn/openvpn-vpn1.conf
+    - unless: "[ ! -f /etc/openvpn/openvpn1.conf ]"
+
+
 openvpn:
   pkg.installed:
     - name: openvpn
