@@ -3,6 +3,18 @@
 {% set wgvpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn0.conf && echo "1" || true') %}
 {% set wgvpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn1.conf && echo "1" || true') %}
 
+# Wireguard needs linux-headers
+{% set kernel_release = salt['cmd.shell']("uname -r") %}
+{%- set kernel_pkg_check = salt['cmd.shell']('apt-cache search linux-headers-' ~ kernel_release ~ ' | wc -l') %}
+
+{% if kernel_pkg_check >= '1' %}
+linux-headers:
+  pkg.installed:
+    - name: linux-headers-{{ kernel_release }}
+    - refresh: True
+{% endif %}
+
+
 wireguard:
   {% if grains['os'] == 'Debian' %}
   pkgrepo.managed:
@@ -26,18 +38,6 @@ unstable_pkg_prio:
   cmd.run:
     - name: "printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable"
     - unless: "[ -f /etc/apt/preferences.d/limit-unstable ]"
-{% endif %}
-
-
-# Wireguard needs linux-headers
-{% set kernel_release = salt['cmd.shell']("uname -r") %}
-{%- set kernel_pkg_check = salt['cmd.shell']('apt-cache search linux-headers-' ~ kernel_release ~ ' | wc -l') %}
-
-{% if kernel_pkg_check >= '1' %}
-linux-headers:
-  pkg.installed:
-    - name: linux-headers-{{ kernel_release }}
-    - refresh: True
 {% endif %}
 
 
