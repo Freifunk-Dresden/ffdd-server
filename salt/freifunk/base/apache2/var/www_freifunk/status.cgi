@@ -26,7 +26,7 @@ cat<<EOF
 <table>
 <TR><th width="250">Internet-Gateway:</th><TD colspan="7">$(
 	if [ "$(nvram get ddmesh_disable_gateway)" -eq '0' ]; then
-		vpnservice='openvpn@openvpn-vpn0 openvpn@openvpn-vpn1 wg-quick@vpn0 wg-quick@vpn1 '
+		vpnservice='openvpn@openvpn-vpn0 openvpn@openvpn-vpn1 wg-quick@vpn0 wg-quick@vpn1'
 		vs='0'
 		for s in $vpnservice
 		do
@@ -68,7 +68,7 @@ $(
 	for s in $services
 	do
 		printf '<TR><th width="250">%s:</th><TD>' "$s"
-		if [ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 |  grep -c 'inactive\|failed')" -lt 1 ]; then
+		if [ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c 'inactive\|failed')" -lt 1 ]; then
 			printf '<img src="/images/yes.png">'
 		else
 			printf '<img src="/images/no.gif">'
