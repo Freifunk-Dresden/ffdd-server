@@ -3,6 +3,7 @@
 # Wireguard needs linux-headers
 {% set kernel_release = salt['cmd.shell']("uname -r") %}
 {%- set kernel_pkg_check = salt['cmd.shell']('apt-cache search linux-headers-' ~ kernel_release ~ ' | wc -l') %}
+
 # install only than Kernel Package available
 {% if kernel_pkg_check >= '1' %}
 
@@ -16,7 +17,7 @@ linux-headers:
 {% set wgvpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn0.conf && echo "1" || true') %}
 {% set wgvpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn1.conf && echo "1" || true') %}
 
-
+# Package
 wireguard:
   {% if grains['os'] == 'Debian' %}
   pkgrepo.managed:
@@ -35,6 +36,7 @@ wireguard:
     - name: wireguard
     - refresh: True
 
+# Debian Pin-Prio for unstable Repo
 {% if grains['os'] == 'Debian' %}
 unstable_pkg_prio:
   cmd.run:
@@ -45,6 +47,7 @@ unstable_pkg_prio:
 
 # Service Start then Gateway Option Enabled
 {% if ddmesh_disable_gateway == '0' %}
+
 # VPN 0
 {% if wgvpn0 == '1' %}
 wgvpn0_service:
@@ -85,8 +88,10 @@ wgvpn1_service:
   file.exists
 {% endif %}
 
+
 # Service Start then Gateway Option Disabled
 {% elif ddmesh_disable_gateway == '1' %}
+# VPN 0
 {% if wgvpn0 == '1' %}
 wgvpn0_service_dead:
   service.dead:
@@ -94,6 +99,7 @@ wgvpn0_service_dead:
     - enable: false
 {% endif %}
 
+# VPN 1
 {% if wgvpn1 == '1' %}
 wgvpn1_service_dead:
   service.dead:
@@ -101,6 +107,7 @@ wgvpn1_service_dead:
     - enable: false
 {% endif %}
 {% endif %}
+
 
 # Helper Scripts for FFDD
 /etc/wireguard/gen-config.sh:
@@ -113,4 +120,6 @@ wgvpn1_service_dead:
     - require:
       - pkg: wireguard
 
+
+#{% if kernel_pkg_check >= '1' %}
 {% endif %}
