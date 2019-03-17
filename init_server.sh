@@ -181,7 +181,7 @@ done
 # -- Initial System --
 #
 
-printf '\n### Start Initial System. (please wait!)\n';
+printf '\n### Start Initial System. (please wait! Coffee Time ca.10min)\n';
 
 salt-call state.highstate --local
 
