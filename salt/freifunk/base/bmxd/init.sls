@@ -57,7 +57,7 @@ compile_bmxd:
 
 rc.d_S52batmand:
   cmd.run:
-    - name: /usr/sbin/update-rc.d S52batmand defaults
+    - name: /usr/sbin/update-rc.d S52batmand defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S52batmand
     - onchanges:

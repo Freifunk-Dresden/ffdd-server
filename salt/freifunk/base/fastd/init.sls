@@ -54,7 +54,7 @@ compile_fastd:
 
 rc.d_S53backbone-fastd2:
   cmd.run:
-    - name: /usr/sbin/update-rc.d S53backbone-fastd2 defaults
+    - name: /usr/sbin/update-rc.d S53backbone-fastd2 defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S53backbone-fastd2
     - onchanges:

@@ -13,7 +13,7 @@
 # Service
 rc.d_S40network:
   cmd.run:
-    - name: /usr/sbin/update-rc.d S40network defaults
+    - name: /usr/sbin/update-rc.d S40network defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S40network
     - onchanges:

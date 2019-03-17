@@ -16,7 +16,7 @@ iperf3:
 
 rc.d_S90iperf3:
   cmd.run:
-    - name: /usr/sbin/update-rc.d S90iperf3 defaults
+    - name: /usr/sbin/update-rc.d S90iperf3 defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S90iperf3
     - onchanges:

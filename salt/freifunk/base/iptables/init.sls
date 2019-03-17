@@ -30,7 +30,7 @@ iptables:
 # IPv4 Service
 rc.d_S41firewall:
   cmd.run:
-    - name: /usr/sbin/update-rc.d S41firewall defaults
+    - name: /usr/sbin/update-rc.d S41firewall defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S41firewall
     - onchanges:
@@ -64,7 +64,7 @@ S41firewall:
 # IPv6 Service
 rc.d_S42firewall6:
   cmd.run:
-    - name: /usr/sbin/update-rc.d S42firewall6 defaults
+    - name: /usr/sbin/update-rc.d S42firewall6 defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S42firewall6
     - onchanges:
