@@ -70,7 +70,7 @@ generate_dhparam:
 
 generate_certificate:
   cmd.run:
-    - name: /usr/bin/certbot certonly --agree-tos --email webmaster@localhost.com --webroot -w /var/lib/letsencrypt/ -d {{ hostname }} --non-interactive
+    - name: /usr/bin/certbot certonly --agree-tos --email hostmaster@freifunk-dresden.de --webroot -w /var/lib/letsencrypt/ -d {{ hostname }} --non-interactive
     - unless: "[ -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
