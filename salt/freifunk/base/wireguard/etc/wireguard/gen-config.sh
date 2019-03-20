@@ -100,6 +100,4 @@ PersistentKeepalive = 21
 EOM
 
 # ensure correct rights
-chmod 640 $CONF
-
-
+chmod 640 "$CONF"

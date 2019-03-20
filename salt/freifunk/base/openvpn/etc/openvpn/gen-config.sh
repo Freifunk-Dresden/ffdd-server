@@ -73,3 +73,6 @@ up /etc/openvpn/up.sh
 down /etc/openvpn/down.sh
 verb 3
 EOM
+
+# ensure correct rights
+chmod 640 "$CONF"
