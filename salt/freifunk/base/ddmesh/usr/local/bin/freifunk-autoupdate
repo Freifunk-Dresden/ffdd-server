@@ -32,7 +32,6 @@ if [ "$(nvram get autoupdate)" -eq 1 ]; then
 			else
 				c="$((c+1))"
 				[ "$c" -lt '100' ] && sleep 1 || printf 'no internet connection!\n' ; exit 0
-				fi
 			fi
 		done
 	fi
