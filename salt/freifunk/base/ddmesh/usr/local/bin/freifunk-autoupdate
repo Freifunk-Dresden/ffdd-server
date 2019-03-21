@@ -18,7 +18,7 @@ done
 
 if [ "$(nvram get autoupdate)" -eq 1 ]; then
 	# check connection before remove install_dir
-	PING_CMD="ping -w 10 -c 1 github.com > /dev/null 2>&1"
+	PING_CMD="ping -w 10 -c 3 github.com > /dev/null 2>&1"
 	eval "$PING_CMD"
 
 	if [ "$?" -ne 0 ]; then
@@ -31,11 +31,7 @@ if [ "$(nvram get autoupdate)" -eq 1 ]; then
 				break
 			else
 				c="$((c+1))"
-				if [ "$c" -lt '100' ]; then
-					sleep 1
-				else
-					printf 'no internet connection!\n'
-					exit 0
+				[ "$c" -lt '100' ] && sleep 1 || printf 'no internet connection!\n' ; exit 0
 				fi
 			fi
 		done
