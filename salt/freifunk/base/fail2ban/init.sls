@@ -97,3 +97,9 @@ ipset:
     - mode: 644
     - require:
       - pkg: ipset
+
+# first time exec
+ipset-f2b-init:
+  cmd.run:
+    - name: /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf
+    - unless: "[ -f /etc/ipset-fail2ban/ipset-fail2ban.restore ]"
