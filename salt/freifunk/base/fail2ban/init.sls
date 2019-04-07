@@ -61,7 +61,7 @@ ipset:
 # Configuration
 /etc/ipset-fail2ban/ipset-fail2ban.conf:
   file.managed:
-    - source: salt://fail2ban/etc/ipset-fail2ban.conf
+    - source: salt://fail2ban/etc/ipset-fail2ban/ipset-fail2ban.conf
     - user: root
     - group: root
     - mode: 644
