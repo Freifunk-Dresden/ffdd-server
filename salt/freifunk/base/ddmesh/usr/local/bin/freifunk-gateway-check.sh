@@ -175,9 +175,9 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 
 		#VSERVER: we have found a gateway (either via eth0 or openvpn) -> offer gateway service
 		#VSERVER: keep local_gateway untouched. it is setup by S40network (not detected)
-		#VSERVER: but it needs to be re-checkt. because if network is down, default route is removed from routing table and 
+		#VSERVER: but it needs to be re-checkt. because if network is down, default route is removed from routing table and
 		#VSERVER: must be readded
-		#VSERVER:  - it ensures that host has always a working gateway. 
+		#VSERVER:  - it ensures that host has always a working gateway.
 
 		dev_is_vpn='1'	#default
 		#always add wan or lan to local gateway

@@ -28,8 +28,8 @@ if [ "$1" = "start" ]; then
 
 	#accept answers
 	ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-	
-	#allow access only some services 
+
+	#allow access only some services
 	ip6tables -A INPUT -i lo -j ACCEPT
 	ip6tables -A INPUT -p TCP --dport 80 -j ACCEPT
 	ip6tables -A INPUT -p TCP --dport 443 -j ACCEPT
@@ -88,8 +88,8 @@ if [ "$1" = "start" ]; then
 	ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 6240 -j ACCEPT
 
 	#ipv4/ipv6 encapsulation
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 4 -j ACCEPT	
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 41 -j ACCEPT	
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 4 -j ACCEPT
+	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 41 -j ACCEPT
 
 	ip6tables -A INPUT -j LOG --log-prefix "DROP IPv6 INPUT: "
 	ip6tables -A INPUT -j DROP
@@ -105,20 +105,20 @@ if [ "$1" = "start" ]; then
 	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o bmx+ -j ACCEPT
 	ip6tables -A FORWARD -i bmx+ -o bmx+ -j ACCEPT
 
-	#allow forward to openvpn tunnel 
+	#allow forward to openvpn tunnel
 	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
 	ip6tables -A FORWARD -i bat+ -o vpn+ -j ACCEPT
 	ip6tables -A FORWARD -i bmx+ -o vpn+ -j ACCEPT
 
 	#block any other
-	ip6tables -A FORWARD -j LOG --log-prefix "DROP IPv6 FORWARD: " 
+	ip6tables -A FORWARD -j LOG --log-prefix "DROP IPv6 FORWARD: "
 	ip6tables -A FORWARD -j DROP
 
 #----- setup OUTPUT rules -----
 	printf 'setting up OUTPUT rules ...\n'
 	ip6tables -A OUTPUT -p icmpv6 -j ACCEPT
 
-	#allow all output	
+	#allow all output
 	ip6tables -A OUTPUT -j ACCEPT
 fi
 

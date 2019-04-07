@@ -55,7 +55,7 @@ awk -v arg1="$ARG1" -v arg2="$ARG2" '
 	if(!match(ip,/^10\.20[0-1]\.[0-9]+\.[0-9]+$/))
 	{ print "invalid ip"; exit 1 }
 
-	split(ip,a,".")	
+	split(ip,a,".")
 	node=a[3]*255 + a[4] - 1
 
 	if(node > ENVIRON["NODE_MAX"])
@@ -75,7 +75,7 @@ awk -v arg1="$ARG1" -v arg2="$ARG2" '
 	_primary_major		= 200
 	_nonprimary_major	= 201
 	_middle			= int(node / 255) % 256
-	_minor			= (node % 255) + 1 
+	_minor			= (node % 255) + 1
 	_meshnet		= "10"
 
 	nodeip		= _meshnet "." _primary_major "." _middle "." _minor

@@ -3,7 +3,7 @@
 # https://www.linode.com/docs/uptime/logs/use-logrotate-to-manage-log-files#control-log-file-permissions
 
 /var/log/freifunk/router/*.log {
-	rotate 15 
+	rotate 15
 	daily
 	compress
 	copytruncate
@@ -12,7 +12,7 @@
 }
 
 /var/log/freifunk/router/*/*.log {
-	rotate 15 
+	rotate 15
 	daily
 	compress
 	copytruncate

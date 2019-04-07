@@ -68,7 +68,7 @@ add_incomming()
 {
 	local key="$1"
 	local comment="$2"
-	
+
 	if [ -n "$key" ] && [ -n "$comment" ]; then
 		#echo "[$key:$comment]"
 		FILE="$CONF_DIR/$CONF_PEERS/accept_$key.conf"
@@ -113,7 +113,7 @@ case "$1" in
 
 	generate_fastd_conf
 	# if fastd failes, return error to systemd, else salt always gets an active working status
-	# and would not restart fastd. 
+	# and would not restart fastd.
 	"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon || exit 1
   ;;
 

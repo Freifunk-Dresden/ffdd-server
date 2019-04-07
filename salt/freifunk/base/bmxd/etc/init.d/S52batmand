@@ -41,7 +41,7 @@ PREFERED_GATEWAY="$(nvram get bmxd_prefered_gateway)"
 test -n "$PREFERED_GATEWAY" && PREFERED_GATEWAY="-p $PREFERED_GATEWAY" \
 && printf '%s\n' "$PREFERED_GATEWAY"
 
-# create a virtual interface for primary interface. loopback has 
+# create a virtual interface for primary interface. loopback has
 # 127er IP would be broadcasted
 PRIMARY_IF="bmx_prime"
 FASTD_IF="tbb_fastd2"

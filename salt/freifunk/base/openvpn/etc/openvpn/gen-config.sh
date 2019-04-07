@@ -69,7 +69,7 @@ auth-nocache
 float
 route-noexec
 ifconfig-noexec
-up /etc/openvpn/up.sh 
+up /etc/openvpn/up.sh
 down /etc/openvpn/down.sh
 verb 3
 EOM

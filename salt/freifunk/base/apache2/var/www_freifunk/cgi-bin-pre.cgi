@@ -28,7 +28,7 @@ cat<<EOF
 <TR><TD class="navihead" COLSPAN="5" HEIGHT="22">
 EOF
 
-if [ -z "$NOMENU" ] 
+if [ -z "$NOMENU" ]
 then
  cat<<EOM
  <SPAN CLASS="color"><A CLASS="color" HREF="/">Home</A></SPAN>
@@ -49,7 +49,7 @@ cat<<EOF
  <TR><TD HEIGHT="33"><font size="4"><b>$(/usr/local/bin/nvram get servername)</b></font></TD>
  <TD ALIGN="right" HEIGHT="33"></TD>
 <TD HEIGHT="33" WIDTH="150" valign="bottom"><IMG ALT="" BORDER="0" HEIGHT="33" SRC="/images/ff-logo-1r.gif" WIDTH="150"></TD></tr>
- </TABLE></TD> 
+ </TABLE></TD>
 </TR><tr><td COLSPAN="5"><table class="navibar" width="100%" CELLPADDING="0" CELLSPACING="0">
 <TR>
 <TD COLSPAN="4" HEIGHT="19">&nbsp;v$(uname -a)</TD>

@@ -13,7 +13,7 @@ set_vpn_if() {
 	metric=$(( $1 + 100 ))	# used when generating config below
 				# use metric offset 100 to ensure
 				# no conflics with openvpn
-				
+
 	# currently wg-quick (command to start vpn manually) does
 	# not cope with this kind of naming. it works only when
 	# config file reflects the interface name despite of that

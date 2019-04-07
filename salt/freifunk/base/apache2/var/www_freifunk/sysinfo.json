@@ -87,7 +87,7 @@ cat<<EOM
 EOM
 			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
 			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
-			echo "				\"traffic_ovpn\" : \"$rx,$tx\"," 
+			echo "				\"traffic_ovpn\" : \"$rx,$tx\","
 
 			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann
 			# Also hier fuer die server, das interface befragen

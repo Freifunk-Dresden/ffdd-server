@@ -3,7 +3,7 @@
 # Cron configuration options
 
 # Uncomment this option for LSB name support in /etc/cron.d/
-#LSBNAMES='-l'  
+#LSBNAMES='-l'
 
 # Whether to read the system's default environment files (if present)
 # If set to "yes", cron will set a proper mail charset from the

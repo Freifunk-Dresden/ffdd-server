@@ -4,7 +4,7 @@
 # /usr/bin/local/conntrack.sh
 
 /var/log/conntrack.log {
-		rotate 5 
+		rotate 5
 		daily
 		compress
 		copytruncate
