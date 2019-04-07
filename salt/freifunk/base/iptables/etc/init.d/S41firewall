@@ -3,7 +3,7 @@
 #
 ### BEGIN INIT INFO
 # Provides:          S41firewall
-# Required-Start:    S40network
+# Required-Start:    S40network fail2ban.service
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
