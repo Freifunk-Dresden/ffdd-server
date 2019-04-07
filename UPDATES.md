@@ -16,7 +16,7 @@ _**version 1.0.4**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-ser
 	- small Bugfixes
 	- and other small changes
 
-	- add [Update Archives](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/archives/)
+	- add https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/archives/
 <br/>
 
 <br/>
