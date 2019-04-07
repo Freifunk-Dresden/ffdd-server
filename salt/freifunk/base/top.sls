@@ -43,6 +43,7 @@ base:
     - iptables
     - conntrack
 
+    # F2B with ipset
     - fail2ban
 
     # Services

@@ -41,3 +41,58 @@ fail2ban_check:
     - mode: 644
     - require:
       - pkg: fail2ban
+
+
+### ipset for fail2ban blacklist
+# source: https://github.com/ritsu/ipset-fail2ban
+ipset:
+  pkg.installed:
+    - name: ipset
+
+/usr/local/sbin/ipset-fail2ban.sh:
+  file.managed:
+    - source: salt://fail2ban/usr/local/sbin/ipset-fail2ban.sh
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: ipset
+
+# Configuration
+/etc/ipset-fail2ban/ipset-fail2ban.conf:
+  file.managed:
+    - source: salt://fail2ban/etc/ipset-fail2ban.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: ipset
+
+# local f2b actions overwrite defaults
+/etc/fail2ban/action.d/iptables-allports.local:
+  file.managed:
+    - source: salt://fail2ban/etc/fail2ban/action.d/iptables-allports.local
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: ipset
+
+/etc/fail2ban/action.d/iptables-multiport.local:
+  file.managed:
+    - source: salt://fail2ban/etc/fail2ban/action.d/iptables-multiport.local
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: ipset
+
+# cron
+/etc/cron.d/update-blacklist_fail2ban:
+  file.managed:
+    - source: salt://fail2ban/etc/cron.d/update-blacklist_fail2ban
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: ipset

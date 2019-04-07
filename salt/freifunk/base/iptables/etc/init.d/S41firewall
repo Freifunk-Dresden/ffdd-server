@@ -37,7 +37,7 @@ if [ "$1" = "start" ]; then
 	#dont SNAT locally generated packets target for local
 	iptables -w -t nat -A POSTROUTING -o lo -j ACCEPT
 
-	#SNAT all traffic to backbone which comes from tbb only (set source=node-ip) 
+	#SNAT all traffic to backbone which comes from tbb only (set source=node-ip)
 	#DON'T SNAT OGMs
 	iptables -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p udp --dport 4305:4307 -j ACCEPT
 	iptables -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -s "$_ddmesh_nonprimary_ip" -j SNAT --to-source "$_ddmesh_ip"
@@ -52,8 +52,8 @@ if [ "$1" = "start" ]; then
 	iptables -w -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 	iptables -w -A INPUT -p icmp -j ACCEPT
 	iptables -w -A INPUT -j T_BACKBONE_I
-	
-	#allow access only some services 
+
+	#allow access only some services
 	#tracepath/route
 	iptables -w -A INPUT -p udp --dport 30000:50000 -j ACCEPT
 	iptables -w -A INPUT -i lo -j ACCEPT
@@ -91,18 +91,21 @@ if [ "$1" = "start" ]; then
 
 	# fastd2 backbone
 	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5002 -j ACCEPT
-	
+
 	#
 	# include custom user rules
 	#
 	. /etc/firewall.user
-
 
 	#drop packages before logging
 	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 137 -j DROP
 
 	iptables -w -A INPUT -j LOG --log-prefix "DROP IPv4 INPUT: "
 	iptables -w -A INPUT -j DROP
+
+	# ipset-blacklist for F2B
+	ipset restore < /etc/ipset-fail2ban/ipset-fail2ban.restore
+	iptables -I INPUT 1 -m set --match-set blacklist_fail2ban src -j DROP
 
 #----- setup FORWARD rules -----
 	printf 'setting up FORWARD rules ...\n'
@@ -129,32 +132,32 @@ if [ "$1" = "start" ]; then
 	iptables -w -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
 
 	#dns; da in nvram.conf der dns eingetragen ist und eine routing rule fuer dns erzeugt,
-	#damit locale aufloesung geht, gibt es probleme wenn aus dem freifunk netz dns anfragen 
+	#damit locale aufloesung geht, gibt es probleme wenn aus dem freifunk netz dns anfragen
 	#via gleichem dns server (wie in resolv.conf) kommen. diese werden von firewall geblockt.
 	#erlaube dns anfragen via localem server
 	iptables -w -A FORWARD -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
 	iptables -w -A FORWARD -i bat+ -p udp --dport 53 -j ACCEPT
 
-	#allow forward to openvpn tunnel 
+	#allow forward to openvpn tunnel
 	iptables -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
 	iptables -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
 
 	#block any other
-	iptables -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: " 
+	iptables -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
 	iptables -w -A FORWARD -j DROP
 
 #----- setup OUTPUT rules -----
 	printf 'setting up OUTPUT rules ...\n'
 
-	# mark all icmp packages that comming from localhost. 
+	# mark all icmp packages that comming from localhost.
 	# during gateway check a special fmwark routing rule ensurs that only
 	# icmp pakets are passing vpn0. This is needed when gateway check uses freifunk
-	# vpn servers public ip to check internet. 
+	# vpn servers public ip to check internet.
 	# if I do not mark, all pakets (answers) for existing connections between localhost
 	# an other freifunk vservers are routet through openvpn (e.g.: ssh, fastd)
 	iptables -w -t mangle -A OUTPUT -p icmp -j MARK --set-mark 0x11
 
-	#allow all output	
+	#allow all output
 	iptables -w -A OUTPUT -j ACCEPT
 fi
 
@@ -168,10 +171,10 @@ if [ "$1" = "stop" ]; then
 	#iptables -w -X T_BACKBONE_O
 
 	iptables -w -t mangle -F PREROUTING
-	iptables -w -t mangle -F OUTPUT 
+	iptables -w -t mangle -F OUTPUT
 	iptables -w -t nat -F PREROUTING
 	iptables -w -t nat -F POSTROUTING
-	iptables -w -t nat -F OUTPUT 
+	iptables -w -t nat -F OUTPUT
 	iptables -w -F INPUT
 	iptables -w -F FORWARD
 	iptables -w -F OUTPUT
@@ -183,7 +186,7 @@ if [ "$1" = "stop" ]; then
 	iptables -w -X stat_to_ovpn
 	iptables -w -X stat_from_ovpn
 	iptables -w -X statistic_forward
-	
+
 fi
 
 
