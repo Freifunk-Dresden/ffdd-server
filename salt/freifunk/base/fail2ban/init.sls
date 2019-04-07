@@ -54,7 +54,7 @@ ipset:
     - source: salt://fail2ban/usr/local/sbin/ipset-fail2ban.sh
     - user: root
     - group: root
-    - mode: 644
+    - mode: 755
     - require:
       - pkg: ipset
 
