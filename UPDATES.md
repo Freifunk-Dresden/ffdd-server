@@ -1,5 +1,25 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.3)**
+**(current version 1.0.4)**
+<br/>
+
+_**version 1.0.4**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.4.md)
+
+* Release Version 1.0.4
+	- add Wireguard VPN Support
+	- add default resolv.conf with dynamic resolvconf
+	- add check for tun device in 'init_server.sh'
+	- add fail2ban apache-auth jail
+	- add ipset for f2b-blacklist
+	- add Code Comments
+	- update Server Page
+	- update freifunk-gateway-check.sh
+	- update Configurations
+	- small Bugfixes
+	- and other small changes
+
+	- add [Update Archives](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/archives/)
+<br/>
+
 <br/>
 
 _**version 1.0.3**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.3.md)
@@ -11,7 +31,7 @@ _**version 1.0.3**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-ser
 
 _**version 1.0.2**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.2.md)
 
-- Final Release Version 1.0.2
+- Version 1.0.2
 	- add Support for Ubuntu 18.04 LTS
 	- update sysinfo.json to version 14
 	- Bugfixes, Optimizing and cleanup old code
@@ -34,56 +54,9 @@ _**version 1.0.1**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-ser
 	- update nvram
 <br/>
 
-_**version 0.0.10**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.10.md)
+_**Archiv - version 0.0.X**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/archives/v0.0.X/archiv_v0.0.X.md)
 
 - Bugfixes and Optimizing
 <br/>
-
-_**version 0.0.9**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.9.md)
-
-- Bugfixes and Optimizing
-<br/>
-
-_**version 0.0.8**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.8.md)
-
-- Bugfixes and Optimizing
-<br/>
-
-_**version 0.0.7**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.7.md)
-
-- Bugfixes and Optimizing
-- Enable Letsencrypt for https
-<br/>
-
-_**version 0.0.6**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.6.md)
-
-- Bugfixes and Optimizing
-- (# add letsencrypt for https support)
-<br/>
-
-_**version 0.0.5**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.5.md)
-
-- Optimizing and Cleanup
-<br/>
-
-_**version 0.0.4**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.4.md)
-
-- Bugfix
-<br/>
-
-_**version 0.0.3**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.3.md)
-
-- Bugfixes
-<br/>
-
-_**version 0.0.2**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.0.2.md)
-
-- Bugfixes and Optimizing
-- add /etc/freifunk-server-version
-- add /etc/firewall.users
-- add Autosetup for new Servers (without configured nvram.conf)
-<br/>
-
-_**version 0.01**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v0.01.md)
 
 - Initial Commit from Git-Repository [ddmesh/vserver-base](https://github.com/ddmesh/vserver-base)

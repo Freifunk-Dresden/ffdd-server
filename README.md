@@ -1,7 +1,7 @@
-# Freifunk Dresden: ffdd-server (current version 1.0.3)
+# Freifunk Dresden: ffdd-server (current version 1.0.4)
 Configures an Debian (8/9) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
-**[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** | **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)**
+**[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)**
 
 **[UPDATE News](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/UPDATES.md)**
 
@@ -9,7 +9,7 @@ Configures an Debian (8/9) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresde
 
 Freifunk Ziel
 ----
-Freifunk hat es sich zum Ziel gesetzt, Menschen möglichst flächendeckend mit freiem WLAN zu versorgen. Freier Zugang zu Informationen ist nicht nur eine Quelle für Wissen, sondern kann sich auch positiv auf die wirtschaftliche und kulturelle Entwicklung einer Stadt, Region und Land auswirken, da das Internet in der heutigen Zeit sicher ein fester Bestandteil des täglichen Lebens geworden ist. Freifunk bietet die Möglichkeit, Internet per WLAN frei zu nutzen - ohne Zugangssperren und sicher, da der Internettraffic via verschlüsselten Internettunnel (VPN) ins Ausland geroutet wird. 
+Freifunk hat es sich zum Ziel gesetzt, Menschen möglichst flächendeckend mit freiem WLAN zu versorgen. Freier Zugang zu Informationen ist nicht nur eine Quelle für Wissen, sondern kann sich auch positiv auf die wirtschaftliche und kulturelle Entwicklung einer Stadt, Region und Land auswirken, da das Internet in der heutigen Zeit sicher ein fester Bestandteil des täglichen Lebens geworden ist. Freifunk bietet die Möglichkeit, Internet per WLAN frei zu nutzen - ohne Zugangssperren und sicher, da der Internettraffic via verschlüsselten Internettunnel (VPN) ins Ausland geroutet wird.
 
 Freifunk Dresden Server (ffdd-server)
 ----
@@ -40,13 +40,13 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
   In  /etc/nvram.conf werden die meisten Einstellungen für den Vserver hinterlegt.
 
 - Weiterhin verwendet das Freifunk Dresden Netz als Backbone-VPN Tool fastd2.
-  
+
   fastd2 ist ein für Freifunk entwickeltes VPN, welches eine schnelle und zuverlässige Verbindung bereitstellt.<br/>
   Bei der aktuellen Installation werden alle Verbindungen von Freifunk-Router zum Server zugelassen, welche sich mit dem korrekten Public-Key des Servers verbinden. Dieser Public-Key kann über http://ip-des-knotens/sysinfo-json.cgi ausgelesen werden.<br/>
   Verbindet sich ein Router mit einem Server erfolgreich, so "lernt" der Server diese Verbindung und erzeugt ein entsprechendes Konfigurationsfile unterhalb von '/etc/fastd/peers2'.<br/>
   Später kann der Server umgestellt werden, so dass nur noch dort abgelegte Konfigurationen (Verbindungen) akzeptiert werden. Gesteuert wird dieses durch das Konfigurationsfile von fastd (/etc/fastd/fastd2.conf).
 
-- Der VServer unterstützt derzeit zwei VPN Implementationen Openvpn und Wireguard. Wireguard ist aber noch im BETA-Zustand.<br/>
+- Der VServer unterstützt derzeit zwei VPN Implementationen Openvpn und Wireguard. Wireguard ist aber noch im BETA-Zustand. (Wireguard Unterstützung in Containern ist nur möglich wenn auch die kernel-headers verfügbar sind.)<br/>
   /etc/openvpn (/etc/wireguard) enthält je ein Script, mit dem verschiede VPN Konfigurationen von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.<br/>
 Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stufe das lokale Internet testet und wenn dieses funktioniert, wird das Openvpn/Wireguard Internet geprüft. Ist das Openvpn/Wireguard Internet verfügbar, wird dieser Vserver als Internet-Gateway im Freifunknetz bekannt gegeben.
 
@@ -67,9 +67,9 @@ Vorausetzungen
 
 - Netzwerk: min. 100Mbit/s
 
-- Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn.
+- Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn und Wireguard.
 
-- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), LXC, XEN und OPENVZ sehr gut.
+- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), XEN, LXC und OPENVZ sehr gut.
 
 Installation
 ----
@@ -83,11 +83,11 @@ Installation
 - _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
 
 - _Änderung des Installations Path in /etc/nvram.conf_<br/>
-Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! >>> Es sollte reichen sich einen Symlink zu erstellen.
+Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 <br/>
 
 Folgends cloned und Installiert das Repository.<br/>
-Es wird beim ersten Durchführen eine kurze Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
+Es wird beim ersten Durchführen einige Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
 installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
 
 git:
@@ -108,6 +108,8 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 ```
 <br/>
 
+*Coffee Time (~+ 10min)*<br />
+
 Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summary for local" noch Failed's angezeigt werden.
 <br/>
 
@@ -121,10 +123,14 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
   *ifname
   *contact
 */etc/openvpn/
-  # please creates openvpn.conf with:
-    ./genconfig.sh yourvpnclient.conf/.ovpn
+  # creates openvpn.conf with:
+    ./genconfig.sh vpn0 <original-provider-config-file>
   # for vpn user and password use:
     /etc/openvpn/openvpn.login
+*/etc/wireguard/
+  # creates vpn0.conf with:
+    ./genconfig.sh vpn0 <original-provider-config-file>
+(OVPN/WG supports interface vpn0 and vpn1)
 */etc/fastd/peers2/
   # To Create a Fastd2 Connection use:
     '/etc/init.d/S53backbone-fastd2 add_connect vpnX.freifunk-dresden.de 5002'
@@ -182,6 +188,5 @@ Links
 [Freifunk Dresden](https://www.freifunk-dresden.de)<br/>
 [Wiki: Freifunk Dresden](https://wiki.freifunk-dresden.de)<br/>
 [Bugtracker](https://bt.freifunk-dresden.de/index.php?do=tasklist&project=3)<br/>
-[Google+](http://google.com/+FreifunkDresden%EF%BB%BF/about)<br/>
-[Google+ Community](https://plus.google.com/communities/108088672678522515509)<br/>
+[Twitter](https://twitter.com/ddmesh)<br/>
 [Facebook](https://www.facebook.com/FreifunkDresden)
