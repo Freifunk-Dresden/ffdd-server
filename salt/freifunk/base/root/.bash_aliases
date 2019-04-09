@@ -4,12 +4,9 @@
 # Custom User Aliases
 #
 
-# default 'ls'-alias in .bashrc
-# alias ls='ls -lah -F --color=auto'
-
-# create our aliases here:
-
-
+if [ -f ~/.bash_user_aliases ]; then
+    . ~/.bash_user_aliases
+fi
 
 #
 # Freifunk Aliases
