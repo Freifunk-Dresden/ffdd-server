@@ -18,6 +18,7 @@
 alias freifunk-call='salt-call state.highstate --local'
 
 alias psa='ps -axuwf'
+alias conntrack='tail /var/log/conntrack.log'
 
 # Git diff
 alias gitdiff='git difftool -t idiff -y'

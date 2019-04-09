@@ -15,6 +15,6 @@
     - user: root
     - group: root
     - mode: 644
-    #- replace: false
+    - replace: false
     - require:
       - pkg: bash
