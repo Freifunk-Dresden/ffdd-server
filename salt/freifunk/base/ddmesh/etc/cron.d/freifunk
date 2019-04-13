@@ -8,7 +8,7 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 {% from 'config.jinja' import ctime %}
 # ip rules check. needed on linux container based vservers like the ones offered by webtropia
-*/1	*	* * *	root	/etc/init.d/S40network check
+*/1	*	* * *	root	/etc/init.d/S40network check >/dev/null 2>&1
 
 # batmand check every 1 minutes
 */1	*	* * *	root	/etc/init.d/S52batmand check >/dev/null 2>&1
