@@ -51,7 +51,7 @@ cat << EOM
 			"board":"$(printf '%s\n' $chassis)",
 			"model":"$(printf '%s\n' $(if [ ! -z $virtualization ]; then echo $virtualization; fi))",
 			"model2":"$(printf '%s%s\n' $chassis $(if [ ! -z $virtualization ]; then echo '-'$virtualization; fi))",
-			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*: ##;p}')",
+			"cpuinfo":"$(cat /proc/cpuinfo | awk '/system type|model name/{gsub(/^.*:[ ]*/,"");print $0;exit}')",
 			"cpucount":"$(grep -c ^processor /proc/cpuinfo)",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
 			"node_type":"server",
