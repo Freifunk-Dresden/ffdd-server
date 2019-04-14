@@ -26,7 +26,7 @@ virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
 
 cat << EOM
 {
- "version":"14",
+ "version":"15",
  "timestamp":"$(date +'%s')",
  "data":{
 
