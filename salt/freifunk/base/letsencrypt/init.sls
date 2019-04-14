@@ -57,7 +57,7 @@ apache2_mod_ssl:
 #
 generate_dhparam:
   cmd.run:
-    - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096
+    - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 2048
     - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 
