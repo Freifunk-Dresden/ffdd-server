@@ -40,6 +40,7 @@
 /etc/cron.d/freifunk-masterless:
   file.managed:
     - source: salt://ddmesh/etc/cron.d/freifunk-masterless
+    - template: jinja
     - user: root
     - group: root
     - mode: 600
