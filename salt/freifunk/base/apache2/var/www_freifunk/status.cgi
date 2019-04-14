@@ -32,7 +32,12 @@ cat<<EOF
 		do
 			[ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ] && vs='1'
 		done
-		if [ "$vs" -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi
+		if [ "$vs" -eq '1' ]; then
+			ip_country="$(/usr/local/bin/freifunk-gateway-status.sh | awk '{print $3}')"
+			printf '<img src="/images/yes.png"> (%s)' "$ip_country"
+		else
+			printf '<img src="/images/no.gif">'
+		fi
 	else
 		vs='0'
 		printf '<img src="/images/no.gif">'

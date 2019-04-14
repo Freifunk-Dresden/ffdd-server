@@ -52,6 +52,7 @@ cat << EOM
 			"model":"$(printf '%s\n' $(if [ ! -z $virtualization ]; then echo $virtualization; fi))",
 			"model2":"$(printf '%s%s\n' $chassis $(if [ ! -z $virtualization ]; then echo '-'$virtualization; fi))",
 			"cpuinfo":"$(cat /proc/cpuinfo | grep -m1 'model name' | sed -n '/^model/{s#^.*: ##;p}')",
+			"cpucount":"$(grep -c ^processor /proc/cpuinfo)",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
 			"node_type":"server",
 			"autoupdate":$(nvram get autoupdate)
@@ -103,7 +104,8 @@ cat<<EOM
 			$(cat /proc/meminfo | sed -n '/^MemTotal\|^MemFree\|^Buffers\|^Cached/{s#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#p}')
 			"cpu_load" : "$(cat /proc/loadavg)",
 			"cpu_stat" : "$(cat /proc/stat | sed -n '/^cpu[ 	]\+/{s# \+# #;p}')",
-			"gateway_usage" : [ $(cat /var/statistic/gateway_usage | sed 's#\([^:]*\):\(.*\)#\t\t\t\t{"\1":"\2"},#' | sed '$s#,[ 	]*$##') ]
+			"gateway_usage" : [ $(cat /var/statistic/gateway_usage | sed 's#\([^:]*\):\(.*\)#\t\t\t\t{"\1":"\2"},#' | sed '$s#,[ 	]*$##') ],
+			"gateway_country" : "$(/usr/local/bin/freifunk-gateway-status.sh | awk '{print $3}')"
 		},
 EOM
 
