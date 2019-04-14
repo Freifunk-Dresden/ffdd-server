@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 ### This file managed by Salt, do not edit by hand! ###
 
-iface="$(ip ro lis ta public_gateway | sed -n '/default/s#.*\(vpn.*\)$#\1#p')"
-#echo "OPENVPN interface: $iface"
+ip="$(curl --interface vpn0 -s whois.envs.net)"
+[ -z "$ip" ] && ip="$(curl --interface vpn0 -s whois.envs.net)"
 
-filename="$(grep -l "^[ 	]*dev[ 	]\+"$iface /etc/openvpn/*.conf | sed 's#:.*##')"
-#echo "OPENVPN config file: $filename"
-
-ip="$(grep "^[ 	]*remote[ 	]\+" $filename | awk '{print $2}')"
-#echo "OPENVPN server ip: $ip"
-
-country=$(whois "$ip" | sed -n '/^country:/s#.*[: 	]##p')
-printf 'OPENVPN country: %s\n' "$country"
+if [ -n "$ip" ]; then
+	country=$(whois "$ip" | sed -n '/^country:/s#.*[: 	]##p')
+	printf 'OPENVPN country: %s\n' "$country"
+fi
 
 exit 0
