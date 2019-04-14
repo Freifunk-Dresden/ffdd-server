@@ -74,3 +74,12 @@ apache2_mod_auth_basic:
     - require:
       - pkg: apache2
       - file: /etc/apache2/conf-enabled/monitorix_access.incl
+
+# Monitorix Images Permissions
+/var/lib/monitorix/www/imgs:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - recurse:
+      - user
+      - group
