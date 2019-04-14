@@ -32,11 +32,7 @@ cat<<EOF
 		do
 			[ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ] && vs='1'
 		done
-		if [ "$vs" -eq '1' ]; then
-			printf '<img src="/images/yes.png">'
-		else
-			printf '<img src="/images/no.gif">'
-		fi
+		if [ "$vs" -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi
 	else
 		vs='0'
 		printf '<img src="/images/no.gif">'
