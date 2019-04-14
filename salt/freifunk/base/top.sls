@@ -32,6 +32,7 @@ base:
     - devel
     - bmxd
     - fastd
+    - cjdns
 
     - salt-minion
     - ddmesh
