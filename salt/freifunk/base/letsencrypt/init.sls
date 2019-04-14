@@ -1,4 +1,4 @@
-# HTTPS-Cert from Let's Encrypt
+{# HTTPS-Cert from Let's Encrypt #}
 letsencrypt:
   {% if grains['os'] == 'Ubuntu' %}
   pkgrepo.managed:
@@ -8,7 +8,7 @@ letsencrypt:
     - name: certbot
     - refresh: True
 
-# Configuration
+{# Configuration #}
 /etc/letsencrypt/cli.ini:
   file.managed:
     - source:
@@ -18,14 +18,14 @@ letsencrypt:
     - mode: 644
 
 
-# SSL Apache2 Module
+{# SSL Apache2 Module #}
 apache2_mod_ssl:
   cmd.run:
     - name: /usr/sbin/a2enmod ssl
     - unless: "[ -f /etc/apache2/mods-enabled/ssl.load ]"
 
 
-# letsencrypt requirements
+{# letsencrypt requirements #}
 /etc/apache2/conf-enabled/letsencrypt.conf:
   file.managed:
     - source:
@@ -52,16 +52,14 @@ apache2_mod_ssl:
     - makedirs: True
 
 
-#
-# autoconfigure a new server
-#
+{# autoconfigure a new server #}
 generate_dhparam:
   cmd.run:
     - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 2048
     - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 
-# check hostname has the correct format and is not NAT'd over freifunk-dresden.de
+{# check hostname has the correct format and is not NAT'd over freifunk-dresden.de #}
 {% from 'config.jinja' import ffdom, hostname %}
 {%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short || true") -%}
 {%- set check_fqdn = salt['cmd.shell']("h=" ~ hostname ~ " ; [[ ${h//[^.]} != '' ]] && host $h | grep -v " ~ ffip ~ " 2>&1 > /dev/null ; if [ $? -eq 0 ]; then echo $h ; fi || true") -%}
@@ -74,7 +72,7 @@ generate_certificate:
     - unless: "[ -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
-# enable Apache2 SSL Webpage for FFDD
+{# enable Apache2 SSL Webpage for FFDD #}
 /etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.managed:
     - source:
@@ -97,8 +95,7 @@ apache2_ssl:
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
-#
-# automatically renew certs
+{# automatically renew certs #}
 /etc/cron.d/certbot:
   file.managed:
     - source: salt://letsencrypt/etc/cron.d/certbot
@@ -110,15 +107,17 @@ apache2_ssl:
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
-#
-# Temp. Force Renew dhparm and certs
-#
+
+{# Temp. Force Renew dhparm and certs #}
+
+{#
 #force-renew-ssl:
 #  cmd.run:
 #    - name: "touch /etc/ssl/temp-check-ssl ; /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096 ; /usr/bin/certbot -q renew --force-renewal --renew-hook 'systemctl reload apache2'"
 #    - unless: "[ -f /etc/ssl/temp-check-ssl ]"
+#}
 
-# Deativated Force-Renew
+{# Deativated Force-Renew #}
 /etc/ssl/temp-check-ssl:
   file.absent
 

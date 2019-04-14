@@ -4,7 +4,7 @@ sudo:
   require:
     - file: /etc/sudoers
 
-# Configuration
+{# Configuration #}
 /etc/sudoers:
   file:
     - managed

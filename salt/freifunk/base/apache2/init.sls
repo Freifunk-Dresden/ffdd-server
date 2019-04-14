@@ -1,4 +1,4 @@
-# Apache2 Webserver
+{# Apache2 Webserver #}
 apache2:
   pkg.installed:
     - name: apache2
@@ -32,7 +32,7 @@ apache2_pkgs:
       - pwauth
 
 
-# disable default page
+{# disable default page #}
 /etc/apache2/sites-enabled/000-default.conf:
   file.absent
 
@@ -40,7 +40,7 @@ apache2_pkgs:
   file.absent
 
 
-# enable FFDD server page
+{# enable FFDD server page #}
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.managed:
     - source:
@@ -62,7 +62,7 @@ apache2_pkgs:
       - group
 
 
-# check Apache2 Modules
+{# check Apache2 Modules #}
 apache2_mod_authnz_external:
   cmd.run:
     - name: /usr/sbin/a2enmod authnz_external

@@ -1,4 +1,4 @@
-# FFDD Salt-Minion (masterless)
+{# FFDD Salt-Minion (masterless) #}
 salt-minion:
   pkg.installed:
     - name: salt-minion
@@ -6,7 +6,7 @@ salt-minion:
     - dead
     - enable: False
 
-# Configuration
+{# Configuration #}
 /etc/salt/minion.d/freifunk-masterless.conf:
   file.managed:
     - source:

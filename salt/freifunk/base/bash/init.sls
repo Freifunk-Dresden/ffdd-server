@@ -1,11 +1,11 @@
-# Default Shell
+{# Default Shell #}
 bash:
   pkg.installed:
     - names:
       - bash
       - bash-completion
 
-# Configuration
+{# Configuration #}
 /etc/bash.bashrc:
   file.managed:
     - source: salt://bash/etc/bash.bashrc

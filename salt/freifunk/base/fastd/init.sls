@@ -1,4 +1,4 @@
-# Backbone - fastd2
+{# Backbone - fastd2 #}
 /usr/local/src/fastd:
   file.recurse:
     - source:
@@ -11,8 +11,8 @@
       - pkg: devel
       - user: freifunk
 
-# Compiling
-# needs devel.sls (compiling tools)
+{# Compiling #}
+{# needs devel.sls (compiling tools) #}
 compile_fastd:
   cmd.run:
     - name: "cd /usr/local/src/fastd/ && bash build.sh"
@@ -23,7 +23,7 @@ compile_fastd:
       - file: /usr/local/src/fastd
 
 
-# Configuration
+{# Configuration #}
 /etc/fastd:
   file.directory:
     - user: root
@@ -42,7 +42,7 @@ compile_fastd:
       - file: /etc/fastd
 
 
-# Service
+{# Service #}
 /etc/init.d/S53backbone-fastd2:
   file.managed:
     - source: salt://fastd/etc/init.d/S53backbone-fastd2

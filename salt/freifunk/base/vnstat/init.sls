@@ -1,4 +1,4 @@
-# Network Traffic Monitor
+{# Network Traffic Monitor #}
 {% from 'config.jinja' import ifname %}
 
 vnstat:
@@ -15,7 +15,7 @@ vnstat:
       - pkg: vnstat
       - file: /etc/vnstat.conf
 
-# Configuration
+{# Configuration #}
 /etc/vnstat.conf:
   file.managed:
     - source:
@@ -26,7 +26,7 @@ vnstat:
     - mode: 644
 
 
-# initialize interface
+{# initialize interface #}
 vnstat_{{ ifname }}:
   cmd.run:
     - name: /usr/bin/vnstat -u -i {{ ifname }}
@@ -52,7 +52,7 @@ vnstat_vpn1:
     - name: /usr/bin/vnstat -u -i vpn1 && systemctl restart vnstat
     - onlyif: test ! -f /var/lib/vnstat/vpn1 && test -f /etc/openvpn/openvpn-vpn1.conf -o -f /etc/wireguard/vpn1.conf
 
-# set correct file permissions
+{# set correct file permissions #}
 /var/lib/vnstat:
   file.directory:
     - user: vnstat
@@ -63,14 +63,14 @@ vnstat_vpn1:
       - user
       - group
 
-# restart vnstat
+{# restart vnstat #}
 vnstat_restart:
   cmd.run:
     - name: systemctl restart vnstat
     - onlyif: test ! -f /var/lib/vnstat/.{{ ifname }} || test ! -f /var/lib/vnstat/.bat0 || test ! -f /var/lib/vnstat/.tbb_fastd2
 
 
-# Web Traffic Dashboard
+{# Web Traffic Dashboard #}
 /var/www_vnstat:
   file.recurse:
     - source:
@@ -83,7 +83,7 @@ vnstat_restart:
       - user
       - group
 
-# define own interfaces
+{# define own interfaces #}
 /var/www_vnstat/config.php:
   file.managed:
     - source:
@@ -96,7 +96,7 @@ vnstat_restart:
       - file: /var/www_vnstat
 
 
-# enable Apache2 Module PHP
+{# enable Apache2 Module PHP #}
 apache2_mod_php:
   cmd.run:
     - name: /usr/sbin/a2enmod php*
@@ -105,7 +105,7 @@ apache2_mod_php:
       - pkg: php
 
 
-# enable vnstat Apache2 config
+{# enable vnstat Apache2 config #}
 /etc/apache2/conf-enabled/vnstat.conf:
   file.managed:
     - source:

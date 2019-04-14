@@ -1,4 +1,4 @@
-# Packages without needed Configuration
+{# Packages without needed Configuration #}
 install_pkg:
   pkg.installed:
     - names:
@@ -23,7 +23,7 @@ install_pkg:
       - git
       - links
 
-      # misc
+      {# misc #}
       - mlocate
       - gawk
       - tar
@@ -32,7 +32,7 @@ install_pkg:
       - unzip
       - gzip
 
-      # purge old kernels
+      {# purge old kernels #}
       - byobu
 
       - ethtool
@@ -45,7 +45,7 @@ install_pkg:
       - dnsutils
       - whois
 
-      # network traffic measurements
+      {# network traffic measurements #}
       - bwm-ng
       - iptraf
 

@@ -1,4 +1,4 @@
-# Package Management System
+{# Package Management System #}
 apt:
   pkg.installed:
     - names:
@@ -7,7 +7,7 @@ apt:
       - ca-certificates
       - unattended-upgrades
 
-# Configuration
+{# Configuration #}
 /etc/apt/apt.conf.d/20auto-upgrades:
   file.managed:
     - source: salt://apt/etc/apt/apt.conf.d/20auto-upgrades
@@ -26,7 +26,7 @@ apt:
     - require:
       - pkg: apt
 
-# automatic (crontab) - apt update
+{# automatic (crontab) - apt update #}
 /etc/cron.d/apt-update:
   file.managed:
     - source: salt://apt/etc/cron.d/apt-update
@@ -37,7 +37,7 @@ apt:
       - pkg: apt
       - pkg: cron
 
-# automatic security upgrades
+{# automatic security upgrades #}
 unattended-upgrades:
   service:
     - running

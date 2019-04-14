@@ -1,11 +1,11 @@
-# provides /etc/resolv.conf
+{# provides /etc/resolv.conf #}
 {%- set resolv_conf = '/etc/resolvconf/resolv.conf.d/head' %}
 
 pkg_resolvconf:
   pkg.installed:
     - name: resolvconf
 
-# Configuration
+{# Configuration #}
 {{ resolv_conf }}:
   file.managed:
     - contents: |
@@ -17,7 +17,7 @@ pkg_resolvconf:
     - mode: 644
     - attrs: i
 
-# force chattr +i
+{# force chattr +i #}
 {{ resolv_conf }}-locked:
   cmd.run:
     - name: chattr +i {{ resolv_conf }}

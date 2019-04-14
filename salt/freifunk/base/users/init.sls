@@ -1,4 +1,4 @@
-# ensure user "freifunk" is present
+{# ensure user "freifunk" is present #}
 freifunk:
   user.present:
     - fullname: Freifunk
@@ -14,7 +14,7 @@ freifunk:
     - members:
       - freifunk
 
-# ensure user "syslog" is present (required in rsyslog)
+{# ensure user "syslog" is present (required in rsyslog) #}
 syslog:
   user.present:
     - shell: /bin/bash

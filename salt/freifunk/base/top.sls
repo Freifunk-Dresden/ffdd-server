@@ -1,13 +1,13 @@
 base:
   '*':
-    # cleanup old server version
+    {# cleanup old server version #}
     - clear_oldenv
 
     - apt
 
-    # remove conflicting packages
+    {# remove conflicting packages #}
     - remove_pkg
-    # basic software and tools
+    {# basic software and tools #}
     - install_pkg
     - tools
 
@@ -28,26 +28,26 @@ base:
     - rsyslog
     - logrotate
 
-    # Compilling
+    {# Compilling #}
     - devel
     - bmxd
     - fastd
-    #- cjdns
+    {#- cjdns #}
 
     - salt-minion
     - ddmesh
     - nvram
 
-    # Networking / Firewall
+    {# Networking / Firewall #}
     - iproute2
     - network
     - iptables
     - conntrack
 
-    # F2B with ipset
+    {# F2B with ipset #}
     - fail2ban
 
-    # Services
+    {# Services #}
     - ssh
     - openvpn
     - wireguard
@@ -60,5 +60,5 @@ base:
     - monitorix
     - vnstat
 
-    # /etc/resolv.conf
+    {# /etc/resolv.conf#}
     - resolv

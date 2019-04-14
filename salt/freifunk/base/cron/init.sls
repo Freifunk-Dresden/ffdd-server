@@ -1,9 +1,9 @@
-# time-based job scheduler
+{# time-based job scheduler #}
 cron:
   pkg.installed:
     - name: cron
 
-# Configuration
+{# Configuration #}
 /etc/default/cron:
   file.managed:
     - source:
@@ -14,7 +14,7 @@ cron:
     - require:
       - pkg: cron
 
-# purge_old_kernels and update grub
+{# purge_old_kernels and update grub #}
 /etc/cron.d/purge-old-kernels:
   file.managed:
     - source: salt://cron/etc/cron.d/purge-old-kernels

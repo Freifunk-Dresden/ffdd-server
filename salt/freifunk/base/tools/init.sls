@@ -1,4 +1,4 @@
-# merging tool idiff
+{# merging tool idiff #}
 /usr/local/bin/idiff:
   file.managed:
     - source: salt://tools/usr/local/bin/idiff
@@ -6,7 +6,7 @@
     - group: root
     - mode: 755
 
-# helper symlinks
+{# helper symlinks #}
 /bin/sh:
   file.symlink:
     - target: /bin/bash

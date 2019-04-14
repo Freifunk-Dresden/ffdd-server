@@ -1,6 +1,4 @@
-# Freifunk Dresden Configurations
-#
-# Firmware Version
+{# Freifunk Dresden Configurations #}
 {% from 'config.jinja' import freifunk_version %}
 
 /etc/freifunk-server-version:
@@ -12,9 +10,7 @@
     - mode: 644
 
 
-#
-# Crontabs
-#
+{# Crontabs #}
 /etc/cron.d/freifunk:
   file.managed:
     - source: salt://ddmesh/etc/cron.d/freifunk
@@ -25,7 +21,7 @@
     - require:
       - pkg: cron
 
-# autoupdate
+{# autoupdate #}
 /etc/cron.d/freifunk-autoupdate:
   file.managed:
     - source: salt://ddmesh/etc/cron.d/freifunk-autoupdate
@@ -36,7 +32,7 @@
     - require:
       - pkg: cron
 
-# salt-minion self-managed config
+{# salt-minion self-managed config #}
 /etc/cron.d/freifunk-masterless:
   file.managed:
     - source: salt://ddmesh/etc/cron.d/freifunk-masterless
@@ -49,9 +45,7 @@
       - pkg: salt-minion
 
 
-#
-# Directories
-#
+{# Directories #}
 /var/lib/freifunk:
   file.directory:
     - user: freifunk
@@ -61,9 +55,8 @@
     - require:
       - user: freifunk
 
-#
-# Logs
-# (used by rsyslog clients)
+{# Logs #}
+{# (used by rsyslog clients) #}
 /var/log/freifunk:
   file.directory:
     - user: root
@@ -102,9 +95,7 @@
     - require:
       - pkg: rsyslog
 
-#
-# Scripts
-#
+{# Scripts #}
 /usr/local/bin/freifunk-autoupdate:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/freifunk-autoupdate

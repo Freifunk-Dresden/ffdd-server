@@ -1,4 +1,4 @@
-# FFDD Config Management
+{# FFDD Config Management #}
 /usr/local/bin/nvram:
   file.managed:
     - source: salt://nvram/usr/local/bin/nvram
@@ -8,7 +8,7 @@
     - require:
       - file: /etc/nvram.conf
 
-# Configuration
+{# Configuration #}
 /etc/nvram.conf:
   file.managed:
     - source:
@@ -19,9 +19,7 @@
     - replace: false
 
 
-#
-# autoconfigure a new server
-#
+{# autoconfigure a new server #}
 /usr/local/bin/freifunk-nvram_autosetup.sh:
   file.managed:
     - source: salt://nvram/usr/local/bin/freifunk-nvram_autosetup.sh

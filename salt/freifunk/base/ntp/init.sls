@@ -1,4 +1,4 @@
-# Network Time Protocol
+{# Network Time Protocol #}
 ntp:
   pkg.installed:
     - name: ntp
@@ -11,7 +11,7 @@ ntp:
     - require:
       - pkg: ntp
 
-# Configuration
+{# Configuration #}
 /etc/ntp.conf:
   file.managed:
     - source: salt://ntp/etc/ntp/ntp.conf

@@ -1,4 +1,4 @@
-# remove conflicting packages
+{# remove conflicting packages #}
 remove_pkg:
   pkg.removed:
     - names:

@@ -1,9 +1,9 @@
-# vim text editor
+{# vim text editor #}
 vim:
   pkg.installed:
     - name: vim
 
-# Configuration
+{# Configuration #}
 /etc/vimrc:
   file.managed:
     - source:

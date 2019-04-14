@@ -1,4 +1,4 @@
-# System and Service Manager
+{# System and Service Manager #}
 systemd:
   pkg.installed:
     - name: systemd

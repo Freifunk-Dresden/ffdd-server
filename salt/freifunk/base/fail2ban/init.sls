@@ -1,4 +1,4 @@
-# Fail2ban (intrusion prevention system)
+{# Fail2ban (intrusion prevention system) #}
 fail2ban:
   pkg.installed:
     - name: fail2ban
@@ -17,13 +17,13 @@ fail2ban:
       - service: S40network
       - service: S41firewall
 
-# Fail2ban Installation Check
+{# Fail2ban Installation Check #}
 fail2ban_check:
   cmd.run:
     - name: logger -t "rc.local" "restart fail2ban" ; mkdir -p /var/run/fail2ban ; /usr/sbin/service fail2ban restart
     - unless: "[ -d /var/run/fail2ban ]"
 
-# Configuration
+{# Configuration #}
 /etc/fail2ban/fail2ban.conf:
   file.managed:
     - source: salt://fail2ban/etc/fail2ban/fail2ban.conf
@@ -43,8 +43,8 @@ fail2ban_check:
       - pkg: fail2ban
 
 
-### ipset for fail2ban blacklist
-# source: https://github.com/ritsu/ipset-fail2ban
+{# ipset for fail2ban blacklist #}
+{# source: https://github.com/ritsu/ipset-fail2ban #}
 ipset:
   pkg.installed:
     - name: ipset
@@ -59,7 +59,7 @@ ipset:
       - pkg: fail2ban
       - pkg: ipset
 
-# Configuration
+{# Configuration #}
 /etc/ipset-fail2ban/ipset-fail2ban.conf:
   file.managed:
     - source: salt://fail2ban/etc/ipset-fail2ban/ipset-fail2ban.conf
@@ -71,7 +71,7 @@ ipset:
       - pkg: fail2ban
       - pkg: ipset
 
-# local f2b actions overwrite defaults
+{# local f2b actions overwrite defaults #}
 /etc/fail2ban/action.d/iptables-allports.local:
   file.managed:
     - source: salt://fail2ban/etc/fail2ban/action.d/iptables-allports.local
@@ -92,7 +92,7 @@ ipset:
       - pkg: fail2ban
       - pkg: ipset
 
-# cron
+{# cron #}
 /etc/cron.d/update-blacklist_fail2ban:
   file.managed:
     - source: salt://fail2ban/etc/cron.d/update-blacklist_fail2ban
@@ -103,7 +103,7 @@ ipset:
       - pkg: fail2ban
       - pkg: ipset
 
-# first time exec
+{# first time exec #}
 ipset-f2b-init:
   cmd.run:
     - name: /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf

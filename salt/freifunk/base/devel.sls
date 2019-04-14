@@ -1,4 +1,4 @@
-# Packages for compilling - bmxd / fastd
+{# Packages for compilling - bmxd / fastd #}
 devel:
   pkg.installed:
     - names:

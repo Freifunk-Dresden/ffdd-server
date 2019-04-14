@@ -1,4 +1,4 @@
-# cjdns
+{# cjdns #}
 
 cjdns_clone_repo:
   git.latest:
@@ -7,8 +7,8 @@ cjdns_clone_repo:
     - require:
       - pkg: devel
 
-# Compiling
-# needs devel.sls (compiling tools)
+{# Compiling #}
+{# needs devel.sls (compiling tools) #}
 cjdns_build_repo:
   cmd.run:
     - name: |

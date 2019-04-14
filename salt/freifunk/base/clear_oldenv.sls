@@ -1,4 +1,4 @@
-# cleanup old server version
+{# cleanup old server version #}
 
 /root/freifunk/vserver-base:
   file.absent
@@ -105,7 +105,7 @@
   file.absent
 
 
-# remove old packages
+{# remove old packages #}
 remove_old_pkg:
   pkg.removed:
     - names:

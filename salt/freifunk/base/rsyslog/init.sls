@@ -1,4 +1,4 @@
-# transferring log messages (server for logging from nodes)
+{# transferring log messages (server for logging from nodes) #}
 rsyslog:
   pkg.installed:
     - name: rsyslog
@@ -15,7 +15,7 @@ rsyslog:
       - file: /etc/rsyslog.d/10-freifunk.conf
 
 
-# Configuration
+{# Configuration #}
 /etc/rsyslog.conf:
   file.managed:
     - source:
@@ -53,7 +53,7 @@ rsyslog:
       - pkg: rsyslog
 
 
-# change directory & file permissions
+{# change directory & file permissions #}
 /var/log:
   file.directory:
     - user: root

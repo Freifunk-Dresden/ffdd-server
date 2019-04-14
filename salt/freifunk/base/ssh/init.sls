@@ -1,4 +1,4 @@
-# Secure Shell
+{# Secure Shell #}
 ssh:
   pkg.installed:
     - name: openssh-server
@@ -10,13 +10,13 @@ ssh:
     - require:
       - file: /etc/ssh/sshd_config
 
-# SSH Installation Check
+{# SSH Installation Check #}
 ssh_check:
   cmd.run:
     - name: logger -t "rc.local" "restart sshd" ; mkdir -p /var/run/sshd ; /usr/sbin/service ssh restart
     - unless: "[ -d /var/run/sshd ]"
 
-# Configuration
+{# Configuration #}
 /etc/ssh/sshd_config:
   file.managed:
     - source:
@@ -28,7 +28,7 @@ ssh_check:
     - watch_in:
       - service: ssh
 
-# SSH-Login Information
+{# SSH-Login Information #}
 /etc/issue.net:
   file.managed:
     - source:

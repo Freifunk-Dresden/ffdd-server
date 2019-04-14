@@ -1,4 +1,4 @@
-# Locale and Language Settings
+{# Locale and Language Settings #}
 locales:
   pkg.installed:
     - name: locales

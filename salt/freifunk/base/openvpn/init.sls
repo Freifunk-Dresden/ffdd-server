@@ -1,10 +1,10 @@
-# OpenVPN Gateway Tunnel
+{# OpenVPN Gateway Tunnel #}
 {% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
 {% set ovpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn0.conf && echo "1" || true') %}
 {% set ovpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn1.conf && echo "1" || true') %}
 
 
-# Temp. rename old config
+{# Temp. rename old config #}
 tmp_rename_ovpn_conf:
   cmd.run:
     - name: "mv /etc/openvpn/openvpn.conf /etc/openvpn/openvpn-vpn0.conf"
@@ -20,9 +20,10 @@ openvpn:
   pkg.installed:
     - name: openvpn
 
-# Service Start then Gateway Option Enabled
+{# Service Start then Gateway Option Enabled #}
 {% if ddmesh_disable_gateway == '0' %}
-# VPN 0
+
+{# VPN 0 #}
 {% if ovpn0 == '1' %}
 ovpn0_service:
   service.running:
@@ -48,10 +49,9 @@ ovpn0_service:
 
 /etc/openvpn/openvpn-vpn0.conf:
   file.exists
-
 {% endif %}
 
-# VPN 1
+{# VPN 1 #}
 {% if ovpn1 == '1' %}
 ovpn1_service:
   service.running:
@@ -77,11 +77,13 @@ ovpn1_service:
 
 /etc/openvpn/openvpn-vpn1.conf:
   file.exists
-
 {% endif %}
 
-# Service Start then Gateway Option Disabled
+
+{# Service Start then Gateway Option Disabled #}
 {% elif ddmesh_disable_gateway == '1' %}
+
+{# VPN 0 #}
 {% if ovpn0 == '1' %}
 ovpn0_service_dead:
   service.dead:
@@ -89,16 +91,18 @@ ovpn0_service_dead:
     - enable: false
 {% endif %}
 
+{# VPN 1 #}
 {% if ovpn1 == '1' %}
 ovpn1_service_dead:
   service.dead:
     - name: openvpn@openvpn-vpn1.service
     - enable: false
 {% endif %}
+
 {% endif %}
 
 
-# Default Service Configuration
+{# Default Service Configuration #}
 /etc/default/openvpn:
   file.managed:
     - source:
@@ -120,7 +124,7 @@ ovpn1_service_dead:
       - pkg: openvpn
 
 
-# Helper Scripts for FFDD
+{# Helper Scripts for FFDD #}
 /etc/openvpn/gen-config.sh:
   file.managed:
     - source:

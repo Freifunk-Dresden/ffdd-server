@@ -1,4 +1,4 @@
-# System Monitor (Webpage)
+{# System Monitor (Webpage) #}
 monitorix:
   pkgrepo.managed:
     - humanname: Monitorix
@@ -27,7 +27,7 @@ monitorix:
       - service: S41firewall
 
 
-# Configuration
+{# Configuration #}
 /etc/monitorix/monitorix.conf:
   file.managed:
     - source:
@@ -40,7 +40,7 @@ monitorix:
       - pkg: monitorix
 
 
-# enable Apache2 Modules
+{# enable Apache2 Modules #}
 apache2_mod_status:
   cmd.run:
     - name: /usr/sbin/a2enmod status
@@ -54,7 +54,7 @@ apache2_mod_auth_basic:
     - unless: "[ -f /etc/apache2/mods-enabled/auth_basic.load ]"
 
 
-# enable monitorix Apache2 config
+{# enable monitorix Apache2 config #}
 /etc/apache2/conf-enabled/monitorix_access.incl:
   file.managed:
     - source:
@@ -75,7 +75,7 @@ apache2_mod_auth_basic:
       - pkg: apache2
       - file: /etc/apache2/conf-enabled/monitorix_access.incl
 
-# Monitorix Images Permissions
+{# Monitorix Images Permissions #}
 /var/lib/monitorix/www/imgs:
   file.directory:
     - user: www-data

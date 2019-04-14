@@ -1,10 +1,10 @@
-# network performance measurement
+{# network performance measurement #}
 iperf3:
   pkg.installed:
     - name: iperf3
 
 
-# Service Configuration
+{# Service Configuration #}
 /etc/init.d/S90iperf3:
   file.managed:
     - source: salt://iperf3/etc/init.d/S90iperf3
