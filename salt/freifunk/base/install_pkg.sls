@@ -43,6 +43,7 @@ install_pkg:
       - lftp
       - iputils-ping
       - dnsutils
+      - whois
 
       # network traffic measurements
       - bwm-ng
