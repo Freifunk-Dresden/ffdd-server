@@ -151,6 +151,8 @@ Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet 
 **Optional:**<br/>
 - _/etc/firewall.user_<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
+- _/root/.bash_user_aliases_<br/>
+Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen.
 
 **Hinweis:**<br/>
 Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt oder es generell Probleme mit Services auf dem Server gibt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' ausgeführt werden. Um auf ganz sicher zu gehen auch die aktuelle Version zu nutzen:
