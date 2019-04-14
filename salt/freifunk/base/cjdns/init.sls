@@ -20,9 +20,6 @@ cjdns_update_repo:
 
 # Compiling
 # needs devel.sls (compiling tools)
-cjdns_src:
-  file.exist
-
 cjdns_build_repo:
   cmd.run:
     - name: |
@@ -31,8 +28,6 @@ cjdns_build_repo:
         test ! -f /etc/cjdroute.conf && (umask 077 && ./cjdroute --genconf > /etc/cjdroute.conf)
         test ! -f /etc/systemd/system/cjdns.service && cp contrib/systemd/cjdns.service /etc/systemd/system/
     - cwd: /usr/local/src/cjdns/
-    - onchanges:
-      - file: /usr/local/src/cjdns/
     - require:
       - git: cjdns_update_repo
 
