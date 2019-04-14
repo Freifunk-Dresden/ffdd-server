@@ -3,6 +3,7 @@ devel:
   pkg.installed:
     - names:
       - build-essential
+      - nodejs
       - zlib1g-dev
       - liblzo2-dev
       - libssl-dev
