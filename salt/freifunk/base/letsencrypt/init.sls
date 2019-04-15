@@ -34,15 +34,6 @@ apache2_mod_ssl:
     - group: root
     - mode: 644
 
-/etc/apache2/conf-enabled/ssl-params.conf:
-  file.managed:
-    - source:
-      - salt://letsencrypt/etc/apache2/conf-enabled/ssl-params.conf
-    - user: root
-    - group: root
-    - mode: 644
-
-
 /var/lib/letsencrypt/.well-known:
   file.directory:
     - user: www-data
@@ -53,18 +44,17 @@ apache2_mod_ssl:
 
 
 {# autoconfigure a new server #}
-generate_dhparam:
-  cmd.run:
-    - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 2048
-    - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
-
-
 {# check hostname has the correct format and is not NAT'd over freifunk-dresden.de #}
 {% from 'config.jinja' import ffdom, hostname %}
 {%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short || true") -%}
 {%- set check_fqdn = salt['cmd.shell']("h=" ~ hostname ~ " ; [[ ${h//[^.]} != '' ]] && host $h | grep -v " ~ ffip ~ " 2>&1 > /dev/null ; if [ $? -eq 0 ]; then echo $h ; fi || true") -%}
 
 {% if check_fqdn != '' %}
+
+generate_dhparam:
+  cmd.run:
+    - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 2048
+    - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 generate_certificate:
   cmd.run:
@@ -73,6 +63,14 @@ generate_certificate:
 
 
 {# enable Apache2 SSL Webpage for FFDD #}
+/etc/apache2/conf-enabled/ssl-params.conf:
+  file.managed:
+    - source:
+      - salt://letsencrypt/etc/apache2/conf-enabled/ssl-params.conf
+    - user: root
+    - group: root
+    - mode: 644
+
 /etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.managed:
     - source:
@@ -90,8 +88,8 @@ apache2_ssl:
     - enable: True
     - restart: True
     - watch:
-      - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
       - file: /etc/apache2/conf-enabled/ssl-params.conf
+      - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
@@ -110,11 +108,12 @@ apache2_ssl:
 
 {# Temp. Force Renew dhparm and certs #}
 
+{# Ativated Force-Renew #}
 {#
-#force-renew-ssl:
-#  cmd.run:
-#    - name: "touch /etc/ssl/temp-check-ssl ; /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096 ; /usr/bin/certbot -q renew --force-renewal --renew-hook 'systemctl reload apache2'"
-#    - unless: "[ -f /etc/ssl/temp-check-ssl ]"
+force-renew-ssl:
+  cmd.run:
+    - name: "touch /etc/ssl/temp-check-ssl ; /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 4096 ; /usr/bin/certbot -q renew --force-renewal --renew-hook 'systemctl reload apache2'"
+    - unless: "[ -f /etc/ssl/temp-check-ssl ]"
 #}
 
 {# Deativated Force-Renew #}

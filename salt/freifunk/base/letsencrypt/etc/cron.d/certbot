@@ -3,6 +3,7 @@
 # letsencrypt / certbot for ssl certs
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=""
 
 # renew any ssl certificate 30 days before its expiration.
 0 */12 * * *	root	certbot -q renew --renew-hook "systemctl reload apache2"
