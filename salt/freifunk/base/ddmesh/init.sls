@@ -7,6 +7,8 @@ ffdd-server_repo:
     - name: https://github.com/Freifunk-Dresden/ffdd-server.git
     - rev: {{ branch }}
     - target: {{ install_dir }}
+    - update_head: True
+    - force_reset: True
     - require:
       - pkg: git
 
