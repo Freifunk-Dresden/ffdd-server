@@ -21,12 +21,15 @@ base:
     - locales
     - timezone
     - ntp
-    - cron
-    - sysctl
+
+    - kernel
+    - kernel.sysctl
+
     - systemd
     - sudo
     - rsyslog
     - logrotate
+    - cron
 
     {# Compilling #}
     - devel

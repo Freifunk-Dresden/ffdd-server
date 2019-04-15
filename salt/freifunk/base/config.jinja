@@ -17,3 +17,10 @@
 
 {# used for crontab minutes #}
 {%- set ctime = salt['cmd.shell']('expr ' ~ nodeid ~ ' % 60 || true') %}
+
+{# check kernel-header package is available #}
+{% set kernel_release = salt['cmd.shell']("uname -r") %}
+{%- set kernel_pkg_check = salt['cmd.shell']('apt-cache search linux-headers-' ~ kernel_release ~ ' | wc -l') %}
+
+{# check ddmesh_disable_gateway option #}
+{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
