@@ -1,5 +1,5 @@
 {# OpenVPN Gateway Tunnel #}
-{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
+{% from 'config.jinja' import ddmesh_disable_gateway %}
 {% set ovpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn0.conf && echo "1" || true') %}
 {% set ovpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn1.conf && echo "1" || true') %}
 

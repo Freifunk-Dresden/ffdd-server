@@ -1,19 +1,11 @@
 {# Wireguard VPN Gateway Tunnel #}
-
-{# Wireguard needs linux-headers {# VPN 1 #}
-{% set kernel_release = salt['cmd.shell']("uname -r") %}
-{%- set kernel_pkg_check = salt['cmd.shell']('apt-cache search linux-headers-' ~ kernel_release ~ ' | wc -l') %}
+{# - needs linux-headers #}
+{% from 'config.jinja' import kernel_pkg_check %}
 
 {# install only than Kernel Package available #}
 {% if kernel_pkg_check >= '1' %}
 
-linux-headers:
-  pkg.installed:
-    - name: linux-headers-{{ kernel_release }}
-    - refresh: True
-
-
-{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
+{% from 'config.jinja' import ddmesh_disable_gateway %}
 {% set wgvpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn0.conf && echo "1" || true') %}
 {% set wgvpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn1.conf && echo "1" || true') %}
 
