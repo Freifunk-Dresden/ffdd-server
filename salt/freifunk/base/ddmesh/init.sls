@@ -2,7 +2,7 @@
 {% from 'config.jinja' import install_dir, autoupdate, branch, freifunk_version %}
 
 {# autoupdate #}
-{% if autoupdate = '1' %}
+{% if autoupdate == '1' %}
 ffdd-server_repo:
   git.latest:
     - name: https://github.com/Freifunk-Dresden/ffdd-server.git
