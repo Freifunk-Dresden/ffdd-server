@@ -4,6 +4,7 @@
 {% set ffdom = 'freifunk-dresden.de' %}
 
 {% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
+{% set autoupdate = salt['cmd.shell']('/usr/local/bin/nvram get autoupdate') %}
 {% set branch = salt['cmd.shell']('/usr/local/bin/nvram get branch') %}
 {% set install_dir = salt['cmd.shell']('/usr/local/bin/nvram get install_dir') %}
 {% set ct_bmxd = '/salt/freifunk/base/bmxd/compiled-tools/bmxd' %}
