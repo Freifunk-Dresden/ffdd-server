@@ -10,6 +10,9 @@
 /etc/bind/openvpn.forwarder:
   file.absent
 
+/etc/sysctl.d/global.conf:
+  file.absent
+
 /etc/php5:
   file.absent
 

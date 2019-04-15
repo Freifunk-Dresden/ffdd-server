@@ -1,19 +1,31 @@
 {# sysctl #}
-reload-sysctl:
-  cmd.wait:
-    - watch: []
-    - name: /sbin/sysctl --system
+{% set sysctld = "/etc/sysctl.d" %}
 
-{# Default Configuration #}
-/etc/sysctl.conf:
-  file.managed:
-    - source: salt://sysctl/etc/sysctl.conf
-    - watch_in:
-      - cmd: reload-sysctl
+# Reboot 1 second after kernel panic, oops or BUG
+kernel.panic:
+  sysctl.present:
+    - value: 1
+    - config: {{ sysctld }}/panic.conf
 
-{# ffdd modifications #}
-/etc/sysctl.d/global.conf:
-  file.managed:
-    - source: salt://sysctl/etc/sysctl.d/global.conf
-    - watch_in:
-      - cmd: reload-sysctl
+kernel.panic_on_oops:
+  sysctl.present:
+    - value: 1
+    - config: {{ sysctld }}/panic.conf
+
+# throw kernel panic on softlockup
+kernel.softlockup_panic:
+  sysctl.present:
+    - value: 1
+- config: {{ sysctld }}/panic.conf
+
+# forwarding
+net.ipv4.conf.all.forwarding:
+  sysctl.present:
+    - value: 1
+- config: {{ sysctld }}/forward.conf
+
+# increase conntrack hash table
+net.netfilter.nf_conntrack_max:
+  sysctl.present:
+    - value: 200000
+    - config: {{ sysctld }}/forward.conf
