@@ -1,5 +1,15 @@
 {# Freifunk Dresden Configurations #}
-{% from 'config.jinja' import freifunk_version %}
+{% from 'config.jinja' import install_dir, branch, freifunk_version %}
+
+{# autoupdate #}
+ffdd-server_repo:
+  git.latest:
+    - name: https://github.com/Freifunk-Dresden/ffdd-server.git
+    - rev: {{ branch }}
+    - target: {{ install_dir }}
+    - require:
+      - pkg: git
+
 
 /etc/freifunk-server-version:
   file.managed:
@@ -14,17 +24,6 @@
 /etc/cron.d/freifunk:
   file.managed:
     - source: salt://ddmesh/etc/cron.d/freifunk
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 600
-    - require:
-      - pkg: cron
-
-{# autoupdate #}
-/etc/cron.d/freifunk-autoupdate:
-  file.managed:
-    - source: salt://ddmesh/etc/cron.d/freifunk-autoupdate
     - template: jinja
     - user: root
     - group: root
@@ -96,16 +95,6 @@
       - pkg: rsyslog
 
 {# Scripts #}
-/usr/local/bin/freifunk-autoupdate:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/freifunk-autoupdate
-    - user: root
-    - group: root
-    - mode: 755
-    - require:
-      - pkg: apt
-      - pkg: cron
-
 /usr/local/bin/ddmesh-ipcalc.sh:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/ddmesh-ipcalc.sh

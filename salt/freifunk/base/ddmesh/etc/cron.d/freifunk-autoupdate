@@ -1,7 +1,0 @@
-### This file managed by Salt, do not edit by hand! ###
-#
-# check Autoupdate every day
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-{% from 'config.jinja' import ctime %}
-{{ ctime }} 3 * * * root /usr/local/bin/freifunk-autoupdate >/dev/null 2>&1
