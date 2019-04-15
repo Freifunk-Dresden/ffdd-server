@@ -9,3 +9,4 @@ linux-headers:
   pkg.installed:
     - name: linux-headers-{{ kernel_release }}
     - refresh: True
+{% endif %}
