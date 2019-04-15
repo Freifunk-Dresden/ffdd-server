@@ -19,7 +19,9 @@ case "$1" in
 	;;
 
 	version)
-		sed -n "/^#version/{s#^.*=##;p}" "$(nvram get install_dir)"/init_server.sh | cut -d'"' -f2
+		version=$(sed -n "/^#version/{s#^.*=##;p}" "$(nvram get install_dir)"/init_server.sh | cut -d'"' -f2)
+		branch=$(nvram get branch)
+		printf '%s - Branch: %s\n' "$version" "$branch"
 	;;
 
 	*)

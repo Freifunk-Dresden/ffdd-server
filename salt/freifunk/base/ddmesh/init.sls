@@ -3,8 +3,8 @@
 
 /etc/freifunk-server-version:
   file.managed:
-    - contents:
-      - {{ freifunk_version }}
+    - contents: |
+        {{ freifunk_version }}
     - user: root
     - group: root
     - mode: 644

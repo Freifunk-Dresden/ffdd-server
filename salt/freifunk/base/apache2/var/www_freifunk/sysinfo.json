@@ -35,7 +35,7 @@ EOM
 #node info
 cat << EOM
 		"firmware":{
-			"version":"$(cat /etc/freifunk-server-version)",
+			"version":"$(cat /etc/freifunk-server-version | awk '{print $1}')",
 			"DISTRIB_ID":"$(lsb_release -si)",
 			"DISTRIB_RELEASE":"$(lsb_release -sr)",
 			"DISTRIB_REVISION":"",
