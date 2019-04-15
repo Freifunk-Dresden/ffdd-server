@@ -1,6 +1,6 @@
 {# linux-headers #}
 {# for Wireguard #}
-{% from 'config.jinja' import kernel_pkg_check %}
+{% from 'config.jinja' import kernel_release, kernel_pkg_check %}
 
 {# install only than Kernel Package available #}
 {% if kernel_pkg_check >= '1' %}
