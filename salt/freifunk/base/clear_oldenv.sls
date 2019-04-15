@@ -13,6 +13,9 @@
 /etc/sysctl.d/global.conf:
   file.absent
 
+/etc/cron.d/freifunk-autoupdate:
+  file.absent
+
 /etc/php5:
   file.absent
 
@@ -62,6 +65,9 @@
 /usr/bin/freifunk-services.sh:
   file.absent
 
+
+/usr/local/bin/freifunk-autoupdate:
+  file.absent
 
 /usr/lib/bmxd:
   file.absent

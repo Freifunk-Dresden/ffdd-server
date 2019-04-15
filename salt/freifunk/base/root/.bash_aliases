@@ -12,6 +12,7 @@ fi
 # Freifunk Aliases
 #
 
+alias freifunk-autoupdate='freifunk-call'
 alias freifunk-call='salt-call state.highstate --local'
 
 alias psa='ps -axuwf'
