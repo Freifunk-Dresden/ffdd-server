@@ -72,6 +72,9 @@
 /usr/local/bin/freifunk-autoupdate:
   file.absent
 
+/usr/local/bin/f2b-unban.sh:
+  file.absent
+
 /usr/lib/bmxd:
   file.absent
 
