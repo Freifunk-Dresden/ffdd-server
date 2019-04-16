@@ -12,12 +12,6 @@ kernel.panic_on_oops:
     - value: 1
     - config: {{ sysctld }}/panic.conf
 
-{# throw kernel panic on softlockup #}
-kernel.softlockup_panic:
-  sysctl.present:
-    - value: 1
-    - config: {{ sysctld }}/panic.conf
-
 {# forwarding #}
 net.ipv4.conf.all.forwarding:
   sysctl.present:
