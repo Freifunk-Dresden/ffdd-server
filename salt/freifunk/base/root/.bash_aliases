@@ -41,7 +41,7 @@ alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --repo
 cat <<EOM
 -----------------------------------------------------
 tools:
-	freifunk-version	( show Server Version and Branch )
+    freifunk-version	( show Server Version and Branch )
     freifunk-call	( salt-call state.highstate --local )
     freifunk-gw-status	( show GW-Country )
     f2b-list		( show blocked IP's )
