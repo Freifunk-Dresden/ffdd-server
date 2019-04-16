@@ -12,6 +12,7 @@ fi
 # Freifunk Aliases
 #
 
+alias freifunk-version='cat /etc/freifunk-server-version'
 alias freifunk-call='salt-call state.highstate --local'
 alias freifunk-gw-status='/usr/local/bin/freifunk-gateway-status.sh'
 
@@ -40,6 +41,7 @@ alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --repo
 cat <<EOM
 -----------------------------------------------------
 tools:
+	freifunk-version	( show Server Version and Branch )
     freifunk-call	( salt-call state.highstate --local )
     freifunk-gw-status	( show GW-Country )
     f2b-list		( show blocked IP's )
