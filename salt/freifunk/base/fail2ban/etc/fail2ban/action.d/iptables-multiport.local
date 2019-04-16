@@ -1,3 +1,5 @@
+### This file managed by Salt, do not edit by hand! ###
+#
 [Definition]
 actionstart = <iptables> -N f2b-<name>
               <iptables> -A f2b-<name> -j <returntype>
