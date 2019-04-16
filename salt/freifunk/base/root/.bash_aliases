@@ -16,7 +16,6 @@ alias freifunk-call='salt-call state.highstate --local'
 alias freifunk-gw-status='/usr/local/bin/freifunk-gateway-status.sh'
 
 alias f2b-list='/sbin/ipset list blacklist_fail2ban'
-alias f2b-unban='/usr/local/bin/f2b-unban.sh'
 
 alias psa='ps -axuwf'
 alias conntrack='tail /var/log/conntrack.log'
@@ -43,7 +42,7 @@ cat <<EOM
 tools:
     freifunk-call		( salt-call state.highstate --local )
     freifunk-gw-status	( show GW-Country )
-    f2b-unban <IP>		( unban blocked IP )
+    f2b-unban.sh <IP>	( unban blocked IP )
     showip
     speedtest-ovh
     speedtest-belwue

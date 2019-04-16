@@ -117,7 +117,7 @@ ipset-f2b-init:
   file.managed:
     - contents: |
         #!/usr/bin/env bash
-        /usr/bin/fail2ban-client status sshd "$1"
+        /usr/bin/fail2ban-client set sshd unbanip "$1"
         /bin/sed -i "/$1/d" /etc/ipset-fail2ban/ipset-fail2ban.list
         /sbin/ipset del blacklist_fail2ban "$1"
     - user: root
