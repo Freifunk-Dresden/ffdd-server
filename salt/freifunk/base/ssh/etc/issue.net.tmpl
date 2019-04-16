@@ -1,3 +1,4 @@
-{% set servername = salt['cmd.shell']('/usr/local/bin/nvram get servername') %}------------------------------
+{% from 'config.jinja' import servername, freifunk_version %}------------------------------
  Freifunk {{ servername }}
+ Version: {{ freifunk_version }}
 ------------------------------
