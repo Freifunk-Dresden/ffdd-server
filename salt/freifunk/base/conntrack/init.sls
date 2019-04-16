@@ -22,6 +22,7 @@
     - mode: 600
     - require:
       - pkg: cron
+      - file: /usr/local/bin/conntrack.sh
 
 {# archive conntrack logs #}
 /etc/logrotate.d/conntrack:

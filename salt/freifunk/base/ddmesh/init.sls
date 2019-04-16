@@ -52,6 +52,7 @@ ffdd-server_repo:
     - mode: 600
     - require:
       - pkg: cron
+      - pkg: salt-minion
 
 
 {# Directories #}
