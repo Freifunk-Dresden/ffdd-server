@@ -113,6 +113,10 @@
 /var/www_freifunk/services.cgi:
   file.absent
 
+/var/www_freifunk/sysinfo-json.cgi:
+  file.absent:
+    - onlyif:
+      - test ! -L /var/www_freifunk/sysinfo-json.cgi
 
 {# remove old packages #}
 remove_old_pkg:

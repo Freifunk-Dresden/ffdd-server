@@ -57,6 +57,9 @@ apache2_pkgs:
     - group: www-data
     - file_mode: 755
     - dir_mode: 755
+    - keep_symlinks: True
+    - force_symlinks: True
+    - clean: True
     - recurse:
       - user
       - group
