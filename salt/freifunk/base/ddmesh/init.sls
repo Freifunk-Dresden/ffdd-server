@@ -1,5 +1,15 @@
 {# Freifunk Dresden Configurations #}
+
 {% from 'config.jinja' import install_dir, autoupdate, branch, freifunk_version, ctime %}
+
+/etc/freifunk-server-version:
+  file.managed:
+    - contents: |
+        {{ freifunk_version }}
+    - user: root
+    - group: root
+    - mode: 644
+
 
 {# autoupdate #}
 {% if autoupdate == '1' %}
@@ -13,15 +23,6 @@ ffdd-server_repo:
     - require:
       - pkg: git
 {% endif %}
-
-
-/etc/freifunk-server-version:
-  file.managed:
-    - contents: |
-        {{ freifunk_version }}
-    - user: root
-    - group: root
-    - mode: 644
 
 
 {# cron #}
@@ -63,8 +64,9 @@ ffdd-server_repo:
     - require:
       - user: freifunk
 
+
 {# Logs #}
-{# (used by rsyslog clients) #}
+{# - used by rsyslog clients #}
 /var/log/freifunk:
   file.directory:
     - user: root
@@ -103,6 +105,7 @@ ffdd-server_repo:
     - require:
       - pkg: rsyslog
 
+
 {# Scripts #}
 /usr/local/bin/ddmesh-ipcalc.sh:
   file.managed:
@@ -117,7 +120,6 @@ ffdd-server_repo:
     - user: root
     - group: root
     - mode: 755
-
 
 /usr/local/bin/freifunk-gateway-check.sh:
   file.managed:
