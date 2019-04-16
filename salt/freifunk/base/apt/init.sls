@@ -26,17 +26,6 @@ apt:
     - require:
       - pkg: apt
 
-{# automatic (crontab) - apt update #}
-/etc/cron.d/apt-update:
-  file.managed:
-    - source: salt://apt/etc/cron.d/apt-update
-    - user: root
-    - group: root
-    - mode: 600
-    - require:
-      - pkg: apt
-      - pkg: cron
-
 {# automatic security upgrades #}
 unattended-upgrades:
   service:
@@ -46,4 +35,34 @@ unattended-upgrades:
       - file: /etc/apt/apt.conf.d/50unattended-upgrades
     - require:
       - pkg: apt
+      - pkg: cron
+
+{# cron #}
+/etc/cron.d/apt-update:
+  file.managed:
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        3 */6 * * *  root  su -c "apt-get update > /dev/null 2>&1"
+    - user: root
+    - group: root
+    - mode: 600
+    - require:
+      - pkg: apt
+      - pkg: cron
+
+{# purge_old_kernels and update grub #}
+/etc/cron.d/purge-old-kernels:
+  file.managed:
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        MAILTO=""
+        #
+        23 5 * * *  root  /usr/bin/purge-old-kernels --keep 2 -qy ; update-grub2
+    - user: root
+    - group: root
+    - mode: 600
+    - require:
+      - pkg: install_pkg
       - pkg: cron

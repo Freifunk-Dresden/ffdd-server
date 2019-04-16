@@ -93,17 +93,22 @@ apache2_ssl:
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
-{# automatically renew certs #}
+{# cron: automatically renew certs #}
 /etc/cron.d/certbot:
   file.managed:
-    - source: salt://letsencrypt/etc/cron.d/certbot
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        #
+        # renew any ssl certificate 30 days before its expiration.
+        0 */12 * * *  root  certbot -q renew --renew-hook "systemctl reload apache2" >/dev/null 2>&1
     - user: root
     - group: root
     - mode: 600
     - require:
       - pkg: cron
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
-
 
 
 {# Temp. Force Renew dhparm and certs #}

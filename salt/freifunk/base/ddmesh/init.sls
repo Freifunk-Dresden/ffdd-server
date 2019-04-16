@@ -1,5 +1,5 @@
 {# Freifunk Dresden Configurations #}
-{% from 'config.jinja' import install_dir, autoupdate, branch, freifunk_version %}
+{% from 'config.jinja' import install_dir, autoupdate, branch, freifunk_version, ctime %}
 
 {# autoupdate #}
 {% if autoupdate == '1' %}
@@ -24,28 +24,33 @@ ffdd-server_repo:
     - mode: 644
 
 
-{# Crontabs #}
+{# cron #}
 /etc/cron.d/freifunk:
   file.managed:
-    - source: salt://ddmesh/etc/cron.d/freifunk
-    - template: jinja
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        # NOTE: >/dev/null 2>&1 disables email alert sent by cron.d
+        #       any tools used in those scripts must be also in search path
+        #
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        #
+        # ip rules check (needed on linux container based vservers like the ones offered by myloc)
+        */1 * * * *  root  /etc/init.d/S40network check >/dev/null 2>&1
+        #
+        # batmand check every 1 minutes
+        */1 * * * *  root  /etc/init.d/S52batmand check >/dev/null 2>&1
+        #
+        # Gateway check every 5 minutes
+        */5 * * * *  root  /usr/local/bin/freifunk-gateway-check.sh >/dev/null 2>&1
+        #
+        # register local node every 2h
+        {{ ctime }} */2 * * *  root  /usr/local/bin/freifunk-register-local-node.sh >/dev/null 2>&1
     - user: root
     - group: root
     - mode: 600
     - require:
       - pkg: cron
-
-{# salt-minion self-managed config #}
-/etc/cron.d/freifunk-masterless:
-  file.managed:
-    - source: salt://ddmesh/etc/cron.d/freifunk-masterless
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 600
-    - require:
-      - pkg: cron
-      - pkg: salt-minion
 
 
 {# Directories #}

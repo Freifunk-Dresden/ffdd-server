@@ -95,10 +95,17 @@ ipset:
 {# cron #}
 /etc/cron.d/blacklist_fail2ban:
   file.managed:
-    - source: salt://fail2ban/etc/cron.d/blacklist_fail2ban
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        #
+        # update list every 30min
+        0-59/30 * * * *  root  /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf >/dev/null 2>&1
+        # clear list once per week
+        0 0 * * 0        root  /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf -c >/dev/null 2>&1
     - user: root
     - group: root
-    - mode: 644
+    - mode: 600
     - require:
       - pkg: fail2ban
       - pkg: ipset
