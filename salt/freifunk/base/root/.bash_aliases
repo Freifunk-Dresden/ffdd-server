@@ -42,7 +42,8 @@ cat <<EOM
 tools:
     freifunk-call		( salt-call state.highstate --local )
     freifunk-gw-status	( show GW-Country )
-    f2b-unban.sh <IP>	( unban blocked IP )
+    f2b-list			( show blocked IP's)
+    f2b-unban <IP>		( unban blocked IP )
     showip
     speedtest-ovh
     speedtest-belwue

@@ -113,13 +113,16 @@ ipset-f2b-init:
       - pkg: ipset
 
 {# unban helper-script #}
-/usr/local/bin/f2b-unban.sh:
+/usr/local/bin/f2b-unban:
   file.managed:
     - contents: |
         #!/usr/bin/env bash
-        /usr/bin/fail2ban-client set sshd unbanip "$1"
-        /bin/sed -i "/$1/d" /etc/ipset-fail2ban/ipset-fail2ban.list
-        /sbin/ipset del blacklist_fail2ban "$1"
+        if [ -n "$1" ]; then
+          /usr/bin/fail2ban-client set sshd unbanip "$1"
+          /bin/sed -i "/$1/d" /etc/ipset-fail2ban/ipset-fail2ban.list
+          /sbin/ipset del blacklist_fail2ban "$1"
+        fi
+        exit 0
     - user: root
     - group: root
     - mode: 755
