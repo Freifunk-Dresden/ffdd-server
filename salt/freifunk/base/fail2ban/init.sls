@@ -93,9 +93,9 @@ ipset:
       - pkg: ipset
 
 {# cron #}
-/etc/cron.d/update-blacklist_fail2ban:
+/etc/cron.d/blacklist_fail2ban:
   file.managed:
-    - source: salt://fail2ban/etc/cron.d/update-blacklist_fail2ban
+    - source: salt://fail2ban/etc/cron.d/blacklist_fail2ban
     - user: root
     - group: root
     - mode: 644

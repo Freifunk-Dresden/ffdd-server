@@ -16,6 +16,9 @@
 /etc/cron.d/freifunk-autoupdate:
   file.absent
 
+/etc/cron.d/update-blacklist_fail2ban:
+  file.absent
+
 /etc/php5:
   file.absent
 
