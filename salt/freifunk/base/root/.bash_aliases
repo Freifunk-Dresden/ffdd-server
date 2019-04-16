@@ -12,8 +12,8 @@ fi
 # Freifunk Aliases
 #
 
-alias freifunk-autoupdate='freifunk-call'
 alias freifunk-call='salt-call state.highstate --local'
+alias freifunk-gw-status='/usr/local/bin/freifunk-gateway-status.sh'
 
 alias psa='ps -axuwf'
 alias conntrack='tail /var/log/conntrack.log'
@@ -38,9 +38,8 @@ alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --repo
 cat <<EOM
 -----------------------------------------------------
 tools:
-    freifunk-autoupdate
     freifunk-call ( salt-call state.highstate --local )
-    freifunk-gateway-status.sh ( show GW-Country )
+    freifunk-gw-status ( show GW-Country )
     showip
     speedtest-ovh
     speedtest-belwue
