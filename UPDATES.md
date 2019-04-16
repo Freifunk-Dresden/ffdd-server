@@ -1,5 +1,24 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.4)**
+**(current version 1.0.5)**
+<br/>
+
+_**version 1.0.5**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.5.md)
+
+	- add root bash_user_aliases
+
+	- update sysctl and kernel managment
+	- update ntp server
+	- update letsencrypt
+	- update sysinfo.json to version 15
+	- update openvpn and wireguard init
+	- update freifunk-server autoupdate
+	- update freifunk-server-version info
+	- update crontabs
+	- update bash aliases
+	- update freifunk-gateway-status.sh
+
+	- Bugfixes
+
 <br/>
 
 _**version 1.0.4**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.4.md)

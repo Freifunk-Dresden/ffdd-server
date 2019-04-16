@@ -1,4 +1,4 @@
-# Freifunk Dresden: ffdd-server (current version 1.0.4)
+# Freifunk Dresden: ffdd-server (current version 1.0.5)
 Configures an Debian (8/9) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)**
@@ -92,6 +92,7 @@ installiert, Files kopiert und am Ende noch einige Tools compiliert werden müss
 
 git:
 ```bash
+apt install -y git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 git checkout T_RELEASE_latest && ./init_server.sh
@@ -100,10 +101,12 @@ Alternative Installations Möglichkeiten:
 
 curl:
 ```bash
+apt install -y curl
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 wget:
 ```bash
+apt install -y wget
 bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
@@ -122,15 +125,19 @@ Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
   *servername
   *ifname
   *contact
+
 */etc/openvpn/
   # creates openvpn.conf with:
     ./genconfig.sh vpn0 <original-provider-config-file>
   # for vpn user and password use:
     /etc/openvpn/openvpn.login
+
 */etc/wireguard/
   # creates vpn0.conf with:
     ./genconfig.sh vpn0 <original-provider-config-file>
-(OVPN/WG supports interface vpn0 and vpn1)
+
+# Notice: OVPN/WG supports interface vpn0 and vpn1
+
 */etc/fastd/peers2/
   # To Create a Fastd2 Connection use:
     '/etc/init.d/S53backbone-fastd2 add_connect vpnX.freifunk-dresden.de 5002'
@@ -152,14 +159,7 @@ Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet 
 - _/etc/firewall.user_<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
 - _/root/.bash_user_aliases_<br/>
-Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen.
-
-**Hinweis:**<br/>
-Sollte es dazu kommen dass es mit 'salt-call state.highstate --local' direkt am Beginn der Initialisierung zu fehlern kommt oder es generell Probleme mit Services auf dem Server gibt sollte unbedingt erneut die '/srv/ffdd-server/init_server.sh' ausgeführt werden. Um auf ganz sicher zu gehen auch die aktuelle Version zu nutzen:
-
-```bash
-rm -rf /srv/ffdd-server && bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
-```
+Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen. Diese werden in '/root/.bash_user_aliases' eingebunden und automatisch mitgeladen.
 
 Wichig
 ----
