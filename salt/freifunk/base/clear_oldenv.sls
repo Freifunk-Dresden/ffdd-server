@@ -89,37 +89,11 @@
 /var/statistic:
   file.absent
 
-/var/www_freifunk/04-monitorix:
-  file.absent
-
-/var/www_freifunk/05-status:
-  file.absent
-
-/var/www_freifunk/06-nodes:
-  file.absent
-
-/var/www_freifunk/06-monitorix:
-  file.absent
-
-/var/www_freifunk/functions.sh:
-  file.absent
-
-/var/www_freifunk/infopage:
-  file.absent
-
-/var/www_freifunk/images/flags:
-  file.absent
-
-/var/www_freifunk/js:
-  file.absent
-
-/var/www_freifunk/services.cgi:
-  file.absent
-
 /var/www_freifunk/sysinfo-json.cgi:
   file.absent:
     - onlyif:
       - test ! -L /var/www_freifunk/sysinfo-json.cgi
+
 
 {# remove old packages #}
 remove_old_pkg:
