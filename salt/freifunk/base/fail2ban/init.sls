@@ -111,3 +111,15 @@ ipset-f2b-init:
     - require:
       - pkg: fail2ban
       - pkg: ipset
+
+{# unban helper-script #}
+/usr/local/bin/f2b-unban.sh:
+  file.managed:
+    - contents: |
+        #!/usr/bin/env bash
+        /usr/bin/fail2ban-client status sshd "$1"
+        /bin/sed -i "/$1/d" /etc/ipset-fail2ban/ipset-fail2ban.list
+        /sbin/ipset del blacklist_fail2ban "$1"
+    - user: root
+    - group: root
+    - mode: 755
