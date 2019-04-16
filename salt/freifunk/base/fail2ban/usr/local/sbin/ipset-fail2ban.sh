@@ -144,6 +144,7 @@ get_options() {
                 shift
                 ;;
             -c|--cleanup)
+                touch "$IPSET_BLACKLIST"
                 CLEANUP=true
                 shift
                 ;;
