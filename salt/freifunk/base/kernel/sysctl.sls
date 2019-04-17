@@ -8,13 +8,6 @@
 /etc/sysctl.d/forward.conf:
   file.absent
 
-
-{# Reboot 1 second after kernel panic, oops or BUG #}
-kernel.panic_on_oops:
-  sysctl.present:
-    - value: 1
-    - config: {{ sysctld }}/panic.conf
-
 {# forwarding #}
 net.ipv4.conf.all.forwarding:
   sysctl.present:
