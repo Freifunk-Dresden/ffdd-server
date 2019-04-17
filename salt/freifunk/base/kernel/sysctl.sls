@@ -2,11 +2,6 @@
 {% set sysctld = "/etc/sysctl.d" %}
 
 {# Reboot 1 second after kernel panic, oops or BUG #}
-kernel.panic:
-  sysctl.present:
-    - value: 1
-    - config: {{ sysctld }}/panic.conf
-
 kernel.panic_on_oops:
   sysctl.present:
     - value: 1
