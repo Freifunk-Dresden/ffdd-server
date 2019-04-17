@@ -20,11 +20,6 @@ net.ipv4.conf.all.forwarding:
 
 {# increase conntrack hash table #}
 net.netfilter.nf_conntrack_max:
-  sysctl.absent:
-    - value: 200000
-    - config: {{ sysctld }}/forward.conf
-
-net.netfilter.nf_conntrack_max:
   sysctl.present:
     - value: 200000
     - config: {{ sysctld }}/net.conf
