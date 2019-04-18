@@ -3,6 +3,7 @@
 
 pkg_resolvconf:
   pkg.installed:
+    - refresh: True
     - name: resolvconf
 
 {# Configuration #}
