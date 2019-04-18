@@ -19,6 +19,7 @@ ffdd-server_repo:
     - rev: {{ branch }}
     - target: {{ install_dir }}
     - update_head: True
+    - force_fetch: True
     - force_reset: True
     - require:
       - pkg: git
