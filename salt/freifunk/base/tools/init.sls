@@ -11,8 +11,3 @@
   file.symlink:
     - target: /bin/bash
     - force: True
-
-/usr/bin/editor:
-  file.symlink:
-    - target: /usr/bin/vi
-    - force: True
