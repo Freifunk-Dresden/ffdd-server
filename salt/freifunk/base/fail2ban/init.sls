@@ -1,6 +1,7 @@
 {# Fail2ban (intrusion prevention system) #}
 fail2ban:
   pkg.installed:
+    - refresh: True
     - name: fail2ban
   service:
     - running
@@ -47,6 +48,7 @@ fail2ban_check:
 {# source: https://github.com/ritsu/ipset-fail2ban #}
 ipset:
   pkg.installed:
+    - refresh: True
     - name: ipset
 
 /usr/local/sbin/ipset-fail2ban.sh:

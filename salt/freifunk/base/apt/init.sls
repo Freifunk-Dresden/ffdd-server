@@ -1,6 +1,7 @@
 {# Package Management System #}
 apt:
   pkg.installed:
+    - refresh: True
     - names:
       - apt
       - apt-transport-https

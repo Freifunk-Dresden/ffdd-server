@@ -1,5 +1,6 @@
 sudo:
   pkg.installed:
+    - refresh: True
     - name: sudo
   require:
     - file: /etc/sudoers

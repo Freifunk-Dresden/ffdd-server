@@ -1,6 +1,7 @@
 {# time-based job scheduler #}
 cron:
   pkg.installed:
+    - refresh: True
     - name: cron
 
 {# Configuration #}

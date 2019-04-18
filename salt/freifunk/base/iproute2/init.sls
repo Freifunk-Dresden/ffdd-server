@@ -1,6 +1,7 @@
 {# FFDD Routing Tables #}
 iproute2:
   pkg.installed:
+    - refresh: True
     - name: iproute2
 
 /etc/iproute2/rt_tables:

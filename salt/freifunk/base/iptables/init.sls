@@ -1,6 +1,7 @@
 {# FFDD Firewall #}
 iptables:
   pkg.installed:
+    - refresh: True
     - names:
       - iptables
 

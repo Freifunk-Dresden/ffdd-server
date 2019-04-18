@@ -1,6 +1,7 @@
 {# Packages for compilling - bmxd / fastd #}
 devel:
   pkg.installed:
+    - refresh: True
     - names:
       - build-essential
       - nodejs
@@ -10,16 +11,11 @@ devel:
       - bison
       - flex
       - zlibc
+      - libjson-c-dev
+      - pkg-config
+      - cmake
 {% if grains['os'] == 'Ubuntu' and grains['osrelease'] == '18.04' %}
       - libcurl4
 {% else %}
       - libcurl3
 {% endif %}
-
-
-devel_fastd:
-  pkg.installed:
-    - names:
-      - libjson-c-dev
-      - pkg-config
-      - cmake

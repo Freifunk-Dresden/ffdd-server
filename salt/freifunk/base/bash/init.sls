@@ -1,6 +1,7 @@
 {# Default Shell #}
 bash:
   pkg.installed:
+    - refresh: True
     - names:
       - bash
       - bash-completion

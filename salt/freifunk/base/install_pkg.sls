@@ -1,6 +1,7 @@
 {# Packages without needed Configuration #}
 install_pkg:
   pkg.installed:
+    - refresh: True
     - names:
       - dbus
       - lsb-release

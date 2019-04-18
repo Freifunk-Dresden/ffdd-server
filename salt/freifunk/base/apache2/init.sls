@@ -1,6 +1,7 @@
 {# Apache2 Webserver #}
 apache2:
   pkg.installed:
+    - refresh: True
     - name: apache2
   service:
     - running
@@ -23,6 +24,7 @@ apache2:
 
 apache2_pkgs:
   pkg.installed:
+    - refresh: True
     - names:
       - apache2-utils
       - libapache2-mod-fcgid

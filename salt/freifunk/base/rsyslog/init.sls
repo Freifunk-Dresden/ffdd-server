@@ -1,6 +1,7 @@
 {# transferring log messages (server for logging from nodes) #}
 rsyslog:
   pkg.installed:
+    - refresh: True
     - name: rsyslog
   service.running:
     - enable: True

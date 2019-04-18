@@ -3,6 +3,7 @@
 
 vnstat:
   pkg.installed:
+    - refresh: True
     - name: vnstat
   service:
     - running

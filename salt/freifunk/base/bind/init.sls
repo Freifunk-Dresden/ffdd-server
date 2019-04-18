@@ -1,6 +1,7 @@
 {# DNS Server #}
 bind:
   pkg.installed:
+    - refresh: True
     - names:
       - bind9
       - bind9-host

@@ -1,6 +1,7 @@
 {# network performance measurement #}
 iperf3:
   pkg.installed:
+    - refresh: True
     - name: iperf3
 
 

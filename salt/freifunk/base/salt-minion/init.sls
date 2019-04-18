@@ -3,6 +3,7 @@
 
 salt-minion:
   pkg.installed:
+    - refresh: True
     - name: salt-minion
   service:
     - dead

@@ -1,6 +1,7 @@
 {# Secure Shell #}
 ssh:
   pkg.installed:
+    - refresh: True
     - name: openssh-server
   service.running:
     - enable: True

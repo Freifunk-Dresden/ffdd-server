@@ -1,6 +1,7 @@
 {# vim text editor #}
 vim:
   pkg.installed:
+    - refresh: True
     - name: vim
 
 {# Configuration #}
