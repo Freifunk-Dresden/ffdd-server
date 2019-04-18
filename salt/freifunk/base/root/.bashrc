@@ -84,7 +84,10 @@ PS1="${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[0
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls -lah -F --color=auto'
+    alias ls='ls $LS_OPTIONS'
+    alias ll='ls $LS_OPTIONS -l'
+    alias l='ls $LS_OPTIONS -lA'
+    alias la='ls -lah -F --color=auto'
     alias dir='ls -lah -F --color=auto'
 
     alias grep='grep --color=auto'
