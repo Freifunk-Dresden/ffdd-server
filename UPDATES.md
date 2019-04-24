@@ -1,5 +1,12 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.5)**
+**(current version 1.0.6)**
+<br/>
+
+_**version 1.0.6**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.6.md)
+
+	- remove Debian 8 (jessie) support
+	- Bugfixes
+
 <br/>
 
 _**version 1.0.5**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.5.md)
