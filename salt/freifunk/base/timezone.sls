@@ -3,6 +3,6 @@ timezone:
     - refresh: True
     - name: tzdata
 
+Europe/Berlin:
   timezone.system:
-    - name: Europe/Berlin
     - utc: True
