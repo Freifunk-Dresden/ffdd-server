@@ -23,6 +23,13 @@ get_default_interface() {
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
 }
 
+# function: print helper "os is not supported"
+print_not_supported_os() {
+	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
+	printf 'Supported OS List:\n\t- Debian 9 (stretch)\n'
+	printf '\t- Ubuntu LTS (16.04/18.04)\n'
+}
+
 #
 # -- Check & Setup System --
 #
@@ -32,27 +39,41 @@ if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 0; fi
 
 # check tun device is available
 if [ ! -e /dev/net/tun ]; then
-	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'
-	exit 0
+	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'; exit 0
 fi
 
 # check Distribution
-if [ -f /etc/debian_version ]; then
-	PKGMNGR='apt-get';
-elif [ -f /etc/centos-release ] ; then
-	printf 'Centos is not supported yet!\n'; exit 0
-	#PKGMNGR='yum'
+os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
+version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
+
+if [ "$os_id" = 'debian' ]; then
+	case "$version_id" in
+		9*)		PKGMNGR='apt-get' ;;
+		*)		print_not_supported_os; exit 0 ;;
+	esac
+
+elif [ "$os_id" = 'ubuntu' ]; then
+	case "$version_id" in
+		16.04*)	PKGMNGR='apt-get' ;;
+		18.04*)	PKGMNGR='apt-get' ;;
+		*)		print_not_supported_os; exit 0 ;;
+	esac
+
+elif [ "$os_id" = 'centos' ]; then
+	case "$version_id" in
+		*)		printf 'Centos is not supported yet!\n'; exit 0 ;; #PKGMNGR='yum'
+	esac
+
 else
-	printf 'OS is not supported! (only Debian and Ubuntu - see Repository README.md)\n'; exit 0
+	print_not_supported_os; exit 0
 fi
 
 
 # update system
 printf '\n### Update System ..\n'
 
-"$PKGMNGR" update
+"$PKGMNGR" -y update
 "$PKGMNGR" -y upgrade
-"$PKGMNGR" -y dist-upgrade
 
 
 # install basic software
