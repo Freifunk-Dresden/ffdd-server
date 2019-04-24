@@ -6,9 +6,6 @@ install_pkg:
       - dbus
       - lsb-release
 
-      - zsh
-      - zsh-syntax-highlighting
-
       - htop
       - screen
       - tmux
@@ -36,6 +33,8 @@ install_pkg:
       {# purge old kernels #}
       - byobu
 
+      - net-tools
+      - grepcidr
       - ethtool
       - psmisc
       - bridge-utils
@@ -45,14 +44,14 @@ install_pkg:
       - iputils-ping
       - dnsutils
       - whois
-
-      {# network traffic measurements #}
+      - ltrace
+      - strace
+      - mtr-tiny
       - bwm-ng
       - iptraf
 
       - python-apt
       - jq
-      - grepcidr
 
 {% if grains['os'] == 'Ubuntu' %}
       - software-properties-common
