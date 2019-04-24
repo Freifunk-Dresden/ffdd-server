@@ -3,6 +3,11 @@ cron:
   pkg.installed:
     - refresh: True
     - name: cron
+  service:
+    - running
+    - name: cron
+    - enable: True
+    - restart: True
 
 {# Configuration #}
 /etc/default/cron:

@@ -3,13 +3,18 @@ locales:
   pkg.installed:
     - name: locales
 
-en_US.UTF-8:
-  locale.present
 
-de_DE.UTF-8:
-  locale.present
+us_locale:
+  locale.present:
+    - name: en_US.UTF-8
 
-en_US.UTF-8_default:
+de_locale:
+  locale.present:
+    - name: de_DE.UTF-8
+
+
+default_locale:
   locale.system:
+    - name: en_US.UTF-8
     - require:
-      - locale: en_US.UTF-8
+      - locale: us_locale
