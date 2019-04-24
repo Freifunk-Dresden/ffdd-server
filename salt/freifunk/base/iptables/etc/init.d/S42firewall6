@@ -21,105 +21,105 @@ if [ "$1" = "start" ]; then
 
 #----- setup INPUT rules -----
 	printf 'setting up INPUT rules ...\n'
-	ip6tables -A INPUT -p icmpv6 -j ACCEPT
+	ip6tables -w -A INPUT -p icmpv6 -j ACCEPT
 	#tracepath/route
-	ip6tables -A INPUT -p udp --dport 30000:50000 -j ACCEPT
-	ip6tables -A INPUT -p tcp --dport 22 -j ACCEPT
+	ip6tables -w -A INPUT -p udp --dport 30000:50000 -j ACCEPT
+	ip6tables -w -A INPUT -p tcp --dport 22 -j ACCEPT
 
 	#accept answers
-	ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+	ip6tables -w -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 	#allow access only some services
-	ip6tables -A INPUT -i lo -j ACCEPT
-	ip6tables -A INPUT -p TCP --dport 80 -j ACCEPT
-	ip6tables -A INPUT -p TCP --dport 443 -j ACCEPT
-	#ip6tables -A INPUT -p TCP --dport 22 -j ACCEPT
-	#ip6tables -A INPUT -d 224.0.0.0/4 -j ACCEPT
+	ip6tables -w -A INPUT -i lo -j ACCEPT
+	ip6tables -w -A INPUT -p TCP --dport 80 -j ACCEPT
+	ip6tables -w -A INPUT -p TCP --dport 443 -j ACCEPT
+	#ip6tables -w -A INPUT -p TCP --dport 22 -j ACCEPT
+	#ip6tables -w -A INPUT -d 224.0.0.0/4 -j ACCEPT
 
 	#time service (inetd) for rdate (SNTP)
-	#X#	ip6tables -A INPUT -p TCP --dport 37 -j ACCEPT
-	#X#	ip6tables -A INPUT -p udp --dport 37 -j ACCEPT
+	#X#	ip6tables -w -A INPUT -p TCP --dport 37 -j ACCEPT
+	#X#	ip6tables -w -A INPUT -p udp --dport 37 -j ACCEPT
 
 	#time service ntp for common NTP clients (NTP is not SNTP)
-	#X#	ip6tables -A INPUT -p TCP --dport 123 -j ACCEPT
-	#X#	ip6tables -A INPUT -p udp --dport 123 -j ACCEPT
+	#X#	ip6tables -w -A INPUT -p TCP --dport 123 -j ACCEPT
+	#X#	ip6tables -w -A INPUT -p udp --dport 123 -j ACCEPT
 
 	#smtp for incomming emails (from other mail server or from email clients)
 	#SMTP - port 25
-	ip6tables -A INPUT -p tcp --dport 25 -j ACCEPT
+	ip6tables -w -A INPUT -p tcp --dport 25 -j ACCEPT
 	#IMAP - port 143
-	ip6tables -A INPUT -p tcp --dport 143 -j ACCEPT
+	ip6tables -w -A INPUT -p tcp --dport 143 -j ACCEPT
 
-	ip6tables -A INPUT -i wifi -j ACCEPT
+	ip6tables -w -A INPUT -i wifi -j ACCEPT
 
 	#--- input backbone ----------
 	#bmx
-	ip6tables -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4305 -j ACCEPT
-	ip6tables -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4306 -j ACCEPT
-	ip6tables -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4307 -j ACCEPT
-	ip6tables -A INPUT -p udp -i lo --dport 4305 -j ACCEPT
-	ip6tables -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
-	ip6tables -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
+	ip6tables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4305 -j ACCEPT
+	ip6tables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4306 -j ACCEPT
+	ip6tables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4307 -j ACCEPT
+	ip6tables -w -A INPUT -p udp -i lo --dport 4305 -j ACCEPT
+	ip6tables -w -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
+	ip6tables -w -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
 
 	#dns
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 53 -j ACCEPT
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 53 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
 
 	#ssh
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 22 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 22 -j ACCEPT
 
 	#http
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 80 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p TCP --dport 80 -j ACCEPT
 
 	#iperf3
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 5201 -j ACCEPT
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p udp --dport 5201 -j ACCEPT
-	ip6tables -A INPUT -i bat+ -p tcp --dport 5201 -j ACCEPT
-	ip6tables -A INPUT -i bat+ -p udp --dport 5201 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 5201 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 5201 -j ACCEPT
+	ip6tables -w -A INPUT -i bat+ -p tcp --dport 5201 -j ACCEPT
+	ip6tables -w -A INPUT -i bat+ -p udp --dport 5201 -j ACCEPT
 
 
 	#---- input eth0 --------------
 
 	# fastd2 backbone
-	ip6tables -A INPUT -i "$WAN_DEV" -p udp --dport 5002 -j ACCEPT
+	ip6tables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5002 -j ACCEPT
 
 	#---- input bmx6 --------------
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p udp --dport 6240 -j ACCEPT
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 6240 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 6240 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 6240 -j ACCEPT
 
 	#ipv4/ipv6 encapsulation
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 4 -j ACCEPT
-	ip6tables -A INPUT -i "$BACKBONE_DEV" -p 41 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p 4 -j ACCEPT
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p 41 -j ACCEPT
 
-	ip6tables -A INPUT -j LOG --log-prefix "DROP IPv6 INPUT: "
-	ip6tables -A INPUT -j DROP
+	ip6tables -w -A INPUT -j LOG --log-prefix "DROP IPv6 INPUT: "
+	ip6tables -w -A INPUT -j DROP
 
 
 #----- setup FORWARD rules -----
 	printf 'setting up FORWARD rules ...\n'
-	ip6tables -A FORWARD -p icmpv6 -j ACCEPT
+	ip6tables -w -A FORWARD -p icmpv6 -j ACCEPT
 
-	ip6tables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+	ip6tables -w -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
-	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o bmx+ -j ACCEPT
-	ip6tables -A FORWARD -i bmx+ -o bmx+ -j ACCEPT
+	ip6tables -w -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
+	ip6tables -w -A FORWARD -i "$BACKBONE_DEV" -o bmx+ -j ACCEPT
+	ip6tables -w -A FORWARD -i bmx+ -o bmx+ -j ACCEPT
 
 	#allow forward to openvpn tunnel
-	ip6tables -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
-	ip6tables -A FORWARD -i bat+ -o vpn+ -j ACCEPT
-	ip6tables -A FORWARD -i bmx+ -o vpn+ -j ACCEPT
+	ip6tables -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
+	ip6tables -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
+	ip6tables -w -A FORWARD -i bmx+ -o vpn+ -j ACCEPT
 
 	#block any other
-	ip6tables -A FORWARD -j LOG --log-prefix "DROP IPv6 FORWARD: "
-	ip6tables -A FORWARD -j DROP
+	ip6tables -w -A FORWARD -j LOG --log-prefix "DROP IPv6 FORWARD: "
+	ip6tables -w -A FORWARD -j DROP
 
 #----- setup OUTPUT rules -----
 	printf 'setting up OUTPUT rules ...\n'
-	ip6tables -A OUTPUT -p icmpv6 -j ACCEPT
+	ip6tables -w -A OUTPUT -p icmpv6 -j ACCEPT
 
 	#allow all output
-	ip6tables -A OUTPUT -j ACCEPT
+	ip6tables -w -A OUTPUT -j ACCEPT
 fi
 
 
