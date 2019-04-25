@@ -1,5 +1,13 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.6)**
+**(current version 1.0.6_fix1)**
+<br/>
+
+_**version 1.0.6_fix1**_
+
+	- nvram: show version-fix
+	- fix bind9
+	- fix locales
+
 <br/>
 
 _**version 1.0.6**_ - [see details](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/updates/v1.0.6.md)
