@@ -10,9 +10,6 @@
 /etc/bind/named.conf.local:
   file.absent
 
-/etc/bind/named.conf.default-zones:
-  file.absent
-
 /etc/bind/zones:
   file.absent
 
