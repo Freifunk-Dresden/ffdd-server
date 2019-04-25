@@ -13,6 +13,9 @@
 /etc/bind/named.conf.default-zones:
   file.absent
 
+/etc/bind/zones:
+  file.absent
+
 /etc/bind/openvpn.forwarder:
   file.absent
 
