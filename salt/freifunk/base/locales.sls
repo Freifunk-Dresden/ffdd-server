@@ -1,6 +1,7 @@
 {# Locale and Language Settings #}
 locales:
   pkg.installed:
+    - refresh: True
     - name: locales
 
 
