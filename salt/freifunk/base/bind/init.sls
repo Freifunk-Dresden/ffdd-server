@@ -12,6 +12,7 @@ bind:
     - reload: True
     - watch:
       - file: /lib/systemd/system/bind9.service
+      - file: /etc/bind/named.conf
       - file: /etc/bind/named.conf.options
     - require:
       - pkg: bind
