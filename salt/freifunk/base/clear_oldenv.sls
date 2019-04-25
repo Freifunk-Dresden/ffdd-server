@@ -10,6 +10,12 @@
 /etc/bind/openvpn.forwarder:
   file.absent
 
+/etc/bind/openvpn.forwarder.vpn0:
+  file.absent
+
+/etc/bind/openvpn.forwarder.vpn1:
+  file.absent
+
 /etc/sysctl.d/global.conf:
   file.absent
 
