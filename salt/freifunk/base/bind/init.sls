@@ -50,6 +50,17 @@ bind:
     - require:
       - pkg: bind
 
+# define Zones
+/etc/bind/named.conf.default-zones:
+  file.managed:
+    - source:
+      - salt://bind/etc/bind/named.conf.default-zones
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: bind
+
 /etc/bind/vpn.forwarder:
   file.managed:
     - source:
