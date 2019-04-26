@@ -11,6 +11,7 @@ bind:
     - enable: True
     - reload: True
     - watch:
+      - pkg: bind
       - file: /lib/systemd/system/bind9.service
       - file: /etc/bind/named.conf
       - file: /etc/bind/named.conf.options
@@ -18,6 +19,9 @@ bind:
       - pkg: bind
       - service: S40network
       - service: S41firewall
+      - file: /lib/systemd/system/bind9.service
+      - file: /etc/bind/named.conf
+      - file: /etc/bind/named.conf.options
 
 {# Service #}
 /lib/systemd/system/bind9.service:

@@ -8,6 +8,7 @@ monitorix:
     - gpgcheck: 1
     - key_url: http://apt.izzysoft.de/izzysoft.asc
   pkg.installed:
+    - refresh: True
     - names:
       - monitorix
     - require:
@@ -25,6 +26,7 @@ monitorix:
       - pkg: apache2
       - service: S40network
       - service: S41firewall
+      - file: /etc/monitorix/monitorix.conf
 
 
 {# Configuration #}

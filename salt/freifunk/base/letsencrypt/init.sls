@@ -90,6 +90,9 @@ apache2_ssl:
     - watch:
       - file: /etc/apache2/conf-enabled/ssl-params.conf
       - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
+    - require:
+      - file: /etc/apache2/conf-enabled/ssl-params.conf
+      - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 

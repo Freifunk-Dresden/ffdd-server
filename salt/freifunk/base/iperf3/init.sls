@@ -32,3 +32,4 @@ S90iperf3:
       - file: /etc/init.d/S90iperf3
     - require:
       - pkg: iperf3
+      - file: /etc/init.d/S90iperf3

@@ -29,3 +29,5 @@ S40network:
       - file: /etc/iproute2/rt_tables
     - require:
       - pkg: iproute2
+      - file: /etc/init.d/S40network
+      - file: /etc/iproute2/rt_tables

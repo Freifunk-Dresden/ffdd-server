@@ -17,6 +17,9 @@ fail2ban:
       - pkg: fail2ban
       - service: S40network
       - service: S41firewall
+      - file: /etc/fail2ban/fail2ban.conf
+      - file: /etc/fail2ban/jail.d/freifunk.conf
+
 
 {# Fail2ban Installation Check #}
 fail2ban_check:

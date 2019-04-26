@@ -21,6 +21,8 @@ apache2:
       - pkg: apache2
       - service: S40network
       - service: S41firewall
+      - file: /etc/apache2/sites-enabled/001-freifunk.conf
+      - file: /etc/apache2/conf-enabled/letsencrypt.conf
 
 apache2_pkgs:
   pkg.installed:

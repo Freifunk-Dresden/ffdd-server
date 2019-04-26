@@ -66,9 +66,16 @@ S53backbone-fastd2:
     - enable: True
     - restart: True
     - watch:
-      - file: /etc/init.d/S53backbone-fastd2
-      - file: /usr/local/src/fastd
       - service: S40network
       - service: S41firewall
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S41firewall
+      - file: /etc/init.d/S53backbone-fastd2
+      - file: /usr/local/src/fastd
+    - require:
+      - service: S40network
+      - service: S41firewall
+      - file: /etc/init.d/S40network
+      - file: /etc/init.d/S41firewall
+      - file: /etc/init.d/S53backbone-fastd2
+      - file: /usr/local/src/fastd

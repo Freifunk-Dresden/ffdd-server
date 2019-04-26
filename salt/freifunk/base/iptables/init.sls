@@ -43,13 +43,19 @@ S41firewall:
     - enable: True
     - restart: True
     - watch:
+      - pkg: iptables
+      - pkg: ipset
+      - service: S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
-      - service: S40network
     - require:
       - pkg: iptables
+      - pkg: ipset
       - service: S40network
+      - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
+      - file: /usr/local/sbin/ipset-fail2ban.sh
+      - file: /etc/ipset-fail2ban/ipset-fail2ban.conf
 
 
 {# IPv6 Firewall #}
