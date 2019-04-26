@@ -1,6 +1,7 @@
 {# logfile rotation, compression and removal #}
 logrotate:
   pkg.installed:
+    - refresh: True
     - name: logrotate
 
 {# Configuration #}

@@ -1,6 +1,7 @@
 {# Network Time Protocol #}
 ntp:
   pkg.installed:
+    - refresh: True
     - name: ntp
   service:
     - running
@@ -10,6 +11,7 @@ ntp:
       - file: /etc/ntp.conf
     - require:
       - pkg: ntp
+      - file: /etc/ntp.conf
 
 {# Configuration #}
 /etc/ntp.conf:
