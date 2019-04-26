@@ -114,6 +114,7 @@ ipset:
     - require:
       - pkg: fail2ban
       - pkg: ipset
+      - pkg: cron
 
 {# first time exec #}
 ipset-f2b-init:
@@ -123,6 +124,7 @@ ipset-f2b-init:
     - require:
       - pkg: fail2ban
       - pkg: ipset
+      - service: fail2ban
 
 {# unban helper-script #}
 /usr/local/bin/f2b-unban:
