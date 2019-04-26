@@ -16,7 +16,7 @@ iptables:
     - require:
       - pkg: iptables
 
-{# Custom USer Firewall-Rules #}
+{# Custom User Firewall-Rules #}
 /etc/firewall.user:
   file.managed:
     - source: salt://iptables/etc/firewall.user
