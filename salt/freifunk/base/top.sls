@@ -1,8 +1,5 @@
 base:
   '*':
-    {# cleanup old server version #}
-    - clear_oldenv
-
     - apt
 
     {# remove conflicting packages #}

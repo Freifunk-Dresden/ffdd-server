@@ -28,6 +28,7 @@ print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n\t- Debian 9 (stretch)\n'
 	printf '\t- Ubuntu LTS (16.04/18.04)\n'
+	exit 1
 }
 
 #
@@ -35,11 +36,11 @@ print_not_supported_os() {
 #
 
 # check root permission
-if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 0; fi
+if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 1; fi
 
 # check tun device is available
 if [ ! -e /dev/net/tun ]; then
-	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'; exit 0
+	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'; exit 1
 fi
 
 # check Distribution
@@ -49,23 +50,23 @@ version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
 		9*)		PKGMNGR='apt-get' ;;
-		*)		print_not_supported_os; exit 0 ;;
+		*)		print_not_supported_os ;;
 	esac
 
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
 		16.04*)	PKGMNGR='apt-get' ;;
 		18.04*)	PKGMNGR='apt-get' ;;
-		*)		print_not_supported_os; exit 0 ;;
+		*)		print_not_supported_os ;;
 	esac
 
 elif [ "$os_id" = 'centos' ]; then
 	case "$version_id" in
-		*)		printf 'Centos is not supported yet!\n'; exit 0 ;; #PKGMNGR='yum'
+		*)		printf 'Centos is not supported yet!\n'; exit 1 ;;
 	esac
 
 else
-	print_not_supported_os; exit 0
+	print_not_supported_os
 fi
 
 
@@ -104,13 +105,13 @@ cd "$INSTALL_DIR"
 	git pull -f origin "$tag"
 
 
-# small helper for salt to create templates (replace: false)
-cp -fv /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
-test -f /root/.bash_aliases && mv -v /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
-mv -v /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
+# backup old user configs
+cp -f /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
+test -f /root/.bash_aliases && cp /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
+mv /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
 
-# ensure nvram and nvram.conf are present and correct
+# ensure nvram and nvram.conf are present
 printf '\n### Check "nvram" Setup ..\n'
 
 	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
@@ -119,31 +120,6 @@ printf '\n### Check "nvram" Setup ..\n'
 		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n'
 
 		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
-
-	else
-		# Temp.-Part to update old servers
-		printf '\n### /etc/nvram.conf exists.\n'
-		printf '### Create /etc/nvram.conf.default & /etc/nvram.conf.diff\n'
-
-		# check new options are set
-		# check autoupdate
-		if [ -z "$(nvram get autoupdate)" ]; then
-			sed -i '1s/^/\nautoupdate=1\n\n/' /etc/nvram.conf
-			sed -i '1s/^/\n# set autoupdate (0=off 1=on)/' /etc/nvram.conf
-		fi
-		# check release
-		if [ -z "$(nvram get branch)" ]; then
-			sed -i '1s/^/\nbranch=T_RELEASE_latest\n\n/' /etc/nvram.conf
-			sed -i '1s/^/\n# Git-Branch/' /etc/nvram.conf
-		fi
-		# check install path
-		if [ -z "$(nvram get install_dir)" ]; then
-			{ printf '# install_dir !Please do not touch!\ninstall_dir=%s\n\n' $INSTALL_DIR; cat /etc/nvram.conf; } >/etc/nvram.conf.new
-				mv /etc/nvram.conf.new /etc/nvram.conf
-		fi
-
-		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf.default
-		diff /etc/nvram.conf.default /etc/nvram.conf > /etc/nvram.conf.diff
 	fi
 
 	# check default Interface is correct set
