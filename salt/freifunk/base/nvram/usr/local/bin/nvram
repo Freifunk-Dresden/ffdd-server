@@ -22,7 +22,7 @@ case "$1" in
 		version=$(grep -oP '(?<=^#version=).+' "$(nvram get install_dir)"/init_server.sh | tr -d '"')
 		fix=$(grep -oP '(?<=^#fix=).+' "$(nvram get install_dir)"/init_server.sh | tr -d '"')
 		branch=$(nvram get branch)
-		[ -n "$fix" ] && printf '%s_fix%s - Branch: %s\n' "$version" "$fix" "$branch" || printf '%s - Branch: %s\n' "$version" "$branch"
+		[[ -n "$fix" ]] && printf '%s_fix%s - Branch: %s\n' "$version" "$fix" "$branch" || printf '%s - Branch: %s\n' "$version" "$branch"
 	;;
 
 	*)

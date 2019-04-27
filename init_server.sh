@@ -36,7 +36,7 @@ print_not_supported_os() {
 #
 
 # check root permission
-if [ "$EUID" -ne 0 ]; then printf 'Please run as root!\n'; exit 1; fi
+[[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n' && exit 1
 
 # check tun device is available
 if [ ! -e /dev/net/tun ]; then
@@ -124,10 +124,10 @@ printf '\n### Check "nvram" Setup ..\n'
 
 	# check default Interface is correct set
 	get_default_interface
-	[ "$(nvram get ifname)" != "$def_if" ] && nvram set ifname "$def_if"
+	[[ "$(nvram get ifname)" != "$def_if" ]] && nvram set ifname "$def_if"
 
 	# check install_dir is correct set
-	[ "$(nvram get install_dir)" != "$INSTALL_DIR" ] && nvram set install_dir "$INSTALL_DIR"
+	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
 
 
 # create clean masterless salt enviroment
