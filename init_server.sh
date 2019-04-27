@@ -78,13 +78,13 @@ printf '\n### Update System ..\n'
 
 
 # install basic software
-printf '\n### Instaĺl Basic Software..\n'
+printf '\n### Instaĺl Basic Software ..\n'
 
 "$PKGMNGR" -y install git salt-minion
 
 
 # check users are present
-printf '\n### Check users are present..\n'
+printf '\n### Check users are present ..\n'
 
 for users in freifunk syslog
 do
@@ -95,7 +95,7 @@ done
 
 
 # install/update repository
-printf '\n### Install/Update Repository..\n'
+printf '\n### Install/Update Repository ..\n'
 
 test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
 
