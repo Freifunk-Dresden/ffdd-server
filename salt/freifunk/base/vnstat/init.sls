@@ -6,8 +6,7 @@ vnstat:
     - refresh: True
     - name: vnstat
   service:
-    - running
-    - enable: True
+    - enabled
     - restart: True
     - watch:
       - pkg: vnstat
@@ -67,8 +66,8 @@ vnstat_vpn1:
 {# restart vnstat #}
 vnstat_restart:
   cmd.run:
-    - name: systemctl restart vnstat
-    - onlyif: test ! -f /var/lib/vnstat/.{{ ifname }} || test ! -f /var/lib/vnstat/.bat0 || test ! -f /var/lib/vnstat/.tbb_fastd2
+    - name: /usr/bin/vnstat -u ; systemctl restart vnstat
+    - onlyif: test ! -f /var/lib/vnstat/.{{ ifname }} || test ! -f /var/lib/vnstat/.tbb_fastd2 || "${test ! -f /var/lib/vnstat/.bat0 && test $(cat /proc/net/dev | grep -cw 'bat0') -eq '1'}"
 
 
 {# Web Traffic Dashboard #}
