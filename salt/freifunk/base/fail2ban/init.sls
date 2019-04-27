@@ -119,7 +119,7 @@ ipset:
 {# first time exec #}
 ipset-f2b-init:
   cmd.run:
-    - name: /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf >/dev/null 2>&1
+    - name: /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf >/dev/null 2>&1; exit 0
     - unless: "[ -f /etc/ipset-fail2ban/ipset-fail2ban.restore ]"
     - require:
       - pkg: fail2ban
