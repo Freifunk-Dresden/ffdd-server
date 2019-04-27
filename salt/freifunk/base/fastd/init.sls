@@ -80,4 +80,3 @@ S53backbone-fastd2:
       - file: /etc/init.d/S41firewall
       - file: /etc/init.d/S53backbone-fastd2
       - file: /usr/local/src/fastd
-    - onlyif: test "$(find /etc/fastd/peers2 -mindepth 1 -maxdepth 1 | wc -l)" -gt '0'
