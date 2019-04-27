@@ -73,7 +73,7 @@ S53backbone-fastd2:
       - file: /etc/init.d/S53backbone-fastd2
       - file: /usr/local/src/fastd
     - require:
-      - pkg: ddmesh
+      - sls: ddmesh
       - service: S40network
       - service: S41firewall
       - cmd: compile_fastd
