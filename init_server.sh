@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #version="1.0.6"
 #branch="B_RELEASE"
-#fix="1"
+#fix="2"
 tag="T_RELEASE_latest"
 ###
 #
@@ -17,11 +17,9 @@ export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 INSTALL_DIR='/srv/ffdd-server'
 
-
-# function: find default gateway interface
-get_default_interface() {
-	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
-}
+#
+# -- Check & Setup System --
+#
 
 # function: print helper "os is not supported"
 print_not_supported_os() {
@@ -32,17 +30,16 @@ print_not_supported_os() {
 }
 
 #
-# -- Check & Setup System --
-#
-
 # check root permission
 [[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n' && exit 1
 
+#
 # check tun device is available
 if [ ! -e /dev/net/tun ]; then
 	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'; exit 1
 fi
 
+#
 # check Distribution
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
@@ -64,25 +61,24 @@ elif [ "$os_id" = 'centos' ]; then
 	case "$version_id" in
 		*)		printf 'Centos is not supported yet!\n'; exit 1 ;;
 	esac
-
 else
 	print_not_supported_os
 fi
 
-
+#
 # update system
 printf '\n### Update System ..\n'
 
 "$PKGMNGR" -y update
 "$PKGMNGR" -y upgrade
 
-
+#
 # install basic software
 printf '\n### Instaĺl Basic Software ..\n'
 
 "$PKGMNGR" -y install git salt-minion
 
-
+#
 # check users are present
 printf '\n### Check users are present ..\n'
 
@@ -93,7 +89,7 @@ do
 	fi
 done
 
-
+#
 # install/update repository
 printf '\n### Install/Update Repository ..\n'
 
@@ -104,13 +100,13 @@ cd "$INSTALL_DIR"
 	git checkout "$tag"
 	git pull -f origin "$tag"
 
-
+#
 # backup old user configs
 cp -f /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
 test -f /root/.bash_aliases && cp /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
 mv /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
-
+#
 # ensure nvram and nvram.conf are present
 printf '\n### Check "nvram" Setup ..\n'
 
@@ -123,13 +119,13 @@ printf '\n### Check "nvram" Setup ..\n'
 	fi
 
 	# check default Interface is correct set
-	get_default_interface
+	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
 	[[ "$(nvram get ifname)" != "$def_if" ]] && nvram set ifname "$def_if"
 
 	# check install_dir is correct set
 	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
 
-
+#
 # create clean masterless salt enviroment
 printf '\n### Check Salt Enviroment ..\n'
 
@@ -148,7 +144,7 @@ file_roots:
 
 EOF
 
-
+#
 # ensure running services are stopped
 printf '\n### Ensure Services are Stopped ..\n'
 
@@ -175,7 +171,7 @@ salt-call state.highstate --local
 
 
 #
-# -- Cleanup System --
+# -- Cleanup System & Print Notice --
 #
 
 printf '\n### .. All done! Cleanup System ..\n'

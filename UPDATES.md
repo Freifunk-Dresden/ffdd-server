@@ -1,5 +1,14 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.6_fix1)**
+**(current version 1.0.6_fix2)**
+<br/>
+
+_**version 1.0.6_fix2**_
+
+	- fix Service requirements and watches
+	- fix salt and script code
+	- optimze nvram autosetup
+	- remove temp. clear old server enviroment
+
 <br/>
 
 _**version 1.0.6_fix1**_

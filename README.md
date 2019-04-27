@@ -1,4 +1,4 @@
-# Freifunk Dresden: ffdd-server (current version 1.0.6_fix1)
+# Freifunk Dresden: ffdd-server (current version 1.0.6_fix2)
 Configures an Debian 9 (stretch) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)**
@@ -111,14 +111,13 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 ```
 <br/>
 
-*Coffee Time (~+ 10min)*<br />
+*Coffee Time (~+ 10min)*
 
-Nun ist es bei der ersten Initialisierung ganz normal wenn am Ende in der "Summary for local" noch Failed's angezeigt werden.
-<br/>
 
-- Manuelle Anpassung der Variablen.<br/>
+Manuelle Anpassungen
+----
 
-Es müssen noch Host- & Community- Spezifische Dinge angepasst werden:
+Es müssen noch Host-Spezifische Dinge angepasst werden:
 ```
 */etc/hostname
 */etc/nvram.conf
