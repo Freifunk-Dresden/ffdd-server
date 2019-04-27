@@ -36,12 +36,12 @@ vnstat_{{ ifname }}:
 vnstat_bat0:
   cmd.run:
     - name: /usr/bin/vnstat -u -i bat0
-    - onlyif: test ! -f /var/lib/vnstat/bat0 && [[ $(cat /proc/net/dev | grep -cw 'bat0') = '1' ]]
+    - onlyif: test ! -f /var/lib/vnstat/bat0 && test "$(cat /proc/net/dev | grep -cw 'bat0')" -eq '1'
 
 vnstat_tbb_fastd2:
   cmd.run:
     - name: /usr/bin/vnstat -u -i tbb_fastd2
-    - onlyif: test ! -f /var/lib/vnstat/tbb_fastd2 && [[ $(cat /proc/net/dev | grep -cw 'tbb_fastd2') = '1' ]]
+    - onlyif: test ! -f /var/lib/vnstat/tbb_fastd2 && test "$(cat /proc/net/dev | grep -cw 'tbb_fastd2')" -eq '1'
 
 vnstat_vpn0:
   cmd.run:
