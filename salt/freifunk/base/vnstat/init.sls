@@ -8,9 +8,6 @@ vnstat:
   service:
     - enabled
     - restart: True
-    - watch:
-      - pkg: vnstat
-      - file: /etc/vnstat.conf
     - require:
       - pkg: vnstat
       - file: /etc/vnstat.conf
