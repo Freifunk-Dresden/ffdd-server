@@ -15,6 +15,8 @@ bind:
       - file: /lib/systemd/system/bind9.service
       - file: /etc/bind/named.conf
       - file: /etc/bind/named.conf.options
+      - file: /etc/bind/named.conf.default-zones
+      - file: /etc/bind/vpn.forwarder
     - require:
       - pkg: bind
       - service: S40network
@@ -22,6 +24,8 @@ bind:
       - file: /lib/systemd/system/bind9.service
       - file: /etc/bind/named.conf
       - file: /etc/bind/named.conf.options
+      - file: /etc/bind/named.conf.default-zones
+      - file: /etc/bind/vpn.forwarder
 
 {# Service #}
 /lib/systemd/system/bind9.service:
