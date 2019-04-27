@@ -82,3 +82,6 @@ S53backbone-fastd2:
       - file: /etc/init.d/S41firewall
       - file: /etc/init.d/S53backbone-fastd2
       - file: /usr/local/src/fastd
+      - file: /usr/local/bin/ddmesh-ipcalc.sh
+      - file: /usr/local/bin/nvram
+      - file: /etc/nvram.conf
