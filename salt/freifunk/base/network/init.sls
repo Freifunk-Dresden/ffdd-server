@@ -16,6 +16,7 @@ rc.d_S40network:
     - name: /usr/sbin/update-rc.d S40network defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S40network
+      - file: /etc/iproute2/rt_tables
     - onchanges:
       - file: /etc/init.d/S40network
 
@@ -29,5 +30,6 @@ S40network:
       - file: /etc/iproute2/rt_tables
     - require:
       - pkg: iproute2
+      - cmd: rc.d_S40network
       - file: /etc/init.d/S40network
       - file: /etc/iproute2/rt_tables

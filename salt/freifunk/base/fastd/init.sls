@@ -75,6 +75,7 @@ S53backbone-fastd2:
     - require:
       - service: S40network
       - service: S41firewall
+      - cmd: rc.d_S53backbone-fastd2
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/init.d/S53backbone-fastd2

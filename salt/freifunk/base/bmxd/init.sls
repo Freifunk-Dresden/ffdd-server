@@ -81,6 +81,7 @@ S52batmand:
       - service: S40network
       - service: S41firewall
       - service: S53backbone-fastd2
+      - cmd: rc.d_S52batmand
       - file: /etc/init.d/S52batmand
       - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
