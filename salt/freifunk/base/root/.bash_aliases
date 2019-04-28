@@ -46,6 +46,8 @@ tools:
     freifunk-gw-status	( show GW-Country )
     f2b-list		( show blocked IP's )
     f2b-unban <IP>	( unban blocked IP )
+    htop / psa		( show processes list)
+    conntrack		( show more with -n LINENUM)
     showip
     speedtest-ovh
     speedtest-belwue
