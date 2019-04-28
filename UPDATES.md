@@ -6,6 +6,7 @@ _**version 1.0.6_fix2**_
 
 	- fix Service requirements and watches
 	- fix salt and script code
+	- add systemtools and linux-firmware
 	- optimze nvram autosetup
 	- remove temp. clear old server enviroment
 
