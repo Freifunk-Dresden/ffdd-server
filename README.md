@@ -158,7 +158,7 @@ Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet 
 - _/etc/firewall.user_<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
 - _/root/.bash_user_aliases_<br/>
-Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen. Diese werden in '/root/.bash_user_aliases' eingebunden und automatisch mitgeladen.
+Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen. Diese werden in '/root/.bash_aliases' eingebunden und automatisch mitgeladen.
 
 Wichig
 ----
