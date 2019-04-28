@@ -5,6 +5,9 @@ install_pkg:
     - names:
       - dbus
       - lsb-release
+      - dmidecode
+      - irqbalance
+      - cpufrequtils
 
       - htop
       - screen
@@ -53,7 +56,12 @@ install_pkg:
       - python-apt
       - jq
 
-{% if grains['os'] == 'Ubuntu' %}
+{% if grains['os'] == 'Debian' %}
+      - firmware-linux
+
+{% elif grains['os'] == 'Ubuntu' %}
+      - linux-firmware
+
       - software-properties-common
       - python-pycurl
 {% endif %}
