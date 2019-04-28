@@ -1,12 +1,19 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.6_fix2)**
+**(current version 1.0.6_fix3)**
+<br/>
+
+_**version 1.0.6_fix3**_
+
+	- add systemtools and linux-firmware
+	- f2b: remove old hopglass server from ignore list
+	- bash_aliases add htop/psa, conntrack notice
+
 <br/>
 
 _**version 1.0.6_fix2**_
 
 	- fix Service requirements and watches
 	- fix salt and script code
-	- add systemtools and linux-firmware
 	- optimze nvram autosetup
 	- remove temp. clear old server enviroment
 
