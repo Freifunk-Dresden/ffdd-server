@@ -11,6 +11,8 @@
 # Description:       bmxd
 ### END INIT INFO
 
+# docs: https://www.open-mesh.org/projects/batmand/wiki/Doc-overview
+
 ARG1="$1"
 
 DAEMON='bmxd'
