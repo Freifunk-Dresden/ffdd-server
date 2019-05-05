@@ -42,6 +42,7 @@ log level warn;
 log to syslog level debug;
 mode tap;
 interface "tbb_fastd2";
+#prefer "null"
 method "null";
 method "null+salsa2012+umac";
 method "salsa2012+umac";
