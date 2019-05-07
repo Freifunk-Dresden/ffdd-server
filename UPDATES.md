@@ -1,5 +1,13 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.6_fix3)**
+**(current version 1.0.6_fix4)**
+<br/>
+
+_**version 1.0.6_fix4**_
+
+	- apt: provide default sources.list for debian
+	- fastd2/bmxd: update docs url
+	- root: bash_aliases typo fix
+
 <br/>
 
 _**version 1.0.6_fix3**_
