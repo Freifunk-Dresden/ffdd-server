@@ -8,6 +8,25 @@ apt:
       - ca-certificates
       - unattended-upgrades
 
+{# sources.list #}
+{% if grains['os'] == 'Debian' %}
+/etc/apt/sources.list:
+  file.managed:
+    - contents: |
+        ##### Debian Main Repos #####
+        deb http://deb.debian.org/debian/ stretch main contrib non-free
+        deb-src http://deb.debian.org/debian/ stretch main contrib non-free
+        # stable-updates
+        deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
+        deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+        # security-updates
+        deb http://deb.debian.org/debian-security stretch/updates main
+        deb-src http://deb.debian.org/debian-security stretch/updates main
+    - user: root
+    - group: root
+    - mode: 600
+{% endif %}
+
 {# Configuration #}
 /etc/apt/apt.conf.d/20auto-upgrades:
   file.managed:
