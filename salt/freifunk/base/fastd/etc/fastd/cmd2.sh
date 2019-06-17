@@ -43,6 +43,7 @@ EOM
 }
 
 eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
+fastd_restrict="$(nvram get fastd_restrict)"
 
 case $1 in
 
@@ -69,6 +70,12 @@ case $1 in
  	;;
 
 	verify)
+		# check if further new connections are accepted
+		if [ "$fastd_restrict" = "1" ]; then
+			logger -t fastd "no more connection allowed. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+			exit 1;
+		fi
+
 		#if verify-cmd was registerred in fastd.conf
 		logger -t fastd "allow connection from $PEER_ADDRESS:$PEER_PORT key $PEER_KEY"
 
