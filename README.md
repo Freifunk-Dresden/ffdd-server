@@ -1,4 +1,4 @@
-# Freifunk Dresden: ffdd-server (current version 1.0.6_fix4)
+# Freifunk Dresden: ffdd-server (current version 1.0.6_fix5)
 Configures an Debian 9 (stretch) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)**

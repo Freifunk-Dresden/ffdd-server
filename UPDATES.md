@@ -1,5 +1,11 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.6_fix4)**
+**(current version 1.0.6_fix5)**
+<br/>
+
+_**version 1.0.6_fix5**_
+
+	- fastd: add support to restrict any new connection to a server. should be used when server has too much connections and is overloaded. in this case we must change backbones in clients
+
 <br/>
 
 _**version 1.0.6_fix4**_
