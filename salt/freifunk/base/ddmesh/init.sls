@@ -1,6 +1,6 @@
 {# Freifunk Dresden Configurations #}
 
-{% from 'config.jinja' import freifunk_version, branch, install_dir, autoupdate, ctime %}
+{% from 'config.jinja' import freifunk_version, freifunk_repo, branch, install_dir, autoupdate, ctime %}
 
 /etc/freifunk-server-version:
   file.managed:
@@ -15,7 +15,7 @@
 {% if autoupdate == '1' %}
 ffdd-server_repo:
   git.latest:
-    - name: https://github.com/Freifunk-Dresden/ffdd-server.git
+    - name: {{ freifunk_repo }}
     - rev: {{ branch }}
     - target: {{ install_dir }}
     - update_head: True

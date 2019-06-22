@@ -2,6 +2,10 @@
 {# Salt - Jinja Configuration File #}
 
 {% set ffdom = 'freifunk-dresden.de' %}
+{# ffip for Hotspot-NAT #}
+{% set ffip = '85.114.135.114' %}
+
+{% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server.git' %}
 
 {% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
 {% set autoupdate = salt['cmd.shell']('/usr/local/bin/nvram get autoupdate') %}

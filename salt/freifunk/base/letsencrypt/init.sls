@@ -45,8 +45,8 @@ apache2_mod_ssl:
 
 {# autoconfigure a new server #}
 {# check hostname has the correct format and is not NAT'd over freifunk-dresden.de #}
-{% from 'config.jinja' import ffdom, hostname %}
-{%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short || true") -%}
+{% from 'config.jinja' import ffip, hostname %}
+{# {%- set ffip = salt['cmd.shell']("dig " ~ ffdom ~ " +short || true") -%} #}
 {%- set check_fqdn = salt['cmd.shell']("h=" ~ hostname ~ " ; [[ ${h//[^.]} != '' ]] && host $h | grep -v " ~ ffip ~ " 2>&1 > /dev/null ; if [ $? -eq 0 ]; then echo $h ; fi || true") -%}
 
 {% if check_fqdn != '' %}
