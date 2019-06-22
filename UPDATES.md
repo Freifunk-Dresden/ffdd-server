@@ -1,5 +1,12 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.6_fix5)**
+**(current version 1.0.6_fix6)**
+<br/>
+
+_**version 1.0.6_fix6**_
+
+	- update apt autoupdate
+	- add freifunk_repo to config file and update letsencrypt NAT'd check
+
 <br/>
 
 _**version 1.0.6_fix5**_
