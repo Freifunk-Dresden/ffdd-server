@@ -47,6 +47,7 @@ version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
 		9*)		PKGMNGR='apt-get' ;;
+		10*)	PKGMNGR='apt-get' ;;
 		*)		print_not_supported_os ;;
 	esac
 
