@@ -19,7 +19,7 @@ vnstat:
       - salt://vnstat/etc/vnstat.tmpl
     - template: jinja
     - user: root
-    - group: root
+    - group: vnstat
     - mode: 644
 
 
@@ -54,13 +54,17 @@ vnstat_vpn1:
   file.directory:
     - user: vnstat
     - group: vnstat
-    - file_mode: 755
-    - dir_mode: 755
     - recurse:
       - user
       - group
+      - mode
 
-{# restart vnstat #}
+/var/lib/vnstat_dirperm:
+  cmd.run:
+    - name: /bin/chmod 755 /var/lib/vnstat
+    - onlyif: "test $(stat -c '%a %n' /var/lib/vnstat | grep -cw 755 ) -eq '0'"
+
+{# check needed vnstat restart #}
 vnstat_restart:
   cmd.run:
     - name: /usr/bin/vnstat -u ; systemctl restart vnstat
@@ -80,7 +84,7 @@ vnstat_restart:
       - user
       - group
 
-{# define own interfaces #}
+{# Configuration #}
 /var/www_vnstat/config.php:
   file.managed:
     - source:
