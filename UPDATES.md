@@ -1,5 +1,14 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.6_fix6)**
+**(current version 1.0.7)**
+<br/>
+
+_**version 1.0.7**_
+
+	- add Debian 10 (buster) support
+	- small Bugfixes
+		- bind root.hints
+		- vnstat dir perms
+
 <br/>
 
 _**version 1.0.6_fix6**_

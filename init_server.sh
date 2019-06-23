@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-#version="1.0.6"
+#version="1.0.7"
 #branch="B_RELEASE"
-#fix="6"
+#fix=""
 tag="T_RELEASE_latest"
 ###
 #
@@ -24,7 +24,7 @@ INSTALL_DIR='/srv/ffdd-server'
 # function: print helper "os is not supported"
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
-	printf 'Supported OS List:\n\t- Debian 9 (stretch)\n'
+	printf 'Supported OS List:\n\t- Debian (9/10)\n'
 	printf '\t- Ubuntu LTS (16.04/18.04)\n'
 	exit 1
 }
