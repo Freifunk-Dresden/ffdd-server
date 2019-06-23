@@ -57,7 +57,6 @@ vnstat_vpn1:
     - recurse:
       - user
       - group
-      - mode
 
 /var/lib/vnstat_dirperm:
   cmd.run:
