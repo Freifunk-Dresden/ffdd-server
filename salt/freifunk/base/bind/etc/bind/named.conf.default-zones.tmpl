@@ -3,7 +3,7 @@
 zone "." {
         type hint;
 
-  {% if grains['os'] == 'Debian' and grains['osrelease'] == 'buster' %}
+  {% if grains['os'] == 'Debian' and grains['osrelease'] == '10' %}
         file "/usr/share/dns/root.hints";
   {% else %}
         file "/etc/bind/db.root";

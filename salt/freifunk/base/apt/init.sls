@@ -9,7 +9,7 @@ apt:
       - unattended-upgrades
 
 {# sources.list #}
-{% if grains['os'] == 'Debian' and grains['osrelease'] == 'stretch' %}
+{% if grains['os'] == 'Debian' and grains['osrelease'] == '9' %}
 /etc/apt/sources.list:
   file.managed:
     - contents: |
@@ -26,7 +26,7 @@ apt:
     - group: root
     - mode: 600
 
-{% elif grains['os'] == 'Debian' and grains['osrelease'] == 'buster' %}
+{% elif grains['os'] == 'Debian' and grains['osrelease'] == '10' %}
 /etc/apt/sources.list:
   file.managed:
     - contents: |
