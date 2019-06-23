@@ -2,7 +2,12 @@
 // prime the server with knowledge of the root servers
 zone "." {
         type hint;
+
+  {% if grains['os'] == 'Debian' and grains['osrelease'] == 'buster' %}
+        file "/usr/share/dns/root.hints";
+  {% else %}
         file "/etc/bind/db.root";
+  {% endif %}
 };
 
 // be authoritative for the localhost forward and reverse zones, and for

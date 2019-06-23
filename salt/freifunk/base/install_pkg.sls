@@ -42,7 +42,6 @@ install_pkg:
       - psmisc
       - bridge-utils
       - tcpdump
-      - netcat
       - lftp
       - iputils-ping
       - dnsutils

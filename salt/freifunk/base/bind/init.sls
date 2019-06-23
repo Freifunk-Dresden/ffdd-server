@@ -63,7 +63,8 @@ bind:
 /etc/bind/named.conf.default-zones:
   file.managed:
     - source:
-      - salt://bind/etc/bind/named.conf.default-zones
+      - salt://bind/etc/bind/named.conf.default-zones.tmpl
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
