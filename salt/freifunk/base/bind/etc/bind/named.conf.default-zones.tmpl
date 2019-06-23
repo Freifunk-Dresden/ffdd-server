@@ -2,8 +2,9 @@
 // prime the server with knowledge of the root servers
 zone "." {
         type hint;
-
-  {% if grains['os'] == 'Debian' and grains['osrelease'] == '10' %}
+  {% if grains['os'] == 'Ubuntu' and grains['osrelease'] == '18.04' %}
+        file "/usr/share/dns/root.hints";
+  {% elif grains['os'] == 'Debian' and grains['osrelease'] == '10' %}
         file "/usr/share/dns/root.hints";
   {% else %}
         file "/etc/bind/db.root";
