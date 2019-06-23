@@ -6,6 +6,7 @@ bind:
       - bind9
       - bind9-host
       - bind9utils
+      - dns-root-data
   service.running:
     - name: bind9
     - enable: True
@@ -59,18 +60,25 @@ bind:
     - require:
       - pkg: bind
 
-# define Zones
+{# define Zones #}
 /etc/bind/named.conf.default-zones:
   file.managed:
     - source:
-      - salt://bind/etc/bind/named.conf.default-zones.tmpl
-    - template: jinja
+      - salt://bind/etc/bind/named.conf.default-zones
     - user: root
     - group: root
     - mode: 644
     - require:
       - pkg: bind
 
+{# check root.hints are up-to-date #}
+/etc/bind/db.root:
+  cmd.run:
+    - name: /bin/cp /usr/share/dns/root.hints /etc/bind/db.root && systemctl restart bind9
+    - onlyif: "$(md5sum /etc//bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
+
+
+{# vpn.forwarder #}
 /etc/bind/vpn.forwarder:
   file.managed:
     - source:
