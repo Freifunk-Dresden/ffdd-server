@@ -9,7 +9,7 @@ apt:
       - unattended-upgrades
 
 {# sources.list #}
-{% if grains['os'] == 'Debian' %}
+{% if grains['os'] == 'Debian' and grains['osrelease'] == 'stretch' %}
 /etc/apt/sources.list:
   file.managed:
     - contents: |
@@ -22,6 +22,23 @@ apt:
         # security-updates
         deb http://deb.debian.org/debian-security stretch/updates main
         deb-src http://deb.debian.org/debian-security stretch/updates main
+    - user: root
+    - group: root
+    - mode: 600
+
+{% elif grains['os'] == 'Debian' and grains['osrelease'] == 'buster' %}
+/etc/apt/sources.list:
+  file.managed:
+    - contents: |
+        ##### Debian Main Repos #####
+        deb http://deb.debian.org/debian/ buster main contrib non-free
+        deb-src http://deb.debian.org/debian/ buster main contrib non-free
+        # stable-updates
+        deb http://deb.debian.org/debian/ buster-updates main contrib non-free
+        deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free
+        # security-updates
+        deb http://deb.debian.org/debian-security buster/updates main
+        deb-src http://deb.debian.org/debian-security buster/updates main
     - user: root
     - group: root
     - mode: 600
