@@ -20,8 +20,8 @@ apt:
         deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
         deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
         # security-updates
-        deb http://deb.debian.org/debian-security stretch/updates main
-        deb-src http://deb.debian.org/debian-security stretch/updates main
+        deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
+        deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
     - user: root
     - group: root
     - mode: 600
@@ -37,8 +37,8 @@ apt:
         deb http://deb.debian.org/debian/ buster-updates main contrib non-free
         deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free
         # security-updates
-        deb http://deb.debian.org/debian-security buster/updates main
-        deb-src http://deb.debian.org/debian-security buster/updates main
+        deb http://deb.debian.org/debian-security buster/updates main contrib non-free
+        deb-src http://deb.debian.org/debian-security buster/updates main contrib non-free
     - user: root
     - group: root
     - mode: 600

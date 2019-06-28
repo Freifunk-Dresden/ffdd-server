@@ -5,6 +5,7 @@
 _**version 1.0.7**_
 
 	- add Debian 10 (buster) support
+	- update Debian Security Repo and Information
 	- small Bugfixes
 		- bind root.hints
 		- vnstat dir perms
