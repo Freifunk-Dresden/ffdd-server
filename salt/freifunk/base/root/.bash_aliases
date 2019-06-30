@@ -34,7 +34,7 @@ alias jdeni='journalctl --system -x | grep denied'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-alias showip='printf "IP: %s\n" "$(curl -sL whois.envs.net)"'
+alias showip='printf "IP: %s\n" "$(curl -sL https://whois.envs.net/ip)"'
 alias speedtest-ovh='wget -O /dev/null http://213.186.33.6/files/10Gb.dat --report-speed=bits'
 alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --report-speed=bits'
 
