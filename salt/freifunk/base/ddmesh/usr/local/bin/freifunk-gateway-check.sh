@@ -208,6 +208,15 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			printf 'DNS:\n'
 			cat "$BIND_FORWARDER_FILE"
 
+			# add routes to DNS through tunnel (mullvad DNS is only accessible through tunnel)
+			# - extract all dns from BIND_FORWARDER_FILE and create dns rules
+			# openvpn:up.sh and wireguard:configs create the forwarder file but with different layout.
+			tunnel_dns_servers="$(cat $BIND_FORWARDER_FILE | sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
+			for dns_ip in $tunnel_dns_servers
+			do
+				ip route add $dns_ip dev $dev table public_dns
+			done	
+
 		else
 			logger -s -t "$LOGGER_TAG" "Clear public gateway."
 			ok='false'
@@ -231,6 +240,7 @@ if ! "$ok"; then
 
 	#remove all in default route from public_gateway table
 	ip route flush table public_gateway 2>/dev/null
+	ip route flush table public_dns 2>/dev/null
 	/etc/init.d/S52batmand no_gateway
 
 	# when we have a openvpn network interface and ok='false'
