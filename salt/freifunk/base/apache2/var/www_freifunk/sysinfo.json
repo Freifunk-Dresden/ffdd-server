@@ -26,7 +26,7 @@ virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
 
 cat << EOM
 {
- "version":"15",
+ "version":"16",
  "timestamp":"$(date +'%s')",
  "data":{
 
@@ -36,6 +36,7 @@ EOM
 cat << EOM
 		"firmware":{
 			"version":"$(cat /etc/freifunk-server-version | awk '{print $1}')",
+			"branch":"$(cat /etc/freifunk-server-version | awk '{print $4}')",
 			"DISTRIB_ID":"$(lsb_release -si)",
 			"DISTRIB_RELEASE":"$(lsb_release -sr)",
 			"DISTRIB_REVISION":"",
