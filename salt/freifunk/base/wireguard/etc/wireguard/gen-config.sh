@@ -51,7 +51,7 @@ read_config()
                 key="${stripped%%=*}"; key="${key// /}"
                 value="${stripped#*=}"; value="${value// /}"
 
-		# reset section 
+		# reset section
                 [[ $key == "["* ]] && interface_section=0
                 [[ $key == "[Interface]" ]] && interface_section=1
                 if [[ $interface_section -eq 1 ]]; then
@@ -90,7 +90,7 @@ Address = $ipv4/32
 TABLE = off
 
 PreUp = echo "forwarders { ${WG_IF_DNS//,/;}; };" > /etc/bind/vpn.forwarder.$vpn
-PostUp = ip route add default dev $vpn table gateway_pool metric $metric; iptables -w -t nat -A POSTROUTING -o $vpn -j SNAT --to-source $ipv4; freifunk-gateway-check.sh 
+PostUp = ip route add default dev $vpn table gateway_pool metric $metric; iptables -w -t nat -A POSTROUTING -o $vpn -j SNAT --to-source $ipv4; freifunk-gateway-check.sh
 PreDown = ip route del default dev $vpn table gateway_pool metric $metric ; iptables -w -t nat -D POSTROUTING -o $vpn -j SNAT --to-source $ipv4 ; freifunk-gateway-check.sh
 
 [Peer]

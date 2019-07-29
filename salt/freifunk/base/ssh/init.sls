@@ -3,6 +3,7 @@ ssh:
   pkg.installed:
     - refresh: True
     - name: openssh-server
+    - name: mosh
   service.running:
     - enable: True
     - restart: True
