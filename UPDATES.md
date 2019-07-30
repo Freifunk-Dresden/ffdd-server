@@ -1,5 +1,12 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.7)**
+**(current version 1.0.8)**
+<br/>
+
+_**version 1.0.8**_
+
+	- add mosh support
+	- add routing rule for DNS servers that are only accessable via tunnel
+
 <br/>
 
 _**version 1.0.7**_
