@@ -1,21 +1,28 @@
 #!/usr/bin/env bash
 ### This file managed by Salt, do not edit by hand! ###
 
+CONFIG_FILE=/etc/nvram.conf
+
 case "$1" in
 	show)
-		cat /etc/nvram.conf
+		cat $CONFIG_FILE 
 	;;
 
 	get)
-		sed -n "/^$2/{s#^.*=##;p}" /etc/nvram.conf
+		sed -n "/^$2/{s#^.*=##;p}" $CONFIG_FILE 
 	;;
 
-	set)
-		sed -i "s/${2}=.*/${2}=${3}/g" /etc/nvram.conf
+	set)	# use '#' as separator, because when value contains '/' 
+		# command will fail
+		if [ -z "$(cat $CONFIG_FILE | sed -n /^$2/p)" ]; then
+			echo "${2}=${3}" >> $CONFIG_FILE
+		else
+			sed -i "s#${2}=.*#${2}=${3}#" $CONFIG_FILE 
+		fi
 	;;
 
 	unset)
-		sed -i "s/${2}=.*/${2}=/g" /etc/nvram.conf
+		sed -i "s#${2}=.*#${2}=#" $CONFIG_FILE 
 	;;
 
 	version)
