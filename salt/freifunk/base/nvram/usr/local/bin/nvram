@@ -10,8 +10,9 @@ case "$1" in
 		sed -n "/^$2/{s#^.*=##;p}" /etc/nvram.conf
 	;;
 
-	set)
-		sed -i "s/${2}=.*/${2}=${3}/g" /etc/nvram.conf
+	set)	# use '#' as separator, because when value contains '/' 
+		# command will fail
+		sed -i "s#${2}=.*#${2}=${3}#g" /etc/nvram.conf
 	;;
 
 	unset)
