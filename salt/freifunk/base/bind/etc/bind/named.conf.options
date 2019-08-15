@@ -17,10 +17,6 @@ options {
 	// Uncomment the following block, and insert the addresses replacing
 	// the all-0's placeholder.
 
-	// forwarders {
-	// 	0.0.0.0;
-	// };
-
 	//freifunk: include forwarders section, which is updated by openvpn&wireguard/up.sh
 	include "/etc/bind/vpn.forwarder";
 
@@ -34,6 +30,10 @@ options {
 	dnssec-validation auto;
 
 	auth-nxdomain no;    # conform to RFC1035
+
+	// Do not make public version of BIND
+	version none;
+
 	listen-on { any; };
 	listen-on-v6 { none; };
 
