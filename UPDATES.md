@@ -1,5 +1,11 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.8)**
+**(current version 1.0.9)**
+<br/>
+
+_**version 1.0.9**_
+
+	- fix bind9
+
 <br/>
 
 _**version 1.0.8**_
