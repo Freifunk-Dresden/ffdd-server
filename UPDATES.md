@@ -5,6 +5,8 @@
 _**version 1.0.9**_
 
 	- fix bind9
+	- fix f2b cleanup
+	- enable ssh X11 forwarding
 
 <br/>
 
