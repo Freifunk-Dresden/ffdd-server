@@ -57,7 +57,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 **Wichtig** ist, dass tun/tap devices und alle möglichen iptables module verfügbar sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz. (Platzmangel auf Routern und bmxd unterstützt dieses nicht)
 
-### Vorausetzungen
+## Vorausetzungen
 
 - Notwendig ist eine Debian (9/10) oder Ubuntu-Server LTS (16.04/18.04) Installation.<br/>
   Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop! (Empfehlung: Debian)
@@ -70,7 +70,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), XEN, LXC und OPENVZ sehr gut.
 
-### Installation
+## Installation
 
 * Bringe Debian/Ubuntu auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
 (https://help.ubuntu.com/community/UpgradeNotes)<br/>
@@ -112,7 +112,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 *Coffee Time (~+ 10min)*
 
 
-#### Manuelle Anpassungen
+### Manuelle Anpassungen
 
 Es müssen noch Host-Spezifische Dinge angepasst werden:
 ```
