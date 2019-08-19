@@ -178,7 +178,7 @@ Development:
 branch=master
 ```
 
-### init_server.sh from master branch
+### Install init_server.sh from master branch
 
 ```bash
 apt install -y git
