@@ -16,7 +16,7 @@ devel:
       - cmake
 {% if grains['os'] == 'Ubuntu' and grains['osrelease'] == '18.04' %}
       - libcurl4
-{% elif grains['os'] == 'Debian' and grains['osrelease'] == '10' %}
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
       - libcurl4
 {% else %}
       - libcurl3

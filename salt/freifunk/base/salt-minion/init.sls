@@ -3,7 +3,7 @@
 
 {# Package #}
 salt-minion:
-  {% if grains['os'] == 'Debian' and grains['osrelease'] == '9' %}
+  {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
   pkgrepo.managed:
     - humanname: SaltStack
     - name: deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main
