@@ -30,3 +30,6 @@
 
 {# check ddmesh_disable_gateway option #}
 {% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
+
+{# check chassis #}
+{% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
