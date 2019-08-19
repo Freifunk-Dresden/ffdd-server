@@ -1,7 +1,16 @@
 {# FFDD Salt-Minion (masterless) #}
 {% from 'config.jinja' import ctime %}
 
+{# Package #}
 salt-minion:
+  {% if grains['os'] == 'Debian' and grains['osrelease'] == '9' %}
+  pkgrepo.managed:
+    - humanname: SaltStack
+    - name: deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main
+    - dist: stretch
+    - file: /etc/apt/sources.list.d/saltstack.list
+  {% endif %}
+
   pkg.installed:
     - refresh: True
     - name: salt-minion
