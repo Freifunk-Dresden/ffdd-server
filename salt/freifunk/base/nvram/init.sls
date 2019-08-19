@@ -28,7 +28,7 @@
     - mode: 755
 
 
-{% from 'config.jinja' import ddmesh_registerkey %}
+{% from 'config.jinja' import ddmesh_registerkey, nodeid %}
 
 {% if ddmesh_registerkey == '' %}
 
@@ -39,5 +39,17 @@ ddmesh_autosetup:
       - file: /etc/nvram.conf
       - file: /usr/local/bin/nvram
       - file: /usr/local/bin/freifunk-nvram_autosetup.sh
+
+{% endif %}
+
+{# check nodeid is set #}
+{% if nodeid == '' %}
+
+ddmesh_set_nodeid:
+  cmd.run:
+    - name: nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')" && nvram set ddmesh_node "$nodeid"
+    - require:
+      - file: /etc/nvram.conf
+      - file: /usr/local/bin/nvram
 
 {% endif %}
