@@ -6,6 +6,9 @@ _**version 1.0.9**_
 
 	- fix bind9
 	- fix f2b cleanup
+	- fix nvram
+	- fix nvram autosetup
+	- fix salt-minion packages on debian stretch
 	- enable ssh X11 forwarding
 
 <br/>
