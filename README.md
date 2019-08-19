@@ -88,7 +88,7 @@ Folgends cloned und Installiert das Repository.<br/>
 Es wird beim ersten Durchführen einige Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
 installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
 
-git:
+**git**:
 ```bash
 apt install -y git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
@@ -97,13 +97,13 @@ git checkout T_RELEASE_latest && ./init_server.sh
 ```
 Alternative Installations Möglichkeiten:
 
-curl:
+**curl**:
 ```bash
 apt install -y curl
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 
-wget:
+**wget**:
 ```bash
 apt install -y wget
 bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
