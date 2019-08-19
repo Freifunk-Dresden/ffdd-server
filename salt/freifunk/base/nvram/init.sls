@@ -44,8 +44,7 @@ ddmesh_autosetup:
 
 {# check nodeid is set #}
 {% if nodeid == '' %}
-
-ddmesh_set_nodeid:
+ddmesh_autosetup_fix:
   cmd.run:
     - name: nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')" && nvram set ddmesh_node "$nodeid"
     - require:
