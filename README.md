@@ -8,12 +8,11 @@ Configures an Debian (9/10) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresd
 
 **[Documentation (German)](https://wiki.freifunk-dresden.de/index.php/Server_Internes)**
 
-Freifunk Ziel
-----
+## Freifunk Ziel
+
 Freifunk hat es sich zum Ziel gesetzt, Menschen möglichst flächendeckend mit freiem WLAN zu versorgen. Freier Zugang zu Informationen ist nicht nur eine Quelle für Wissen, sondern kann sich auch positiv auf die wirtschaftliche und kulturelle Entwicklung einer Stadt, Region und Land auswirken, da das Internet in der heutigen Zeit sicher ein fester Bestandteil des täglichen Lebens geworden ist. Freifunk bietet die Möglichkeit, Internet per WLAN frei zu nutzen - ohne Zugangssperren und sicher, da der Internettraffic via verschlüsselten Internettunnel (VPN) ins Ausland geroutet wird.
 
-Freifunk Dresden Server (ffdd-server)
-----
+## Freifunk Dresden Server (ffdd-server)
 
 Dieses Repository bildet die Funktionalität eines Servers für Freifunk Dresden. Der Vserver arbeitet wie
 ein Freifunk Knoten und ist soweit konfiguriert, dass dieser eine Knotenwebseite anbietet, Backboneverbindungen
@@ -58,8 +57,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 **Wichtig** ist, dass tun/tap devices und alle möglichen iptables module verfügbar sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz. (Platzmangel auf Routern und bmxd unterstützt dieses nicht)
 
-Vorausetzungen
-----
+### Vorausetzungen
 
 - Notwendig ist eine Debian (9/10) oder Ubuntu-Server LTS (16.04/18.04) Installation.<br/>
   Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop! (Empfehlung: Debian)
@@ -72,8 +70,7 @@ Vorausetzungen
 
 - Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), XEN, LXC und OPENVZ sehr gut.
 
-Installation
-----
+### Installation
 
 * Bringe Debian/Ubuntu auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
 (https://help.ubuntu.com/community/UpgradeNotes)<br/>
@@ -115,8 +112,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 *Coffee Time (~+ 10min)*
 
 
-Manuelle Anpassungen
-----
+#### Manuelle Anpassungen
 
 Es müssen noch Host-Spezifische Dinge angepasst werden:
 ```
@@ -161,8 +157,8 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 - _/root/.bash_user_aliases_<br/>
 Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen. Diese werden in '/root/.bash_aliases' eingebunden und automatisch mitgeladen.
 
-Wichig
-----
+## Wichig
+
 Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal**, wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
 
 Bitte einhalten:
@@ -171,8 +167,8 @@ Bitte einhalten:
 - Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
 - /usr/local/bin/ddmesh-ipcalc.sh muss angepasst werden!
 
-Development
-----
+## Development
+
 Um eine andere Release-Version zu benutzen ist ein notwendig in der /etc/nvram.conf die Option "branch=" anzupassen.
 
 Default (Stable):
@@ -183,6 +179,23 @@ branch=T_RELEASE_latest
 Development:
 ```
 branch=master
+```
+
+### init_server.sh from master branch
+
+```bash
+apt install -y git
+git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
+cd /srv/ffdd-server
+
+sed -i 's/tag="T_RELEASE_latest"/tag="master"/g' init_server.sh
+sed -i '/git fetch/d' init_server.sh
+sed -i '/git checkout "$tag"/d' init_server.sh
+sed -i '/git pull -f origin "$tag"/d' init_server.sh
+
+sed -i 's/branch=T_RELEASE_latest/branch=master/g' salt/freifunk/base/nvram/etc/nvram.conf
+
+./init_server
 ```
 
 Links
