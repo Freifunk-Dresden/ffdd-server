@@ -108,11 +108,10 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-se
 apt install -y wget
 bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
-
 <br/>
 
 *Coffee Time (~+ 10min)*
-
+<br />
 
 ### Manuelle Anpassungen
 
