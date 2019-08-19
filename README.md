@@ -78,9 +78,9 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 **Wichtig:**<br/>
 - Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
-- _**/etc/hostname**_ _(hostname.domainname.de)_ > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
+- ***/etc/hostname*** *(hostname.domainname.de)* > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
 
-- _Änderung des Installations Path in /etc/nvram.conf_<br/>
+- *Änderung des Installations Path in /etc/nvram.conf*<br/>
 Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 <br/>
 
@@ -116,30 +116,29 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 
 ### Manuelle Anpassungen
 
-Es müssen noch Host-Spezifische Dinge angepasst werden:
-```
-*/etc/hostname
-*/etc/nvram.conf
-  *servername
-  *ifname
-  *contact
+Es müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
 
-*/etc/openvpn/
-  # creates openvpn.conf with:
-    ./genconfig.sh vpn0 <original-provider-config-file>
-  # for vpn user and password use:
-    /etc/openvpn/openvpn.login
+- /etc/hostname
+- /etc/nvram.conf
+  - servername
+  - ifname
+  - contact
 
-*/etc/wireguard/
-  # creates vpn0.conf with:
-    ./genconfig.sh vpn0 <original-provider-config-file>
+- /etc/openvpn/<br />
+  *# creates openvpn.conf with:*<br />
+    `./genconfig.sh vpn0 <original-provider-config-file>`<br />
+  *# for vpn user and password credantials use:* `/etc/openvpn/openvpn.login`
 
-# Notice: OVPN/WG supports interface vpn0 and vpn1
+- /etc/wireguard/<br />
+  *# creates vpn0.conf with:*<br />
+    `./genconfig.sh vpn0 <original-provider-config-file>`
 
-*/etc/fastd/peers2/
-  # To Create a Fastd2 Connection use:
-    '/etc/init.d/S53backbone-fastd2 add_connect vpnX.freifunk-dresden.de 5002'
-```
+*# Notice: OVPN/WG supports interface vpn0 and vpn1*
+
+- /etc/fastd/peers2/<br />
+  *# To Create a Fastd2 Connection use:*<br />
+    `'/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002'`
+<br />
 
 Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
 Wir wollen aber sehen ob alles läuft und auch alles erfolgreich initialisiert wird:
@@ -154,9 +153,9 @@ salt-call state.highstate --local -l debug
 Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet werden.<br/>
 
 **Optional:**<br/>
-- _/etc/firewall.user_<br/>
+- */etc/firewall.user*<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
-- _/root/.bash_user_aliases_<br/>
+- */root/.bash_user_aliases*<br/>
 Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen. Diese werden in '/root/.bash_aliases' eingebunden und automatisch mitgeladen.
 
 ## Wichig
