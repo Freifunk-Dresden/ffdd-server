@@ -130,6 +130,7 @@ Es müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
 - /etc/wireguard/<br />
   *# creates vpn0.conf with:*<br />
     `./genconfig.sh vpn0 <original-provider-config-file>`
+
 *# Notice: OVPN/WG supports interface vpn0 and vpn1*
 - /etc/fastd/peers2/<br />
   *# To Create a Fastd2 Connection use:*<br />
