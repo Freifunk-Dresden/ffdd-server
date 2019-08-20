@@ -23,9 +23,7 @@ DB_PATH='/var/lib/freifunk/bmxd'
 RUN_STATUS_FILE='/var/run/batman-status-running'
 
 
-if [ ! -d "$DB_PATH" ]; then
-	mkdir -p "$DB_PATH"
-fi
+test ! -d "$DB_PATH" && mkdir -p "$DB_PATH"
 
 #eval $(/usr/bin/netparam)
 eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
