@@ -66,6 +66,7 @@ rc.d_S52batmand:
 
 S52batmand:
   service:
+    - order: last
     - running
     - enable: True
     - restart: True
