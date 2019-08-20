@@ -29,16 +29,16 @@ base:
     - logrotate
     - cron
 
-    {# core-tools #}
-    - salt-minion
-    - ddmesh
-    - nvram
-
     {# compilling #}
     - devel
     - bmxd
     - fastd
     {#- cjdns #}
+
+    {# core-tools #}
+    - salt-minion
+    - ddmesh
+    - nvram
 
     {# networking / firewall #}
     - iproute2
