@@ -8,6 +8,7 @@ base:
     - install_pkg
     - tools
 
+    {# system defaults #}
     - root
     - users
 
@@ -28,26 +29,27 @@ base:
     - logrotate
     - cron
 
-    {# Compilling #}
+    {# core-tools #}
+    - salt-minion
+    - ddmesh
+    - nvram
+
+    {# compilling #}
     - devel
     - bmxd
     - fastd
     {#- cjdns #}
 
-    - salt-minion
-    - ddmesh
-    - nvram
-
-    {# Networking / Firewall #}
+    {# networking / firewall #}
     - iproute2
     - network
     - iptables
     - conntrack
 
-    {# F2B with ipset #}
+    {# f2b with ipset #}
     - fail2ban
 
-    {# Services #}
+    {# services #}
     - ssh
     - openvpn
     - wireguard
