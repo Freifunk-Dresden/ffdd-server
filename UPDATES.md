@@ -10,6 +10,7 @@ _**version 1.0.9**_
 	- fix nvram autosetup
 	- fix salt-minion packages on debian stretch
 	- enable ssh X11 forwarding
+	- update README.md
 
 <br/>
 
