@@ -78,6 +78,7 @@ S52batmand:
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S41firewall
     - require:
+      - sls: nvram
       - service: S40network
       - service: S41firewall
       - service: S53backbone-fastd2
@@ -86,3 +87,4 @@ S52batmand:
       - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S41firewall
+      - file: /etc/nvram.conf
