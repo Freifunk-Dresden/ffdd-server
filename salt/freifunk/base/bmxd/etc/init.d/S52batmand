@@ -13,6 +13,8 @@
 
 # docs: https://www.open-mesh.org/projects/batmand/wiki/Doc-overview
 
+export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
 ARG1="$1"
 
 DAEMON='bmxd'
