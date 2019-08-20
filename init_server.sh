@@ -105,7 +105,7 @@ done
 # install/update repository
 printf '\n### Install/Update Repository ..\n'
 
-if [ "$1" != 'master' ]; then
+if [ "$1" != 'dev' ]; then
 	test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
 
 	cd "$INSTALL_DIR"
@@ -133,7 +133,7 @@ printf '\n### Check "nvram" Setup ..\n'
 	fi
 
 	# check branch
-	[[ "$1" = 'master' ]] && [[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
+	[[ "$1" = 'dev' ]] && [[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
 
 	# check default Interface
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"

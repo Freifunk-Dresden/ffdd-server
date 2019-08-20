@@ -175,7 +175,7 @@ Development:
 branch=master
 ```
 
-### Install init_server.sh from master branch
+### DEV init_server.sh - Installation
 
 ```bash
 apt install -y git
@@ -183,8 +183,8 @@ git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 
 # now you can checkout the branch or tag you want to test.
-# and then execute: (do not change the master option here!)
-./init_server.sh master
+# and then execute:
+./init_server.sh dev
 ```
 
 Links
