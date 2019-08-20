@@ -17,10 +17,6 @@ export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 INSTALL_DIR='/srv/ffdd-server'
 
-#
-# -- Check & Setup System --
-#
-
 # function: print helper "os is not supported"
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
@@ -28,6 +24,21 @@ print_not_supported_os() {
 	printf '\t- Ubuntu LTS (16.04/18.04)\n'
 	exit 1
 }
+
+print_usage() {
+	printf 'FFDD-Server | Setup\n\n'
+	printf 'Usage:\t./init_server.sh\t - initial Install from latest Release\n'
+	printf '\t./init_server.sh master\t - initial DEV-Install\n'
+	exit 1
+}
+
+#
+# -- Check & Setup System --
+#
+
+if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '?' ]; then
+	print_usage;
+fi
 
 #
 # check root permission
@@ -94,12 +105,14 @@ done
 # install/update repository
 printf '\n### Install/Update Repository ..\n'
 
-test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
+if [ "$1" != 'master' ]; then
+	test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
 
-cd "$INSTALL_DIR"
-	git fetch
-	git checkout "$tag"
-	git pull -f origin "$tag"
+	cd "$INSTALL_DIR"
+		git fetch
+		git checkout "$tag"
+		git pull -f origin "$tag"
+fi
 
 #
 # backup old user configs
@@ -119,11 +132,14 @@ printf '\n### Check "nvram" Setup ..\n'
 		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 	fi
 
-	# check default Interface is correct set
+	# check branch
+	[[ "$1" = 'master' ]] && [[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
+
+	# check default Interface
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
 	[[ "$(nvram get ifname)" != "$def_if" ]] && nvram set ifname "$def_if"
 
-	# check install_dir is correct set
+	# check install_dir
 	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
 
 #

@@ -182,13 +182,9 @@ apt install -y git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 
-sed -i 's/tag="T_RELEASE_latest"/tag="master"/g' init_server.sh
-sed -i '/git fetch/d' init_server.sh
-sed -i '/git checkout "$tag"/d' init_server.sh
-sed -i '/git pull -f origin "$tag"/d' init_server.sh
-sed -i 's/branch=T_RELEASE_latest/branch=master/g' salt/freifunk/base/nvram/etc/nvram.conf
-
-./init_server.sh
+# now you can checkout the branch or tag you want to test.
+# and then execute: (do not change the master option here!)
+./init_server.sh master
 ```
 
 Links

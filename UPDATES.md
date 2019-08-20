@@ -11,6 +11,7 @@ _**version 1.0.9**_
 	- fix salt-minion packages on debian stretch
 	- enable ssh X11 forwarding
 	- update README.md
+	- update init_server.sh for dev-installtions
 
 <br/>
 
