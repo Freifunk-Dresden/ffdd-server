@@ -182,7 +182,11 @@ apt install -y git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 
+# master branch
+./init_server.sh dev
+# or
 ./init_server.sh dev <branch/tag>
+
 ```
 
 Links
