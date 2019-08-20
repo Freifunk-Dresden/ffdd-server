@@ -28,7 +28,8 @@ print_not_supported_os() {
 print_usage() {
 	printf 'FFDD-Server | Setup\n\n'
 	printf 'Usage:\t./init_server.sh\t - initial Install from latest Release\n'
-	printf '\t./init_server.sh master\t - initial DEV-Install\n'
+	printf '\t./init_server.sh dev\t - initial DEV-Install\n'
+	printf '\t./init_server.sh dev <branch/tag>\n'
 	exit 1
 }
 
@@ -105,13 +106,22 @@ done
 # install/update repository
 printf '\n### Install/Update Repository ..\n'
 
-if [ "$1" != 'dev' ]; then
-	test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
+test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
+cd "$INSTALL_DIR"
 
-	cd "$INSTALL_DIR"
+# check branch/tag for initial
+if [ "$1" = 'dev' ]; then
+	# DEV
+	if [ ! -z "$2" ]; then
 		git fetch
-		git checkout "$tag"
-		git pull -f origin "$tag"
+		git checkout "$2"
+		git pull -f origin "$2"
+	fi
+else
+	# T_RELEASE_latest
+	git fetch
+	git checkout "$tag"
+	git pull -f origin "$tag"
 fi
 
 #
@@ -133,7 +143,13 @@ printf '\n### Check "nvram" Setup ..\n'
 	fi
 
 	# check branch
-	[[ "$1" = 'dev' ]] && [[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
+	if [ "$1" = 'dev' ]; then
+		if [ ! -z "$2" ]; then
+			[[ "$(nvram get branch)" != "$2" ]] && nvram set branch "$2"
+		else
+			[[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
+		fi
+	fi
 
 	# check default Interface
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"

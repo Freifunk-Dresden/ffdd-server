@@ -182,9 +182,7 @@ apt install -y git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 
-# now you can checkout the branch or tag you want to test.
-# and then execute:
-./init_server.sh dev
+./init_server.sh dev <branch/tag>
 ```
 
 Links
