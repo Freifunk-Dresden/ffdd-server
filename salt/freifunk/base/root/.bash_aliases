@@ -34,20 +34,20 @@ alias jdeni='journalctl --system -x | grep denied'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-alias showip='printf "IP: %s\n" "$(curl -sL https://whois.envs.net/ip)"'
+alias showip='printf "IP: %s\n" "$(curl -s ip.envs.net)"'
 alias speedtest-ovh='wget -O /dev/null http://213.186.33.6/files/10Gb.dat --report-speed=bits'
 alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --report-speed=bits'
 
 cat <<EOM
 -----------------------------------------------------
 tools:
-    freifunk-version	( show Server Version and Branch )
-    freifunk-call	( salt-call state.highstate --local )
-    freifunk-gw-status	( show GW-Country )
-    f2b-list		( show blocked IP's )
-    f2b-unban <IP>	( unban blocked IP )
-    htop / psa		( show processes list )
-    conntrack		( show more with -n LINENUM )
+    freifunk-version    ( show Server Version and Branch )
+    freifunk-call       ( salt-call state.highstate --local )
+    freifunk-gw-status  ( show GW-Country )
+    f2b-list            ( show blocked IP's )
+    f2b-unban <IP>      ( unban blocked IP )
+    htop / psa          ( show processes list )
+    conntrack           ( show more with -n LINENUM )
     showip
     speedtest-ovh
     speedtest-belwue
