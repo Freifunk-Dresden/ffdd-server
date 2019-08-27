@@ -56,6 +56,8 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 ## Vorausetzungen
 
+- mindestens Grundkenntnisse über Linux Server! Der Server Admin sollte wissen wie und was auf seinem Server passiert.
+
 - Notwendig ist eine Debian (9/10) oder Ubuntu-Server LTS (16.04/18.04) Installation.<br/>
   Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop! (Empfehlung: Debian)
 
