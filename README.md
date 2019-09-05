@@ -116,7 +116,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 
 Es müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
 
-- /etc/hostname
+- /etc/hostname (FQDN)
 - /etc/nvram.conf
   - servername
   - ifname
