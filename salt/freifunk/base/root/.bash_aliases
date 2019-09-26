@@ -13,7 +13,7 @@ fi
 #
 
 alias freifunk-version='cat /etc/freifunk-server-version'
-alias freifunk-call='salt-call state.highstate --local'
+alias freifunk-call='salt-call state.highstate --local -l error'
 alias freifunk-gw-status='/usr/local/bin/freifunk-gateway-status.sh'
 
 alias f2b-list='/sbin/ipset list blacklist_fail2ban'
