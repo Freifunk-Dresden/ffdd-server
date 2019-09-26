@@ -33,7 +33,6 @@ base:
     - devel
     - bmxd
     - fastd
-    {#- cjdns #}
 
     {# core-tools #}
     - salt-minion
