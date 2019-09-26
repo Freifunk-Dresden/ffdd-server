@@ -71,29 +71,44 @@ vnstat_restart:
 
 
 {# Web Traffic Dashboard #}
-/var/www_vnstat:
-  file.recurse:
-    - source:
-      - salt://vnstat/var/www_vnstat
-    - user: www-data
-    - group: www-data
-    - file_mode: 755
-    - dir_mode: 755
-    - recurse:
-      - user
-      - group
+php_composer:
+  pkg.installed:
+    - refresh: True
+    - name: composer
+
+vnstat_dashboard_repo:
+  git.latest:
+    - name: https://github.com/alexandermarston/vnstat-dashboard.git
+    - rev: master
+    - target: /opt/vnstat-dashboard
+    - update_head: True
+    - force_fetch: True
+    - force_reset: True
+    - require:
+      - pkg: git
+
+compose_vnstat_dashboard:
+  cmd.run:
+    - name: |
+        rm -rf /var/www_vnstat ; mkdir -p /var/www_vnstat/
+        cd /opt/vnstat-dashboard ; cp -rp app/* /var/www_vnstat/
+        cd /var/www_vnstat/ ; composer install
+        chown -R www-data:www-data /var/www_vnstat/
+    - require:
+      - pkg: composer
+      - vnstat_dashboard_repo
+    - onchanges:
+      - vnstat_dashboard_repo
 
 {# Configuration #}
-/var/www_vnstat/config.php:
+/var/www_vnstat/includes/config.php:
   file.managed:
     - source:
-      - salt://vnstat/var/www_vnstat/config.tmpl
+      - salt://vnstat/var/config.tmpl
     - template: jinja
     - user: www-data
     - group: www-data
     - mode: 644
-    - require:
-      - file: /var/www_vnstat
 
 
 {# enable Apache2 Module PHP #}
