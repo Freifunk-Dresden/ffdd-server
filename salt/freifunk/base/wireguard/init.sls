@@ -23,8 +23,11 @@ wireguard:
   {% endif %}
 
   pkg.installed:
-    - name: wireguard
     - refresh: True
+    - names:
+      - wireguard
+      - wireguard-dkms
+      - wireguard-tools
 
 {# Debian Pin-Prio for unstable Repo #}
 {% if grains['os'] == 'Debian' %}

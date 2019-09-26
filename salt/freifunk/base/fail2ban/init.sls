@@ -102,6 +102,7 @@ ipset:
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
+        SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         #
         # update list every 30min
