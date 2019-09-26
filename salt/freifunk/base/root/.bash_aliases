@@ -48,6 +48,7 @@ tools:
     f2b-unban <IP>      ( unban blocked IP )
     htop / psa          ( show processes list )
     conntrack           ( show more with -n LINENUM )
+    vnstat              ( network traffic monitor )
     showip
     speedtest-ovh
     speedtest-belwue
