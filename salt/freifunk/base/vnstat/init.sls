@@ -109,6 +109,9 @@ compose_vnstat_dashboard:
     - user: www-data
     - group: www-data
     - mode: 644
+    - require:
+      - compose_vnstat_dashboard
+      - vnstat_dashboard_repo
 
 
 {# enable Apache2 Module PHP #}
