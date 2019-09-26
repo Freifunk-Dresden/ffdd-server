@@ -91,7 +91,7 @@ compose_vnstat_dashboard:
   cmd.run:
     - name: |
         rm -rf /var/www_vnstat ; mkdir -p /var/www_vnstat/
-        cd /opt/vnstat-dashboard ; cp -rp app/* /var/www_vnstat/
+        cp -rp /opt/vnstat-dashboardapp/* /var/www_vnstat/
         cd /var/www_vnstat/ ; composer install
         chown -R www-data:www-data /var/www_vnstat/
     - require:
