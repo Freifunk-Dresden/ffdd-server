@@ -1,4 +1,4 @@
-# vnStat 1.15 config file
+# vnStat 1.18 config file
 ##
 {% from 'config.jinja' import ifname %}
 # default interface
@@ -30,6 +30,11 @@ TXHourCharacter   "t"
 # 1 = old style binary prefixes (KB/MB/GB/TB)
 UnitMode 0
 
+# how units are prefixed when traffic rate is shown
+# 0 = IEC binary prefixes (Kibit/s...)
+# 1 = SI decimal prefixes (kbit/s...)
+RateUnitMode 1
+
 # output style
 # 0 = minimal & narrow, 1 = bar column visible
 # 2 = same as 1 except rate in summary and weekly
@@ -38,6 +43,13 @@ OutputStyle 3
 
 # used rate unit (0 = bytes, 1 = bits)
 RateUnit 1
+
+# number of decimals to use in outputs
+DefaultDecimals 2
+HourlyDecimals 1
+
+# spacer for separating hourly sections (0 = none, 1 = '|', 2 = '][', 3 = '[ ]')
+HourlySectionStyle 2
 
 # try to detect interface maximum bandwidth, 0 = disable feature
 # MaxBandwidth will be used as fallback value when enabled
@@ -80,6 +92,10 @@ DaemonUser ""
 
 # switch to given user when started as root (leave empty to disable)
 DaemonGroup ""
+
+# how many minutes to wait during daemon startup for system clock to
+# sync time if most recent database update appears to be in the future
+TimeSyncWait 5
 
 # how often (in seconds) interface data is updated
 UpdateInterval 30
