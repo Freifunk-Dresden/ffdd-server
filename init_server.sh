@@ -109,17 +109,18 @@ printf '\n### Install/Update Repository ..\n'
 test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
+git fetch
 # check branch/tag for initial
 if [ "$1" = 'dev' ]; then
-	# DEV
-	if [ ! -z "$2" ]; then
-		git fetch
+	if [ -z "$2" ]; then
+		git checkout master
+		git pull -f origin master
+	else
 		git checkout "$2"
 		git pull -f origin "$2"
 	fi
 else
 	# T_RELEASE_latest
-	git fetch
 	git checkout "$tag"
 	git pull -f origin "$tag"
 fi
