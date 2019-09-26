@@ -107,7 +107,7 @@ done
 printf '\n### Install/Update Repository ..\n'
 
 test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
-cd "$INSTALL_DIR"
+cd "$INSTALL_DIR" || printf 'cannot clone ffdd-server git repo!\n' && exit 1
 
 git fetch
 # check branch/tag for initial
@@ -145,7 +145,7 @@ printf '\n### Check "nvram" Setup ..\n'
 
 	# check branch
 	if [ "$1" = 'dev' ]; then
-		if [ ! -z "$2" ]; then
+		if [ -n "$2" ]; then
 			[[ "$(nvram get branch)" != "$2" ]] && nvram set branch "$2"
 		else
 			[[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
