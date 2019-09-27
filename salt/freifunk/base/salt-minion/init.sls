@@ -13,9 +13,8 @@ salt-minion:
       - pkg: salt-minion
     - gpgcheck: 1
     - key_url: https://repo.saltstack.com/apt/debian/9/amd64/latest/SALTSTACK-GPG-KEY.pub
-  {% endif %}
 
-  {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
+  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
   pkgrepo.managed:
     - humanname: SaltStack
     - name: deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main
@@ -25,6 +24,11 @@ salt-minion:
       - pkg: salt-minion
     - gpgcheck: 1
     - key_url: https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub
+
+  {% else %}
+  file.absent:
+    - name: /etc/apt/sources.list.d/saltstack.list
+
   {% endif %}
 
   pkg.installed:

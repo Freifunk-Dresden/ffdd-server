@@ -15,11 +15,11 @@ wireguard:
     - name: deb http://deb.debian.org/debian/ unstable main
     - dist: unstable
     - file: /etc/apt/sources.list.d/wireguard.list
-  {% endif %}
 
-  {% if grains['os'] == 'Ubuntu' %}
+  {% elif grains['os'] == 'Ubuntu' %}
   pkgrepo.managed:
     - ppa: wireguard/wireguard
+
   {% endif %}
 
   pkg.installed:
