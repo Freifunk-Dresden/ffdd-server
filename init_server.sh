@@ -43,7 +43,7 @@ fi
 
 #
 # check root permission
-[[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n' && exit 1
+[[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n'; exit 1
 
 #
 # check tun device is available
@@ -107,7 +107,7 @@ done
 printf '\n### Install/Update Repository ..\n'
 
 test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
-cd "$INSTALL_DIR" || printf 'cannot clone ffdd-server git repo!\n' && exit 1
+cd "$INSTALL_DIR" || printf 'cannot clone and use ffdd-server git repo!\n' && exit 1
 
 git fetch
 # check branch/tag for initial
