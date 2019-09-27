@@ -12,9 +12,9 @@ case "$1" in
 		sed -n "/^$2=/{s#^.*=##;p}" "$CONFIG_FILE"
 	;;
 
-	set)	# use '#' as separator, because when value contains '/'
+	set) # use '#' as separator, because when value contains '/'
 		# command will fail
-		if [ -z "$(cat < "$CONFIG_FILE" | sed -n /^"$2="/p)" ]; then
+		if [ -z "$(sed -n /^"$2="/p "$CONFIG_FILE")" ]; then
 			echo "${2}=${3}" >> "$CONFIG_FILE"
 		else
 			sed -i "s#${2}=.*#${2}=${3}#" "$CONFIG_FILE"
