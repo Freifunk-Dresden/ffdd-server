@@ -43,7 +43,7 @@ fi
 
 #
 # check root permission
-[[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n'; exit 1
+[[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n' && exit 1
 
 #
 # check tun device is available
