@@ -8,6 +8,21 @@ net.ipv4.conf.all.forwarding:
     - value: 1
     - config: {{ sysctld }}/forward.conf
 
+net.ipv4.conf.default.rp_filter:
+  sysctl.present:
+    - value: 1
+    - config: {{ sysctld }}/net.conf
+
+net.ipv4.conf.all.rp_filter:
+  sysctl.present:
+    - value: 1
+    - config: {{ sysctld }}/net.conf
+
+net.ipv4.tcp_syncookies:
+  sysctl.present:
+    - value: 1
+    - config: {{ sysctld }}/net.conf
+
 {# increase conntrack hash table #}
 {% if chassis != 'container' %}
 
