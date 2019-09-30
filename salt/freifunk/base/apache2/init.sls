@@ -2,7 +2,15 @@
 apache2:
   pkg.installed:
     - refresh: True
-    - name: apache2
+    - names:
+      - apache2
+      - apache2-utils
+      - libapache2-mod-evasive
+      - libapache2-mod-fcgid
+      - libapache2-mod-auth-plain
+      - libapache2-mod-authnz-pam
+      - libapache2-mod-authnz-external
+      - pwauth
   service:
     - running
     - name: apache2
@@ -23,17 +31,6 @@ apache2:
       - service: S41firewall
       - file: /etc/apache2/sites-enabled/001-freifunk.conf
       - file: /etc/apache2/conf-enabled/letsencrypt.conf
-
-apache2_pkgs:
-  pkg.installed:
-    - refresh: True
-    - names:
-      - apache2-utils
-      - libapache2-mod-fcgid
-      - libapache2-mod-auth-plain
-      - libapache2-mod-authnz-pam
-      - libapache2-mod-authnz-external
-      - pwauth
 
 
 {# disable default page #}
