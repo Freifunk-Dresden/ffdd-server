@@ -107,7 +107,7 @@ done
 printf '\n### Install/Update Repository ..\n'
 
 test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
-cd "$INSTALL_DIR" || printf 'cannot clone and use ffdd-server git repo!\n' && exit 1
+cd "$INSTALL_DIR"
 
 git fetch
 # check branch/tag for initial
