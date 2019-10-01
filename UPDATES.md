@@ -6,6 +6,8 @@ _**version 1.0.10**_
 
 	- some improvements
 	- update/fix vnstat and vnstat-dashboard
+	- fix fastd2 service
+	- fix nvram autosetup
 
 <br />
 
