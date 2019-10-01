@@ -13,7 +13,7 @@ ddmesh_key="$(nvram get ddmesh_registerkey)"
 fastd_secret="$(nvram get fastd_secret)"
 
 
-if [[ -z "$ddmesh_key" ]] && [[ -z "$fastd_secret" ]]; then
+if [[ -z "$ddmesh_key" ]] || [[ -z "$fastd_secret" ]]; then
 
 	# set ddmesh_registerkey in /etc/nvram.conf
 	nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"

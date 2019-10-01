@@ -28,10 +28,9 @@
     - mode: 755
 
 
-{% from 'config.jinja' import ddmesh_registerkey, nodeid %}
+{% from 'config.jinja' import ddmesh_registerkey, fastd_secret, nodeid %}
 
-{% if ddmesh_registerkey == '' %}
-
+{% if ddmesh_registerkey == '' or fastd_secret == '' %}
 ddmesh_autosetup:
   cmd.run:
     - name: /usr/local/bin/freifunk-nvram_autosetup.sh
