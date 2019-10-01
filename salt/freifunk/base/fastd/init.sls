@@ -60,6 +60,9 @@ rc.d_S53backbone-fastd2:
     - onchanges:
       - file: /etc/init.d/S53backbone-fastd2
 
+{% from 'config.jinja' import nodeid, ddmesh_registerkey %}
+
+{% if nodeid != '' or ddmesh_registerkey != '' %}
 S53backbone-fastd2:
   service:
     - running
@@ -84,3 +87,4 @@ S53backbone-fastd2:
       - file: /usr/local/bin/ddmesh-ipcalc.sh
       - file: /usr/local/bin/nvram
       - file: /etc/nvram.conf
+{% endif %}
