@@ -63,7 +63,9 @@ rc.d_S52batmand:
     - onchanges:
       - file: /etc/init.d/S52batmand
 
-
+{# only then fastd2 is configured and the service is enabled #}
+{% from 'config.jinja' import nodeid, ddmesh_registerkey %}
+{% if nodeid != '' or ddmesh_registerkey != '' %}
 S52batmand:
   service:
     - running
@@ -88,3 +90,4 @@ S52batmand:
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/nvram.conf
+{% endif %}
