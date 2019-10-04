@@ -1,7 +1,7 @@
 # Freifunk Dresden: ffdd-server (current version 1.0.10)
 Configures an Debian (9/10) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
-**[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)** - **[Wiki Documentation (German)](https://wiki.freifunk-dresden.de/index.php/Server_Internes)** - **[Support](https://github.com/Freifunk-Dresden/ffdd-server/issues)**
+**[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)** - **[Wiki Documentation (German)](https://wiki.freifunk-dresden.de/index.php/Server_Internes)** - **[Issues](https://github.com/Freifunk-Dresden/ffdd-server/issues)**
 
 **[UPDATE News](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/UPDATES.md)** - **[Debian Security Informations](https://www.debian.org/security/)**
 
@@ -72,7 +72,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 ## Installation
 
 * Bringe Debian/Ubuntu auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
-(https://help.ubuntu.com/community/UpgradeNotes)<br/>
+([https://help.ubuntu.com/community/UpgradeNotes](https://help.ubuntu.com/community/UpgradeNotes))<br/>
 
 **Wichtig:**<br/>
 - Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **/etc/nvram.conf** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
@@ -195,6 +195,6 @@ Links
 ----
 [Freifunk Dresden](https://www.freifunk-dresden.de)<br/>
 [Wiki: Freifunk Dresden](https://wiki.freifunk-dresden.de)<br/>
-[Bugtracker](https://bt.freifunk-dresden.de/index.php?do=tasklist&project=3)<br/>
+[Issues](https://github.com/Freifunk-Dresden/ffdd-server/issues)<br/>
 [Twitter](https://twitter.com/ddmesh)<br/>
 [Facebook](https://www.facebook.com/FreifunkDresden)
