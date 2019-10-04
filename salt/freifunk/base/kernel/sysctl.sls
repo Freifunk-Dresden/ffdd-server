@@ -8,6 +8,14 @@ net.ipv4.conf.all.forwarding:
     - config: {{ sysctld }}/forward.conf
 
 {# bmxd doesnt like rp_filter #}
+net.ipv4.conf.default.rp_filter:
+  sysctl.present:
+    - value: 0
+    - config: {{ sysctld }}/net.conf
+net.ipv4.conf.all.rp_filter:
+  sysctl.present:
+    - value: 0
+    - config: {{ sysctld }}/net.conf
 
 net.ipv4.tcp_syncookies:
   sysctl.present:
