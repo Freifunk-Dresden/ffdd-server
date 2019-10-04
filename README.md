@@ -67,7 +67,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn und Wireguard.
 
-- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), XEN, LXC und OPENVZ sehr gut.
+- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), XEN, LXC / LXD und OPENVZ sehr gut.
 
 ## Installation
 
