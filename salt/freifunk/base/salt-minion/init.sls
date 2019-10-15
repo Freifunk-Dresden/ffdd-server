@@ -57,7 +57,7 @@ salt-minion:
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         #
-        */15 * * * *  root  sleep {{ ctime }}; /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
+        * */1 * * *  root  sleep {{ ctime }}; /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
         # Execute after boot
         @reboot       root  /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
     - user: root
