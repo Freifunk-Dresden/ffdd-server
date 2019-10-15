@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Custom Firewallrules - User Rules
+# Custom Firewall - User Rules
 #
 # (S41firewall includes this file on startup)
 
