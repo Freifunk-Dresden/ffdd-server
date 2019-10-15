@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#
+# Custom Network - User Rules
+#
+# (S41firewall includes this file on startup)
+
+## add own client range to routing table
+#ip rule $1 to $_ddmesh_dhcpnetwork/$_ddmesh_dhcprangemask table main priority 303
