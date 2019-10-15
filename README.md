@@ -148,10 +148,15 @@ salt-call state.highstate --local -l debug
 Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet werden.<br/>
 
 **Optional:**<br/>
+Du hast selbstverständlich zu jeder Zeit die Möglichkeit dein System nach deinen wünschen anzupassen.
+Dazu gehören unter anderem auch folgende:
+
+- */root/.bash_user_aliases*<br/>
+Kann verwendet werden um eigene bash-aliases(default shell) für den Benutzer 'root' anzulegen. Diese werden in '/root/.bash_aliases' eingebunden und automatisch mitgeladen.
 - */etc/firewall.user*<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in '/etc/init.d/S41firewall' eingebunden und automatisch mitgeladen.
-- */root/.bash_user_aliases*<br/>
-Kann verwendet werden um eigene aliases für den Benutzer 'root' anzulegen. Diese werden in '/root/.bash_aliases' eingebunden und automatisch mitgeladen.
+- */etc/network_rules.user*<br/>
+Kann verwendet werden um eigene Netzwerk regeln (ip rule/route) zu definieren. Diese werden in '/etc/init.d/S40network' eingebunden und automatisch mitgeladen.
 
 ## Wichig
 
