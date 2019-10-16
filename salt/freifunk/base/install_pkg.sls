@@ -22,17 +22,13 @@ install_pkg:
       - wget
       - curl
       - git
-      - links
 
-      {# misc #}
-      - mlocate
       - gawk
       - tar
       - bzip2
       - zip
       - unzip
       - gzip
-
       {# purge old kernels #}
       - byobu
 
