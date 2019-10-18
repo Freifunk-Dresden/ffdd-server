@@ -107,8 +107,8 @@ ipset:
         #
         # update list every 30min
         0-59/30 * * * *  root  /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf >/dev/null 2>&1
-        # clear list once per week
-        0 0 * * 0        root  /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf -c >/dev/null 2>&1
+        # clear list once per day
+        0 0 * * *        root  /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf -c >/dev/null 2>&1
     - user: root
     - group: root
     - mode: 600
