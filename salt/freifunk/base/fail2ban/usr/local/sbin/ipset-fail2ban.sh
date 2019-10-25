@@ -144,7 +144,7 @@ get_options() {
                 shift
                 ;;
             -c|--cleanup)
-                echo > "$IPSET_BLACKLIST"
+                echo > "$BLACKLIST_FILE"
                 CLEANUP=true
                 shift
                 ;;
