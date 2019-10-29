@@ -3,7 +3,7 @@ Configures an Debian (9/10) or Ubuntu-Server LTS (16.04/18.04) as Freifunk-Dresd
 
 **[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)** - **[Wiki Documentation (German)](https://wiki.freifunk-dresden.de/index.php/Server_Internes)** - **[Issues](https://github.com/Freifunk-Dresden/ffdd-server/issues)**
 
-**[UPDATE News](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/UPDATES.md)** - **[Debian Security Informations](https://www.debian.org/security/)**
+**[Debian Security Informations](https://www.debian.org/security/)**
 
 ## Freifunk Ziel
 
