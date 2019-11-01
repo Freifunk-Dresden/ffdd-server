@@ -14,7 +14,6 @@ base:
 
     - bash
     - inputrc
-    - vim
 
     - locales
     - timezone
