@@ -22,11 +22,11 @@ ssh_check:
 /etc/ssh/sshd_config:
   file.managed:
     - source:
-      - salt://ssh/etc/ssh/sshd_config
+      - salt://ssh/etc/ssh/sshd_config.tmpl
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
-    #- replace: false
     - watch_in:
       - service: ssh
 
