@@ -1,5 +1,6 @@
 # Freifunk Dresden: ffdd-server Updates
-**(current version 1.0.10)**
+`current version 1.0.10`
+
 <br/>
 
 _**version 1.0.10**_
