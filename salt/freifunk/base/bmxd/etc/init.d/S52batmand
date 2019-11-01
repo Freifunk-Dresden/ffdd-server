@@ -72,7 +72,7 @@ case "$ARG1" in
 #	ulimit -c unlimited
 	# check bmxd is running
 	proc_bmxd="$(ps x | grep -v grep | grep -c bmxd)"
-	if [ "$proc_bmxd" -eq '0']
+	if [ "$proc_bmxd" -eq '0']; then
 		# return error code to systemd to reflect correct status
 		"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" || exit 1
 #		"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" -d4
