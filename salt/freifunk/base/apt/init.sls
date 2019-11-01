@@ -78,16 +78,7 @@ unattended-upgrades:
 
 {# cron #}
 /etc/cron.d/apt-update:
-  file.managed:
-    - contents: |
-        ### This file managed by Salt, do not edit by hand! ###
-        3 */6 * * *  root  su -c "apt-get update > /dev/null 2>&1"
-    - user: root
-    - group: root
-    - mode: 600
-    - require:
-      - pkg: apt
-      - pkg: cron
+  file.absent
 
 {# purge_old_kernels and update grub #}
 /etc/cron.d/purge-old-kernels:
