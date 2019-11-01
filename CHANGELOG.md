@@ -1,7 +1,17 @@
 # Freifunk Dresden: ffdd-server Updates
-`current version 1.0.10`
+`current version 1.0.11`
 
 <br/>
+
+_**version 1.0.11**_
+
+	- add CHANGELOG.md
+	- update fastd2 source
+	- update nvram.conf
+	    - add 'ssh_pwauth' option to enable/disable password-authentification
+	- some more small improvements
+
+<br />
 
 _**version 1.0.10**_
 

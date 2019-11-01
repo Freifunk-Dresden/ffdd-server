@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version="1.0.10"
+#version="1.0.11"
 #branch="B_RELEASE"
 #fix=""
 tag="T_RELEASE_latest"
@@ -201,7 +201,7 @@ done
 
 printf '\n### Start Initial System. (please wait! Coffee Time ca.10min)\n'
 
-salt-call state.highstate --local
+salt-call state.highstate --local -l error
 
 
 #
