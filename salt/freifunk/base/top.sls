@@ -60,6 +60,3 @@ base:
     - letsencrypt
     - monitorix
     - vnstat
-
-    {# /etc/resolv.conf#}
-    - resolv
