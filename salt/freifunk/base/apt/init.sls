@@ -72,7 +72,6 @@ unattended-upgrades:
       - file: /etc/apt/apt.conf.d/50unattended-upgrades
     - require:
       - pkg: apt
-      - pkg: cron
       - pkg: unattended-upgrades
       - file: /etc/apt/apt.conf.d/50unattended-upgrades
 

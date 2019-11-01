@@ -1,4 +1,4 @@
-{# remove old stuff #}
+{# clear old env #}
 
 {# apt #}
 /etc/cron.d/apt-update:
