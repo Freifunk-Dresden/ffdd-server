@@ -53,7 +53,7 @@ salt-minion:
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
-        # Execute a local salt-call every 15 minutes
+        # Execute a local salt-call every hour
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         #

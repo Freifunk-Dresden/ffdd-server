@@ -137,7 +137,7 @@ Es müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
     `'/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002'`
 <br />
 
-Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch aller 10min per cronjob).<br/>
+Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch jede Stunde per cronjob).<br/>
 Wir wollen aber sehen ob alles läuft und auch alles erfolgreich initialisiert wird:
 
 ```bash
