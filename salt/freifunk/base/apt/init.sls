@@ -76,10 +76,6 @@ unattended-upgrades:
       - pkg: unattended-upgrades
       - file: /etc/apt/apt.conf.d/50unattended-upgrades
 
-{# cron #}
-/etc/cron.d/apt-update:
-  file.absent
-
 {# purge_old_kernels and update grub #}
 /etc/cron.d/purge-old-kernels:
   file.managed:

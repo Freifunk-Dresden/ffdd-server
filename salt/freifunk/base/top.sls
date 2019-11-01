@@ -4,6 +4,7 @@ base:
 
     {# remove conflicting packages #}
     - remove_pkg
+    - cleanup_old
     {# basic software and tools #}
     - install_pkg
     - tools
