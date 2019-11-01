@@ -115,7 +115,7 @@ case "$1" in
 	# if fastd failes, return error to systemd, else salt always gets an active working status
 	# and would not restart fastd.
 	proc_fastd="$(ps x | grep -v grep | grep -c /usr/local/bin/fastd)"
-	if [ "$proc_fastd" -eq '0']; then
+	if [ "$proc_fastd" -eq '0' ]; then
 		# return error code to systemd to reflect correct status
 		"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon || exit 1
 	else
