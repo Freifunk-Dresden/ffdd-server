@@ -10,14 +10,13 @@
 {# Configuration #}
 {{ resolv_conf }}:
   file.managed:
-    - contents: |
-      
+    - contents: 
     - user: root
     - group: root
     - mode: 644
 
 {# force chattr +i #}
-{{ resolv_conf }}-locked:
+resolvconf-locked:
   cmd.run:
     - name: chattr -i {{ resolv_conf }}
     - onchanges:
