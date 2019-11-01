@@ -56,9 +56,9 @@ PubkeyAuthentication yes
 
 # To disable tunneled clear text passwords, change to no here!
 {% if ssh_pwauth == '0' %}
-PasswordAuthentication yes
-{% else %}
 PasswordAuthentication no
+{% else %}
+PasswordAuthentication yes
 {% endif %}
 
 #PermitEmptyPasswords no
