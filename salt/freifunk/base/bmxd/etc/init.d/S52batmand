@@ -70,9 +70,15 @@ case "$ARG1" in
 	sleep 3		# wait for start bmxd
 #	echo /tmp/coredump > /proc/sys/kernel/core_pattern
 #	ulimit -c unlimited
-	# return error code to systemd to reflect correct status
-	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" || exit 1
-#	"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" -d4
+	# check bmxd is running
+	proc_bmxd="$(ps x | grep -v grep | grep -c bmxd)"
+	if [ "$proc_bmxd" -eq '0']
+		# return error code to systemd to reflect correct status
+		"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" || exit 1
+#		"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" -d4
+	else
+		exit 0
+	fi
   ;;
 
   stop)
