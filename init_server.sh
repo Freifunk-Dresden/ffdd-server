@@ -58,21 +58,21 @@ version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		9*)		PKGMNGR='apt-get' ;;
-		10*)	PKGMNGR='apt-get' ;;
-		*)		print_not_supported_os ;;
+		9*)     PKGMNGR='apt-get' ;;
+		10*)    PKGMNGR='apt-get' ;;
+		*)      print_not_supported_os ;;
 	esac
 
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		16.04*)	PKGMNGR='apt-get' ;;
-		18.04*)	PKGMNGR='apt-get' ;;
-		*)		print_not_supported_os ;;
+		16.04*) PKGMNGR='apt-get' ;;
+		18.04*) PKGMNGR='apt-get' ;;
+		*)      print_not_supported_os ;;
 	esac
 
 elif [ "$os_id" = 'centos' ]; then
 	case "$version_id" in
-		*)		printf 'Centos is not supported yet!\n'; exit 1 ;;
+		*)      printf 'Centos is not supported yet!\n'; exit 1 ;;
 	esac
 else
 	print_not_supported_os
