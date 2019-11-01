@@ -5,6 +5,7 @@
 
 _**version 1.0.11**_
 
+	- fix init.d S52batmand
 	- add CHANGELOG.md
 	- update fastd2 source
 	- update nvram.conf
