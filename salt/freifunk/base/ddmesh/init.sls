@@ -17,12 +17,19 @@ ffdd-server_repo:
   git.latest:
     - name: {{ freifunk_repo }}
     - rev: {{ branch }}
+    - branch: {{ branch }}
     - target: {{ install_dir }}
     - update_head: True
     - force_fetch: True
     - force_reset: True
     - require:
       - pkg: git
+
+apply_ffdd-server_update:
+  cmd.run:
+    - name: echo '$(which salt-call) state.highstate --local -l error' | sudo at now + 1 min
+    - onchanges:
+        - state: ffdd-server_repo
 {% endif %}
 
 
