@@ -2,9 +2,10 @@ base:
   '*':
     - apt
 
-    {# remove conflicting packages #}
+    {# remove conflicting packages/files #}
     - remove_pkg
-    - cleanup_old
+    - cleanup_old_env
+
     {# basic software and tools #}
     - install_pkg
     - tools
