@@ -17,7 +17,6 @@ ffdd-server_repo:
   git.latest:
     - name: {{ freifunk_repo }}
     - rev: {{ branch }}
-    - branch: {{ branch }}
     - target: {{ install_dir }}
     - update_head: True
     - force_fetch: True
