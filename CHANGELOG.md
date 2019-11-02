@@ -1,7 +1,15 @@
 # Freifunk Dresden: ffdd-server Updates
-`current version 1.0.11`
+`current version 1.0.12`
 
 <br/>
+
+_**version 1.0.12**_
+
+	- fix init.d S52batmand and S53backbone-fastd2
+	- fix ffdd-autoupdate
+	- small readme and comments changes
+
+<br />
 
 _**version 1.0.11**_
 
