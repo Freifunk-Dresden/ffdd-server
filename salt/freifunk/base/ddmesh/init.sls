@@ -27,9 +27,9 @@ ffdd-server_repo:
 
 apply_ffdd-server_update:
   cmd.run:
-    - name: echo '$(which salt-call) state.highstate --local -l error' | sudo at now + 1 min
+    - name: echo 'salt-call state.highstate --local -l error' | sudo at now + 1 min
     - onchanges:
-        - cmd: ffdd-server_repo
+        - ffdd-server_repo
 {% endif %}
 
 
