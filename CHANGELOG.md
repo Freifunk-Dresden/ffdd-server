@@ -13,7 +13,6 @@ _**version 1.0.12**_
 
 _**version 1.0.11**_
 
-	- fix init.d S52batmand and S53backbone-fastd2
 	- add CHANGELOG.md
 	- update fastd2 source
 	- update nvram.conf
