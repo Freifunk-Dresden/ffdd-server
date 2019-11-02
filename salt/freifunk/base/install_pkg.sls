@@ -17,6 +17,7 @@ install_pkg:
       - nano
       - vim
       - less
+      - at
 
       - gnupg
       - wget
