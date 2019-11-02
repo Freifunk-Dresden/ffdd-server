@@ -160,16 +160,6 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 - */etc/network_rules.user*<br/>
 Kann verwendet werden um eigene Netzwerk regeln (ip rule/route) zu definieren. Diese werden in '/etc/init.d/S40network' eingebunden und automatisch mitgeladen.
 
-## Wichig
-
-Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal**, wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
-
-Bitte einhalten:
-- Ändern der BSSID auf eine eigene!
-- Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
-- Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
-- /usr/local/bin/ddmesh-ipcalc.sh muss angepasst werden!
-
 ## Development
 
 Um eine andere Release-Version zu benutzen ist ein notwendig in der /etc/nvram.conf die Option "branch=" anzupassen.
@@ -197,6 +187,16 @@ cd /srv/ffdd-server
 ./init_server.sh dev <branch/tag>
 
 ```
+
+## Wichig für Communitiy Forks
+
+Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal**, wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
+
+Bitte einhalten:
+- Ändern der BSSID auf eine eigene!
+- Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
+- Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
+- /usr/local/bin/ddmesh-ipcalc.sh muss angepasst werden!
 
 Links
 ----
