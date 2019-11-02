@@ -35,11 +35,12 @@ alias jdeni='journalctl --system -x | grep denied'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 alias showip='printf "IP: %s\n" "$(curl -s ip.envs.net)"'
+alias speedtest='wget -O /dev/null http://90.130.70.73/10GB.zip --report-speed=bits'
 alias speedtest-ovh='wget -O /dev/null http://213.186.33.6/files/10Gb.dat --report-speed=bits'
 alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --report-speed=bits'
 
 cat <<EOM
------------------------------------------------------
+-----------------------------------------------------------------
 tools:
     freifunk-version    ( show Server Version and Branch )
     freifunk-call       ( salt-call state.highstate --local )
@@ -50,7 +51,8 @@ tools:
     conntrack           ( show more with -n LINENUM )
     vnstat              ( network traffic monitor )
     showip
+    speedtest
     speedtest-ovh
     speedtest-belwue
------------------------------------------------------
+-----------------------------------------------------------------
 EOM
