@@ -5,6 +5,7 @@
 
 _**version 1.0.12**_
 
+	- add cleanup_old_env
 	- fix init.d S52batmand and S53backbone-fastd2
 	- fix ffdd-autoupdate
 	- small readme and comments changes

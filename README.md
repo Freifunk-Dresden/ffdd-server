@@ -160,6 +160,15 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 - */etc/network_rules.user*<br/>
 Kann verwendet werden um eigene Netzwerk regeln (ip rule/route) zu definieren. Diese werden in '/etc/init.d/S40network' eingebunden und automatisch mitgeladen.
 
+### Fehlerhaftes Repository
+Sollte salt Probleme jeglicher Art mit dem 'ffdd-server' repo haben dann ist der einfachste Weg dieses neu zu erstellen und salt erneut auf zu rufen:
+```bash
+rm -rf /srv/ffdd-server
+git clone https://github.com/Freifunk-Dresden/ffdd-server/ /srv/ffdd-server
+cd /srv/ffdd-server/ && git checkout T_RELEASE_latest
+salt-call state.highstate --local -l error
+```
+
 ## Development
 
 Um eine andere Release-Version zu benutzen ist ein notwendig in der /etc/nvram.conf die Option "branch=" anzupassen.
