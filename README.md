@@ -135,7 +135,6 @@ Es müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
 - /etc/fastd/peers2/<br />
   *# To Create a Fastd2 Connection use:*<br />
     `'/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002'`
-<br />
 
 ### Apply
 
