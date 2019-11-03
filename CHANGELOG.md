@@ -1,13 +1,20 @@
 # Freifunk Dresden: ffdd-server Updates
-`current version 1.0.12`
+`current version 1.0.13`
 
 <br/>
 
+_**version 1.0.13**_
+
+	- fix bind9 db.root check
+
+<br />
+
 _**version 1.0.12**_
 
-	- add cleanup_old_env
 	- fix init.d S52batmand and S53backbone-fastd2
 	- fix ffdd-autoupdate
+	- add/reanable cleanup_old_env
+	- add a faster speedtest to .bash_alias
 	- small readme and comments changes
 
 <br />
