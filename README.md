@@ -137,6 +137,8 @@ Es müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
     `'/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002'`
 <br />
 
+### Apply
+
 Im letzten Schritt müssen die Änderungen noch übernommen und überprüft werden. (Dies geschieht auch automatisch jede Stunde per cronjob).<br/>
 Wir wollen aber sehen ob alles läuft und auch alles erfolgreich initialisiert wird:
 
@@ -147,9 +149,9 @@ salt-call state.highstate --local
 salt-call state.highstate --local -l debug
 ```
 
-Gibt es hier keinerlei Fehler mehr sollte der Server einmal sauber neugestartet werden.<br/>
+**Nachdem dem nun alle deine Einstellungen überprüft und gesetzt hast sollte der Server einmal sauber neugestartet werden.**<br/>
 
-**Optional:**<br/>
+### Optional ###
 Du hast selbstverständlich zu jeder Zeit die Möglichkeit dein System nach deinen wünschen anzupassen.
 Dazu gehören unter anderem auch folgende:
 
@@ -160,7 +162,24 @@ Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese w
 - */etc/network_rules.user*<br/>
 Kann verwendet werden um eigene Netzwerk regeln (ip rule/route) zu definieren. Diese werden in '/etc/init.d/S40network' eingebunden und automatisch mitgeladen.
 
-### Fehlerhaftes Repository
+## Autoupdate
+Bei jeder Durchführung des salt Befehls wird überprüft ob das locale ffdd-server Repository unter `/srv/ffdd-server` auf dem aktuellsten Stand ist.
+Dies gewährleistet das Änderungen sowie Bugfixes aber auch Neuerungen schnellst möglich zur Verfügung gestellt werden können.
+
+### Manuell Update
+Es gibt jederzeit die Möglichkeit das Autoupdate abzuschalten. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/nvram.conf` deaktiviert werden:<br>
+`nvram set autoupdate 0`
+
+Ein manuelles Update durchzuführen:
+```bash
+cd /srv/ffdd-server
+git stash
+git checkout $(nvram get branch)
+git pull
+freifunk-call
+```
+
+## Fehlerhaftes Repository
 Sollte salt Probleme jeglicher Art mit dem 'ffdd-server' repo haben dann ist der einfachste Weg dieses neu zu erstellen und salt erneut auf zu rufen:
 ```bash
 rm -rf /srv/ffdd-server
