@@ -174,7 +174,7 @@ Ein manuelles Update durchzuführen:
 cd /srv/ffdd-server
 git stash
 git checkout $(nvram get branch)
-git pull
+git pull -f origin $(nvram get branch)
 freifunk-call
 ```
 
