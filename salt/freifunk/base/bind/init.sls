@@ -75,7 +75,7 @@ bind:
 /etc/bind/db.root:
   cmd.run:
     - name: /bin/cp /usr/share/dns/root.hints /etc/bind/db.root && systemctl restart bind9
-    - onlyif: "test $(md5sum /etc//bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
+    - onlyif: "test ! -f /etc/bind/db.root || test $(md5sum /etc/bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
 
 
 {# vpn.forwarder #}
