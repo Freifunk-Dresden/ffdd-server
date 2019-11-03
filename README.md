@@ -175,7 +175,7 @@ cd /srv/ffdd-server
 git stash
 git checkout $(nvram get branch)
 git pull -f origin $(nvram get branch)
-freifunk-call
+salt-call state.highstate --local -l error
 ```
 
 ## Fehlerhaftes Repository
