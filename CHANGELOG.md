@@ -6,6 +6,7 @@
 _**version 1.0.13**_
 
 	- fix bind9 db.root check
+	- fail2ban: add ignored IP's
 
 <br />
 
