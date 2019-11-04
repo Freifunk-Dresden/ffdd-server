@@ -1,12 +1,19 @@
 # Freifunk Dresden: ffdd-server Updates
-`current version 1.0.13`
+`current version 1.0.14`
 
 <br/>
+
+_**version 1.0.14**_
+
+	- fail2ban changes:
+		- add ignored private IP's
+		- remove jail: apache-fakegooglebot , apache-botsearch
+
+<br />
 
 _**version 1.0.13**_
 
 	- fix bind9 db.root check
-	- fail2ban: add ignored IP's
 
 <br />
 
