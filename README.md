@@ -13,16 +13,16 @@ Freifunk hat es sich zum Ziel gesetzt, Menschen möglichst flächendeckend mit f
 
 ## Freifunk Dresden Server (ffdd-server)
 
-Dieses Repository bildet die Funktionalität eines Servers für Freifunk Dresden. Der Vserver arbeitet wie
+Dieses Repository bildet die Funktionalität eines Servers für Freifunk Dresden. Der ffdd-server arbeitet wie
 ein Freifunk Knoten und ist soweit konfiguriert, dass dieser eine Knotenwebseite anbietet, Backboneverbindungen
 (fastd2) akzeptiert und via Openvpn Internettunnel für den Internetverkehr aus dem Freifunknetz aufbauen kann.
 
 **HINWEIS:**
-Der Vserver ist auf Freifunk Dresden zugeschnitten. Soll dieses als Basis für andere Freifunk Communities
-verwendet werden, müssen Anpassungen gemacht werden. Bitte ein [Issue](https://github.com/Freifunk-Dresden/ffdd-server/issues) im Github erstellen.
+Der ffdd-server ist auf Freifunk Dresden zugeschnitten. Soll dieses als Basis für andere Freifunk Communities
+verwendet werden, müssen Anpassungen gemacht werden. Bitte dazu ein [Issue](https://github.com/Freifunk-Dresden/ffdd-server/issues) im Github erstellen.
 
 - Es empfiehlt sich dringend für andere Communities, dieses Repository zu forken, da hier generelle Umstellungen zusammen mit der passenden Firmware für Dresdener Anforderungen erfolgen.<br/>
-Communities sollten dann auf das geforkte Repository (gilt auch für das "firmware" Repository) aufbauen. Jede Community trägt die alleinige Verantwortung und Kontrolle über ihr Netz und sollte eigene Erfahrene Leute/Admins bereitstellen. Hilfe von Dresden ist aber jederzeit möglich, aber Administrative Aufgaben oder Garantien werden nicht übernommen, da das einfach den organisatorischen Aufwand sprengt.<br/>
+Communities sollten dann auf das geforkte Repository (gilt auch für das "[firmware-freifunk-dresden](https://github.com/Freifunk-Dresden/firmware-freifunk-dresden)" Repository) aufbauen. Jede Community trägt die alleinige Verantwortung und Kontrolle über ihr Netz und sollte eigene Erfahrene Leute/Admins bereitstellen. Hilfe von Dresden ist aber jederzeit möglich, aber Administrative Aufgaben oder Garantien werden nicht übernommen, da das einfach den organisatorischen Aufwand sprengt.<br/>
 Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses weiter wächst.
 
 - Routingprotokoll BMXD:
@@ -45,16 +45,15 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
   Verbindet sich ein Router mit einem Server erfolgreich, so "lernt" der Server diese Verbindung und erzeugt ein entsprechendes Konfigurationsfile unterhalb von `/etc/fastd/peers2`.<br/>
   Später kann der Server umgestellt werden, so dass nur noch dort abgelegte Konfigurationen (Verbindungen) akzeptiert werden. Gesteuert wird dieses durch das Konfigurationsfile von fastd (`/etc/fastd/fastd2.conf`).
 
-- Der VServer unterstützt derzeit zwei VPN Implementationen Openvpn und Wireguard. Wireguard ist aber noch im BETA-Zustand. (Wireguard Unterstützung in Containern ist nur möglich wenn auch die kernel-headers verfügbar sind.)<br/>
+- Der ffdd-server unterstützt derzeit zwei VPN Implementationen Openvpn und Wireguard. Wireguard ist aber noch im BETA-Zustand. (Wireguard Unterstützung in Containern ist nur möglich wenn auch die kernel-headers verfügbar sind.)<br/>
   `/etc/openvpn` und `/etc/wireguard` enthält je ein Script, mit dem verschiede VPN Konfigurationen von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.<br/>
-Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stufe das lokale Internet testet und wenn dieses funktioniert, wird das Openvpn/Wireguard Internet geprüft. Ist das Openvpn/Wireguard Internet verfügbar, wird dieser Vserver als Internet-Gateway im Freifunknetz bekannt gegeben.
+Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stufe das lokale Internet testet und wenn dieses funktioniert, wird das Openvpn/Wireguard Internet geprüft. Ist das Openvpn/Wireguard Internet verfügbar, wird dieser Server als Internet-Gateway im Freifunknetz bekannt gegeben.
 
-- Der Vserver selbst arbeitet ebenfalls als DNS Server für die Knoten, die ihn als Gateway ausgewählt haben. Die DNS Anfragen werden dabei auch über den VPN Tunnel geleitet.
+- Der ffdd-server selbst arbeitet ebenfalls als DNS Server für die Knoten, die ihn als Gateway ausgewählt haben. Die DNS Anfragen werden dabei auch über den VPN Tunnel geleitet.
 
-- Da VServer Anbieter verschieden sind, kann die Installation abbrechen. Hier sollten erfahrene Leute die Installation anpassen und mir einen Hinweis geben. Als Vserver kann **NICHT** jeder Anbieter genutzt werden.
 <br/>
 
-**Wichtig** ist, dass tun/tap devices und alle möglichen iptables module verfügbar sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz. (Platzmangel auf Routern und bmxd unterstützt dieses nicht)
+**Wichtig** ist, dass tun/tap devices und alle möglichen iptables module verfügbar sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz. (Platzmangel auf Routern und bmxd unterstützt dieses nicht.)
 
 ## Vorausetzungen
 
@@ -67,9 +66,9 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - Netzwerk: min. 100Mbit/s
 
-- Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim VServer Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn und Wireguard.
+- Kernel Module: tun.ko muss vorhanden sein. Evt sollte man sich vorher beim Server Anbieter informieren. Nicht alle Anbieter haben einen Support im Kernel. Genutzt wird es vom Routing Protokoll, Backbone, Openvpn und Wireguard.
 
-- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server aufgesetzt, so funktionieren als Virtualisierungen QEMU(KVM), XEN, LXC / LXD und OPENVZ sehr gut.
+- Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server oder Container aufgesetzt, so funktionieren als Umgebungen QEMU(KVM), XEN, LXC / LXD und OPENVZ sehr gut.
 
 ## Installation
 
@@ -77,12 +76,12 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 ([https://help.ubuntu.com/community/UpgradeNotes](https://help.ubuntu.com/community/UpgradeNotes))<br/>
 
 **Wichtig:**<br/>
-- Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **`/etc/nvram.conf`** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls werden diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+- Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **`/etc/nvram.conf`** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls wird diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
-- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun das euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
+- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
 
-- *Änderung des Installations Path in `/etc/nvram.conf`*<br/>
-Dies sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
+- *Installations Path in `/etc/nvram.conf`*<br/>
+Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 <br/>
 
 Folgends cloned und Installiert das Repository.<br/>
@@ -116,7 +115,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 
 ### Manuelle Anpassungen
 
-Es müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
+Nun müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
 
 - `/etc/hostname` (FQDN)
 - `/etc/nvram.conf`
@@ -152,10 +151,10 @@ salt-call state.highstate --local -l debug
 
 ### Optional ###
 Du hast selbstverständlich zu jeder Zeit die Möglichkeit dein System nach deinen wünschen anzupassen.
-Dazu gehören unter anderem auch folgende:
+Dazu gehören unter anderem auch folgende Optionen:
 
 - *`/root/.bash_user_aliases`*<br/>
-Kann verwendet werden um eigene bash-aliases(default shell) für den Benutzer 'root' anzulegen. Diese werden in `/root/.bash_aliases` eingebunden und automatisch mitgeladen.
+Kann verwendet werden um eigene bash-aliases (default shell) für den Benutzer 'root' anzulegen. Diese werden in `/root/.bash_aliases` eingebunden und automatisch mitgeladen.
 - *`/etc/firewall.user`*<br/>
 Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in `/etc/init.d/S41firewall` eingebunden und automatisch mitgeladen.
 - *`/etc/network_rules.user`*<br/>
@@ -163,10 +162,10 @@ Kann verwendet werden um eigene Netzwerk regeln (ip rule/route) zu definieren. D
 
 ## Autoupdate
 Bei jeder Durchführung des salt Befehls wird überprüft ob das locale ffdd-server Repository unter `/srv/ffdd-server` auf dem aktuellsten Stand ist.
-Dies gewährleistet das Änderungen sowie Bugfixes aber auch Neuerungen schnellst möglich zur Verfügung gestellt werden können.
+Dies gewährleistet dass Änderungen sowie Bugfixes aber auch Neuerungen schnellst möglich zur Verfügung gestellt werden können.
 
 ### Manuell Update
-Es gibt jederzeit die Möglichkeit das Autoupdate abzuschalten. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/nvram.conf` deaktiviert werden:<br>
+Das Autoupdate kann zur jeder Zeit abzuschaltet werden. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/nvram.conf` deaktiviert werden:<br>
 `nvram set autoupdate 0`
 
 **Ein manuelles Update durchzuführen:**
@@ -179,7 +178,7 @@ salt-call state.highstate --local -l error
 ```
 
 ## Fehlerhaftes Repository
-Sollte salt Probleme jeglicher Art mit dem 'ffdd-server' repo haben dann ist der einfachste Weg dieses neu zu erstellen und salt erneut auf zu rufen:
+Sollte es Probleme jeglicher Art mit dem 'ffdd-server' repo geben dann ist der einfachste Weg dieses neu zu erstellen und salt erneut aufzurufen:
 ```bash
 cd /srv/ ; rm -rf /srv/ffdd-server
 git clone https://github.com/Freifunk-Dresden/ffdd-server/ /srv/ffdd-server
@@ -222,7 +221,7 @@ Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit S
 Bitte einhalten:
 - Ändern der BSSID auf eine eigene!
 - Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
-- Kein Aufbau von Brücken zwischen Routern/Vservern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
+- Kein Aufbau von Brücken zwischen Routern/Servern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
 - `/usr/local/bin/ddmesh-ipcalc.sh` muss angepasst werden!
 
 Links
