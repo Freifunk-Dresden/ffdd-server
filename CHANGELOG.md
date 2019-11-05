@@ -5,6 +5,7 @@
 
 _**version 1.0.14**_
 
+	- change gateway-check ip's
 	- fail2ban changes:
 		- add ignored private IP's
 		- remove jail: apache-fakegooglebot , apache-botsearch
