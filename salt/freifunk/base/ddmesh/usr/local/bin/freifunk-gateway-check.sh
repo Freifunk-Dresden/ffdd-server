@@ -56,7 +56,7 @@ $DEBUG && printf '%s\n' "start"
 
 #dont use vpn server (or any openvpn server), it could interrupt connection
 # cloudflare, google, freifunk-dresden.de, www.dresden.de
-ping_hosts="1.1.1.1 8.8.8.8 9.9.9.9 85.114.135.114 194.49.19.111"
+ping_hosts="1.1.1.1 8.8.8.8 9.9.9.9 89.163.140.199 194.49.19.111"
 #process max 3 user ping
 #cfg_ping="$(uci -q get ddmesh.network.gateway_check_ping)"
 #gw_ping="$(echo "$cfg_ping" | sed 's#[ ,;/	]\+# #g' | cut -d' ' -f1-3 ) $ping_hosts"
