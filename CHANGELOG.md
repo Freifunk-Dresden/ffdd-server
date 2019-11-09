@@ -1,11 +1,20 @@
 # Freifunk Dresden: ffdd-server Updates
-`current version 1.0.14`
+`current version 1.0.15`
 
 <br/>
 
+_**version 1.0.15**_
+
+	- update README
+	- do not install resolvconf per default
+	- remove old fail2ban rules from ipset-conf
+	- letsencrypt/ssl: extend fqdn-check and ensure ssl-site is absent then deactivated
+	- change gateway-check ip's
+
+<br />
+
 _**version 1.0.14**_
 
-	- change gateway-check ip's
 	- fail2ban changes:
 		- add ignored private IP's
 		- remove jail: apache-fakegooglebot , apache-botsearch
