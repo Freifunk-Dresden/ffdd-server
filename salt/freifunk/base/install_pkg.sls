@@ -34,7 +34,6 @@ install_pkg:
       - byobu
 
       - net-tools
-      - resolvconf
       - grepcidr
       - ethtool
       - psmisc
