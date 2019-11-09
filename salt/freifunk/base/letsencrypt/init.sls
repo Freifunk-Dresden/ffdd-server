@@ -128,4 +128,11 @@ force-renew-ssl:
 /etc/ssl/temp-check-ssl:
   file.absent
 
+
+{% else %}
+
+{# ensure ssl-site is absent then deactivated #}
+/etc/apache2/sites-enabled/001-freifunk-ssl.conf:
+  file.absent
+
 {% endif %}
