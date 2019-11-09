@@ -78,10 +78,12 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 **Wichtig:**<br/>
 - Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **`/etc/nvram.conf`** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls wird diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
-- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
-
 - *Installations Path in `/etc/nvram.conf`*<br/>
 Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
+
+- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
+
+- ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist.
 <br/>
 
 Folgends cloned und Installiert das Repository.<br/>
