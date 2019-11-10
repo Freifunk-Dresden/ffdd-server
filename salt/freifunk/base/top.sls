@@ -1,3 +1,5 @@
+{% from 'config.jinja' import nodeid %}
+
 base:
   '*':
     - apt
