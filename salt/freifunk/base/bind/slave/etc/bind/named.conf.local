@@ -1,0 +1,42 @@
+// ### This file managed by Salt, do not edit by hand! ###
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+
+zone "ffdd" {
+	type slave;
+	file "/var/cache/bind/db.ffdd";
+	masters { 10.200.0.4; };
+};
+
+zone "0.200.10.in-addr.arpa" {
+	type slave;
+	file "/var/cache/bind/db.0.200.10";
+	masters { 10.200.0.4; };
+};
+
+zone "0.64.100.in-addr.arpa" {
+	type slave;
+	file "/var/cache/bind/db.0.64.100";
+	masters { 10.200.0.4; };
+};
+
+zone "1.200.10.in-addr.arpa" {
+	type slave;
+	file "/var/cache/bind/db.1.200.10";
+	masters { 10.200.0.4; };
+};
+
+zone "200.200.10.in-addr.arpa" {
+	type slave;
+	file "/var/cache/bind/db.200.200.10";
+	masters { 10.200.0.4; };
+};
+
+zone "3.200.10.in-addr.arpa" {
+	type slave;
+	file "/var/cache/bind/db.3.200.10";
+	masters { 10.200.0.4; };
+};

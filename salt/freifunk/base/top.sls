@@ -53,7 +53,15 @@ base:
     - ssh
     - openvpn
     - wireguard
+{# DNS Master Server #}
+{% if nodeid == '3' %}
+    - bind.master
+{# DNS Slave Server #}
+{% elif nodeid == '15' %}
+    - bind.slave
+{% else %}
     - bind
+{% endif %}
 
     - iperf3
     - apache2
