@@ -21,7 +21,7 @@ net.ipv4.tcp_syncookies:
   sysctl.present:
     - value: 1
     - config: {{ sysctld }}/net.conf
-    - unless: test ! -e /proc/sys/net/ipv4/tcp_syncookies
+    - unless: "[ ! -e /proc/sys/net/ipv4/tcp_syncookies ]"
 
 {# increase conntrack hash table #}
 {% if chassis != 'container' %}
