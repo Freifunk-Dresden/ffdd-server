@@ -27,8 +27,7 @@
 
 {# check kernel-header package is available #}
 {% set kernel_release = salt['cmd.shell']("uname -r") %}
-{%- set check_kernel_pkg = salt['cmd.shell']("apt-cache show linux-headers-"~ kernel_release ~" 2>&1 | awk '/Version:/ {print substr($0, index($0,$3))}' | wc -l") %}
-{% set kernel_pkg_check = '~ check_kernel_pkg ~' %}
+{%- set kernel_pkg_check = salt['cmd.shell']("apt-cache show linux-headers-"~ kernel_release ~" 2>&1 | awk '/Version:/ {print substr($0, index($0,$3))}' | wc -l") %}
 
 {# check ddmesh_disable_gateway option #}
 {% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}

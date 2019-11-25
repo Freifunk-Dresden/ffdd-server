@@ -4,7 +4,6 @@
 
 {# install only than Kernel Package available #}
 {% if kernel_pkg_check >= '1' %}
-
 linux-headers:
   pkg.installed:
     - name: linux-headers-{{ kernel_release }}
