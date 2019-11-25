@@ -21,13 +21,12 @@ net.ipv4.tcp_syncookies:
   sysctl.present:
     - value: 1
     - config: {{ sysctld }}/net.conf
+    - unless: test ! -e /proc/sys/net/ipv4/tcp_syncookies
 
 {# increase conntrack hash table #}
 {% if chassis != 'container' %}
-
 net.netfilter.nf_conntrack_max:
   sysctl.present:
     - value: 200000
     - config: {{ sysctld }}/net.conf
-
 {% endif %}
