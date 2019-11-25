@@ -15,8 +15,7 @@ vnstat:
 {# Configuration #}
 /etc/vnstat.conf:
   file.managed:
-    - source:
-      - salt://vnstat/etc/vnstat.tmpl
+    - source: salt://vnstat/etc/vnstat.tmpl
     - template: jinja
     - user: root
     - group: vnstat
@@ -103,8 +102,7 @@ compose_vnstat_dashboard:
 {# Configuration #}
 /var/www_vnstat/includes/config.php:
   file.managed:
-    - source:
-      - salt://vnstat/var/config.tmpl
+    - source: salt://vnstat/var/config.tmpl
     - template: jinja
     - user: www-data
     - group: www-data
@@ -126,8 +124,7 @@ apache2_mod_php:
 {# enable vnstat Apache2 config #}
 /etc/apache2/conf-enabled/vnstat.conf:
   file.managed:
-    - source:
-      - salt://vnstat/etc/apache2/conf-enabled/vnstat.conf
+    - source: salt://vnstat/etc/apache2/conf-enabled/vnstat.conf
     - user: root
     - group: root
     - mode: 644

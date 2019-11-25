@@ -4,7 +4,6 @@ iperf3:
     - refresh: True
     - name: iperf3
 
-
 {# Service Configuration #}
 /etc/init.d/S90iperf3:
   file.managed:

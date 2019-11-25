@@ -12,8 +12,7 @@ cron:
 {# Configuration #}
 /etc/default/cron:
   file.managed:
-    - source:
-      - salt://cron/etc/default/cron
+    - source: salt://cron/etc/default/cron
     - user: root
     - group: root
     - mode: 644

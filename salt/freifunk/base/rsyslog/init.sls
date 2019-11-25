@@ -19,8 +19,7 @@ rsyslog:
 {# Configuration #}
 /etc/rsyslog.conf:
   file.managed:
-    - source:
-      - salt://rsyslog/etc/rsyslog.conf
+    - source: salt://rsyslog/etc/rsyslog.conf
     - user: root
     - group: root
     - mode: 644
@@ -31,8 +30,7 @@ rsyslog:
 
 /etc/default/rsyslog:
   file.managed:
-    - source:
-      - salt://rsyslog/etc/default/rsyslog
+    - source: salt://rsyslog/etc/default/rsyslog
     - user: root
     - group: root
     - mode: 644
@@ -43,8 +41,7 @@ rsyslog:
 
 /etc/rsyslog.d/10-freifunk.conf:
   file.managed:
-    - source:
-      - salt://rsyslog/etc/rsyslog.d/10-freifunk.conf
+    - source: salt://rsyslog/etc/rsyslog.d/10-freifunk.conf
     - user: root
     - group: root
     - mode: 644

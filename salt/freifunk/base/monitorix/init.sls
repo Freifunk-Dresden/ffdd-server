@@ -32,8 +32,7 @@ monitorix:
 {# Configuration #}
 /etc/monitorix/monitorix.conf:
   file.managed:
-    - source:
-      - salt://monitorix/etc/monitorix/monitorix.tmpl
+    - source: salt://monitorix/etc/monitorix/monitorix.tmpl
     - template: jinja
     - user: root
     - group: root
@@ -59,8 +58,7 @@ apache2_mod_auth_basic:
 {# enable monitorix Apache2 config #}
 /etc/apache2/conf-enabled/monitorix_access.incl:
   file.managed:
-    - source:
-      - salt://monitorix/etc/apache2/conf-enabled/monitorix_access.incl
+    - source: salt://monitorix/etc/apache2/conf-enabled/monitorix_access.incl
     - user: root
     - group: root
     - mode: 644
@@ -68,8 +66,7 @@ apache2_mod_auth_basic:
 
 /etc/apache2/conf-enabled/monitorix.conf:
   file.managed:
-    - source:
-      - salt://monitorix/etc/apache2/conf-enabled/monitorix.conf
+    - source: salt://monitorix/etc/apache2/conf-enabled/monitorix.conf
     - user: root
     - group: root
     - mode: 644

@@ -11,8 +11,7 @@
 {# Configuration #}
 /etc/nvram.conf:
   file.managed:
-    - source:
-      - salt://nvram/etc/nvram.conf
+    - source: salt://nvram/etc/nvram.conf
     - user: root
     - group: root
     - mode: 644

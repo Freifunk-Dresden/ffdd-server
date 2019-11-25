@@ -21,8 +21,7 @@ ssh_check:
 {# Configuration #}
 /etc/ssh/sshd_config:
   file.managed:
-    - source:
-      - salt://ssh/etc/ssh/sshd_config.tmpl
+    - source: salt://ssh/etc/ssh/sshd_config.tmpl
     - template: jinja
     - user: root
     - group: root
@@ -33,8 +32,7 @@ ssh_check:
 {# SSH-Login Information #}
 /etc/issue.net:
   file.managed:
-    - source:
-      - salt://ssh/etc/issue.net.tmpl
+    - source: salt://ssh/etc/issue.net.tmpl
     - template: jinja
     - user: root
     - group: root

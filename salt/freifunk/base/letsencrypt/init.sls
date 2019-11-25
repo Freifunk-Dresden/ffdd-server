@@ -11,8 +11,7 @@ letsencrypt:
 {# Configuration #}
 /etc/letsencrypt/cli.ini:
   file.managed:
-    - source:
-      - salt://letsencrypt/etc/letsencrypt/cli.ini
+    - source: salt://letsencrypt/etc/letsencrypt/cli.ini
     - user: root
     - group: root
     - mode: 644
@@ -28,8 +27,7 @@ apache2_mod_ssl:
 {# letsencrypt requirements #}
 /etc/apache2/conf-enabled/letsencrypt.conf:
   file.managed:
-    - source:
-      - salt://letsencrypt/etc/apache2/conf-enabled/letsencrypt.conf
+    - source: salt://letsencrypt/etc/apache2/conf-enabled/letsencrypt.conf
     - user: root
     - group: root
     - mode: 644
@@ -64,16 +62,14 @@ generate_certificate:
 {# enable Apache2 SSL Webpage for FFDD #}
 /etc/apache2/conf-enabled/ssl-params.conf:
   file.managed:
-    - source:
-      - salt://letsencrypt/etc/apache2/conf-enabled/ssl-params.conf
+    - source: salt://letsencrypt/etc/apache2/conf-enabled/ssl-params.conf
     - user: root
     - group: root
     - mode: 644
 
 /etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.managed:
-    - source:
-      - salt://letsencrypt/etc/apache2/sites-enabled/001-freifunk-ssl.tmpl
+    - source: salt://letsencrypt/etc/apache2/sites-enabled/001-freifunk-ssl.tmpl
     - template: jinja
     - user: root
     - group: root

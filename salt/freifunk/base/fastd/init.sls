@@ -1,8 +1,7 @@
 {# Backbone - fastd2 #}
 /usr/local/src/fastd:
   file.recurse:
-    - source:
-      - salt://fastd/compiled-tools/fastd
+    - source: salt://fastd/compiled-tools/fastd
     - user: freifunk
     - group: freifunk
     - file_mode: 775
@@ -33,8 +32,7 @@ compile_fastd:
 
 /etc/fastd/cmd2.sh:
   file.managed:
-    - source:
-      - salt://fastd/etc/fastd/cmd2.sh
+    - source: salt://fastd/etc/fastd/cmd2.sh
     - user: root
     - group: root
     - mode: 755

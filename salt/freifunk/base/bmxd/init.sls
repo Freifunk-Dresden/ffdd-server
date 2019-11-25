@@ -3,8 +3,7 @@
 
 /usr/local/src/bmxd:
   file.recurse:
-    - source:
-      - salt://bmxd/compiled-tools/bmxd
+    - source: salt://bmxd/compiled-tools/bmxd
     - user: freifunk
     - group: freifunk
     - file_mode: 775

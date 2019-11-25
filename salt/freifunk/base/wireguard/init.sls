@@ -104,8 +104,7 @@ wgvpn1_service_dead:
 {# Helper Scripts for FFDD #}
 /etc/wireguard/gen-config.sh:
   file.managed:
-    - source:
-      - salt://wireguard/etc/wireguard/gen-config.sh
+    - source: salt://wireguard/etc/wireguard/gen-config.sh
     - user: root
     - group: root
     - mode: 755

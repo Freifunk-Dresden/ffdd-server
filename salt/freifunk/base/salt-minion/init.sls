@@ -41,8 +41,7 @@ salt-minion:
 {# Configuration #}
 /etc/salt/minion.d/freifunk-masterless.conf:
   file.managed:
-    - source:
-      - salt://salt-minion/etc/salt/minion.d/freifunk-masterless.tmpl
+    - source: salt://salt-minion/etc/salt/minion.d/freifunk-masterless.tmpl
     - template: jinja
     - user: root
     - group: root

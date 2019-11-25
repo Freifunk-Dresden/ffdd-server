@@ -44,16 +44,14 @@ apache2:
 {# enable FFDD server page #}
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.managed:
-    - source:
-      - salt://apache2/etc/apache2/sites-enabled/001-freifunk.conf
+    - source: salt://apache2/etc/apache2/sites-enabled/001-freifunk.conf
     - user: root
     - group: root
     - mode: 644
 
 /var/www_freifunk:
   file.recurse:
-    - source:
-      - salt://apache2/var/www_freifunk
+    - source: salt://apache2/var/www_freifunk
     - user: www-data
     - group: www-data
     - file_mode: 755

@@ -3,19 +3,6 @@
 {% set ovpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn0.conf && echo "1" || true') %}
 {% set ovpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/openvpn/openvpn-vpn1.conf && echo "1" || true') %}
 
-
-{# Temp. rename old config #}
-tmp_rename_ovpn_conf:
-  cmd.run:
-    - name: "mv /etc/openvpn/openvpn.conf /etc/openvpn/openvpn-vpn0.conf"
-    - unless: "[ ! -f /etc/openvpn/openvpn.conf ]"
-
-tmp_rename_ovpn1_conf:
-  cmd.run:
-    - name: mv /etc/openvpn/openvpn1.conf /etc/openvpn/openvpn-vpn1.conf
-    - unless: "[ ! -f /etc/openvpn/openvpn1.conf ]"
-
-
 openvpn:
   pkg.installed:
     - name: openvpn
@@ -105,8 +92,7 @@ ovpn1_service_dead:
 {# Default Service Configuration #}
 /etc/default/openvpn:
   file.managed:
-    - source:
-      - salt://openvpn/etc/default/openvpn
+    - source: salt://openvpn/etc/default/openvpn
     - user: root
     - group: root
     - mode: 644
@@ -127,8 +113,7 @@ ovpn1_service_dead:
 {# Helper Scripts for FFDD #}
 /etc/openvpn/gen-config.sh:
   file.managed:
-    - source:
-      - salt://openvpn/etc/openvpn/gen-config.sh
+    - source: salt://openvpn/etc/openvpn/gen-config.sh
     - user: root
     - group: root
     - mode: 755
@@ -137,8 +122,7 @@ ovpn1_service_dead:
 
 /etc/openvpn/update-resolv-conf:
   file.managed:
-    - source:
-      - salt://openvpn/etc/openvpn/update-resolv-conf
+    - source: salt://openvpn/etc/openvpn/update-resolv-conf
     - user: root
     - group: root
     - mode: 755
@@ -147,8 +131,7 @@ ovpn1_service_dead:
 
 /etc/openvpn/up.sh:
   file.managed:
-    - source:
-      - salt://openvpn/etc/openvpn/up.sh
+    - source: salt://openvpn/etc/openvpn/up.sh
     - user: root
     - group: root
     - mode: 755
@@ -157,8 +140,7 @@ ovpn1_service_dead:
 
 /etc/openvpn/down.sh:
   file.managed:
-    - source:
-      - salt://openvpn/etc/openvpn/down.sh
+    - source: salt://openvpn/etc/openvpn/down.sh
     - user: root
     - group: root
     - mode: 755

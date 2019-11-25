@@ -27,8 +27,7 @@
 {# archive conntrack logs #}
 /etc/logrotate.d/conntrack:
   file.managed:
-    - source:
-      - salt://conntrack/etc/logrotate.d/conntrack
+    - source: salt://conntrack/etc/logrotate.d/conntrack
     - user: root
     - group: root
     - mode: 644
