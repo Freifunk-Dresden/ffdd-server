@@ -1,23 +1,5 @@
 {# cleanup old server version #}
 
-{# remove old packages #}
-remove_old_pkg:
-  pkg.removed:
-    - names:
-      - libtext-csv-xs-perl
-      - geoip-database
-      - xtables-addons-dkms
-      - mlocate
-      - links
-
-{# resolvconf #}
-{%- set resolv_conf = '/etc/resolvconf/resolv.conf.d/head' %}
-resolvconf-clean:
-  cmd.run:
-    - name: chattr -i {{ resolv_conf }} ; truncate -s 0 {{ resolv_conf }}
-    - onlyif: test -s {{ resolv_conf }}
-
-
 /root/freifunk/vserver-base:
   file.absent
 
