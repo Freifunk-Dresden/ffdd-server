@@ -1,8 +1,14 @@
 ### This file managed by Salt, do not edit by hand! ###
+{% from 'config.jinja' import nodeid %}
 [Unit]
 Description=BIND Domain Name Server
 Documentation=man:named(8)
+{# DNS Master or Slave Server #}
+{% if nodeid == '3' or nodeid == '15' %}
 After=network.target
+{% else %}
+After=network.target openvpn.service
+{% endif %}
 
 [Service]
 ExecStart=/usr/sbin/named -f -u bind

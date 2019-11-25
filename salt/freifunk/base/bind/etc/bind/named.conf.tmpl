@@ -6,7 +6,11 @@
 // this configuration file.
 //
 // If you are just adding zones, please do that in /etc/bind/named.conf.local
+{% from 'config.jinja' import nodeid %}
 
 include "/etc/bind/named.conf.options";
+{# DNS Master or Slave Server #}
+{% if nodeid == '3' or nodeid == '15' %}
 include "/etc/bind/named.conf.local";
+{% endif %}
 include "/etc/bind/named.conf.default-zones";
