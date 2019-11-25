@@ -10,6 +10,8 @@ _**version 1.0.15**_
 	- remove old fail2ban rules from ipset-conf
 	- letsencrypt/ssl: extend fqdn-check and ensure ssl-site is absent then deactivated
 	- change gateway-check ip's
+	- fix kernel-headers package check
+	- fix wireguard gen-config predown
 
 <br />
 
