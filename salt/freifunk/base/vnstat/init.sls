@@ -77,8 +77,8 @@ php_composer:
 
 vnstat_dashboard_repo:
   git.latest:
-    - name: https://github.com/alexandermarston/vnstat-dashboard.git
-    - rev: master
+    - name: https://github.com/Freifunk-Dresden/vnstat-dashboard.git
+    - rev: stable
     - target: /opt/vnstat-dashboard
     - update_head: True
     - force_fetch: True
