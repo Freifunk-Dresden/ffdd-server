@@ -28,6 +28,7 @@ case "$1" in
 	version)
 		version="$(grep -oP '(?<=^#version=).+' "$(nvram get install_dir)"/init_server.sh | tr -d '"')"
 		branch="$(cd "$(nvram get install_dir)" && git describe --tags --abbrev=0)"
+		[[ -z "$branch" ]] && branch="$(nvram get branch)"
 		printf '%s - Branch: %s\n' "$version" "$branch"
 	;;
 
