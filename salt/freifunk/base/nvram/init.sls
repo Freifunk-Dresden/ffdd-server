@@ -1,4 +1,6 @@
 {# FFDD Config Management #}
+{% from 'config.jinja' import ddmesh_registerkey, fastd_secret, nodeid %}
+
 /usr/local/bin/nvram:
   file.managed:
     - source: salt://nvram/usr/local/bin/nvram
@@ -25,9 +27,6 @@
     - user: root
     - group: root
     - mode: 755
-
-
-{% from 'config.jinja' import ddmesh_registerkey, fastd_secret, nodeid %}
 
 {% if ddmesh_registerkey == '' or fastd_secret == '' %}
 ddmesh_autosetup:
