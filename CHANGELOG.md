@@ -3,6 +3,18 @@
 
 <br/>
 
+_**version 1.1.0**_
+
+	- check we can set sysctl tcp_syncookies
+	- remove temp parts and optimize some salt stuff
+		- remove clear_old_env
+	- bind9
+		- some optimations for default gw / master and slave DNS
+		- enable dnssec
+	- nvram get current version branch by git
+
+<br />
+
 _**version 1.0.15**_
 
 	- update README
