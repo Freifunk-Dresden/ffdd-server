@@ -12,6 +12,7 @@ _**version 1.1.0**_
 		- some optimations for default gw / master and slave DNS
 		- enable dnssec
 	- nvram get current version branch by git
+	- vnstat: change source to own fork and use the stable git-tag.
 
 <br />
 
