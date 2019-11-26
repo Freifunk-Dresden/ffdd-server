@@ -1,5 +1,6 @@
 {# bind9 DNS Server #}
 {% from 'config.jinja' import nodeid %}
+
 bind:
   pkg.installed:
     - refresh: True
