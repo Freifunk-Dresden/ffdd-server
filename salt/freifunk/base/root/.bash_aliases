@@ -51,8 +51,6 @@ tools:
     conntrack           ( show more with -n LINENUM )
     vnstat              ( network traffic monitor )
     showip
-    speedtest
-    speedtest-ovh
-    speedtest-belwue
+    speedtest / speedtest-ovh / speedtest-belwue
 -----------------------------------------------------------------
 EOM
