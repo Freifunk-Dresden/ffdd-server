@@ -215,7 +215,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			for dns_ip in $tunnel_dns_servers
 			do
 				ip route add $dns_ip dev $dev table public_dns
-			done	
+			done
 
 		else
 			logger -s -t "$LOGGER_TAG" "Clear public gateway."

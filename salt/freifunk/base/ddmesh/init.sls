@@ -1,5 +1,4 @@
 {# Freifunk Dresden Configurations #}
-
 {% from 'config.jinja' import freifunk_version, freifunk_repo, branch, install_dir, autoupdate, ctime %}
 
 /etc/freifunk-server-version:

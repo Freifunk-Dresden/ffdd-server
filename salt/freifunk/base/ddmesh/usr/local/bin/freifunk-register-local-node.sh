@@ -22,7 +22,8 @@ cmd="$(echo "$n" | sed -n '/^OK/p;/^ERROR/p;/^INFO/p')"
 case "$cmd" in
 
   OK*)
-	node="$(echo $n | sed 's#.*:\([0-9]\+\).*#\1#')"
+	# shellcheck disable=SC2001
+	node="$(echo "$n" | sed 's#.*:\([0-9]\+\).*#\1#')"
 	printf 'node=%s\nupdated.\n' "$node"
 	;;
 
