@@ -49,6 +49,7 @@ wgvpn0_service:
     - restart: True
     - watch:
       - file: /etc/wireguard/vpn0.conf
+      - service: S40network
       - service: S41firewall
     - require:
       - service: S40network
@@ -58,6 +59,13 @@ wgvpn0_service:
 
 /etc/wireguard/vpn0.conf:
   file.exists
+
+{% else %}
+{# no config file was found #}
+wgvpn0_service_dead:
+  service.dead:
+    - name: wg-quick@vpn0.service
+    - enable: false
 {% endif %}
 
 {# VPN 1 #}
@@ -69,6 +77,7 @@ wgvpn1_service:
     - restart: True
     - watch:
       - file: /etc/wireguard/vpn1.conf
+      - service: S40network
       - service: S41firewall
     - require:
       - service: S40network
@@ -78,6 +87,13 @@ wgvpn1_service:
 
 /etc/wireguard/vpn1.conf:
   file.exists
+
+{% else %}
+{# no config file was found #}
+wgvpn1_service_dead:
+  service.dead:
+    - name: wg-quick@vpn1.service
+    - enable: false
 {% endif %}
 
 

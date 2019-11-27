@@ -23,6 +23,7 @@ ovpn0_service:
       - file: /lib/systemd/system/openvpn@.service
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
+      - service: S40network
       - service: S41firewall
     - require:
       - service: S40network
@@ -36,6 +37,13 @@ ovpn0_service:
 
 /etc/openvpn/openvpn-vpn0.conf:
   file.exists
+
+{% else %}
+{# no config file was found #}
+ovpn0_service_dead:
+  service.dead:
+    - name: openvpn@openvpn-vpn0.service
+    - enable: false
 {% endif %}
 
 {# VPN 1 #}
@@ -51,6 +59,7 @@ ovpn1_service:
       - file: /lib/systemd/system/openvpn@.service
       - file: /etc/openvpn/up.sh
       - file: /etc/openvpn/down.sh
+      - service: S40network
       - service: S41firewall
     - require:
       - service: S40network
@@ -64,6 +73,13 @@ ovpn1_service:
 
 /etc/openvpn/openvpn-vpn1.conf:
   file.exists
+
+{% else %}
+{# no config file was found #}
+ovpn1_service_dead:
+  service.dead:
+    - name: openvpn@openvpn-vpn1.service
+    - enable: false
 {% endif %}
 
 
