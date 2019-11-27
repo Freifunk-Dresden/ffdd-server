@@ -55,7 +55,7 @@ cat<<EOF
 <tr><th>Ger&auml;telaufzeit:</th><td colspan="7">$(uptime)</td></tr>
 <tr><th>Prozesse:</th><td colspan="7">$(ps --no-headers xa | wc -l)</td></tr>
 <tr><th>System:</th><td colspan="7">$(uname -a)</td></tr>
-<tr><th>Firmware-Version:</th><td colspan="7">Freifunk Dresden Server Edition - $(cat /etc/freifunk-server-version)</td></tr>
+<tr><th>Firmware-Version:</th><td colspan="7">Freifunk Dresden Server Edition: $(cat /etc/freifunk-server-version)</td></tr>
 <tr><th>Freier Speicher:</th><td colspan="7"></td></tr>
 <tr><th width="250"></th><th>Total</th> <th>Used</th> <th>Free</th> <th>Shared</th> <th>Buffered/Cached</th> <th>Available</th><th width="30%">&nbsp;</th></tr>
 $(free | sed -n '2,${s#[ 	]*\(.*\):[ 	]*\([0-9]\+\)[ 	]*\([0-9]\+\)[ 	]*\([0-9]*\)[ 	]*\([0-9]*\)[ 	]*\([0-9]*\)[ 	]*\([0-9]*\)#<tr><th>\1</th><td>\2</td><td>\3</td><td>\4</td><td>\5</td><td>\6</td><td>\7</td><td></td></tr>#g;p}')
