@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-export DATE="28.10.2018";SCRIPT=${0#/rom}
+export DATE="27.11.2019"
 export TITLE="Allgemein: Status"
 
 ddmesh_node="$(nvram get ddmesh_node)"
@@ -32,7 +32,7 @@ cat<<EOF
 		vs='0'
 		for s in $vpnservice
 		do
-			[ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c inactive)" -lt 1 ] && vs='1'
+			[ "$(systemctl show -p ActiveState "$s" | cut -d'=' -f2 | grep -c inactive)" -lt 1 ] && vs='1'
 		done
 		if [ "$vs" -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi
 	else
@@ -43,13 +43,13 @@ cat<<EOF
 
 	# Print Selected-Gateway then VPN inactive
 	if [ "$vs" -eq '0' ]; then
-		SELGW="$(cat /var/lib/freifunk/bmxd/gateways | sed -n 's#^[	 ]*=>[	 ]\+\([0-9.]\+\).*$#\1#p')"
-		SELID="$(ddmesh-ipcalc.sh $SELGW)"
+		SELGW="$(sed -n 's#^[	 ]*=>[	 ]\+\([0-9.]\+\).*$#\1#p' /var/lib/freifunk/bmxd/gateways)"
+		SELID="$(ddmesh-ipcalc.sh "$SELGW")"
 		re='^[0-9]+$'
-		printf '<tr><th>Selected-Gateway:</th><td colspan="7">%s %s</td></tr>\n' "$SELGW" "$(if [[ $SELID =~ $re ]]; then printf '(%s)\n' $SELID; fi)"
+		printf '<tr><th>Selected-Gateway:</th><td colspan="7">%s %s</td></tr>\n' "$SELGW" "$(if [[ $SELID =~ $re ]]; then printf '(%s)\n' "$SELID"; fi)"
 	fi
 )
-<tr><th width="250">Auto-Update:</th><td colspan="7">$(if [ $(nvram get autoupdate) -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi)</td></tr>
+<tr><th width="250">Auto-Update:</th><td colspan="7">$(if [ "$(nvram get autoupdate)" -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi)</td></tr>
 <tr><th>Knoten-IP-Adresse:</th><td colspan="7">$_ddmesh_ip ($_ddmesh_node)</td></tr>
 <tr><th>Nameserver:</th><td colspan="7">$(grep nameserver /etc/resolv.conf | sed 's#nameserver##g')</td></tr>
 <tr><th>Ger&auml;telaufzeit:</th><td colspan="7">$(uptime)</td></tr>
@@ -78,7 +78,7 @@ $(
 		esac
 
 		printf '<tr><th width="250">%s:</th><td>' "$s"
-		if [ "$(systemctl show -p ActiveState $s | cut -d'=' -f2 | grep -c 'inactive\|failed')" -lt 1 ]; then
+		if [ "$(systemctl show -p ActiveState "$s" | cut -d'=' -f2 | grep -c 'inactive\|failed')" -lt 1 ]; then
 			printf '<img src="/images/yes.png">'
 		else
 			printf '<img src="/images/no.gif">'
