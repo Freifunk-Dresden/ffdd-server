@@ -83,7 +83,7 @@ ovpn1_service_dead:
 {% endif %}
 
 
-{# Service Start then Gateway Option Disabled #}
+{# Service Dead then Gateway Option Disabled #}
 {% elif ddmesh_disable_gateway == '1' %}
 
 {# VPN 0 #}
