@@ -6,13 +6,20 @@
 _**version 1.1.0**_
 
 	- check we can set sysctl tcp_syncookies
-	- remove temp parts and optimize some salt stuff
-		- remove clear_old_env
 	- bind9
 		- some optimations for default gw / master and slave DNS
 		- enable dnssec
-	- nvram get current version branch by git
-	- vnstat: change source to a stable git-rev (commit).
+	- nvram
+		- get current version branch by git
+		- change ffdd-server version output
+	- vnstat: change git source to a stable rev/commit
+	- apache2
+		- optimize some scripts
+		- change ffdd-server version output
+	- other changes and optimations
+		- remove temp parts and optimize some salt stuff
+		- remove clear_old_env
+		- make a short bash_alias help output
 
 <br />
 
