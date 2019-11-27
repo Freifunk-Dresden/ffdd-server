@@ -1,21 +1,14 @@
 #!/usr/bin/env bash
 #version="1.1.0"
 tag="T_RELEASE_latest"
+REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
+INSTALL_DIR='/srv/ffdd-server'
 ###
 #
 #  Freifunk Dresden Server - Installation & Update Script
 #
 ###
 
-#
-# -- Global Parameter --
-#
-
-export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-
-INSTALL_DIR='/srv/ffdd-server'
-
-# function: print helper "os is not supported"
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n\t- Debian (9/10)\n'
@@ -81,7 +74,7 @@ fi
 printf '\n### Update System ..\n'
 
 "$PKGMNGR" -y update
-"$PKGMNGR" -y upgrade
+"$PKGMNGR" -y dist-upgrade
 
 #
 # install basic software
@@ -104,7 +97,7 @@ done
 # install/update repository
 printf '\n### Install/Update Repository ..\n'
 
-test ! -d "$INSTALL_DIR" && git clone https://github.com/Freifunk-Dresden/ffdd-server "$INSTALL_DIR"
+test ! -d "$INSTALL_DIR" && git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
 git fetch
@@ -137,7 +130,6 @@ printf '\n### Check "nvram" Setup ..\n'
 
 	if [ ! -f /etc/nvram.conf ]; then
 		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n'
-
 		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 	fi
 
@@ -211,7 +203,7 @@ printf '\n### .. All done! Cleanup System ..\n'
 "$PKGMNGR" autoremove
 
 printf '\n# Notice:\n'
-printf ' * Please check config options in /etc/nvram.conf\n'
+printf ' * Please check your config options in /etc/nvram.conf\n'
 printf ' * /etc/fastd/peers2/\n'
 printf '\t# To Create a Fastd2 Connection use:\n'
 printf '\t/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002\n'
@@ -222,6 +214,6 @@ printf ' * /etc/wireguard/\n'
 printf '\t# To Create a wireguard configuration use:\n'
 printf '\t/etc/wireguard/gen-config vpn1 <original-provider-config-file>\n'
 
-
+#
 # Exit gracefully.
 exit 0
