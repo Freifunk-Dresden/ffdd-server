@@ -26,7 +26,7 @@ case "$1" in
 	;;
 
 	version)
-		version="$(grep -oP '(?<=^#version=).+' "$(nvram get install_dir)"/init_server.sh | tr -d '"')"
+		version="$(head -n3 "$(nvram get install_dir)"/init_server.sh | grep -oP '(?<=^#version=).+' | tr -d '"')"
 		rev="$(cd "$(nvram get install_dir)" && git describe --all --abbrev=0 | cut -f2 -d"/")"
 		printf '%s - %s\n' "$version" "$rev"
 	;;
