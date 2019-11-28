@@ -52,5 +52,7 @@ tools:
     vnstat              ( network traffic monitor )
     showip
     speedtest / speedtest-ovh / speedtest-belwue
+    # Server Logs:
+    journalctl -efx / journalctl -ef -u <service>
 -----------------------------------------------------------------
 EOM
