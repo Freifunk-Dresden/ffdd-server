@@ -2,7 +2,7 @@
 {% from 'config.jinja' import hostname, nodeid, nodeip %}
 <VirtualHost *:80>
 	ServerName {{ hostname }}
-	ServerAlias {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
+	ServerAlias localhost 127.0.0.1 {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
 
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /

@@ -2,7 +2,7 @@
 {% from 'config.jinja' import hostname, nodeid, nodeip %}
 <VirtualHost *:443>
 	ServerName {{ hostname }}
-	ServerAlias {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
+	ServerAlias localhost 127.0.0.1 {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
 
 	SSLEngine On
 	SSLCertificateFile /etc/letsencrypt/live/{{ hostname }}/cert.pem
