@@ -44,7 +44,8 @@ apache2:
 {# enable FFDD server page #}
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.managed:
-    - source: salt://apache2/etc/apache2/sites-enabled/001-freifunk.conf
+    - source: salt://apache2/etc/apache2/sites-enabled/001-freifunk.conf.tmpl
+    - template: jinja
     - user: root
     - group: root
     - mode: 644

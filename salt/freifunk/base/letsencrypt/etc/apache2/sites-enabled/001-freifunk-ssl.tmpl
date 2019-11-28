@@ -1,9 +1,9 @@
 ### This file managed by Salt, do not edit by hand! ###
-{% from 'config.jinja' import hostname %}
-#NameVirtualHost *:443
-#local virtual server: info / node page
+{% from 'config.jinja' import hostname, nodeid, nodeip %}
+NameVirtualHost *:443
 <VirtualHost *:443>
-#	ServerAdmin webmaster@localhost
+	ServerName {{ hostname }}
+	ServerAlias {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
 
 	SSLEngine On
 	SSLCertificateFile /etc/letsencrypt/live/{{ hostname }}/cert.pem

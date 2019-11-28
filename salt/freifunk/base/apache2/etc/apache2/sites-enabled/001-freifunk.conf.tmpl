@@ -1,9 +1,9 @@
 ### This file managed by Salt, do not edit by hand! ###
-
-#NameVirtualHost *:80
-#local virtual server: info / node page
+{% from 'config.jinja' import hostname, nodeid, nodeip %}
+NameVirtualHost *:80
 <VirtualHost *:80>
-#	ServerAdmin webmaster@localhost
+	ServerName {{ hostname }}
+	ServerAlias {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
 
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /

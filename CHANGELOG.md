@@ -12,8 +12,8 @@ _**version 1.1.0**_
 		- get current version branch by git
 		- change ffdd-server version output
 	- vnstat: change git source to a stable rev/commit
-	- apache2
-		- optimize some scripts
+	- apache2/letsencrypt
+		- optimize scripts and configs
 		- change ffdd-server version output
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- other changes and optimations
