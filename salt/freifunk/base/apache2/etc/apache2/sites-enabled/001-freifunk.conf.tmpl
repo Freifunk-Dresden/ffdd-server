@@ -1,6 +1,5 @@
 ### This file managed by Salt, do not edit by hand! ###
 {% from 'config.jinja' import hostname, nodeid, nodeip %}
-NameVirtualHost *:80
 <VirtualHost *:80>
 	ServerName {{ hostname }}
 	ServerAlias {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
