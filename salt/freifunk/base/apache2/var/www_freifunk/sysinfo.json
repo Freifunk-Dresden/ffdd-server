@@ -15,10 +15,6 @@ eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 # in firmware this and similar variables are set by ddmesh-utils-network-info.sh
 export tbb_fastd_ifname=tbb_fastd2
 
-wan_device="$(nvram get ifname)"
-vpn='vpn0'
-gwt='bat0'
-
 # Board and Model Information
 chassis="$(hostnamectl status | awk '/Chassis/ {print $2}')"
 virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
@@ -49,9 +45,9 @@ cat << EOM
 			"uname":"$(uname -a)",
 			"nameserver": [ $(sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' /etc/resolv.conf | sed '$s#,##') ],
 			"date":"$(date)",
-			"board":"$(printf '%s\n' $chassis)",
-			"model":"$(printf '%s\n' $(if [ ! -z $virtualization ]; then echo $virtualization; fi))",
-			"model2":"$(printf '%s%s\n' $chassis $(if [ ! -z $virtualization ]; then echo '-'$virtualization; fi))",
+			"board":"$(printf '%s\n' "$chassis")",
+			"model":"$(printf '%s\n' "$(if [ -n "$virtualization" ]; then echo "$virtualization"; fi)")",
+			"model2":"$(printf '%s%s\n' "$chassis" "$(if [ -n "$virtualization" ]; then echo '-'"$virtualization"; fi)")",
 			"cpuinfo":"$(awk '/system type|model name/{gsub(/^.*:[ ]*/,"");print $0;exit}' /proc/cpuinfo)",
 			"cpucount":"$(grep -c ^processor /proc/cpuinfo)",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
@@ -97,14 +93,14 @@ EOM
 			do
 				if [ "$iface" = "tbb_fastd2" ]; then
 					iface_alias="tbb_fastd"
-					echo "		\"traffic_$iface_alias\": \"$(cat /proc/net/dev | grep $iface: | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+					echo "		\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
 			done
 
 cat<<EOM
 			$(sed -n '/^MemTotal\|^MemFree\|^Buffers\|^Cached/{s#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#p}' /proc/meminfo)
 			"cpu_load" : "$(cat /proc/loadavg)",
-			"cpu_stat" : "$(cat /proc/stat | sed -n '/^cpu[ 	]\+/{s# \+# #;p}')",
+			"cpu_stat" : "$(sed -n '/^cpu[ 	]\+/{s# \+# #;p}' /proc/stat)",
 			"gateway_usage" : [ ]
 		},
 EOM
@@ -135,8 +131,8 @@ EOM
 cat<<EOM
 			],
 			"gateways":{
-				"selected":"$(cat $BMXD_DB_PATH/gateways | sed -n 's#^[	 ]*=>[	 ]\+\([0-9.]\+\).*$#\1#p')",
-				"preferred":"$(cat $BMXD_DB_PATH/gateways | sed -n '1,1s#^.*preferred gateway:[	 ]\+\([0-9.]\+\).*$#\1#p')",
+				"selected":"$(sed -n 's#^[	 ]*=>[	 ]\+\([0-9.]\+\).*$#\1#p' "$BMXD_DB_PATH"/gateways)",
+				"preferred":"$(sed -n '1,1s#^.*preferred gateway:[	 ]\+\([0-9.]\+\).*$#\1#p' "$BMXD_DB_PATH"/gateways)",
 				"gateways":[
 					$(sed -n '
 					/^[	 ]*$/d
