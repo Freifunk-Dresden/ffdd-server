@@ -9,41 +9,65 @@ INSTALL_DIR='/srv/ffdd-server'
 #
 ###
 
-print_not_supported_os() {
-	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
-	printf 'Supported OS List:\n\t- Debian (9/10)\n'
-	printf '\t- Ubuntu LTS (16.04/18.04)\n'
+print_usage() {
+	printf 'FFDD-Server - Initial Setup\n\nUsage:\n'
+	printf 'install latest stable Release:\n'
+	printf '   ./init_server.sh\n\n'
+	printf 'install unstable development Release:\n'
+	printf '   ./init_server.sh dev\n'
+	printf '   ./init_server.sh dev <branch/tag>\n'
 	exit 1
 }
 
-print_usage() {
-	printf 'FFDD-Server | Setup\n\n'
-	printf 'Usage:\t./init_server.sh\t - initial Install from latest Release\n'
-	printf '\t./init_server.sh dev\t - initial DEV-Install\n'
-	printf '\t./init_server.sh dev <branch/tag>\n'
+print_not_supported_os() {
+	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
+	printf 'Supported OS List:\n'
+	printf ' - Debian (9/10)\n'
+	printf ' - Ubuntu Server LTS (16.04/18.04)\n'
 	exit 1
+}
+
+print_notice() {
+	printf '\n# Notice:\n'
+	printf ' * Please check your config options in /etc/nvram.conf\n'
+	printf ' * /etc/fastd/peers2/\n'
+	printf '   # To Create a Fastd2 Connection use:\n'
+	printf '   /etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002\n'
+	printf '\nOptional:\n'
+	printf ' * /etc/openvpn\n'
+	printf '   # To Create a openvpn configuration use:\n'
+	printf '   /etc/openvpn/gen-config vpn0 <original-provider-config-file>\n'
+	printf ' * /etc/wireguard/\n'
+	printf '   # To Create a wireguard configuration use:\n'
+	printf '   /etc/wireguard/gen-config vpn1 <original-provider-config-file>\n'
 }
 
 #
 # -- Check & Setup System --
-#
 
 if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '?' ]; then
 	print_usage;
 fi
 
-#
-# check root permission
+printf '\n### Check System\n'
+
 [[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n' && exit 1
 
-#
-# check tun device is available
+printf '\n# Check tun device is available.\n'
 if [ ! -e /dev/net/tun ]; then
 	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'; exit 1
 fi
 
-#
-# check Distribution
+printf '\n# Check users are present ..\n'
+for users in freifunk syslog
+do
+	if ! /usr/bin/id "$users" >/dev/null 2>&1 ; then
+		adduser --shell /bin/bash --disabled-login --disabled-password --system --group --no-create-home "$users"
+	fi
+done
+
+
+printf '\n# Check System Distribution.\n'
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
@@ -53,54 +77,33 @@ if [ "$os_id" = 'debian' ]; then
 		10*)    PKGMNGR='apt-get' ;;
 		*)      print_not_supported_os ;;
 	esac
-
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
 		16.04*) PKGMNGR='apt-get' ;;
 		18.04*) PKGMNGR='apt-get' ;;
 		*)      print_not_supported_os ;;
 	esac
-
-elif [ "$os_id" = 'centos' ]; then
-	case "$version_id" in
-		*)      printf 'Centos is not supported yet!\n'; exit 1 ;;
-	esac
 else
 	print_not_supported_os
 fi
 
-#
-# update system
-printf '\n### Update System ..\n'
 
+printf '\n### Update System ..\n'
 "$PKGMNGR" -y update
 "$PKGMNGR" -y dist-upgrade
 
-#
-# install basic software
 printf '\n### Instaĺl Basic Software ..\n'
-
 "$PKGMNGR" -y install git salt-minion
 
-#
-# check users are present
-printf '\n### Check users are present ..\n'
 
-for users in freifunk syslog
-do
-	if ! /usr/bin/id "$users" >/dev/null 2>&1 ; then
-		adduser --shell /bin/bash --disabled-login --disabled-password --system --group --no-create-home "$users"
-	fi
-done
-
-#
-# install/update repository
-printf '\n### Install/Update Repository ..\n'
-
-test ! -d "$INSTALL_DIR" && git clone "$REPO_URL" "$INSTALL_DIR"
-cd "$INSTALL_DIR"
-
-git fetch
+printf '\n### Install/Update ffdd-server Git-Repository ..\n'
+if [ -d "$INSTALL_DIR" ]; then
+	cd "$INSTALL_DIR" || exit 1
+	git fetch
+else
+	git clone "$REPO_URL" "$INSTALL_DIR"
+	cd "$INSTALL_DIR" || exit 1
+fi
 # check branch/tag for initial
 if [ "$1" = 'dev' ]; then
 	if [ -z "$2" ]; then
@@ -116,15 +119,16 @@ else
 	git pull -f origin "$tag"
 fi
 
-#
-# backup old user configs
-cp -f /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
-test -f /root/.bash_aliases && cp /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
-mv /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
-#
+printf '\n### Backup old User configs ..\n'
+
+cp -vf /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
+test -vf /root/.bash_aliases && cp /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
+mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
+
+
 # ensure nvram and nvram.conf are present
-printf '\n### Check "nvram" Setup ..\n'
+printf '\n### Check nvram Setup ..\n'
 
 	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
 
@@ -168,7 +172,7 @@ file_roots:
 
 EOF
 
-#
+
 # ensure running services are stopped
 printf '\n### Ensure Services are Stopped ..\n'
 
@@ -184,35 +188,20 @@ do
 	fi
 done
 
-
 #
 # -- Initial System --
-#
 
 printf '\n### Start Initial System. (please wait! Coffee Time ca.10min)\n'
 
 salt-call state.highstate --local -l error
 
-
 #
 # -- Cleanup System & Print Notice --
-#
 
 printf '\n### .. All done! Cleanup System ..\n'
 
 "$PKGMNGR" autoremove
-
-printf '\n# Notice:\n'
-printf ' * Please check your config options in /etc/nvram.conf\n'
-printf ' * /etc/fastd/peers2/\n'
-printf '\t# To Create a Fastd2 Connection use:\n'
-printf '\t/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002\n'
-printf ' * /etc/openvpn\n'
-printf '\t# To Create a openvpn configuration use:\n'
-printf '\t/etc/openvpn/gen-config vpn0 <original-provider-config-file>\n'
-printf ' * /etc/wireguard/\n'
-printf '\t# To Create a wireguard configuration use:\n'
-printf '\t/etc/wireguard/gen-config vpn1 <original-provider-config-file>\n'
+print_notice
 
 #
 # Exit gracefully.
