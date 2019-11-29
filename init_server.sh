@@ -123,7 +123,7 @@ fi
 printf '\n### Backup old User configs ..\n'
 
 cp -vf /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
-test -vf /root/.bash_aliases && cp /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
+test -f /root/.bash_aliases && cp /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
 mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
 
