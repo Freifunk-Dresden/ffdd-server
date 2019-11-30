@@ -46,7 +46,7 @@ print_notice() {
 # -- Check & Setup System --
 
 if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '?' ]; then
-	print_usage;
+	print_usage
 fi
 
 printf '\n### Check System\n'
