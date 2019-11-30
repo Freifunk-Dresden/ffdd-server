@@ -1,5 +1,6 @@
 {# FFDD Batmand Network #}
-{% from 'config.jinja' import install_dir, ct_bmxd %}
+{% from 'config.jinja' import install_dir %}
+{% set ct_bmxd = '/salt/freifunk/base/bmxd/compiled-tools/bmxd' %}
 
 /usr/local/src/bmxd:
   file.recurse:
