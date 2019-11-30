@@ -13,13 +13,15 @@
 {% set install_dir = salt['cmd.shell']('/usr/local/bin/nvram get install_dir') %}
 {% set ct_bmxd = '/salt/freifunk/base/bmxd/compiled-tools/bmxd' %}
 
-{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
+{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
+
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_registerkey') %}
 {% set fastd_secret = salt['cmd.shell']('/usr/local/bin/nvram get fastd_secret') %}
 
 {% set servername = salt['cmd.shell']('/usr/local/bin/nvram get servername') %}
 {% set hostname = salt['cmd.shell']('cat /etc/hostname') %}
 {% set ifname = salt['cmd.shell']('/usr/local/bin/nvram get ifname') %}
+{% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
 {% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
 
 {# used for crontab minutes #}
@@ -28,9 +30,6 @@
 {# check kernel-header package is available #}
 {% set kernel_release = salt['cmd.shell']("uname -r") %}
 {%- set kernel_pkg_check = salt['cmd.shell']("apt-cache show linux-headers-"~ kernel_release ~" 2>&1 | awk '/Version:/ {print substr($0, index($0,$3))}' | wc -l") %}
-
-{# check ddmesh_disable_gateway option #}
-{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
 
 {# check hostnamectl #}
 {% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
