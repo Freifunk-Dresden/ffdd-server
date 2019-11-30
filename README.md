@@ -112,7 +112,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 ```
 <br/>
 
-*Coffee Time (~+ 10min)*
+***Coffee Time (~+ 10min)***
 <br />
 
 ### Manuelle Anpassungen
@@ -126,16 +126,16 @@ Nun müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
   - contact
 - `/etc/openvpn/`<br />
   *# creates openvpn.conf with:*<br />
-    `./gen-config.sh vpn0 <original-provider-config-file>`<br />
+    `/etc/openvpn/gen-config.sh vpn0 <original-provider-config-file>`<br />
   *# for vpn user and password credantials use:* `/etc/openvpn/openvpn.login`
 - `/etc/wireguard`/<br />
   *# creates vpn0.conf with:*<br />
-    `./gen-config.sh vpn0 <original-provider-config-file>`
+    `/etc/wireguard/gen-config.sh vpn0 <original-provider-config-file>`
 
-*# Notice: OVPN/WG supports interface vpn0 and vpn1*
+*# Notice: OVPN/WG supports interface `vpn0` and `vpn1`*
 - `/etc/fastd/peers2/`<br />
   *# To Create a Fastd2 Connection use:*<br />
-    `'/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002'`
+    `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`
 
 ### Apply
 
