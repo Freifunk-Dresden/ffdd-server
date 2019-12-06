@@ -16,15 +16,13 @@ options {
 	// nameservers, you probably want to use them as forwarders.
 	// Uncomment the following block, and insert the addresses replacing
 	// the all-0's placeholder.
-
 {# NOT for DNS Master/Slave Server #}
-{% if nodeid != '3' or nodeid != '15' %}
+{% if nodeid != '3' and nodeid != '15' %}
 	//freifunk: include forwarders section, which is updated by openvpn&wireguard/up.sh
 	include "/etc/bind/vpn.forwarder";
 	//freifunk: only forward any requests and do not resolv dns from root-nameservers
 	forward only;
 {% endif %}
-
 	//========================================================================
 	// If BIND logs error messages about the root key being expired,
 	// you will need to update your keys.  See https://www.isc.org/bind-keys
