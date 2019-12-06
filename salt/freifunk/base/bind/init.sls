@@ -172,7 +172,7 @@ bind:
       - pkg: apache2
       - file: /etc/apache2/conf-enabled/bind_stats_access.incl
 
-/var/www_stats/named.stats:
+/var/www_bind/named.stats:
   file.symlink:
     - makedirs: true
     - target: /var/cache/bind/named.stats
