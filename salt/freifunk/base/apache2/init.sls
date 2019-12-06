@@ -22,6 +22,8 @@ apache2:
       - pkg: vnstat
       - file: /etc/apache2/sites-enabled/001-freifunk.conf
       - file: /etc/apache2/conf-enabled/letsencrypt.conf
+      - file: /etc/apache2/conf-enabled/bind_stats.conf
+      - file: /etc/apache2/conf-enabled/bind_stats_access.incl
       - file: /etc/apache2/conf-enabled/monitorix.conf
       - file: /etc/apache2/conf-enabled/monitorix_access.incl
       - file: /etc/apache2/conf-enabled/vnstat.conf
