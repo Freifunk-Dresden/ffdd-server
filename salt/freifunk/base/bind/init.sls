@@ -151,3 +151,54 @@ bind:
     - group: bind
     - require:
       - pkg: bind
+
+
+{# bind stats #}
+/etc/apache2/conf-enabled/bind_stats_access.incl:
+  file.managed:
+    - source: salt://bind/etc/apache2/conf-enabled/bind_stats_access.incl
+    - user: root
+    - group: root
+    - mode: 644
+    - replace: false
+
+/etc/apache2/conf-enabled/bind_stats.conf:
+  file.managed:
+    - source: salt://bind/etc/apache2/conf-enabled/bind_stats.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: apache2
+      - file: /etc/apache2/conf-enabled/bind_stats_access.incl
+
+/var/www_stats/named.stats:
+  file.symlink:
+    - makedirs: true
+    - target: /var/cache/bind/named.stats
+    - user: www-data
+    - group: www-data
+
+bind_stats:
+  cmd.run:
+    - name: /usr/sbin/rndc stats
+    - unless: "[ -f /var/cache/bind/named.stats ]"
+    - require:
+      - pkg: bind
+
+/etc/cron.d/bind_stats:
+  file.managed:
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        # NOTE: >/dev/null 2>&1 disables email alert sent by cron.d
+        #       any tools used in those scripts must be also in search path
+        #
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        #
+        0 * * * *  root  /usr/sbin/rndc stats >/dev/null 2>&1
+    - user: root
+    - group: root
+    - mode: 600
+    - require:
+      - pkg: cron

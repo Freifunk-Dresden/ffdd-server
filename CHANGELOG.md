@@ -8,6 +8,7 @@ _**version 1.1.0**_
 	- bind9
 		- some optimations for default gw / master and slave DNS
 		- enable dnssec
+		- add stats to website
 	- nvram
 		- get current version branch by git
 		- change ffdd-server version output
