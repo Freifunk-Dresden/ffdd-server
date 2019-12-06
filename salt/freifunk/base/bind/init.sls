@@ -196,7 +196,7 @@ bind_stats:
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         #
-        0 0 * * *  root  truncate -s 0 /var/cache/bind/named.stats ; rndc stats >/dev/null 2>&1
+        0 * * * *  root  truncate -s 0 /var/cache/bind/named.stats ; rndc stats >/dev/null 2>&1
     - user: root
     - group: root
     - mode: 600
