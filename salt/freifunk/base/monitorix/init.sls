@@ -41,20 +41,6 @@ monitorix:
       - pkg: monitorix
 
 
-{# enable Apache2 Modules #}
-apache2_mod_status:
-  cmd.run:
-    - name: /usr/sbin/a2enmod status
-    - require:
-      - pkg: apache2
-    - unless: "[ -f /etc/apache2/mods-enabled/status.load ]"
-
-apache2_mod_auth_basic:
-  cmd.run:
-    - name: /usr/sbin/a2enmod auth_basic
-    - unless: "[ -f /etc/apache2/mods-enabled/auth_basic.load ]"
-
-
 {# enable monitorix Apache2 config #}
 /etc/apache2/conf-enabled/monitorix_access.incl:
   file.managed:

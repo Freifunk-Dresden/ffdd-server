@@ -68,6 +68,16 @@ apache2:
 
 
 {# check Apache2 Modules #}
+apache2_mod_status:
+  cmd.run:
+    - name: /usr/sbin/a2enmod status
+    - unless: "[ -f /etc/apache2/mods-enabled/status.load ]"
+
+apache2_mod_auth_basic:
+  cmd.run:
+    - name: /usr/sbin/a2enmod auth_basic
+    - unless: "[ -f /etc/apache2/mods-enabled/auth_basic.load ]"
+
 apache2_mod_authnz_external:
   cmd.run:
     - name: /usr/sbin/a2enmod authnz_external
@@ -116,6 +126,12 @@ apache2_mod_proxy_html:
     - name: /usr/sbin/a2enmod proxy_html
     - unless: "[ -f /etc/apache2/mods-enabled/proxy_html.load ]"
 
+
+apache2_mod_headers:
+  cmd.run:
+    - name: /usr/sbin/a2enmod headers
+    - unless: "[ -f /etc/apache2/mods-enabled/headers.load ]"
+
 apache2_mod_rewrite:
   cmd.run:
     - name: /usr/sbin/a2enmod rewrite
@@ -130,8 +146,3 @@ apache2_mod_xml2enc:
   cmd.run:
     - name: /usr/sbin/a2enmod xml2enc
     - unless: "[ -f /etc/apache2/mods-enabled/xml2enc.load ]"
-
-apache2_mod_headers:
-  cmd.run:
-    - name: /usr/sbin/a2enmod headers
-    - unless: "[ -f /etc/apache2/mods-enabled/headers.load ]"
