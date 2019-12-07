@@ -20,7 +20,7 @@ FASTD_CONF="$CONF_DIR"/fastd2.conf
 CONF_PEERS='peers2'
 PID_FILE='/var/run/fastd2.pid'
 backbone_server_port='5002'
-COMMAND='/etc/fastd/cmd2.sh'
+COMMAND='/etc/fastd/cmd.sh'
 
 eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 

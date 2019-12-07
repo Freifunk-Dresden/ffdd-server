@@ -30,9 +30,9 @@ compile_fastd:
     - file_mode: 755
     - dir_mode: 755
 
-/etc/fastd/cmd2.sh:
+/etc/fastd/cmd.sh:
   file.managed:
-    - source: salt://fastd/etc/fastd/cmd2.sh
+    - source: salt://fastd/etc/fastd/cmd.sh
     - user: root
     - group: root
     - mode: 755
@@ -48,7 +48,7 @@ compile_fastd:
     - group: root
     - mode: 755
     - require:
-      - file: /etc/fastd/cmd2.sh
+      - file: /etc/fastd/cmd.sh
 
 rc.d_S53backbone-fastd2:
   cmd.run:
