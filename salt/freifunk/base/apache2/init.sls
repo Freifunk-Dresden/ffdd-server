@@ -38,7 +38,7 @@ apache2:
 {# disable default page #}
 apache2_site_disable_default:
   apache_site.disabled:
-    - name: 000-default
+    - name: 000-default.conf
 
 /var/www/html/index.html:
   file.absent
@@ -55,7 +55,7 @@ apache2_site_disable_default:
 
 apache2_site_enable_freifunk:
   apache_site.enabled:
-    - name: 001-freifunk
+    - name: 001-freifunk.conf
 
 /var/www_freifunk:
   file.recurse:

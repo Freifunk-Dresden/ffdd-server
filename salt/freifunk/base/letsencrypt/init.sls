@@ -30,9 +30,9 @@ apache2_mod_ssl:
     - group: root
     - mode: 644
 
-apach2_conf_enable_letsencrypt:
+apache2_conf_enable_letsencrypt:
   apache_conf.enabled:
-    - name: letsencrypt
+    - name: letsencrypt.conf
 
 /var/lib/letsencrypt/.well-known:
   file.directory:
@@ -69,7 +69,7 @@ generate_certificate:
     - group: root
     - mode: 644
 
-apach2_conf_enable_ssl:
+apache2_conf_enable_ssl:
   apache_conf.enabled:
     - name: ssl
 
@@ -84,7 +84,7 @@ apach2_conf_enable_ssl:
 
 apache2_site_enable_freifunk-ssl:
   apache_site.enabled:
-    - name: 001-freifunk-ssl
+    - name: 001-freifunk-ssl.conf
 
 apache2_ssl:
   service:

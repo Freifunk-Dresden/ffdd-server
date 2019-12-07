@@ -60,9 +60,9 @@ monitorix:
       - pkg: apache2
       - file: /etc/apache2/conf-available/monitorix_access.incl
 
-apach2_conf_enable_monitorix:
+apache2_conf_enable_monitorix:
   apache_conf.enabled:
-    - name: monitorix
+    - name: monitorix.conf
 
 {# Monitorix Images Permissions #}
 /var/lib/monitorix/www/imgs:

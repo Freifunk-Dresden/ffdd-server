@@ -131,6 +131,6 @@ apache2_mod_php:
     - require:
       - pkg: apache2
 
-apach2_conf_enable_vnstat:
+apache2_conf_enable_vnstat:
   apache_conf.enabled:
     - name: vnstat
