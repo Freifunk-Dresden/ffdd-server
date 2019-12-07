@@ -6,7 +6,7 @@
 _**version 1.1.0**_
 
 	- bind9
-		- some optimations for default gw / master and slave DNS
+		- some optimations for different DNS states: "default gw" / "master" and "slave"
 		- enable dnssec
 		- add stats to ffdd status page
 	- nvram
