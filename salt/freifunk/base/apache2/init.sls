@@ -33,6 +33,7 @@ apache2:
       - service: S41firewall
       - file: /etc/apache2/sites-available/001-freifunk.conf
       - file: /etc/apache2/conf-available/letsencrypt.conf
+      - apache2_site_enable_freifunk
 
 
 {# disable default page #}

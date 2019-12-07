@@ -98,6 +98,8 @@ apache2_ssl:
     - require:
       - file: /etc/apache2/conf-available/ssl-params.conf
       - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
+      - apache2_site_enable_freifunk-ssl
+      - apache2_conf_enable_ssl
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
