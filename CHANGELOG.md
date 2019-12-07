@@ -19,7 +19,6 @@ _**version 1.1.0**_
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- other changes and optimations
 		- remove temp parts and optimize some salt stuff
-		- remove clear_old_env
 		- a bit makeup for the init_server script
 		- check we can set sysctl tcp_syncookies
 		- make a shorter bash_alias help output
