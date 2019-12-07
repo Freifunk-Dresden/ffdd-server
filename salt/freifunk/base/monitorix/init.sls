@@ -62,7 +62,7 @@ monitorix:
 
 apache2_conf_enable_monitorix:
   apache_conf.enabled:
-    - name: monitorix.conf
+    - name: monitorix
 
 {# Monitorix Images Permissions #}
 /var/lib/monitorix/www/imgs:

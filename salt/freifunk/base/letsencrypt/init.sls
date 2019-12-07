@@ -32,7 +32,7 @@ apache2_mod_ssl:
 
 apache2_conf_enable_letsencrypt:
   apache_conf.enabled:
-    - name: letsencrypt.conf
+    - name: letsencrypt
 
 /var/lib/letsencrypt/.well-known:
   file.directory:
@@ -84,7 +84,7 @@ apache2_conf_enable_ssl:
 
 apache2_site_enable_freifunk-ssl:
   apache_site.enabled:
-    - name: 001-freifunk-ssl.conf
+    - name: 001-freifunk-ssl
 
 apache2_ssl:
   service:

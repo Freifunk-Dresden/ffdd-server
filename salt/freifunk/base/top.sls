@@ -5,6 +5,9 @@ base:
     {# remove conflicting packages/files #}
     - remove_pkg
 
+    {# clear old obsolete states from old versions #}
+    - clear_old_env
+
     {# basic software and tools #}
     - install_pkg
     - tools

@@ -174,7 +174,7 @@ bind:
 
 apache2_conf_enable_bind_stats:
   apache_conf.enabled:
-    - name: bind_stats.conf
+    - name: bind_stats
 
 
 /var/www_bind/named.stats:
