@@ -61,7 +61,7 @@
 /etc/php5:
   file.absent
 
-/etc/fastd/cmd.sh:
+/etc/fastd/cmd2.sh:
   file.absent
 
 /etc/init.d/S52bmx6:
