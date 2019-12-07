@@ -36,23 +36,26 @@ apply_ffdd-server_update:
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
-        # NOTE: >/dev/null 2>&1 disables email alert sent by cron.d
-        #       any tools used in those scripts must be also in search path
+        # NOTE: * To disable email notifications use:
+        #         - for single cronjobs: `>/dev/null 2>&1` after the cmd
+        #         - ' MAILTO="" ' disables all email alerts in the crontab
+        #       * any tools used in those scripts must be also in search path
         #
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        MAILTO=""
         #
         # ip rules check (needed on linux container based vservers like the ones offered by myloc)
-        */1 * * * *  root  /etc/init.d/S40network check >/dev/null 2>&1
+        */1 * * * *  root  /etc/init.d/S40network check
         #
         # batmand check every 1 minutes
-        */1 * * * *  root  /etc/init.d/S52batmand check >/dev/null 2>&1
+        */1 * * * *  root  /etc/init.d/S52batmand check
         #
         # Gateway check every 5 minutes
-        */5 * * * *  root  /usr/local/bin/freifunk-gateway-check.sh >/dev/null 2>&1
+        */5 * * * *  root  /usr/local/bin/freifunk-gateway-check.sh
         #
         # register local node every 2h
-        {{ ctime }} */2 * * *  root  /usr/local/bin/freifunk-register-local-node.sh >/dev/null 2>&1
+        {{ ctime }} */2 * * *  root  /usr/local/bin/freifunk-register-local-node.sh
     - user: root
     - group: root
     - mode: 600
@@ -61,7 +64,35 @@ apply_ffdd-server_update:
       - pkg: salt-minion
 
 
+{# enable FFDD server page #}
+/etc/apache2/sites-available/001-freifunk.conf:
+  file.managed:
+    - source: salt://ddmesh/etc/apache2/sites-available/001-freifunk.conf.tmpl
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+
+apache2_site_enable_freifunk:
+  apache_site.enabled:
+    - name: 001-freifunk
+
+
 {# Directories #}
+/var/www_freifunk:
+  file.recurse:
+    - source: salt://ddmesh/var/www_freifunk
+    - user: www-data
+    - group: www-data
+    - file_mode: 755
+    - dir_mode: 755
+    - keep_symlinks: True
+    - force_symlinks: True
+    - clean: True
+    - recurse:
+      - user
+      - group
+
 /var/lib/freifunk:
   file.directory:
     - user: freifunk

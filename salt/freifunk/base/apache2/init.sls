@@ -46,34 +46,6 @@ apache2_site_disable_default:
   file.absent
 
 
-{# enable FFDD server page #}
-/etc/apache2/sites-available/001-freifunk.conf:
-  file.managed:
-    - source: salt://apache2/etc/apache2/sites-available/001-freifunk.conf.tmpl
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644
-
-apache2_site_enable_freifunk:
-  apache_site.enabled:
-    - name: 001-freifunk
-
-/var/www_freifunk:
-  file.recurse:
-    - source: salt://apache2/var/www_freifunk
-    - user: www-data
-    - group: www-data
-    - file_mode: 755
-    - dir_mode: 755
-    - keep_symlinks: True
-    - force_symlinks: True
-    - clean: True
-    - recurse:
-      - user
-      - group
-
-
 {# check Apache2 Modules #}
 apache2_mod_disable:
   apache_module.disabled:

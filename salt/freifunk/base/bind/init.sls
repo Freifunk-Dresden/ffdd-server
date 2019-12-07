@@ -198,9 +198,10 @@ bind_stats:
         ### This file managed by Salt, do not edit by hand! ###
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        MAILTO=""
         #
         # renew bind-stats every hour
-        0 * * * *  root  truncate -s 0 /var/cache/bind/named.stats ; rndc stats >/dev/null 2>&1
+        0 * * * *  root  truncate -s 0 /var/cache/bind/named.stats ; rndc stats
     - user: root
     - group: root
     - mode: 600
