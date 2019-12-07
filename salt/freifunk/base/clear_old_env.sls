@@ -6,44 +6,44 @@
 
 /etc/apache2/site-enabled/001-freifunk.conf:
   file.absent:
-    - onlyif: test -f /etc/apache2/site-enabled/001-freifunk.conf
+    - onlyif: test ! -L /etc/apache2/site-enabled/001-freifunk.conf
 
 /etc/apache2/site-enabled/001-freifunk-ssl.conf:
   file.absent:
-    - onlyif: test -f /etc/apache2/site-enabled/001-freifunk-ssl.conf
+    - onlyif: test ! -L /etc/apache2/site-enabled/001-freifunk-ssl.conf
 
 
 /etc/apache2/conf-enabled/bind_stats_access.incl:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/bind_stats_access.incl
+    - onlyif: test ! -L /etc/apache2/conf-enabled/bind_stats_access.incl
 
 /etc/apache2/conf-enabled/bind_stats.conf:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/bind_stats.conf
+    - onlyif: test ! -L /etc/apache2/conf-enabled/bind_stats.conf
 
 /etc/apache2/conf-enabled/letsencrypt.conf:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/letsencrypt.conf
+    - onlyif: test ! -L /etc/apache2/conf-enabled/letsencrypt.conf
 
 /etc/apache2/conf-enabled/monitorix_access.incl:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/monitorix_access.incl
+    - onlyif: test ! -L /etc/apache2/conf-enabled/monitorix_access.incl
 
 /etc/apache2/conf-enabled/monitorix.conf:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/monitorix.conf
+    - onlyif: test ! -L /etc/apache2/conf-enabled/monitorix.conf
 
 /etc/apache2/conf-enabled/ssl-params.conf:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/ssl-params.conf
+    - onlyif: test ! -L /etc/apache2/conf-enabled/ssl-params.conf
 
 /etc/apache2/conf-enabled/vnstat.conf:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/nstat.conf
+    - onlyif: test ! -L /etc/apache2/conf-enabled/nstat.conf
 
 /etc/apache2/conf-enabled/vnstat_access.incl:
   file.absent:
-    - onlyif: test -f /etc/apache2/conf-enabled/vnstat_access.incl
+    - onlyif: test ! -L /etc/apache2/conf-enabled/vnstat_access.incl
 
 
 /etc/sysctl.d/global.conf:
