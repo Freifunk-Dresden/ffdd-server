@@ -39,7 +39,7 @@
 
 /etc/apache2/conf-enabled/vnstat.conf:
   file.absent:
-    - onlyif: test ! -L /etc/apache2/conf-enabled/nstat.conf
+    - onlyif: test ! -L /etc/apache2/conf-enabled/vnstat.conf
 
 /etc/apache2/conf-enabled/vnstat_access.incl:
   file.absent:
