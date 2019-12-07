@@ -71,7 +71,7 @@ generate_certificate:
 
 apache2_conf_enable_ssl:
   apache_conf.enabled:
-    - name: ssl
+    - name: ssl-params
 
 /etc/apache2/sites-available/001-freifunk-ssl.conf:
   file.managed:
