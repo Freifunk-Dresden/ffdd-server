@@ -72,6 +72,7 @@ S53backbone-fastd2:
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/init.d/S53backbone-fastd2
+      - file: /etc/fastd/cmd.sh
       - file: /usr/local/src/fastd
     - require:
       - service: S40network
@@ -81,6 +82,7 @@ S53backbone-fastd2:
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/init.d/S53backbone-fastd2
+      - file: /etc/fastd/cmd.sh
       - file: /usr/local/src/fastd
       - file: /usr/local/bin/ddmesh-ipcalc.sh
       - file: /usr/local/bin/nvram
