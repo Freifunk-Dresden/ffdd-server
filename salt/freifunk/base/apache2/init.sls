@@ -53,6 +53,8 @@ apache2_mod_disable:
       - mpm_event
       - mpm_worker
       - cgi
+    - require:
+      - pkg: apache2
 
 apache2_mod_enable:
   apache_module.enabled:
@@ -69,3 +71,5 @@ apache2_mod_enable:
       - rewrite
       - deflate
       - xml2enc
+    - require:
+      - pkg: apache2

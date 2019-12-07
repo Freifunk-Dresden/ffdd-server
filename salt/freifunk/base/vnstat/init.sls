@@ -118,6 +118,7 @@ apache2_mod_php:
     - name: /usr/sbin/a2enmod php*
     - unless: "[ -f /etc/apache2/mods-enabled/php*.load ]"
     - require:
+      - pkg: apache2
       - pkg: php
 
 

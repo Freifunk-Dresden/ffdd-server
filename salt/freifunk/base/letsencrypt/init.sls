@@ -21,6 +21,8 @@ letsencrypt:
 apache2_mod_ssl:
   apache_module.enabled:
     - name: ssl
+    - require:
+      - pkg: apache2
 
 {# letsencrypt requirements #}
 /etc/apache2/conf-available/letsencrypt.conf:
@@ -33,6 +35,9 @@ apache2_mod_ssl:
 apache2_conf_enable_letsencrypt:
   apache_conf.enabled:
     - name: letsencrypt
+    - require:
+      - pkg: apache2
+      - file: /etc/apache2/conf-available/letsencrypt.conf
 
 /var/lib/letsencrypt/.well-known:
   file.directory:
@@ -72,6 +77,8 @@ generate_certificate:
 apache2_conf_enable_ssl:
   apache_conf.enabled:
     - name: ssl-params
+    - require:
+      - pkg: apache2
 
 /etc/apache2/sites-available/001-freifunk-ssl.conf:
   file.managed:
@@ -85,6 +92,9 @@ apache2_conf_enable_ssl:
 apache2_site_enable_freifunk-ssl:
   apache_site.enabled:
     - name: 001-freifunk-ssl
+    - require:
+      - pkg: apache2
+      - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
 
 apache2_ssl:
   service:
