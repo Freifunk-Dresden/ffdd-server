@@ -8,15 +8,14 @@ _**version 1.1.0**_
 	- bind9
 		- some optimations for default gw / master and slave DNS
 		- enable dnssec
-		- add stats to website
+		- add stats to ffdd status page
 	- nvram
 		- get current version branch by git
 		- change ffdd-server version output
 	- vnstat: change git source to a stable rev/commit
-	- apache2/letsencrypt
-		- optimize scripts and configs
-		- change ffdd-server version output
+	- apache2/letsencrypt: optimize scripts and configs
 	- openvpn/wireguard: check service is stopped and disable then no config file available
+	- monitorix: add bind stats
 	- other changes and optimations
 		- remove temp parts and optimize some salt stuff
 		- a bit makeup for the init_server script
