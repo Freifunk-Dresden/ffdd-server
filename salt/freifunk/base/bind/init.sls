@@ -190,12 +190,10 @@ bind_stats:
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
-        # NOTE: >/dev/null 2>&1 disables email alert sent by cron.d
-        #       any tools used in those scripts must be also in search path
-        #
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         #
+        # renew bind-stats every hour
         0 * * * *  root  truncate -s 0 /var/cache/bind/named.stats ; rndc stats >/dev/null 2>&1
     - user: root
     - group: root

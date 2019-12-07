@@ -52,10 +52,10 @@ salt-minion:
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
-        # Execute a local salt-call every hour
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         #
+        # Execute a local salt-call every hour
         {{ ctime }} */1 * * *  root  /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
         # Execute after boot
         @reboot       root  /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
