@@ -19,10 +19,8 @@ letsencrypt:
 
 {# SSL Apache2 Module #}
 apache2_mod_ssl:
-  cmd.run:
-    - name: /usr/sbin/a2enmod ssl
-    - unless: "[ -f /etc/apache2/mods-enabled/ssl.load ]"
-
+  apache_module.enabled:
+    - name: ssl
 
 {# letsencrypt requirements #}
 /etc/apache2/conf-enabled/letsencrypt.conf:

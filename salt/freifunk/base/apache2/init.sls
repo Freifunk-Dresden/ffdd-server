@@ -37,7 +37,8 @@ apache2:
 
 {# disable default page #}
 /etc/apache2/sites-enabled/000-default.conf:
-  file.absent
+  apache_site.disabled:
+    - name: 000-default
 
 /var/www/html/index.html:
   file.absent
@@ -68,81 +69,25 @@ apache2:
 
 
 {# check Apache2 Modules #}
-apache2_mod_status:
-  cmd.run:
-    - name: /usr/sbin/a2enmod status
-    - unless: "[ -f /etc/apache2/mods-enabled/status.load ]"
+apache2_mod_disable:
+  apache_module.disabled:
+    - names:
+      - mpm_event
+      - mpm_worker
+      - cgi
 
-apache2_mod_auth_basic:
-  cmd.run:
-    - name: /usr/sbin/a2enmod auth_basic
-    - unless: "[ -f /etc/apache2/mods-enabled/auth_basic.load ]"
-
-apache2_mod_authnz_external:
-  cmd.run:
-    - name: /usr/sbin/a2enmod authnz_external
-    - unless: "[ -f /etc/apache2/mods-enabled/authnz_external.load ]"
-
-
-apache2_mod_mpmevent:
-  cmd.run:
-    - name: /usr/sbin/a2dismod mpm_event
-    - unless: "[ ! -f /etc/apache2/mods-enabled/mpm_event.load ]"
-
-apache2_mod_mpmworker:
-  cmd.run:
-    - name: /usr/sbin/a2dismod mpm_worker
-    - unless: "[ ! -f /etc/apache2/mods-enabled/mpm_worker.load ]"
-
-apache2_mod_mpmprefork:
-  cmd.run:
-    - name: /usr/sbin/a2enmod mpm_prefork
-    - unless: "[ -f /etc/apache2/mods-enabled/mpm_prefork.load ]"
-
-
-apache2_mod_cgi:
-  cmd.run:
-    - name: /usr/sbin/a2dismod cgi
-    - unless: "[ ! -f /etc/apache2/mods-enabled/cgi.load ]"
-
-apache2_mod_cgid:
-  cmd.run:
-    - name: /usr/sbin/a2enmod cgid
-    - unless: "[ -f /etc/apache2/mods-enabled/cgid.load ]"
-
-
-apache2_mod_proxy:
-  cmd.run:
-    - name: /usr/sbin/a2enmod proxy
-    - unless: "[ -f /etc/apache2/mods-enabled/proxy.load ]"
-
-apache2_mod_proxy_http:
-  cmd.run:
-    - name: /usr/sbin/a2enmod proxy_http
-    - unless: "[ -f /etc/apache2/mods-enabled/proxy_http.load ]"
-
-apache2_mod_proxy_html:
-  cmd.run:
-    - name: /usr/sbin/a2enmod proxy_html
-    - unless: "[ -f /etc/apache2/mods-enabled/proxy_html.load ]"
-
-
-apache2_mod_headers:
-  cmd.run:
-    - name: /usr/sbin/a2enmod headers
-    - unless: "[ -f /etc/apache2/mods-enabled/headers.load ]"
-
-apache2_mod_rewrite:
-  cmd.run:
-    - name: /usr/sbin/a2enmod rewrite
-    - unless: "[ -f /etc/apache2/mods-enabled/rewrite.load ]"
-
-apache2_mod_deflate:
-  cmd.run:
-    - name: /usr/sbin/a2enmod deflate
-    - unless: "[ -f /etc/apache2/mods-enabled/deflate.load ]"
-
-apache2_mod_xml2enc:
-  cmd.run:
-    - name: /usr/sbin/a2enmod xml2enc
-    - unless: "[ -f /etc/apache2/mods-enabled/xml2enc.load ]"
+apache2_mod_enable:
+  apache_module.enabled:
+    - names:
+      - status
+      - auth_basic
+      - authnz_external
+      - mpm_prefork
+      - cgid
+      - proxy
+      - proxy_http
+      - proxy_html
+      - headers
+      - rewrite
+      - deflate
+      - xml2enc
