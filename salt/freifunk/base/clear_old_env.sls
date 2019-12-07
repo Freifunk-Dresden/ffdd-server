@@ -4,13 +4,13 @@
   file.absent
 
 
-/etc/apache2/site-enabled/001-freifunk.conf:
+/etc/apache2/sites-enabled/001-freifunk.conf:
   file.absent:
-    - onlyif: test ! -L /etc/apache2/site-enabled/001-freifunk.conf
+    - onlyif: test ! -L /etc/apache2/sites-enabled/001-freifunk.conf
 
-/etc/apache2/site-enabled/001-freifunk-ssl.conf:
+/etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.absent:
-    - onlyif: test ! -L /etc/apache2/site-enabled/001-freifunk-ssl.conf
+    - onlyif: test ! -L /etc/apache2/sites-enabled/001-freifunk-ssl.conf
 
 
 /etc/apache2/conf-enabled/bind_stats_access.incl:
