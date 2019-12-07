@@ -119,3 +119,7 @@
 
 /var/statistic:
   file.absent
+
+/var/www_freifunk/robots.txt:
+  file.absent:
+    - onlyif: grep -q '# Alle Robots' /var/www_freifunk/robots.txt
