@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export DATE="27.11.2019"
 export TITLE="Allgemein: Status"
