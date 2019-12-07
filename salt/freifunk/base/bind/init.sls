@@ -175,6 +175,9 @@ bind:
 apache2_conf_enable_bind_stats:
   apache_conf.enabled:
     - name: bind_stats
+    - require:
+      - pkg: apache2
+      - file: /etc/apache2/conf-available/bind_stats.conf
 
 
 /var/www_bind/named.stats:

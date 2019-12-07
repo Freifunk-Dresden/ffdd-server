@@ -63,6 +63,9 @@ monitorix:
 apache2_conf_enable_monitorix:
   apache_conf.enabled:
     - name: monitorix
+    - require:
+      - pkg: apache2
+      - file: /etc/apache2/conf-available/monitorix.conf
 
 {# Monitorix Images Permissions #}
 /var/lib/monitorix/www/imgs:

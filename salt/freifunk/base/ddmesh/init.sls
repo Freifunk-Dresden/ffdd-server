@@ -76,6 +76,9 @@ apply_ffdd-server_update:
 apache2_site_enable_freifunk:
   apache_site.enabled:
     - name: 001-freifunk
+    - require:
+      - pkg: apache2
+      - file: /etc/apache2/sites-available/001-freifunk.conf
 
 
 {# Directories #}
