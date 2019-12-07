@@ -5,6 +5,10 @@ acl internals {
 	10.200.0.0/15;
 };
 
+statistics-channels {
+	inet * port 8053 allow { 127.0.0.1; };
+};
+
 options {
 	directory "/var/cache/bind";
 
