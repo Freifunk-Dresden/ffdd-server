@@ -23,12 +23,16 @@ apache2_mod_ssl:
     - name: ssl
 
 {# letsencrypt requirements #}
-/etc/apache2/conf-enabled/letsencrypt.conf:
+/etc/apache2/conf-available/letsencrypt.conf:
   file.managed:
-    - source: salt://letsencrypt/etc/apache2/conf-enabled/letsencrypt.conf
+    - source: salt://letsencrypt/etc/apache2/conf-available/letsencrypt.conf
     - user: root
     - group: root
     - mode: 644
+
+apach2_conf_enable_letsencrypt:
+  apache_conf.enabled:
+    - name: letsencrypt
 
 /var/lib/letsencrypt/.well-known:
   file.directory:
@@ -58,21 +62,29 @@ generate_certificate:
 
 
 {# enable Apache2 SSL Webpage for FFDD #}
-/etc/apache2/conf-enabled/ssl-params.conf:
+/etc/apache2/conf-available/ssl-params.conf:
   file.managed:
-    - source: salt://letsencrypt/etc/apache2/conf-enabled/ssl-params.conf
+    - source: salt://letsencrypt/etc/apache2/conf-available/ssl-params.conf
     - user: root
     - group: root
     - mode: 644
 
-/etc/apache2/sites-enabled/001-freifunk-ssl.conf:
+apach2_conf_enable_ssl:
+  apache_conf.enabled:
+    - name: ssl
+
+/etc/apache2/sites-available/001-freifunk-ssl.conf:
   file.managed:
-    - source: salt://letsencrypt/etc/apache2/sites-enabled/001-freifunk-ssl.tmpl
+    - source: salt://letsencrypt/etc/apache2/sites-available/001-freifunk-ssl.tmpl
     - template: jinja
     - user: root
     - group: root
     - mode: 644
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
+
+apache2_site_enable_freifunk-ssl:
+  apache_site.enabled:
+    - name: 001-freifunk-ssl
 
 apache2_ssl:
   service:
@@ -81,11 +93,11 @@ apache2_ssl:
     - enable: True
     - restart: True
     - watch:
-      - file: /etc/apache2/conf-enabled/ssl-params.conf
-      - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
+      - file: /etc/apache2/conf-available/ssl-params.conf
+      - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
     - require:
-      - file: /etc/apache2/conf-enabled/ssl-params.conf
-      - file: /etc/apache2/sites-enabled/001-freifunk-ssl.conf
+      - file: /etc/apache2/conf-available/ssl-params.conf
+      - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
 
 
@@ -125,7 +137,8 @@ force-renew-ssl:
 {% else %}
 
 {# ensure ssl-site is absent then deactivated #}
-/etc/apache2/sites-enabled/001-freifunk-ssl.conf:
-  file.absent
+apache2_site_disable_freifunk-ssl:
+  apache_site.disabled:
+    - name: 001-freifunk-ssl
 
 {% endif %}

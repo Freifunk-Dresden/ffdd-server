@@ -122,11 +122,15 @@ apache2_mod_php:
 
 
 {# enable vnstat Apache2 config #}
-/etc/apache2/conf-enabled/vnstat.conf:
+/etc/apache2/conf-available/vnstat.conf:
   file.managed:
-    - source: salt://vnstat/etc/apache2/conf-enabled/vnstat.conf
+    - source: salt://vnstat/etc/apache2/conf-available/vnstat.conf
     - user: root
     - group: root
     - mode: 644
     - require:
       - pkg: apache2
+
+apach2_conf_enable_vnstat:
+  apache_conf.enabled:
+    - name: vnstat

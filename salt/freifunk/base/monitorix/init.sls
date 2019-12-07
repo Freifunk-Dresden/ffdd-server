@@ -42,23 +42,27 @@ monitorix:
 
 
 {# enable monitorix Apache2 config #}
-/etc/apache2/conf-enabled/monitorix_access.incl:
+/etc/apache2/conf-available/monitorix_access.incl:
   file.managed:
-    - source: salt://monitorix/etc/apache2/conf-enabled/monitorix_access.incl
+    - source: salt://monitorix/etc/apache2/conf-available/monitorix_access.incl
     - user: root
     - group: root
     - mode: 644
     - replace: false
 
-/etc/apache2/conf-enabled/monitorix.conf:
+/etc/apache2/conf-available/monitorix.conf:
   file.managed:
-    - source: salt://monitorix/etc/apache2/conf-enabled/monitorix.conf
+    - source: salt://monitorix/etc/apache2/conf-available/monitorix.conf
     - user: root
     - group: root
     - mode: 644
     - require:
       - pkg: apache2
-      - file: /etc/apache2/conf-enabled/monitorix_access.incl
+      - file: /etc/apache2/conf-available/monitorix_access.incl
+
+apach2_conf_enable_monitorix:
+  apache_conf.enabled:
+    - name: monitorix
 
 {# Monitorix Images Permissions #}
 /var/lib/monitorix/www/imgs:

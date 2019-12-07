@@ -154,23 +154,28 @@ bind:
 
 
 {# bind stats #}
-/etc/apache2/conf-enabled/bind_stats_access.incl:
+/etc/apache2/conf-available/bind_stats_access.incl:
   file.managed:
-    - source: salt://bind/etc/apache2/conf-enabled/bind_stats_access.incl
+    - source: salt://bind/etc/apache2/conf-available/bind_stats_access.incl
     - user: root
     - group: root
     - mode: 644
     - replace: false
 
-/etc/apache2/conf-enabled/bind_stats.conf:
+/etc/apache2/conf-available/bind_stats.conf:
   file.managed:
-    - source: salt://bind/etc/apache2/conf-enabled/bind_stats.conf
+    - source: salt://bind/etc/apache2/conf-available/bind_stats.conf
     - user: root
     - group: root
     - mode: 644
     - require:
       - pkg: apache2
-      - file: /etc/apache2/conf-enabled/bind_stats_access.incl
+      - file: /etc/apache2/conf-available/bind_stats_access.incl
+
+apach2_conf_enable_bind_stats:
+  apache_conf.enabled:
+    - name: bind_stats
+
 
 /var/www_bind/named.stats:
   file.symlink:
@@ -185,6 +190,7 @@ bind_stats:
     - unless: "[ -f /var/cache/bind/named.stats ]"
     - require:
       - pkg: bind
+
 
 /etc/cron.d/bind_stats:
   file.managed:

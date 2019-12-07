@@ -20,23 +20,23 @@ apache2:
       - pkg: apache2
       - pkg: monitorix
       - pkg: vnstat
-      - file: /etc/apache2/sites-enabled/001-freifunk.conf
-      - file: /etc/apache2/conf-enabled/letsencrypt.conf
-      - file: /etc/apache2/conf-enabled/bind_stats.conf
-      - file: /etc/apache2/conf-enabled/bind_stats_access.incl
-      - file: /etc/apache2/conf-enabled/monitorix.conf
-      - file: /etc/apache2/conf-enabled/monitorix_access.incl
-      - file: /etc/apache2/conf-enabled/vnstat.conf
+      - file: /etc/apache2/sites-available/001-freifunk.conf
+      - file: /etc/apache2/conf-available/letsencrypt.conf
+      - file: /etc/apache2/conf-available/bind_stats.conf
+      - file: /etc/apache2/conf-available/bind_stats_access.incl
+      - file: /etc/apache2/conf-available/monitorix.conf
+      - file: /etc/apache2/conf-available/monitorix_access.incl
+      - file: /etc/apache2/conf-available/vnstat.conf
     - require:
       - pkg: apache2
       - service: S40network
       - service: S41firewall
-      - file: /etc/apache2/sites-enabled/001-freifunk.conf
-      - file: /etc/apache2/conf-enabled/letsencrypt.conf
+      - file: /etc/apache2/sites-available/001-freifunk.conf
+      - file: /etc/apache2/conf-available/letsencrypt.conf
 
 
 {# disable default page #}
-/etc/apache2/sites-enabled/000-default.conf:
+apache2_site_disable_default:
   apache_site.disabled:
     - name: 000-default
 
@@ -45,13 +45,17 @@ apache2:
 
 
 {# enable FFDD server page #}
-/etc/apache2/sites-enabled/001-freifunk.conf:
+/etc/apache2/sites-available/001-freifunk.conf:
   file.managed:
-    - source: salt://apache2/etc/apache2/sites-enabled/001-freifunk.conf.tmpl
+    - source: salt://apache2/etc/apache2/sites-available/001-freifunk.conf.tmpl
     - template: jinja
     - user: root
     - group: root
     - mode: 644
+
+apache2_site_enable_freifunk:
+  apache_site.enabled:
+    - name: 001-freifunk
 
 /var/www_freifunk:
   file.recurse:
