@@ -1,5 +1,5 @@
 {# FFDD Batmand Network #}
-{% from 'config.jinja' import install_dir %}
+{% from 'config.jinja' import install_dir, nodeid, ddmesh_registerkey %}
 {% set ct_bmxd = '/salt/freifunk/base/bmxd/compiled-tools/bmxd' %}
 
 /usr/local/src/bmxd:
@@ -64,7 +64,6 @@ rc.d_S52batmand:
       - file: /etc/init.d/S52batmand
 
 {# only then fastd2 is configured and the service is enabled #}
-{% from 'config.jinja' import nodeid, ddmesh_registerkey %}
 {% if nodeid != '' or ddmesh_registerkey != '' %}
 S52batmand:
   service:
