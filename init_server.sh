@@ -71,10 +71,11 @@ printf '\n# Check System Distribution.\n'
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
+check_wget() { [[ -z "$(command -v wget)" ]] && "$1" -y install wget ; }
+
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		9*)     PKGMNGR='apt-get'
-                [[ -z "$(which wget)" ]] && "$PKGMNGR" -y install wget
+		9*)     PKGMNGR='apt-get' ; check_wget "$PKGMNGR"
                 wget -O - https://repo.saltstack.com/apt/debian/9/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
                 echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main' | tee /etc/apt/sources.list.d/saltstack.list
                 ;;
@@ -83,8 +84,7 @@ if [ "$os_id" = 'debian' ]; then
 	esac
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		16.04*) PKGMNGR='apt-get'
-                [[ -z "$(which wget)" ]] && "$PKGMNGR" -y install wget
+		16.04*) PKGMNGR='apt-get' ; check_wget "$PKGMNGR"
                 wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
                 echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
                 ;;
