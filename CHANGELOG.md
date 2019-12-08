@@ -22,9 +22,11 @@ _**version 1.1.0**_
 		- update config options
 		- enable bind stats
 		- disable fail2ban stats. Bug - iptables crash
+	- init_server.sh
+		- add salt repo for debian 9 and ubuntu 16
+		- a bit makeup for the script
 	- other changes and optimations
 		- remove temp parts and optimize some scripts and salt states
-		- a bit makeup for the init_server script
 		- check we can set sysctl tcp_syncookies
 		- make a shorter bash_alias help output
 
