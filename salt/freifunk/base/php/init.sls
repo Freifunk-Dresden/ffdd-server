@@ -22,4 +22,7 @@ apache2_mod_php:
 apache2_mod_php_disable_old:
   cmd.run:
     - name: "a2dismod {{ old_php_version }} ; systemctl restart apache2 ; apt purge -y {{ old_php_version }}"
+    - require:
+      - pkg: apache2
+      - pkg: php
 {% endif %}

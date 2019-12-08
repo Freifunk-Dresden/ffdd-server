@@ -72,6 +72,8 @@ apply_ffdd-server_update:
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pkg: apache2
 
 apache2_site_enable_freifunk:
   apache_site.enabled:

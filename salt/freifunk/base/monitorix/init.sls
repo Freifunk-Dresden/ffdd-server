@@ -49,6 +49,8 @@ monitorix:
     - group: root
     - mode: 644
     - replace: false
+    - require:
+      - pkg: apache2
 
 /etc/apache2/conf-available/monitorix.conf:
   file.managed:

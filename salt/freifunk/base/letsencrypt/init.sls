@@ -31,6 +31,8 @@ apache2_mod_ssl:
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pkg: apache2
 
 apache2_conf_enable_letsencrypt:
   apache_conf.enabled:
@@ -88,6 +90,8 @@ apache2_conf_enable_ssl:
     - group: root
     - mode: 644
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"
+    - require:
+      - pkg: apache2
 
 apache2_site_enable_freifunk-ssl:
   apache_site.enabled:

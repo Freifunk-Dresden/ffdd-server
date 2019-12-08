@@ -161,6 +161,8 @@ bind:
     - group: root
     - mode: 644
     - replace: false
+    - require:
+      - pkg: apache2
 
 /etc/apache2/conf-available/bind_stats.conf:
   file.managed:

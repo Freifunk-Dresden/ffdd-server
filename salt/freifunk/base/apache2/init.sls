@@ -47,6 +47,8 @@ apache2:
 apache2_site_disable_default:
   apache_site.disabled:
     - name: 000-default
+    - require:
+      - pkg: apache2
 
 /var/www/html/index.html:
   file.absent
