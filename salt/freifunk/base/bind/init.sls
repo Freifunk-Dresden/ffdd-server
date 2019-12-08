@@ -35,6 +35,7 @@ bind:
       - file: /etc/bind/named.conf.local
       - file: /etc/bind/named.conf.default-zones
       - /etc/bind/db.root
+      - bind_reload_daemon
 {# Default GW Server #}
 {% else %}
       - file: /etc/bind/vpn.forwarder
@@ -48,6 +49,7 @@ bind:
       - file: /etc/bind/named.conf.default-zones
       - file: /etc/bind/vpn.forwarder
       - /etc/bind/db.root
+      - bind_reload_daemon
 {% endif %}
 
 
@@ -61,6 +63,18 @@ bind:
     - require:
       - pkg: systemd
       - pkg: bind9
+
+bind_reload_daemon:
+  cmd.run:
+    - name: "systemctl daemon-reload"
+    - onchanges:
+      - /lib/systemd/system/bind9.service
+
+{# check root.hints are up-to-date #}
+/etc/bind/db.root:
+  cmd.run:
+    - name: "cp /usr/share/dns/root.hints /etc/bind/db.root ; systemctl daemon-reload ; systemctl restart bind9"
+    - onlyif: "test ! -f /etc/bind/db.root || test $(md5sum /etc/bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
 
 
 {# Configuration #}
@@ -92,6 +106,7 @@ bind:
     - mode: 644
     - require:
       - pkg: bind
+
 
 {% if nodeid == '3' %}
 {# DNS Master Server #}
@@ -139,12 +154,6 @@ bind:
       - pkg: bind
 {% endif %}
 
-
-{# check root.hints are up-to-date #}
-/etc/bind/db.root:
-  cmd.run:
-    - name: /bin/cp /usr/share/dns/root.hints /etc/bind/db.root && systemctl restart bind9
-    - onlyif: "test ! -f /etc/bind/db.root || test $(md5sum /etc/bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
 
 {# Logs #}
 /var/log/named:
@@ -196,7 +205,7 @@ bind_stats:
     - name: /usr/sbin/rndc stats
     - unless: "[ -f /var/cache/bind/named.stats ]"
     - require:
-      - pkg: bind
+      - bind
 
 
 /etc/cron.d/bind_stats:
