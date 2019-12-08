@@ -105,6 +105,7 @@ apache2_ssl:
     - watch:
       - file: /etc/apache2/conf-available/ssl-params.conf
       - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
+      - apache2_mod_ssl
     - require:
       - file: /etc/apache2/conf-available/ssl-params.conf
       - file: /etc/apache2/sites-available/001-freifunk-ssl.conf

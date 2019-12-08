@@ -27,6 +27,9 @@ apache2:
       - file: /etc/apache2/conf-available/monitorix.conf
       - file: /etc/apache2/conf-available/monitorix_access.incl
       - file: /etc/apache2/conf-available/vnstat.conf
+      - apache2_mod_disable
+      - apache2_mod_enable
+      - apache2_mod_php
     - require:
       - pkg: apache2
       - service: S40network
