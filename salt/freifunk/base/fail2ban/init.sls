@@ -132,6 +132,7 @@ ipset-f2b-init:
   file.managed:
     - contents: |
         #!/usr/bin/env bash
+        ### This file managed by Salt, do not edit by hand! ###
         if [ -n "$1" ]; then
           /usr/bin/fail2ban-client set sshd unbanip "$1"
           /bin/sed -i "/$1/d" /etc/ipset-fail2ban/ipset-fail2ban.list

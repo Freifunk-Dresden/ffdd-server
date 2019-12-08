@@ -15,8 +15,9 @@
         ### This file managed by Salt, do not edit by hand! ###
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        MAILTO=""
         #
-        0-59/5 * * * *  root  /usr/local/bin/conntrack.sh >/dev/null 2>&1
+        0-59/5 * * * *  root  /usr/local/bin/conntrack.sh
     - user: root
     - group: root
     - mode: 600

@@ -41,8 +41,16 @@ salt-minion:
 {# Configuration #}
 /etc/salt/minion.d/freifunk-masterless.conf:
   file.managed:
-    - source: salt://salt-minion/etc/salt/minion.d/freifunk-masterless.tmpl
-    - template: jinja
+    - contents: |
+      ### This file managed by Salt, do not edit by hand! ###
+      #
+      # ffdd-server - salt-minion masterless configuration file
+      #
+      {% from 'config.jinja' import install_dir %}
+      file_client: local
+      file_roots:
+        base:
+          - {{ install_dir }}/salt/freifunk/base
     - user: root
     - group: root
     - mode: 644
@@ -54,11 +62,12 @@ salt-minion:
         ### This file managed by Salt, do not edit by hand! ###
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        MAILTO=""
         #
         # Execute a local salt-call every hour
-        {{ ctime }} */1 * * *  root  /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
+        {{ ctime }} */1 * * *  root  /usr/bin/salt-call state.highstate --local
         # Execute after boot
-        @reboot       root  /usr/bin/salt-call state.highstate --local >/dev/null 2>&1
+        @reboot       root  /usr/bin/salt-call state.highstate --local
     - user: root
     - group: root
     - mode: 600

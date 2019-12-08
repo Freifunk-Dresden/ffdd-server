@@ -32,8 +32,12 @@ ssh_check:
 {# SSH-Login Information #}
 /etc/issue.net:
   file.managed:
-    - source: salt://ssh/etc/issue.net.tmpl
-    - template: jinja
+    - contents: |
+      {% from 'config.jinja' import servername, freifunk_version %}-----------------------------------------------------------------
+       Freifunk {{ servername }}
+
+       ( Version: {{ freifunk_version }} )
+      -----------------------------------------------------------------
     - user: root
     - group: root
     - mode: 644
