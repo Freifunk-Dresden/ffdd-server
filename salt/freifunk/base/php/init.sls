@@ -6,14 +6,13 @@ php:
       - php
       - libapache2-mod-php
 
-{% set php_version = salt['cmd.shell']("apt-cache show php | awk '/Depends:/ {print $2}'") %}
+{% set php_version = salt['cmd.shell']("apt-cache show php | awk '/Depends:/ {print $2}' | head -1") %}
 {%- set old_php_version = salt['cmd.shell']("cd /etc/apache2/mods-available/ ; find . -name 'php*.load' ! -name " ~ php_version ~ ".load | sed -e 's/.\///g' -e 's/.load//g'") -%}
 
 {% if php_version != '' %}
 apache2_mod_php:
   apache_module.enabled:
-    - name: {{ php_version }}
-    - unless: "[ -f /etc/apache2/mods-enabled/{{ php_version }}.load ]"
+    - name: "{{ php_version }}"
     - require:
       - pkg: apache2
       - pkg: php
