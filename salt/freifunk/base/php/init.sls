@@ -6,7 +6,7 @@ php:
       - php
       - libapache2-mod-php
 
-{% set php_version = salt['cmd.shell']("apt-cache show php | awk '/Depends:/ {print $2}' | head -1") %}
+{% set php_version = salt['cmd.shell']("apt-cache search ^php$ | grep metapackage | awk '{print $1}' | head -1") %}
 {%- set old_php_version = salt['cmd.shell']("cd /etc/apache2/mods-available/ ; find . -name 'php*.load' ! -name " ~ php_version ~ ".load | sed -e 's/.\///g' -e 's/.load//g'") -%}
 
 {% if php_version != '' %}
