@@ -14,11 +14,13 @@ _**version 1.1.0**_
 		- change ffdd-server version output
 	- vnstat: change git source to a stable rev/commit
 	- apache2:
-		- optimize salt states
-		- move ffdd defined states to ddmesh directory
+		- optimize salt state
+		- move ffdd-server webpage states to ddmesh directory/state
 	- letsencrypt: optimize scripts and configs
 	- openvpn/wireguard: check service is stopped and disable then no config file available
-	- monitorix: add bind stats
+	- monitorix
+		- update config options
+		- add bind stats
 	- other changes and optimations
 		- remove temp parts and optimize some scripts and salt states
 		- a bit makeup for the init_server script
