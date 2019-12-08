@@ -29,4 +29,5 @@ net.netfilter.nf_conntrack_max:
   sysctl.present:
     - value: 200000
     - config: {{ sysctld }}/net.conf
+    - unless: "[ ! -e /proc/sys/net/netfilter/nf_conntrack_max ]"
 {% endif %}
