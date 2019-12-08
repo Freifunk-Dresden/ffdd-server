@@ -16,6 +16,7 @@ _**version 1.1.0**_
 	- apache2:
 		- optimize salt state
 		- move ffdd-server webpage states to ddmesh directory/state
+		- some optimations for php installation
 	- letsencrypt: optimize scripts and configs
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- monitorix
