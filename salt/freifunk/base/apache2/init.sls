@@ -27,6 +27,9 @@ apache2:
       - file: /etc/apache2/conf-available/monitorix.conf
       - file: /etc/apache2/conf-available/monitorix_access.incl
       - file: /etc/apache2/conf-available/vnstat.conf
+      - apache2_conf_enable_bind_stats
+      - apache2_conf_enable_monitorix
+      - apache2_conf_enable_vnstat
       - apache2_mod_disable
       - apache2_mod_enable
       - apache2_mod_php
