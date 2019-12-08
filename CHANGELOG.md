@@ -20,7 +20,8 @@ _**version 1.1.0**_
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- monitorix
 		- update config options
-		- add bind stats
+		- enable bind stats
+		- disable fail2ban stats. Bug - iptables crash
 	- other changes and optimations
 		- remove temp parts and optimize some scripts and salt states
 		- a bit makeup for the init_server script
