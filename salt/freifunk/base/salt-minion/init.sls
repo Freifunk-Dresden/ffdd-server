@@ -42,15 +42,15 @@ salt-minion:
 /etc/salt/minion.d/freifunk-masterless.conf:
   file.managed:
     - contents: |
-      ### This file managed by Salt, do not edit by hand! ###
-      #
-      # ffdd-server - salt-minion masterless configuration file
-      #
-      {% from 'config.jinja' import install_dir %}
-      file_client: local
-      file_roots:
-        base:
-          - {{ install_dir }}/salt/freifunk/base
+        ### This file managed by Salt, do not edit by hand! ###
+        #
+        # ffdd-server - salt-minion masterless configuration file
+        #
+        {% from 'config.jinja' import install_dir %}
+        file_client: local
+        file_roots:
+          base:
+            - {{ install_dir }}/salt/freifunk/base
     - user: root
     - group: root
     - mode: 644

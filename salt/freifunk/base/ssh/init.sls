@@ -33,11 +33,11 @@ ssh_check:
 /etc/issue.net:
   file.managed:
     - contents: |
-      {% from 'config.jinja' import servername, freifunk_version %}-----------------------------------------------------------------
-       Freifunk {{ servername }}
+        {% from 'config.jinja' import servername, freifunk_version %}-----------------------------------------------------------------
+         Freifunk {{ servername }}
 
-       ( Version: {{ freifunk_version }} )
-      -----------------------------------------------------------------
+         ( Version: {{ freifunk_version }} )
+        -----------------------------------------------------------------
     - user: root
     - group: root
     - mode: 644
