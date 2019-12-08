@@ -112,16 +112,6 @@ compose_vnstat_dashboard:
       - vnstat_dashboard_repo
 
 
-{# enable Apache2 Module PHP #}
-apache2_mod_php:
-  cmd.run:
-    - name: /usr/sbin/a2enmod php*
-    - unless: "[ -f /etc/apache2/mods-enabled/php*.load ]"
-    - require:
-      - pkg: apache2
-      - pkg: php
-
-
 {# enable vnstat Apache2 config #}
 /etc/apache2/conf-available/vnstat.conf:
   file.managed:
@@ -138,3 +128,4 @@ apache2_conf_enable_vnstat:
     - require:
       - pkg: apache2
       - file: /etc/apache2/conf-available/vnstat.conf
+      - apache2_mod_php
