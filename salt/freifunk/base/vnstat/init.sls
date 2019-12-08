@@ -74,6 +74,8 @@ php_composer:
   pkg.installed:
     - refresh: True
     - name: composer
+    - require:
+      - pkg: php
 
 vnstat_dashboard_repo:
   git.latest:

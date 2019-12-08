@@ -75,6 +75,9 @@ bind_reload_daemon:
   cmd.run:
     - name: "cp /usr/share/dns/root.hints /etc/bind/db.root ; systemctl daemon-reload ; systemctl restart bind9"
     - onlyif: "test ! -f /etc/bind/db.root || test $(md5sum /etc/bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
+    - require:
+      - bind
+      - /lib/systemd/system/bind9.service
 
 
 {# Configuration #}

@@ -1,16 +1,22 @@
 # PHP and Apache2 Extension
 {% set php_version = salt['cmd.shell']("apt-cache search ^php$ | grep metapackage | awk '{print $1}' | head -1") %}
+
+{% if salt['file.directory_exists' ]('/etc/apache2/mods-available/') %}
 {%- set old_php_version = salt['cmd.shell']("cd /etc/apache2/mods-available/ ; find . -name 'php*.load' ! -name " ~ php_version ~ ".load | sed -e 's/.\///g' -e 's/.load//g'") -%}
+{% else %}
+{% set old_php_version = '' %}
+{% endif %}
 
 php:
   pkg.installed:
     - refresh: True
-    - names:
-      - php
-      - libapache2-mod-php
+    - name: php
 
 {% if php_version != '' %}
 apache2_mod_php:
+  pkg.installed:
+    - refresh: True
+    - name: "libapache2-mod-{{ php_version }}"
   apache_module.enabled:
     - name: "{{ php_version }}"
     - require:
