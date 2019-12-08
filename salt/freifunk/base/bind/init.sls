@@ -34,6 +34,7 @@ bind:
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.local
       - file: /etc/bind/named.conf.default-zones
+      - /etc/bind/db.root
 {# Default GW Server #}
 {% else %}
       - file: /etc/bind/vpn.forwarder
@@ -46,6 +47,7 @@ bind:
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.default-zones
       - file: /etc/bind/vpn.forwarder
+      - /etc/bind/db.root
 {% endif %}
 
 
