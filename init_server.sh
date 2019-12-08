@@ -76,7 +76,7 @@ if [ "$os_id" = 'debian' ]; then
 		9*)     PKGMNGR='apt-get'
 				[[ -z "$(which wget)" ]] && "$PKGMNGR" -y install wget
 				wget -O - https://repo.saltstack.com/apt/debian/9/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
-				echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main' | tee -a /etc/apt/sources.list.d/saltstack.list
+				echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main' | tee /etc/apt/sources.list.d/saltstack.list
 				;;
 		10*)    PKGMNGR='apt-get' ;;
 		*)      print_not_supported_os ;;
@@ -86,7 +86,7 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		16.04*) PKGMNGR='apt-get'
 				[[ -z "$(which wget)" ]] && "$PKGMNGR" -y install wget
 				wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
-				echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main' | tee -a /etc/apt/sources.list.d/saltstack.list
+				echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
 				;;
 		18.04*) PKGMNGR='apt-get' ;;
 		*)      print_not_supported_os ;;
