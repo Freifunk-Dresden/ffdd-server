@@ -76,8 +76,8 @@ check_wget() { [[ -z "$(command -v wget)" ]] && "$1" -y install wget ; }
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
 		9*)     PKGMNGR='apt-get' ; check_wget "$PKGMNGR"
-                wget -O - https://repo.saltstack.com/apt/debian/9/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
-                echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main' | tee /etc/apt/sources.list.d/saltstack.list
+                wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
+                echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/2018.3 stretch main' | tee /etc/apt/sources.list.d/saltstack.list
                 ;;
 		10*)    PKGMNGR='apt-get' ;;
 		*)      print_not_supported_os ;;
