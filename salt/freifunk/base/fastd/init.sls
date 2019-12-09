@@ -1,4 +1,6 @@
 {# Backbone - fastd2 #}
+{% from 'config.jinja' import nodeid, ddmesh_registerkey %}
+
 /usr/local/src/fastd:
   file.recurse:
     - source: salt://fastd/compiled-tools/fastd
@@ -58,7 +60,6 @@ rc.d_S53backbone-fastd2:
     - onchanges:
       - file: /etc/init.d/S53backbone-fastd2
 
-{% from 'config.jinja' import nodeid, ddmesh_registerkey %}
 
 {% if nodeid != '' or ddmesh_registerkey != '' %}
 S53backbone-fastd2:
