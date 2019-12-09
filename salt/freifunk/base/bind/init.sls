@@ -135,6 +135,8 @@ bind_reload_daemon:
     - recurse:
       - user
       - group
+    - require:
+      - pkg: bind
 
 {% elif nodeid == '15' %}
 {# DNS Slave Server #}
