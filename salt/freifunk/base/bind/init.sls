@@ -34,7 +34,6 @@ bind:
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.local
       - file: /etc/bind/named.conf.default-zones
-      - /etc/bind/db.root
       - bind_reload_daemon
 {# Default GW Server #}
 {% else %}
@@ -48,7 +47,6 @@ bind:
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.default-zones
       - file: /etc/bind/vpn.forwarder
-      - /etc/bind/db.root
       - bind_reload_daemon
 {% endif %}
 
