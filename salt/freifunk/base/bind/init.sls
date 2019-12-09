@@ -78,7 +78,7 @@ bind_reload_daemon:
     - onlyif: "test ! -f /etc/bind/db.root || test $(md5sum /etc/bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
     - require:
       - pkg: bind
-      - /lib/systemd/system/bind9.service
+      - pkg: dns-root-data
 
 
 {# Configuration #}
