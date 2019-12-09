@@ -46,7 +46,6 @@ S41firewall:
       - pkg: iptables
       - pkg: ipset
       - service: S40network
-      - service: monitorix
       - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
     - require:
