@@ -56,7 +56,6 @@ S41firewall:
       - file: /etc/firewall.user
       - file: /usr/local/sbin/ipset-fail2ban.sh
       - file: /etc/ipset-fail2ban/ipset-fail2ban.conf
-      - /usr/local/sbin/ipset-fail2ban.sh
       - ipset-f2b-init
 
 
