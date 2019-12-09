@@ -22,7 +22,7 @@ _**version 1.1.0**_
 	- monitorix
 		- update config options
 		- enable bind stats
-		- disable fail2ban stats. Bug - iptables crash
+		- disable fail2ban and proc stats. Bug - iptables crash
 	- init_server.sh
 		- add salt repo for debian 9 and ubuntu 16
 		- a bit makeup for the script
