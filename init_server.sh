@@ -52,7 +52,13 @@ fi
 
 printf '\n### Check System\n'
 
-[[ "$EUID" -ne 0 ]] && printf 'Please run as root!\n' && exit 1
+if [ "$EUID" -ne 0 ];  then
+	printf 'Please run as root!\n' ; exit 1
+fi
+
+if ! ping -c1 github.com >/dev/null ; then
+	printf 'network not reachable or name resolution not working!\n' ; exit 1
+fi
 
 printf '\n# Check tun device is available.\n'
 if [ ! -e /dev/net/tun ]; then
