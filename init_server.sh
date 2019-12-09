@@ -199,7 +199,7 @@ done
 #
 # -- Initial System --
 
-printf '\n### Start Initial System. (please wait! Coffee Time ca.10min)\n'
+printf '\n### Start Initial System. (please wait! Coffee Time ~ 10-30min)\n'
 
 salt-call state.highstate --local -l error
 
