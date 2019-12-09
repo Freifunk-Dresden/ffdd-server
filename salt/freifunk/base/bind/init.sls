@@ -19,6 +19,7 @@ bind:
       - file: /etc/bind/named.conf
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.default-zones
+      - /etc/bind/db.root
 {# DNS Master or Slave Server #}
 {% if nodeid == '3' or nodeid == '15' %}
       - file: /etc/bind/named.conf.local
@@ -34,6 +35,7 @@ bind:
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.local
       - file: /etc/bind/named.conf.default-zones
+      - /etc/bind/db.root
       - bind_reload_daemon
 {# Default GW Server #}
 {% else %}
@@ -47,6 +49,7 @@ bind:
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.default-zones
       - file: /etc/bind/vpn.forwarder
+      - /etc/bind/db.root
       - bind_reload_daemon
 {% endif %}
 
@@ -71,10 +74,10 @@ bind_reload_daemon:
 {# check root.hints are up-to-date #}
 /etc/bind/db.root:
   cmd.run:
-    - name: "cp /usr/share/dns/root.hints /etc/bind/db.root ; systemctl daemon-reload ; systemctl restart bind9"
+    - name: "cp /usr/share/dns/root.hints /etc/bind/db.root"
     - onlyif: "test ! -f /etc/bind/db.root || test $(md5sum /etc/bind/db.root | awk '{ print $1 }') != $(md5sum /usr/share/dns/root.hints | awk '{ print $1 }')"
     - require:
-      - bind
+      - pkg: bind
       - /lib/systemd/system/bind9.service
 
 
