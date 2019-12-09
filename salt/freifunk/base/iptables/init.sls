@@ -13,8 +13,6 @@ iptables:
     - user: root
     - group: root
     - mode: 755
-    - require:
-      - pkg: iptables
 
 {# Custom User Firewall-Rules #}
 /etc/firewall.user:
@@ -24,9 +22,6 @@ iptables:
     - group: root
     - mode: 644
     - replace: false
-    - require:
-      - file: /etc/init.d/S41firewall
-      - pkg: iptables
 
 {# IPv4 Service #}
 rc.d_S41firewall:
@@ -56,7 +51,6 @@ S41firewall:
       - file: /etc/firewall.user
       - file: /usr/local/sbin/ipset-fail2ban.sh
       - file: /etc/ipset-fail2ban/ipset-fail2ban.conf
-      - ipset-f2b-init
 
 
 {# IPv6 Firewall #}
@@ -66,8 +60,6 @@ S41firewall:
     - user: root
     - group: root
     - mode: 755
-    - require:
-      - pkg: iptables
 
 {# IPv6 Service #}
 rc.d_S42firewall6:
@@ -89,3 +81,4 @@ S42firewall6:
     - require:
       - pkg: iptables
       - service: S40network
+      - file: /etc/init.d/S42firewall6

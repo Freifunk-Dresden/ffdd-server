@@ -60,9 +60,6 @@ ipset:
     - user: root
     - group: root
     - mode: 755
-    - require:
-      - pkg: fail2ban
-      - pkg: ipset
 
 {# Configuration #}
 /etc/ipset-fail2ban/ipset-fail2ban.conf:
@@ -72,9 +69,6 @@ ipset:
     - group: root
     - mode: 644
     - makedirs: true
-    - require:
-      - pkg: fail2ban
-      - pkg: ipset
 
 {# local f2b actions overwrite defaults #}
 /etc/fail2ban/action.d/iptables-allports.local:
@@ -85,7 +79,6 @@ ipset:
     - mode: 644
     - require:
       - pkg: fail2ban
-      - pkg: ipset
 
 /etc/fail2ban/action.d/iptables-multiport.local:
   file.managed:
@@ -95,7 +88,6 @@ ipset:
     - mode: 644
     - require:
       - pkg: fail2ban
-      - pkg: ipset
 
 {# cron #}
 /etc/cron.d/blacklist_fail2ban:
@@ -123,8 +115,6 @@ ipset-f2b-init:
     - name: /usr/local/sbin/ipset-fail2ban.sh /etc/ipset-fail2ban/ipset-fail2ban.conf >/dev/null 2>&1; exit 0
     - unless: "[ -f /etc/ipset-fail2ban/ipset-fail2ban.restore ]"
     - require:
-      - pkg: fail2ban
-      - pkg: ipset
       - service: fail2ban
 
 {# unban helper-script #}
