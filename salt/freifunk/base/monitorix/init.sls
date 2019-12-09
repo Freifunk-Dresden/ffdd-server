@@ -19,13 +19,11 @@ monitorix:
     - restart: True
     - watch:
       - pkg: monitorix
-      - service: S41firewall
       - file: /etc/monitorix/monitorix.conf
     - require:
       - pkg: monitorix
       - pkg: apache2
       - service: S40network
-      - service: S41firewall
       - file: /etc/monitorix/monitorix.conf
 
 
