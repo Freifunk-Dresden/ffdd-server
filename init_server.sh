@@ -107,7 +107,7 @@ printf '\n### Update System ..\n'
 "$PKGMNGR" -y update
 "$PKGMNGR" -y dist-upgrade
 
-printf '\n### Instaĺl Basic Software ..\n'
+printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
 
 
