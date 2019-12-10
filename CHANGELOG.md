@@ -26,7 +26,9 @@ _**version 1.1.0**_
 	- init_server.sh
 		- add salt repo for debian 9 and ubuntu 16
 		- a bit makeup for the script
+		- add a small ping check
 	- other changes and optimations
+		- update README
 		- remove temp parts and optimize some scripts and salt states
 		- check we can set sysctl tcp_syncookies
 		- make a shorter bash_alias help output

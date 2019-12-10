@@ -31,9 +31,8 @@ print_notice() {
 	printf '\n# Notice:\n'
 	printf ' * Please check your config options in /etc/nvram.conf\n'
 	printf ' * /etc/fastd/peers2/\n'
-	printf '   # add your first Fastd2 Connection and restart Fastd2:\n'
+	printf '   # add your first Fastd2 Connection:\n'
 	printf '   /etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002\n'
-	printf '   /etc/init.d/S53backbone-fastd2 restart\n'
 	printf '\nOptional:\n'
 	printf ' * /etc/openvpn\n'
 	printf '   # To Create a openvpn configuration use:\n'
@@ -41,6 +40,7 @@ print_notice() {
 	printf ' * /etc/wireguard/\n'
 	printf '   # To Create a wireguard configuration use:\n'
 	printf '   /etc/wireguard/gen-config vpn1 <original-provider-config-file>\n'
+	printf '\n%sPLEASE READ THE NOTICE AND\nREBOOT THE SYSTEM WHEN EVERYTHING IS DONE!%s\n' "$(tput bold)" "$(tput sgr0)"
 }
 
 #
@@ -56,7 +56,7 @@ if [ "$EUID" -ne 0 ];  then
 	printf 'Please run as root!\n' ; exit 1
 fi
 
-if ! ping -c1 github.com >/dev/null ; then
+if ! ping -c1 -W5 github.com >/dev/null ; then
 	printf 'network not reachable or name resolution not working!\n' ; exit 1
 fi
 
@@ -138,7 +138,7 @@ fi
 printf '\n### Backup old User configs ..\n'
 
 cp -vf /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
-test -f /root/.bash_aliases && cp /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
+test -f /root/.bash_aliases && cp -vf /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
 mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
 

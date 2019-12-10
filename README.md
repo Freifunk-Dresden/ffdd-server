@@ -46,16 +46,16 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
   Später kann der Server umgestellt werden, so dass nur noch dort abgelegte Konfigurationen (Verbindungen) akzeptiert werden. Gesteuert wird dieses durch das Konfigurationsfile von fastd (`/etc/fastd/fastd2.conf`).
 
 - Der ffdd-server unterstützt derzeit zwei VPN Implementationen Openvpn und Wireguard. Wireguard ist aber noch im BETA-Zustand. (Wireguard Unterstützung in Containern ist nur möglich wenn auch die kernel-headers verfügbar sind.)<br/>
-  `/etc/openvpn` und `/etc/wireguard` enthält je ein Script, mit dem verschiede VPN Konfigurationen von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.<br/>
+  `/etc/openvpn` und `/etc/wireguard` enthält je ein Script, mit dem verschiedene VPN Konfigurationen von Tunnelanbietern so aufbereitet werden, das diese für Freifunk Dresden richtig arbeiten.<br/>
 Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stufe das lokale Internet testet und wenn dieses funktioniert, wird das Openvpn/Wireguard Internet geprüft. Ist das Openvpn/Wireguard Internet verfügbar, wird dieser Server als Internet-Gateway im Freifunknetz bekannt gegeben.
 
 - Der ffdd-server selbst arbeitet ebenfalls als DNS Server für die Knoten, die ihn als Gateway ausgewählt haben. Die DNS Anfragen werden dabei auch über den VPN Tunnel geleitet.
 
 <br/>
 
-**Wichtig** ist, dass tun/tap devices und alle möglichen iptables module verfügbar sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstütz. (Platzmangel auf Routern und bmxd unterstützt dieses nicht.)
+**Wichtig** ist, dass tun/tap devices und alle möglichen iptables module verfügbar sind. IPv6 ist nicht notwendig, da das Freifunk Netz in Dresden nur IPv4 unterstützt. (Platzmangel auf Routern und bmxd unterstützt dieses nicht.)
 
-## Vorausetzungen
+## Voraussetzungen
 
 - mindestens Grundkenntnisse über Linux Server und Kenntnisse im Bereich Netzwerke / Routing.
 
@@ -81,34 +81,55 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 - *Installations Path in `/etc/nvram.conf`*<br/>
 Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 
-- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der ensprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
+- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
 
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
 <br/>
 
-Folgends cloned und Installiert das Repository.<br/>
-Es wird beim ersten Durchführen einige Zeit in anspruch nehmen da einige Packages und ihre Abhängigkeiten
+**execute in screen**<br />
+Es wird empfohlen bei der Erstinstallation das Script in einem screen auszuführen!
+Sollte es zu Verbindungsabbrüchen während der Installations kommen so kannst du diesen einfach vorbeugen. Hier einige `screen` Kommandos:
+
+```bash
+# list screen sockets
+screen -ls
+# create screen
+screen -dm -S ffdd-init
+# attach screen
+screen -dm -S ffdd-init -r
+# create and join screen
+screen -dm -S ffdd-init -R
+# enter or wait
+# use: ' Ctrl+A+D ' to detach from screen
+# see `man screen` for more informations.
+```
+
+Folgendes cloned und Installiert das Repository.<br/>
+Es wird beim ersten Durchführen einige Zeit in Anspruch nehmen da einige Packages und ihre Abhängigkeiten
 installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
 
 **git**:
 ```bash
-apt install -y git
+apt install -y git screen
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
-git checkout T_RELEASE_latest && ./init_server.sh
+git checkout T_RELEASE_latest
+screen -dm -S ffdd-init bash -c './init_server.sh'
+screen -dm -S ffdd-init -r
 ```
 Alternative Installations Möglichkeiten:
 
 **curl**:
 ```bash
-apt install -y curl
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
+apt install -y curl screen
+screen -dm -S ffdd-init bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
+screen -dm -S ffdd-init -r
 ```
 
 **wget**:
 ```bash
-apt install -y wget
-bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+apt install -y wget screen
+screen -dm -S ffdd-init -R bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
 
@@ -117,7 +138,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 
 ### Manuelle Anpassungen
 
-Nun müssen noch Host-Spezifische Dinge kontroliert und angepasst werden:
+Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
 
 - `/etc/hostname` (FQDN)
 - `/etc/nvram.conf`
@@ -149,25 +170,25 @@ salt-call state.highstate --local
 salt-call state.highstate --local -l debug
 ```
 
-**Nachdem dem nun alle deine Einstellungen überprüft und gesetzt hast sollte der Server einmal sauber neugestartet werden.**<br/>
+**Nachdem dem nun alle deine Einstellungen überprüft und gesetzt hast sollte der Server einmal sauber neu gestartet werden.**<br/>
 
 ### Optional ###
 Du hast selbstverständlich zu jeder Zeit die Möglichkeit dein System nach deinen wünschen anzupassen.
 Dazu gehören unter anderem auch folgende Optionen:
 
 - *`/root/.bash_user_aliases`*<br/>
-Kann verwendet werden um eigene bash-aliases (default shell) für den Benutzer 'root' anzulegen. Diese werden in `/root/.bash_aliases` eingebunden und automatisch mitgeladen.
+Kann verwendet werden um eigene bash-aliases (default shell) für den Benutzer 'root' anzulegen. Diese werden in `/root/.bash_aliases` eingebunden und automatisch mit geladen.
 - *`/etc/firewall.user`*<br/>
-Kann verwendet werden um eigene Firewallregeln (iptables) zu definieren. Diese werden in `/etc/init.d/S41firewall` eingebunden und automatisch mitgeladen.
+Kann verwendet werden um eigene Firewall regeln (iptables) zu definieren. Diese werden in `/etc/init.d/S41firewall` eingebunden und automatisch mit geladen.
 - *`/etc/network_rules.user`*<br/>
-Kann verwendet werden um eigene Netzwerk regeln (ip rule/route) zu definieren. Diese werden in `/etc/init.d/S40network` eingebunden und automatisch mitgeladen.
+Kann verwendet werden um eigene Netzwerk regeln (ip rule/route) zu definieren. Diese werden in `/etc/init.d/S40network` eingebunden und automatisch mit geladen.
 
 ## Autoupdate
-Bei jeder Durchführung des salt Befehls wird überprüft ob das locale ffdd-server Repository unter `/srv/ffdd-server` auf dem aktuellsten Stand ist.
+Bei jeder Durchführung des `salt`-Befehls wird überprüft ob das locale ffdd-server Repository unter `/srv/ffdd-server` auf dem aktuellsten Stand ist.
 Dies gewährleistet dass Änderungen sowie Bugfixes aber auch Neuerungen schnellst möglich zur Verfügung gestellt werden können.
 
 ### Manuell Update
-Das Autoupdate kann zur jeder Zeit abzuschaltet werden. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/nvram.conf` deaktiviert werden:<br>
+Das Autoupdate kann zur jeder Zeit abgeschaltet werden. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/nvram.conf` deaktiviert werden:<br>
 `nvram set autoupdate 0`
 
 **Ein manuelles Update durchzuführen:**
@@ -205,7 +226,6 @@ branch=master
 ### DEV init_server.sh - Installation
 
 ```bash
-apt install -y git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 
