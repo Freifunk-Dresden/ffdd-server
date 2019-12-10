@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+### This file managed by Salt, do not edit by hand! ###
+#
+### BEGIN INIT INFO
+# Provides:          S43ipset_f2b
+# Required-Start:    S40network S41firewall fail2ban
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: set freifunk ipset-fail2ban
+# Description:       set freifunk ipset-fail2ban
+### END INIT INFO
+
+# ipset-blacklist for F2B
+
+if [ "$1" = "start" ]; then
+	ipset restore < /etc/ipset-fail2ban/ipset-fail2ban.restore
+	iptables -w -I INPUT 1 -m set --match-set blacklist_fail2ban src -j DROP
+fi
+
+if [ "$1" = "stop" ]; then
+	iptables -D INPUT -m set --match-set blacklist_fail2ban src -j DROP
+fi
+
+if [ "$1" = "restart" ]; then
+	$0 stop
+	$0 start
+fi

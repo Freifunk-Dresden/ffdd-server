@@ -54,6 +54,42 @@ ipset:
     - refresh: True
     - name: ipset
 
+/etc/init.d/S43ipset_f2b:
+  file.managed:
+    - source: salt://fail2ban/etc/init.d/S43ipset_f2b
+    - user: root
+    - group: root
+    - mode: 755
+
+rc.d_S43ipset_f2b:
+  cmd.run:
+    - name: /usr/sbin/update-rc.d S43ipset_f2b defaults ; systemctl daemon-reload
+    - require:
+      - file: /etc/init.d/S43ipset_f2b
+    - onchanges:
+      - file: /etc/init.d/S43ipset_f2b
+
+S43ipset_f2b:
+  service:
+    - running
+    - enable: True
+    - restart: True
+    - watch:
+      - pkg: iptables
+      - pkg: ipset
+      - service: S41firewall
+      - file: /usr/local/sbin/ipset-fail2ban.sh
+    - require:
+      - pkg: iptables
+      - pkg: ipset
+      - service: S41firewall
+      - service: fail2ban
+      - file: /etc/init.d/S43ipset_f2b
+      - file: /usr/local/sbin/ipset-fail2ban.sh
+      - file: /etc/ipset-fail2ban/ipset-fail2ban.conf
+      - cmd: rc.d_S43ipset_f2b
+
+
 /usr/local/sbin/ipset-fail2ban.sh:
   file.managed:
     - source: salt://fail2ban/usr/local/sbin/ipset-fail2ban.sh

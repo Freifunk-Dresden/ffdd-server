@@ -108,10 +108,6 @@ if [ "$1" = "start" ]; then
 	iptables -w -A INPUT -j LOG --log-prefix "DROP IPv4 INPUT: "
 	iptables -w -A INPUT -j DROP
 
-	# ipset-blacklist for F2B
-	ipset restore < /etc/ipset-fail2ban/ipset-fail2ban.restore
-	iptables -I INPUT 1 -m set --match-set blacklist_fail2ban src -j DROP
-
 #----- setup FORWARD rules -----
 	printf 'setting up FORWARD rules ...\n'
 

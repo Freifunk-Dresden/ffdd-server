@@ -49,8 +49,6 @@ S41firewall:
       - service: S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
-      - file: /usr/local/sbin/ipset-fail2ban.sh
-      - file: /etc/ipset-fail2ban/ipset-fail2ban.conf
       - cmd: rc.d_S41firewall
 
 
