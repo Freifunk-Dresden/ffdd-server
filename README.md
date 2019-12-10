@@ -84,7 +84,6 @@ Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kei
 - ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
 
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
-<br/>
 
 **execute in screen**<br />
 Es wird empfohlen bei der Erstinstallation das Script in einem screen auszuführen!
@@ -102,6 +101,7 @@ screen -S ffdd-init
 # use: ' Ctrl+A+D ' to detach from screen
 # see `man screen` for more informations.
 ```
+<br/>
 
 Folgendes cloned und Installiert das Repository.<br/>
 Es wird beim ersten Durchführen einige Zeit in Anspruch nehmen da einige Packages und ihre Abhängigkeiten
