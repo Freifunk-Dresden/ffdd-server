@@ -4,9 +4,12 @@ apt:
     - refresh: True
     - names:
       - apt
-      - apt-transport-https
       - ca-certificates
       - unattended-upgrades
+{% if grains['os'] == 'Debian' and not grains['oscodename'] == 'buster' %}
+      - apt-transport-https
+{% endif %}
+
 
 {# sources.list #}
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
