@@ -51,6 +51,7 @@ S41firewall:
       - file: /etc/firewall.user
       - file: /usr/local/sbin/ipset-fail2ban.sh
       - file: /etc/ipset-fail2ban/ipset-fail2ban.conf
+      - cmd: rc.d_S41firewall
 
 
 {# IPv6 Firewall #}
@@ -82,3 +83,4 @@ S42firewall6:
       - pkg: iptables
       - service: S40network
       - file: /etc/init.d/S42firewall6
+      - cmd: rc.d_S42firewall6
