@@ -96,10 +96,9 @@ screen -ls
 # create screen
 screen -dm -S ffdd-init
 # attach screen
-screen -dm -S ffdd-init -r
+screen -S ffdd-init -r
 # create and join screen
-screen -dm -S ffdd-init -R
-# enter or wait
+screen -S ffdd-init
 # use: ' Ctrl+A+D ' to detach from screen
 # see `man screen` for more informations.
 ```
@@ -114,22 +113,20 @@ apt install -y git screen
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 git checkout T_RELEASE_latest
-screen -dm -S ffdd-init bash -c './init_server.sh'
-screen -dm -S ffdd-init -r
+screen -S ffdd-init bash -c './init_server.sh'
 ```
 Alternative Installations Möglichkeiten:
 
 **curl**:
 ```bash
 apt install -y curl screen
-screen -dm -S ffdd-init bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
-screen -dm -S ffdd-init -r
+screen -S ffdd-init bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 
 **wget**:
 ```bash
 apt install -y wget screen
-screen -dm -S ffdd-init -R bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+screen -S ffdd-init bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
 
