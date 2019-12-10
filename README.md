@@ -96,7 +96,7 @@ screen -ls
 screen -dm -S ffdd-init
 # attach screen
 screen -S ffdd-init -r
-# create and join screen
+# create and attach screen
 screen -S ffdd-init
 # use: ' Ctrl+A+D ' to detach from screen
 # see `man screen` for more informations.
