@@ -72,21 +72,19 @@ S52batmand:
     - restart: True
     - watch:
       - service: S40network
-      - service: S41firewall
       - service: S53backbone-fastd2
       - file: /etc/init.d/S52batmand
       - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
-      - file: /etc/init.d/S41firewall
     - require:
       - sls: nvram
       - service: S40network
-      - service: S41firewall
       - service: S53backbone-fastd2
       - cmd: rc.d_S52batmand
       - file: /etc/init.d/S52batmand
       - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
-      - file: /etc/init.d/S41firewall
+      - file: /usr/local/bin/ddmesh-ipcalc.sh
+      - file: /usr/local/bin/nvram
       - file: /etc/nvram.conf
 {% endif %}

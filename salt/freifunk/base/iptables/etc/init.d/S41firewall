@@ -3,7 +3,7 @@
 #
 ### BEGIN INIT INFO
 # Provides:          S41firewall
-# Required-Start:    S40network fail2ban.service
+# Required-Start:    S40network
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
@@ -23,79 +23,86 @@ BAT_IP='169.254.0.0'
 
 eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 
+# check iptables command
+if [ -n $(which iptables-legacy) ]; then
+	IPT="$(command -v iptables-legacy)"
+else
+	IPT="$(command -v iptables)"
+fi
+
 
 if [ "$1" = "start" ]; then
 
-	iptables -w -N T_BACKBONE_I
+	$IPT -w -N T_BACKBONE_I
 
-	iptables -w -N T_BACKBONE_O
-	iptables -w -A OUTPUT -j T_BACKBONE_O
+	$IPT -w -N T_BACKBONE_O
+	$IPT -w -A OUTPUT -j T_BACKBONE_O
 
 #----- setup NAT rules -----
 	printf 'setting up SNAT/MASQUERADE rules ...\n'
 
 	#dont SNAT locally generated packets target for local
-	iptables -w -t nat -A POSTROUTING -o lo -j ACCEPT
+	$IPT -w -t nat -A POSTROUTING -o lo -j ACCEPT
 
 	#SNAT all traffic to backbone which comes from tbb only (set source=node-ip)
 	#DON'T SNAT OGMs
-	iptables -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p udp --dport 4305:4307 -j ACCEPT
-	iptables -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -s "$_ddmesh_nonprimary_ip" -j SNAT --to-source "$_ddmesh_ip"
+	$IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p udp --dport 4305:4307 -j ACCEPT
+	$IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -s "$_ddmesh_nonprimary_ip" -j SNAT --to-source "$_ddmesh_ip"
 
 	#masquerade all to vpn tunnel
-	#iptables -w -t nat -A POSTROUTING -o vpn+ -j MASQUERADE
+	#$IPT -w -t nat -A POSTROUTING -o vpn+ -j MASQUERADE
 
 #----- setup INPUT rules -----
 	printf 'setting up INPUT rules ...\n'
 
 	#accept answers
-	iptables -w -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-	iptables -w -A INPUT -p icmp -j ACCEPT
-	iptables -w -A INPUT -j T_BACKBONE_I
+	$IPT -w -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+	$IPT -w -A INPUT -p icmp -j ACCEPT
+	$IPT -w -A INPUT -j T_BACKBONE_I
 
 	#allow access only some services
 	#tracepath/route
-	iptables -w -A INPUT -p udp --dport 30000:50000 -j ACCEPT
+	$IPT -w -A INPUT -p udp --dport 30000:50000 -j ACCEPT
 	#mosh
-	iptables -w -A INPUT -p udp --dport 60000:61000 -j ACCEPT
-	iptables -w -A INPUT -i lo -j ACCEPT
-	iptables -w -A INPUT -p tcp --dport 22 -j ACCEPT
-	iptables -w -A INPUT -p tcp --dport 80 -j ACCEPT
-	iptables -w -A INPUT -p tcp --dport 443 -j ACCEPT
-	#iptables -w -A INPUT -d 224.0.0.0/4 -j ACCEPT
+	$IPT -w -A INPUT -p udp --dport 60000:61000 -j ACCEPT
+	$IPT -w -A INPUT -i lo -j ACCEPT
+	$IPT -w -A INPUT -p tcp --dport 22 -j ACCEPT
+	$IPT -w -A INPUT -p tcp --dport 80 -j ACCEPT
+	$IPT -w -A INPUT -p tcp --dport 443 -j ACCEPT
+	#$IPT -w -A INPUT -d 224.0.0.0/4 -j ACCEPT
 
-	iptables -w -A INPUT -i bmx_prime -j ACCEPT
+	$IPT -w -A INPUT -i bmx_prime -j ACCEPT
 
 	#--- input backbone ----------
 	#bmx
-	iptables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4305 -j ACCEPT
-	iptables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4306 -j ACCEPT
-	iptables -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4307 -j ACCEPT
-	iptables -w -A INPUT -p udp -i lo --dport 4305 -j ACCEPT
-	iptables -w -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
-	iptables -w -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
+	$IPT -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4305 -j ACCEPT
+	$IPT -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4306 -j ACCEPT
+	$IPT -w -A INPUT -p udp -i "$BACKBONE_DEV" --dport 4307 -j ACCEPT
+	$IPT -w -A INPUT -p udp -i lo --dport 4305 -j ACCEPT
+	$IPT -w -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
+	$IPT -w -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
 
 	#iperf3
-	iptables -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p tcp --dport 5201 -j ACCEPT
-	iptables -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p udp --dport 5201 -j ACCEPT
-	iptables -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p tcp --dport 5201 -j ACCEPT
-	iptables -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p udp --dport 5201 -j ACCEPT
+	$IPT -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p tcp --dport 5201 -j ACCEPT
+	$IPT -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p udp --dport 5201 -j ACCEPT
+	$IPT -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p tcp --dport 5201 -j ACCEPT
+	$IPT -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p udp --dport 5201 -j ACCEPT
 
 	#dns
-	iptables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
-	iptables -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 53 -j ACCEPT
+	$IPT -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
+	$IPT -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 53 -j ACCEPT
 	#ssh
-	iptables -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 22 -j ACCEPT
+	$IPT -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 22 -j ACCEPT
 	#mosh
-	iptables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 60000:61000 -j ACCEPT
+	$IPT -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 60000:61000 -j ACCEPT
 	#http
-	iptables -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 80 -j ACCEPT
+	$IPT -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 80 -j ACCEPT
 
 
 	#---- input eth0 --------------
 
 	# fastd2 backbone
-	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 5002 -j ACCEPT
+	$IPT -w -A INPUT -i "$WAN_DEV" -p udp --dport 5002 -j ACCEPT
 
 	#
 	# include custom user rules
@@ -103,10 +110,10 @@ if [ "$1" = "start" ]; then
 	. /etc/firewall.user
 
 	#drop packages before logging
-	iptables -w -A INPUT -i "$WAN_DEV" -p udp --dport 137 -j DROP
+	$IPT -w -A INPUT -i "$WAN_DEV" -p udp --dport 137 -j DROP
 
-	iptables -w -A INPUT -j LOG --log-prefix "DROP IPv4 INPUT: "
-	iptables -w -A INPUT -j DROP
+	$IPT -w -A INPUT -j LOG --log-prefix "DROP IPv4 INPUT: "
+	$IPT -w -A INPUT -j DROP
 
 #----- setup FORWARD rules -----
 	printf 'setting up FORWARD rules ...\n'
@@ -114,38 +121,38 @@ if [ "$1" = "start" ]; then
 	# wird gebraucht, wenn auf server zwei fastd instanzen mit alter und neuer mtu laufen.
 	# bat0 selectiert die kleinste mtu und damit passen dann antworten nicht mehr ins bat0.
 	# wird nur fuer den wechsel der mtu benoetigt, kann aber drine bleiben
-	iptables -w -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS  --clamp-mss-to-pmtu
+	$IPT -w -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
 	# statistic
-	iptables -w -N statistic_forward 2>/dev/null
-	iptables -w -A FORWARD -j statistic_forward
-	iptables -w -N stat_to_ovpn 2>/dev/null	# helper to read traffic from
-	iptables -w -A stat_to_ovpn -j RETURN
-	iptables -w -N stat_from_ovpn 2>/dev/null
-	iptables -w -A stat_from_ovpn -j RETURN
-	iptables -w -A statistic_forward -i "$BACKBONE_DEV" -o vpn+ -j stat_to_ovpn
-	iptables -w -A statistic_forward -i bat+ -o vpn+ -j stat_to_ovpn
-	iptables -w -A statistic_forward -i vpn+ -o "$BACKBONE_DEV" -j stat_from_ovpn
+	$IPT -w -N statistic_forward 2>/dev/null
+	$IPT -w -A FORWARD -j statistic_forward
+	$IPT -w -N stat_to_ovpn 2>/dev/null	# helper to read traffic from
+	$IPT -w -A stat_to_ovpn -j RETURN
+	$IPT -w -N stat_from_ovpn 2>/dev/null
+	$IPT -w -A stat_from_ovpn -j RETURN
+	$IPT -w -A statistic_forward -i "$BACKBONE_DEV" -o vpn+ -j stat_to_ovpn
+	$IPT -w -A statistic_forward -i bat+ -o vpn+ -j stat_to_ovpn
+	$IPT -w -A statistic_forward -i vpn+ -o "$BACKBONE_DEV" -j stat_from_ovpn
 
-	iptables -w -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
-	iptables -w -A FORWARD -p icmp -j ACCEPT
+	$IPT -w -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+	$IPT -w -A FORWARD -p icmp -j ACCEPT
 
-	iptables -w -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
+	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
 
 	#dns; da in nvram.conf der dns eingetragen ist und eine routing rule fuer dns erzeugt,
 	#damit locale aufloesung geht, gibt es probleme wenn aus dem freifunk netz dns anfragen
 	#via gleichem dns server (wie in resolv.conf) kommen. diese werden von firewall geblockt.
 	#erlaube dns anfragen via localem server
-	iptables -w -A FORWARD -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
-	iptables -w -A FORWARD -i bat+ -p udp --dport 53 -j ACCEPT
+	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
+	$IPT -w -A FORWARD -i bat+ -p udp --dport 53 -j ACCEPT
 
 	#allow forward to openvpn tunnel
-	iptables -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
-	iptables -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
+	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
+	$IPT -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
 
 	#block any other
-	iptables -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
-	iptables -w -A FORWARD -j DROP
+	$IPT -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
+	$IPT -w -A FORWARD -j DROP
 
 #----- setup OUTPUT rules -----
 	printf 'setting up OUTPUT rules ...\n'
@@ -156,38 +163,37 @@ if [ "$1" = "start" ]; then
 	# vpn servers public ip to check internet.
 	# if I do not mark, all pakets (answers) for existing connections between localhost
 	# an other freifunk vservers are routet through openvpn (e.g.: ssh, fastd)
-	iptables -w -t mangle -A OUTPUT -p icmp -j MARK --set-mark 0x11
+	$IPT -w -t mangle -A OUTPUT -p icmp -j MARK --set-mark 0x11
 
 	#allow all output
-	iptables -w -A OUTPUT -j ACCEPT
+	$IPT -w -A OUTPUT -j ACCEPT
 fi
 
 
 if [ "$1" = "stop" ]; then
 	#dont flush backbone, so all rules are still saved and can be used when
 	#this firewall is restarted
-	#iptables -w -F T_BACKBONE_I
-	#iptables -w -X T_BACKBONE_I
-	#iptables -w -F T_BACKBONE_O
-	#iptables -w -X T_BACKBONE_O
+	#$IPT -w -F T_BACKBONE_I
+	#$IPT -w -X T_BACKBONE_I
+	#$IPT -w -F T_BACKBONE_O
+	#$IPT -w -X T_BACKBONE_O
 
-	iptables -w -t mangle -F PREROUTING
-	iptables -w -t mangle -F OUTPUT
-	iptables -w -t nat -F PREROUTING
-	iptables -w -t nat -F POSTROUTING
-	iptables -w -t nat -F OUTPUT
-	iptables -w -F INPUT
-	iptables -w -F FORWARD
-	iptables -w -F OUTPUT
+	$IPT -w -t mangle -F PREROUTING
+	$IPT -w -t mangle -F OUTPUT
+	$IPT -w -t nat -F PREROUTING
+	$IPT -w -t nat -F POSTROUTING
+	$IPT -w -t nat -F OUTPUT
+	$IPT -w -F INPUT
+	$IPT -w -F FORWARD
+	$IPT -w -F OUTPUT
 
-	iptables -w -F stat_to_ovpn
-	iptables -w -F stat_from_ovpn
-	iptables -w -F statistic_forward
+	$IPT -w -F stat_to_ovpn
+	$IPT -w -F stat_from_ovpn
+	$IPT -w -F statistic_forward
 
-	iptables -w -X stat_to_ovpn
-	iptables -w -X stat_from_ovpn
-	iptables -w -X statistic_forward
-
+	$IPT -w -X stat_to_ovpn
+	$IPT -w -X stat_from_ovpn
+	$IPT -w -X statistic_forward
 fi
 
 

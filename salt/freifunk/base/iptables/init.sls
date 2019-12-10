@@ -23,7 +23,6 @@ iptables:
     - mode: 644
     - replace: false
 
-{# IPv4 Service #}
 rc.d_S41firewall:
   cmd.run:
     - name: /usr/sbin/update-rc.d S41firewall defaults ; systemctl daemon-reload
@@ -39,17 +38,20 @@ S41firewall:
     - restart: True
     - watch:
       - pkg: iptables
-      - pkg: ipset
       - service: S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
     - require:
       - pkg: iptables
-      - pkg: ipset
       - service: S40network
+      - service: S52batmand
+      - service: S53backbone-fastd2
       - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
       - cmd: rc.d_S41firewall
+      - file: /usr/local/bin/ddmesh-ipcalc.sh
+      - file: /usr/local/bin/nvram
+      - file: /etc/nvram.conf
 
 
 {# IPv6 Firewall #}
@@ -60,7 +62,6 @@ S41firewall:
     - group: root
     - mode: 755
 
-{# IPv6 Service #}
 rc.d_S42firewall6:
   cmd.run:
     - name: /usr/sbin/update-rc.d S42firewall6 defaults ; systemctl daemon-reload
