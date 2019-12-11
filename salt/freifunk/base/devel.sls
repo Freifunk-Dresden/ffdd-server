@@ -8,10 +8,11 @@ devel:
       - zlib1g-dev
       - liblzo2-dev
       - libssl-dev
+      - libnacl-dev
+      - libjson-c-dev
       - bison
       - flex
       - zlibc
-      - libjson-c-dev
       - pkg-config
       - cmake
 

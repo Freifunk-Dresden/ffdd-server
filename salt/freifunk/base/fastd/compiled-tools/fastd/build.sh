@@ -102,8 +102,8 @@ build_fastd()
 }
 
 #needed libs
-apt-get install libnacl-dev
-apt-get install libjson-c-dev
+apt-get -y install libnacl-dev
+apt-get -y install libjson-c-dev
 
 build_libuecc
 build_fastd
