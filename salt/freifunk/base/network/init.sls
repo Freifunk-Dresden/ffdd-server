@@ -8,7 +8,6 @@
     - mode: 755
     - require:
       - pkg: iproute2
-      - file: /etc/iproute2/rt_tables
 
 {# Custom User Firewall-Rules #}
 /etc/network_rules.user:
