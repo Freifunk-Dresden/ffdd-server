@@ -1,5 +1,5 @@
 {# FFDD Salt-Minion (masterless) #}
-{% from 'config.jinja' import ctime %}
+{% from 'config.jinja' import ctime, install_dir %}
 
 {# Package #}
 salt-minion:
@@ -46,7 +46,6 @@ salt-minion:
         #
         # ffdd-server - salt-minion masterless configuration file
         #
-        {% from 'config.jinja' import install_dir %}
         master_type: disable
         file_client: local
         file_roots:

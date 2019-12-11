@@ -186,7 +186,6 @@ cat > /etc/salt/minion.d/freifunk-masterless.conf <<EOF
 #
 # ffdd-server - salt-minion masterless configuration file
 #
-
 master_type: disable
 file_client: local
 file_roots:
