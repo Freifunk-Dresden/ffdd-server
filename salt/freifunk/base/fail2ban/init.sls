@@ -88,6 +88,7 @@ S43ipset_f2b:
       - file: /usr/local/sbin/ipset-fail2ban.sh
       - file: /etc/ipset-fail2ban/ipset-fail2ban.conf
       - cmd: rc.d_S43ipset_f2b
+      - ipset-f2b-init
 
 
 /usr/local/sbin/ipset-fail2ban.sh:

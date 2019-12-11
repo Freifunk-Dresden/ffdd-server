@@ -13,6 +13,7 @@ monitorix:
       - monitorix
     - require:
       - pkgrepo: monitorix
+      - file: /etc/monitorix/monitorix.conf
   service:
     - running
     - enable: True
@@ -25,6 +26,7 @@ monitorix:
       - pkg: apache2
       - service: S40network
       - file: /etc/monitorix/monitorix.conf
+      - file: /var/lib/monitorix/www/imgs
 
 
 {# Configuration #}
@@ -35,8 +37,7 @@ monitorix:
     - user: root
     - group: root
     - mode: 644
-    - require:
-      - pkg: monitorix
+    - makedirs: true
 
 
 {# enable monitorix Apache2 config #}
@@ -75,3 +76,5 @@ apache2_conf_enable_monitorix:
     - recurse:
       - user
       - group
+    - require:
+      - pkg: monitorix

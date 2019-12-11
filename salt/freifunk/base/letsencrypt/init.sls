@@ -47,7 +47,7 @@ apache2_conf_enable_letsencrypt:
     - group: www-data
     - file_mode: 755
     - dir_mode: 755
-    - makedirs: True
+    - makedirs: true
 
 
 {# autoconfigure ssl #}

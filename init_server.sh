@@ -109,6 +109,7 @@ printf '\n### Update System ..\n'
 
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
+# run salt-minion only as masterless. disable the service:
 systemctl disable salt-minion ; systemctl stop salt-minion
 
 

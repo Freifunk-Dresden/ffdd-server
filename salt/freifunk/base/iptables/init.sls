@@ -38,7 +38,6 @@ S41firewall:
     - restart: True
     - watch:
       - pkg: iptables
-      - service: S40network
       - file: /etc/init.d/S41firewall
       - file: /etc/firewall.user
     - require:
@@ -76,10 +75,16 @@ S42firewall6:
     - enable: True
     - restart: True
     - watch:
-      - file: /etc/init.d/S42firewall6
-      - service: S40network
-    - require:
       - pkg: iptables
       - service: S40network
       - file: /etc/init.d/S42firewall6
+    - require:
+      - pkg: iptables
+      - service: S40network
+      - service: S52batmand
+      - service: S53backbone-fastd2
+      - file: /etc/init.d/S42firewall6
       - cmd: rc.d_S42firewall6
+      - file: /usr/local/bin/ddmesh-ipcalc.sh
+      - file: /usr/local/bin/nvram
+      - file: /etc/nvram.conf
