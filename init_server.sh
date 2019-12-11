@@ -33,6 +33,8 @@ print_notice() {
 	printf ' * /etc/fastd/peers2/\n'
 	printf '   # add your first Fastd2 Connection:\n'
 	printf '   /etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002\n'
+	printf '   # and restart Fastd2:\n'
+	printf '   /etc/init.d/S53backbone-fastd2 restart\n'
 	printf '\nOptional:\n'
 	printf ' * /etc/openvpn\n'
 	printf '   # To Create a openvpn configuration use:\n'
@@ -212,7 +214,7 @@ done
 #
 # -- Initial System --
 
-printf '\n### Start Initial System. (please wait! Coffee Time ~ 10-30min) ..\n'
+printf '\n### Start Initial System.. please wait! Coffee Time ~ 10-30min ..\n'
 
 salt-call state.highstate --local -l error
 
