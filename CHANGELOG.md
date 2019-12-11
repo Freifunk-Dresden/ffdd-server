@@ -9,20 +9,23 @@ _**version 1.1.0**_
 		- some optimations for different DNS states: "default gw" / "master" and "slave" Server
 		- enable dnssec
 		- add stats to ffdd status page
+	- bmxd
+		- remove trailing spaces from scripts
+		- fix '__FUNCTION__' in gcc extension, use '__func__' now.
 	- nvram
 		- get current version branch by git
 		- change ffdd-server version output
-	- vnstat: change git source to a stable rev/commit
-	- apache2:
+	- apache2
 		- optimize salt state
 		- move ffdd-server webpage states to ddmesh directory/state
 		- some optimations for php installation
 	- letsencrypt: optimize scripts and configs
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- monitorix
-		- update config options
+		- update config options remove some issues
 		- enable bind stats
-		- disable fail2ban and proc stats. Bug - iptables crash
+		- disable fail2ban graph
+	- vnstat: change git source to a stable rev/commit
 	- init_server.sh
 		- add salt repo for debian 9 and ubuntu 16
 		- a bit makeup for the script
