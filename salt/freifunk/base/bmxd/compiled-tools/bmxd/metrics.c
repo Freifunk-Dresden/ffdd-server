@@ -28,7 +28,7 @@
 
 
 void flush_sq_record( struct sq_record *sqr ) {
-	
+
 	sqr->wa_val = sqr->wa_unscaled = 0;
         sqr->wa_clr_sqn = sqr->wa_set_sqn = ((SQ_TYPE) (sqr->wa_clr_sqn - (MAX_PATH_LOUNGE + MAX_PWS + 1)));
 
@@ -100,20 +100,20 @@ void update_lounged_metric(uint8_t probe, uint8_t lounge_size, SQ_TYPE sqn_incm,
 
 
 uint32_t upd_wavg( uint32_t *wavg, uint32_t probe, uint8_t weight_exp ) {
-	
+
 #ifndef NOPARANOIA
 	if ( weight_exp > 10 || (weight_exp && probe >= (uint32_t)(0x01<<(32-weight_exp))) )
-		dbg( DBGL_SYS, DBGT_ERR, 
+		dbg( DBGL_SYS, DBGT_ERR,
 		     "probe or weight_exp value to large to calculate weighted average!"
 		     "upd_wavg(wavg: %d, probe: %d, weight_exp: %d ) = %d:",
 		     *wavg, probe, weight_exp, *wavg>>weight_exp );
 #endif
-	
+
 	if ( *wavg )
 		*wavg += probe - ((*wavg)>>weight_exp);
 	else
 		*wavg = probe<<weight_exp;
-	
-	
+
+
 	return WAVG(*wavg,weight_exp);
 }

@@ -20,7 +20,7 @@
 
 #define MIN_UPTIME 0
 #define MAX_UPTIME 2147383 /*(((TP32/1000)/2)-100) /1000 to talk about seconds and not ms, /2 to not render scheduled events outdated, -100 to be save */
-#define DEF_UPTIME 0 
+#define DEF_UPTIME 0
 
 #define DBGT_NONE 0
 #define	DBGT_INFO 1
@@ -93,7 +93,7 @@ struct dbgl_node
 
 
 // muting does not help if a changing value like time or seqno occurs durig the first DBG_HIST_TEXT_SIZE bytes
-#define DBG_HIST_TEXT_SIZE 80 
+#define DBG_HIST_TEXT_SIZE 80
 #define DBG_HIST_SIZE 20
 //#define DBG_HIST_EXPIRE 100000
 
@@ -115,17 +115,17 @@ struct dbg_histogram {
 #ifdef  NODEBUGALL
 #define dbgf_all(...) {;}
 #else
-#define dbgf_all( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __FUNCTION__, __VA_ARGS__ ); } } while (0)
+#define dbgf_all( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
 #endif
 
 #ifdef EXTDEBUG
-#define dbgf_ext( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __FUNCTION__, __VA_ARGS__ ); } } while (0)
+#define dbgf_ext( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
 #else
 #define dbgf_ext(...) {;}
 #endif
 
-#define dbgf( dbgl, dbgt, ...); _dbgf( dbgl, dbgt, __FUNCTION__, __VA_ARGS__ );
-#define dbgf_cn( cn, dbgl, dbgt, ...); _dbgf_cn( cn, dbgl, dbgt, __FUNCTION__, __VA_ARGS__ );
+#define dbgf( dbgl, dbgt, ...); _dbgf( dbgl, dbgt, __func__, __VA_ARGS__ );
+#define dbgf_cn( cn, dbgl, dbgt, ...); _dbgf_cn( cn, dbgl, dbgt, __func__, __VA_ARGS__ );
 
 void dbg ( int8_t dbgl, int8_t dbgt, char *last, ... );
 void _dbgf ( int8_t dbgl, int8_t dbgt, char const *f, char *last, ... );
@@ -181,7 +181,7 @@ extern struct list_head_first opt_list;
 
 /* dyn_t types: */
 // can only be used on-the-fly
-#define A_DYN	0x20 
+#define A_DYN	0x20
 // can never be used on-the-fly
 #define A_INI	0x40
 // can be used during init and on-the-fly
@@ -195,7 +195,7 @@ extern struct list_head_first opt_list;
 
 /* pos_t types: */
 // must be given as first argument
-#define A_BEG   0x01 NOT IMPLEMENTED 
+#define A_BEG   0x01 NOT IMPLEMENTED
 // may appera anywhere in command stream
 #define A_ANY	0x02
 // must appear as last argument
@@ -210,75 +210,75 @@ extern char *opt_cmd2str[];
 
 
 struct opt_child {
-	
+
 	struct list_head list;
-	
+
 	struct opt_type *c_opt; // key,  pointing to related opt_type
 	struct opt_parent *parent_instance;
-	
+
 	char *c_val;
-	
+
 	uint8_t p_diff; //ADD, DEL, NOP
-	
+
 	char *c_ref;
 };
 
 
 struct opt_parent {
-	
+
 	struct list_head list;
-	
+
 	struct list_head_first childs_instance_list;
-	
+
 	char *p_val; //key
-	
+
 	uint8_t p_diff; //ADD, DEL, NOP
-	
+
 	char *p_ref;
-	
+
 };
 
 #define ODI {{0},0,{0,0},{0,0},0}
 
 struct opt_data {
-	
+
 	struct list_head list;
-	
+
 	struct opt_type *parent_opt; //REMOVE THIS and use casting instead !
-	
+
 	struct list_head_first childs_type_list; //if this opt is a section type, then further sub-opts types can be listed here
-	
+
 	struct list_head_first parents_instance_list; //
 	uint16_t found_parents;
-	
+
 };
 
 struct opt_type {
-	
+
 	struct opt_data d; //MUST be first structure in opt_type to allow casting between struct opt_data and  struct opt_type
-	
+
 	int8_t order;  // enforces an order during the init process,  (0==anytime????), 1..99: in this order. Might become removed
-	
+
 	char *parent_name;
 	char *long_name;
 	char short_name;
-	
+
 	uint8_t opt_t;
-	
+
 	uint8_t auth_t;
 	uint8_t dyn_t;
 	uint8_t cfg_t;
 	uint8_t pos_t;
-	
+
 	// if != NULL call_option() will be initialize / reset(ARG_RESET) to idef
-	int32_t *ival; 
+	int32_t *ival;
 	// if imin != imax call_option() will test for validity
 	int32_t imin;
-	int32_t imax;  
+	int32_t imax;
 	int32_t idef;
-	
+
 	int32_t (*call_custom_option)( uint8_t cmd, uint8_t _save, struct opt_type *opt, struct opt_parent *patch, struct ctrl_node *cn );
-	
+
 #define ARG_VALUE_FORM	"<VAL>"
 #define ARG_FILE_FORM	"<FILE>"
 #define ARG_DIR_FORM	"<DIRECTORY>"
@@ -287,10 +287,10 @@ struct opt_type {
 #define ARG_PREFIX_FORM	"<NETADDR>/<PREFIX-LENGTH>"
 #define ARG_NETW_FORM	"<NETADDR>"
 #define ARG_MASK_FORM	"<NETMASK>"
-	
+
 	char	*syntax;
 	char	*help;
-	
+
 };
 
 
@@ -307,55 +307,55 @@ enum opt_cmd {
 	// called once for each option after registration
 	// Returns FAILURE or SUCCESS
 	OPT_REGISTER,
-		
-		
+
+
 	OPT_PATCH,
 	// opt values are configured by creating, extending, adjusting and finally testing and applying a patch
 	// option handler usually dont care about the creation of the patch.
-	// they get a complete patch which includes 
+	// they get a complete patch which includes
 	// the option type-value pair and optional child type-valued pairs.
-		
-		
+
+
 	OPT_ADJUST,
-	// patched type-values pairs can be adjusted to a unified format before being checked or applied 
+	// patched type-values pairs can be adjusted to a unified format before being checked or applied
 	// this has the following advantages:
 	// tracked and applied values are equal (different value notations can be adjusted to a unified format)
 	//	-> track knows about already configured values (even when given with different notation)
 	//	-> can prevent/warn reconfiguration of already configured values
 	//	-> can reject resetting of non-configured values
-	
-		
+
+
 	OPT_CHECK,
 	// to test a given patch (type-value pair) !
 	// Returns FAILURE or n>=0 of processed bytes-1
-		
-		
+
+
 	OPT_APPLY,
 	// to apply a previously created and adjusted patch
 	// Returns FAILURE or n>=0 of processed bytes-1
-		
-		
+
+
 	OPT_SET_POST,
 	// called whenever any option is changed and
-	// called ordered for each option and before next higher-order option   
+	// called ordered for each option and before next higher-order option
 	// Returns FAILURE or SUCCESS
-		
-		
+
+
 	OPT_POST,
 	// called whenever any option is changed  and
 	// called ordered for each option after all options were (re-)set
 	// Returns FAILURE or SUCCESS
-		
-	
+
+
 	OPT_UNREGISTER
 	// called once before an option is unregistered
 	// Returns FAILURE or SUCCESS
-		
+
 };
 
 // evaluates global variable: "on_the_fly"
 // fd may be set (>0) or not (=0)
-// cmd==OPT_SET_POST / OPT_POST: 
+// cmd==OPT_SET_POST / OPT_POST:
 //	s MBZ, return value is SUCCESS or FAILURE
 int32_t call_option( uint8_t del, uint8_t cmd, uint8_t _save, struct opt_type *opt, struct opt_parent *parent, char *in, struct ctrl_node *cn );
 
@@ -379,7 +379,7 @@ struct opt_parent *	get_opt_parent_ref ( struct opt_type *opt, char *ref );
 
 
 
-int8_t func_for_each_opt( struct ctrl_node *cn, void *data, char* func_name, 
+int8_t func_for_each_opt( struct ctrl_node *cn, void *data, char* func_name,
                           int8_t (*func) ( struct ctrl_node *cn, void *data, struct opt_type *opt, struct opt_parent *p, struct opt_child *c ) );
 
 int respect_opt_order( uint8_t test, int8_t last, int8_t next, struct opt_type *on, uint8_t load_config, uint8_t cmd, struct ctrl_node *cn );

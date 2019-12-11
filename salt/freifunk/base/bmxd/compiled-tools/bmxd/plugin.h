@@ -44,7 +44,7 @@ struct plugin_v1 {
 
 	//some more advanced (rarely called) callbacks hooks
 	void (*cb_plugin_handler[PLUGIN_CB_SIZE]) (void*);
-	
+
 	//some other attributes
 
 };
@@ -62,28 +62,28 @@ struct plugin_node {
 
 
 struct cb_ogm_node {
-	struct list_head list; 
+	struct list_head list;
 	int32_t cb_type;
 	int32_t (*cb_ogm_handler) ( struct msg_buff *mb, uint16_t oCtx, struct neigh_node *old_router );
 };
 
 
 struct cb_fd_node {
-	struct list_head list; 
+	struct list_head list;
 	int32_t fd;
 	void (*cb_fd_handler) (int32_t fd);
 };
 
 
 struct cb_packet_node {
-	struct list_head list; 
+	struct list_head list;
 	int32_t packet_type;
 	void (*cb_packet_handler) (struct msg_buff *mb);
 };
 
 
 struct cb_node {
-	struct list_head list; 
+	struct list_head list;
 	int32_t cb_type;
 	void (*cb_handler) ( void );
 };
@@ -155,6 +155,6 @@ int32_t cb_ogm_hooks( struct msg_buff *mb, uint16_t oCtx, struct neigh_node *old
 
 int32_t cb_snd_ext_hook( uint16_t ext_type, unsigned char* ext_buff );
 
-// use void change_selects( void ) to trigger cb_fd_handler() 
+// use void change_selects( void ) to trigger cb_fd_handler()
 
 

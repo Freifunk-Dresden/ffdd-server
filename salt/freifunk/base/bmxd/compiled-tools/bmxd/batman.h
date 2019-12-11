@@ -43,7 +43,7 @@
  * PROFILE_DATA   allows you to monitor the cpu usage for each function
  *
  ***/
- 
+
 
 /**
  * Some often used variable acronyms:
@@ -58,12 +58,12 @@
  */
 
 /**
- * Global Variables and definitions 
+ * Global Variables and definitions
  */
 
 #define SOURCE_VERSION "0.3-freifunk-dresden" //put exactly one distinct word inside the string like "0.3-pre-alpha" or "0.3-rc1" or "0.3"
 
-#define COMPAT_VERSION 10 
+#define COMPAT_VERSION 10
 
 
 #define ADDR_STR_LEN 16
@@ -158,7 +158,7 @@ enum ADGSN {
 
 
 /* DEF_UDPD_SIZE should not be increased before all bmxds' of a mesh support this option!
-   Otherwise OGMs + extension headers exceeding this size 
+   Otherwise OGMs + extension headers exceeding this size
    could not be send by nodes with the old MAX_PACKET_SIZE = 256 */
 #define MIN_UDPD_SIZE 24
 #define DEF_UDPD_SIZE 256
@@ -309,13 +309,13 @@ struct bat_packet_common
 #else
 # error "Please fix <bits/endian.h>"
 #endif
-	
-	// the size of this pat_packet_xyz msg and appended extenson headers 
+
+	// the size of this pat_packet_xyz msg and appended extenson headers
 	// in 4 oktet bocks (including this bat_size and the prevailing oktet)
-	uint8_t bat_size; 
-	
+	uint8_t bat_size;
+
 	uint16_t reserved2;
-	
+
 } __attribute__((packed));
 
 
@@ -335,17 +335,17 @@ struct bat_packet_ogm
 # error "Please fix <bits/endian.h>"
 #endif
 	uint8_t bat_size;
-	
-	uint8_t ogm_pws;  // in 1 bit steps 
+
+	uint8_t ogm_pws;  // in 1 bit steps
 	uint8_t ogm_misc; // still used for CPU
 	//uint8_t ogm_path_lounge;
-	
+
 	uint8_t ogm_ttl;
 	uint8_t prev_hop_id;
 	SQ_TYPE ogm_seqno;
-	
+
 	uint32_t orig;
-	
+
 } __attribute__((packed));
 
 
@@ -368,7 +368,7 @@ struct bat_packet_ogm
 #define EXT_TYPE_TLV_KEEP_RESERVED14	14
 #define EXT_TYPE_TLV_DROP_RESERVED15	15
 #define EXT_TYPE_MAX			15
-	
+
 
 #define EXT_ATTR_TLV 		0x01 /* extension message is TLV type */
 #define EXT_ATTR_KEEP		0x02 /* re-propagate extension message (even if unknown) */
@@ -385,7 +385,7 @@ struct ext_packet
 
 #define EXT_FIELD_LEN_4B     	def8 /* the size of this TLV extension header in 4 oktet blocks (including this first 4 oktets) */
 #define MIN_TLV_LEN_1B		4    /* the minimum size in bytes (1 octet) of a TLV extension message */
-		
+
 // field accessor for primary interface announcement extension packets
 #define EXT_PIP_FIELD_RES1   	def8
 #define EXT_PIP_FIELD_PIPSEQNO	d16.def16
@@ -402,21 +402,21 @@ struct ext_packet
 #else
 # error "Please fix <bits/endian.h>"
 #endif
-	
+
 	uint8_t  def8;
-	
+
 	union {
 		uint16_t def16;
 		uint8_t	 dat8[2];
 	}d16;
-	
+
 	union {
 		uint32_t def32;
 		uint8_t	 dat8[4];
 		uint32_t dat32[1];
 	}d32;
-	
-	
+
+
 } __attribute__((packed));
 
 
@@ -425,7 +425,7 @@ struct ext_packet
  */
 
 struct msg_buff {
-	
+
 	//filled by process_packet()
 	struct timeval		tv_stamp;
 	struct batman_if	*iif;
@@ -433,26 +433,26 @@ struct msg_buff {
 	char neigh_str[ADDR_STR_LEN];
 	int16_t			total_length;
 	uint8_t 		unicast;
-	
+
 	//filled by strip_packet()
 	union {
 		struct bat_packet_common	*bpc;
 		struct bat_packet_ogm 		*ogm;
 	}bp;
-	
+
 	struct ext_packet	*rcv_ext_array[EXT_TYPE_MAX+1];
 	uint16_t		rcv_ext_len[EXT_TYPE_MAX+1];
-	
+
 	struct ext_packet	*snd_ext_array[EXT_TYPE_MAX+1];
 	uint16_t		snd_ext_len[EXT_TYPE_MAX+1];
-	
+
 	char orig_str[ADDR_STR_LEN];
-	
+
 	//filled by process_ogm()
-	
+
 	struct orig_node *orig_node;
-	//struct orig_node *orig_node_neigh; 
-	
+	//struct orig_node *orig_node_neigh;
+
 };
 
 
@@ -474,9 +474,9 @@ struct send_node                 /* structure for send_list maintaining packets 
 
 
 
-struct task_node 
-{ 
-	struct list_head list; 
+struct task_node
+{
+	struct list_head list;
     batman_time_t expire;
 	void (* task) (void *fpara); // pointer to the function to be executed
 	void *data; //NULL or pointer to data to be given to function. Data will be freed after functio is called.
@@ -488,7 +488,7 @@ struct batman_if
 	char dev[IFNAMSIZ+1];
 	char dev_phy[IFNAMSIZ+1];
 	char if_ip_str[ADDR_STR_LEN];
-	
+
 	uint8_t if_active;
 	uint8_t if_scheduling;
 
@@ -501,18 +501,18 @@ struct batman_if
 
 
 	uint32_t if_netmask;
-	
+
 	int32_t if_rp_filter_orig;
 	int32_t if_send_redirects_orig;
-	
-	
+
+
 	struct sockaddr_in if_unicast_addr;
 	struct sockaddr_in if_netwbrc_addr;
-	
+
 	int32_t if_unicast_sock;
 	int32_t if_netwbrc_sock;
 	int32_t if_fullbrc_sock;
-	
+
 	SQ_TYPE if_seqno;
     batman_time_t if_seqno_schedule;
     batman_time_t if_last_link_activity;
@@ -526,27 +526,27 @@ struct batman_if
 	// having a pointer right before the following array ensures 32/64 bit alignment.
 	unsigned char *aggregation_out;
 	unsigned char aggregation_out_buff[MAX_UDPD_SIZE + 1];
-	
+
 	int16_t aggregation_len;
-	
+
 	int8_t send_own;
-	
+
 	int8_t if_conf_soft_changed;
-	
+
 	int8_t if_conf_hard_changed;
-	
+
 	int8_t if_linklayer_conf;
 	int8_t if_linklayer;
-	
+
 	int16_t if_ttl_conf;
 	int16_t if_ttl;
-	
+
 	int16_t if_send_clones_conf;
 	int16_t if_send_clones;
-	
+
 	int16_t if_ant_diversity_conf;
 	int16_t if_ant_diversity;
-	
+
 	int8_t if_singlehomed_conf;
 	int8_t if_singlehomed;
 	int if_mtu;
@@ -556,31 +556,31 @@ struct batman_if
 struct orig_node                 /* structure for orig_list maintaining nodes of mesh */
 {
 	uint32_t orig;          /* this must be the first four bytes! otherwise avl or hash functionality do not work */
-		
+
 	struct neigh_node *router;   /* the neighbor which is the currently best_next_hop */
-	
+
 	char orig_str[ADDR_STR_LEN];
-	
+
 	struct list_head_first neigh_list;
 	struct avl_tree neigh_avl;
 
-	
+
     batman_time_t last_aware;              /* when last valid ogm via  this node was received */
     batman_time_t last_valid_time;         /* when last valid ogm from this node was received */
-	
+
 	uint32_t first_valid_sec;         	/* only used for debugging purposes */
-	
+
 	SQ_TYPE last_decided_sqn;
 	SQ_TYPE last_accepted_sqn;              /* last squence number acceppted for metric */
 	SQ_TYPE last_valid_sqn;			/* last and best known squence number */
 	SQ_TYPE last_wavg_sqn;                  /* last sequence number used for estimating ogi */
 
-	// From nodes with several interfaces we may know several originators, 
-	// this points to the originator structure of the primary interface of a node 
+	// From nodes with several interfaces we may know several originators,
+	// this points to the originator structure of the primary interface of a node
 	struct orig_node *primary_orig_node;
 	int16_t pog_refcnt;
-	
-	
+
+
 	//	uint8_t  last_accept_largest_ttl;  /* largest (best) TTL received with last sequence number */
 	uint8_t  last_path_ttl;
 
@@ -601,11 +601,11 @@ struct orig_node                 /* structure for orig_list maintaining nodes of
 
 	uint32_t ogi_wavg;
 	uint32_t rt_changes;
-	
-	
+
+
 	/* additional information about primary originators (POG) of NeighBoring nodes (these are not necessearily link nodes) */
     batman_time_t last_pog_link; /* when the last time a direct OGM has been received via any of this primary OGs' interfaces */
-	
+
     uint16_t id4him;    /* NB ID assigned by me to the neighboring node, when last_link expired id4him must be reset */
 //stephan: MAX_ID4HIM ist eine id die nur fuer direkte nachbarn vergeben wird. fuer einen einfachen knoten ist es
 //wohl unwarscheinlich, dass 255 erreicht wird. tbbs sind nur mit einem einzelnen knoten verbunden und die commandline
@@ -614,27 +614,27 @@ struct orig_node                 /* structure for orig_list maintaining nodes of
 //#define MAX_ID4HIM 255
 #define MAX_ID4HIM 1024
 	uint16_t id4me;     /* the ID given by the neighboring POG node to me */
-	
-	
+
+
 	/*additional information about links to neighboring nodes */
-	struct link_node *link_node; 
-	
-	
+	struct link_node *link_node;
+
+
 	/*size of plugin data is defined during intialization and depends on registered plugin-data hooks */
 	void *plugin_data[];
-	
+
 };
 
 
 #define SQN_LOUNGE_SIZE (8*sizeof(uint32_t)) /* must correspond to bits of neigh_node->considered_seqnos */
 
 struct sq_record {
-	
+
 	SQ_TYPE wa_clr_sqn; 	// SQN upto which waightedAverageVal has been purged
 	SQ_TYPE wa_set_sqn; 	// SQN which has been applied (if equals wa_pos) then wa_unscaled MUST NOT be set again!
 	uint32_t wa_unscaled;	// unscaled summary value of processed SQNs
 	uint32_t wa_val;	// scaled and representative value of processed SQNs
-	
+
 //	uint8_t sqn_entry_queue[SQN_LOUNGE_SIZE];	// cache for greatest rcvd SQNs waiting to be processed
 //	SQ_TYPE sqn_entry_queue_tip;			// the greatest SQN rcvd so fare
 };
@@ -645,8 +645,8 @@ struct link_node_dev
 	struct list_head list;
     batman_time_t last_lndev;
 	struct batman_if *bif;
-	
-	struct sq_record rtq_sqr;	// my last OGMs as true bits as rebroadcasted by this node and rcvd by me 
+
+	struct sq_record rtq_sqr;	// my last OGMs as true bits as rebroadcasted by this node and rcvd by me
 	struct sq_record rq_sqr;
 
 };
@@ -655,7 +655,7 @@ struct link_node_dev
  * MUST be initiated with any unidirectional received OGM
  * from a direct link NB
  */
-/* Only OG interfaces which are direct link neighbors have a link_node 
+/* Only OG interfaces which are direct link neighbors have a link_node
  * Because neighboring interfaces may be seen via several of our own interfaces
  * each link_node points to one or several link_node_dev structures
  */
@@ -666,7 +666,7 @@ struct link_node
 	struct list_head list;
 
 	struct orig_node *orig_node;
-	
+
 	struct list_head_first lndev_list; // list with one link_node_dev element per link
 
 };
@@ -689,12 +689,12 @@ struct neigh_node
 
 	struct list_head list;
     batman_time_t last_aware;            /* when last packet via this neighbour was received */
-	
+
 	SQ_TYPE last_considered_seqno;
 //stephan: also check ttl. if ogm with ttl=1 from non primary interface was received and after from same originator a ogm
 //         with ttl 50, then actually this ogm is not rebroadacast (scheduled). the node will not be known on next hop
 	uint8_t last_considered_ttl;
-	
+
 	struct sq_record longtm_sqr;
 	struct sq_record recent_sqr;
 };
@@ -717,7 +717,7 @@ struct pifnb_node
 	struct list_head list;
 	struct orig_node *pog;
 };
-	
+
 
 struct srv_node
 {
@@ -754,7 +754,7 @@ struct gw_client
 void batman( void );
 
 
-#ifndef NOVIS 
+#ifndef NOVIS
 
 #include "vis-types.h"
 
@@ -769,7 +769,7 @@ struct vis_if {
 
 
 struct plugin_v1 *vis_get_plugin_v1( void );
-		
+
 #endif /*NOVIS*/
 
 #ifndef NOSRV
@@ -784,10 +784,10 @@ struct plugin_v1 *vis_get_plugin_v1( void );
 #define EXT_SRV_FIELD_ADDR   d32.def32
 
 struct srv_orig_data {
-	
+
 	int16_t  srv_array_len;
 	struct ext_packet srv_array[];
-	
+
 };
 
 struct plugin_v1 *srv_get_plugin_v1( void );

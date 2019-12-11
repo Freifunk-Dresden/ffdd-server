@@ -22,7 +22,7 @@
 
 #define ARG_UHNA		"unicast_hna"
 
-//#define ARG_HNAS "hnas" moved to os.h to debug hnas 
+//#define ARG_HNAS "hnas" moved to os.h to debug hnas
 
 
 // my HNA extension messages (attached to all primary OGMs)
@@ -65,13 +65,13 @@ struct ext_type_hna
 #else
 # error "Please fix <bits/endian.h>"
 #endif
-	
+
 	struct hna_netmask_type nt;
-	
+
 	uint16_t reservedd;
-	
+
 	uint32_t addr;
-	
+
 } __attribute__((packed));
 
 
@@ -83,7 +83,7 @@ struct hna_key
 {
 	uint32_t addr;
 	struct hna_netmask_type nt;
-} __attribute__((packed));	
+} __attribute__((packed));
 
 
 #define  HNA_HASH_NODE_EMPTY 0x00
@@ -93,19 +93,19 @@ struct hna_key
 struct hna_node
 {
 	struct hna_key key;
-	
+
 	//void *orig;
 	struct orig_node *orig;
 	//char *hna_name;
 	uint8_t status;
-	
+
 };
 
 struct hna_orig_data {
-	
+
 	int16_t  hna_array_len;
 	struct ext_type_hna *hna_array;
-	
+
 };
 
 

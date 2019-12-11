@@ -24,24 +24,24 @@ Important changes should be listed in the following, most recent changes on top:
 
 - decentral-openstreetmap-json-based map plugin from http://graciasensefils.net (GSF) folks
 
-- add symbolic links from lib/bmx_*.so to lib/bmx_*/bmx_*.so.1 to 
-  facilitate execution and debugging of local bmx libraries by 
+- add symbolic links from lib/bmx_*.so to lib/bmx_*/bmx_*.so.1 to
+  facilitate execution and debugging of local bmx libraries by
   overwriting bmx plugin-library path. E.g.:
   BMX_LIB_PATH=$(pwd)/lib ./bmxd -d3
 
-- Antenna-diversity support for bmxd seems working but unfortunately there are few wireless drivers which support 
-  my understanding of the typical antenna-diversity implementation. This is what I hoped (maybe I am wrong): 
-  - The RX-antenna is detected on-the-fly on a per-packet basis by comparing 
+- Antenna-diversity support for bmxd seems working but unfortunately there are few wireless drivers which support
+  my understanding of the typical antenna-diversity implementation. This is what I hoped (maybe I am wrong):
+  - The RX-antenna is detected on-the-fly on a per-packet basis by comparing
     the rcvd signal-strength via each antenna during reception of the phy-preamble.
   - The TX-antenna is determined per MAC-address based on the last detected best RX-antenna for this MAC.
-  - Broadcast packets should be send round-robin like via each enabled TX-antenna (e.g. alternating via ant1 and ant2). 
+  - Broadcast packets should be send round-robin like via each enabled TX-antenna (e.g. alternating via ant1 and ant2).
 
 
 ---------------------------------------------------------------------------------------------------
 2009-08-10 - bmx_uci_config plugin for openWrt universial configuraton interface (UCI)
 
 - plugin for dynamic interaction with uci http://downloads.openwrt.org/sources/uci-0.7.3.tar.gz
-- to compile first install uci: 
+- to compile first install uci:
 	wget http://downloads.openwrt.org/sources/uci-0.7.3.tar.gz
 	tar xzvf uci-0.7.3.tar.gz; cd uci-0.7.3; make; sudo make install
 - default configuration backend is: /etc/config/bmx
@@ -60,7 +60,7 @@ Important changes should be listed in the following, most recent changes on top:
 	--loop_mode / -l , make batch_mode default, -b deprecated, introduce -l for loop instead
 	--throw ( was --no-tunnel-rule )
 	--originators, --links, --hnas, --interfaces
-	--purge_timeout 
+	--purge_timeout
 	--dad_timeout
 	--dev=ath0 and --dev=-ath0 (dynamically add and remove interfaces)
 	-X show BatMan-eXperimental help, short description and configurable values
@@ -106,11 +106,11 @@ Important changes should be listed in the following, most recent changes on top:
 	- data-structures
 	- scheduled functions
 	- ...
-	
+
 
 - support muting of selected debug messages
 
-- new bit-array processing funtions 
+- new bit-array processing funtions
 
 - remove usage of libpthread
 

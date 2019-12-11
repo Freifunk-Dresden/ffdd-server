@@ -49,7 +49,7 @@ void prof_stop( int32_t index ) {
 
 	if ( prof_container[index].start_time == 0)
 		return;
-	
+
 	prof_container[index].calls++;
 	prof_container[index].total_time += clock() - prof_container[index].start_time;
 	prof_container[index].start_time = 0;
@@ -61,29 +61,29 @@ void prof_print( struct ctrl_node *cn ) {
 
 	int32_t index;
 	float total_cpu_time=1;
-	
+
 	dbg_printf( cn, "\nProfile data:\n" );
 
 	for ( index = 0; index < PROF_COUNT; index++ ) {
 
 		if( index == 0 )
 			total_cpu_time = (float)prof_container[0].total_time/CLOCKS_PER_SEC;
-			
-		dbg_printf( cn, "   %30s:  %5.1f, cpu time = %10.3f, calls = %10i, avg time per call = %4.10f \n", 
+
+		dbg_printf( cn, "   %30s:  %5.1f, cpu time = %10.3f, calls = %10i, avg time per call = %4.10f \n",
 			prof_container[index].name,
 			100 * ( ((float)prof_container[index].total_time/CLOCKS_PER_SEC) / total_cpu_time ),
-			(float)prof_container[index].total_time/CLOCKS_PER_SEC, 
-			prof_container[index].calls, 
+			(float)prof_container[index].total_time/CLOCKS_PER_SEC,
+			prof_container[index].calls,
    			( (float)prof_container[index].calls == 0  ?  0.0  :
    			  ( ( (float)prof_container[index].total_time/CLOCKS_PER_SEC ) / (float)prof_container[index].calls ) ) );
 
 	}
-	
+
 	dbg_printf( cn, "\n" );
 }
 
 void init_profile( void ) {
-	
+
 	/* for profiling the functions */
 	prof_init( PROF_all, "all" );
 	prof_init( PROF_ipStr, "ipStr" );

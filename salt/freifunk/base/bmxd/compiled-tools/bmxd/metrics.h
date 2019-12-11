@@ -16,7 +16,7 @@
  * 02110-1301, USA
  *
  */
- 
+
 #ifndef _BATMAN_METRICS_H
 #define _BATMAN_METRICS_H
 

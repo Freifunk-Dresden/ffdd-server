@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2006 B.A.T.M.A.N. contributors:
  * Axel Neumann
  * This program is free software; you can redistribute it and/or

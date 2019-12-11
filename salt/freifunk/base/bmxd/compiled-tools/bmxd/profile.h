@@ -68,7 +68,7 @@ void prof_print( struct ctrl_node *cn );
 void init_profile( void );
 
 
-#else 
+#else
 
 #define prof_init( ... )
 #define prof_start( ... )

@@ -21,7 +21,7 @@
 #define _BATMAN_OS_H
 
 
-# define timercpy(d, a) (d)->tv_sec = (a)->tv_sec; (d)->tv_usec = (a)->tv_usec; 
+# define timercpy(d, a) (d)->tv_sec = (a)->tv_sec; (d)->tv_usec = (a)->tv_usec;
 
 
 /* posix.c */
@@ -152,7 +152,7 @@ enum {
 	TRACK_MY_HNA,
 	TRACK_MY_NET,
 	TRACK_OTHER_HOST,
-	TRACK_OTHER_HNA, 
+	TRACK_OTHER_HNA,
 	TRACK_TUNNEL
 };
 
@@ -167,7 +167,7 @@ void add_del_route( uint32_t dest, int16_t mask, uint32_t gw, uint32_t src, int3
 #define RTA_IIF 2
  *
  ***/
- 
+
 // void add_del_rule( uint32_t network, uint8_t netmask, int16_t rt_macro, uint32_t prio, char *iif, int8_t rule_type, int8_t del, int8_t track_t );
 
 enum {

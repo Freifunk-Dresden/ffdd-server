@@ -97,12 +97,12 @@ void hash_delete(struct hashtable_t *hash, hashdata_free_cb free_cb) {
 void hash_destroy(struct hashtable_t *hash) {
 
 	if ( hash ) {
-		
+
 		debugFree( hash->table, 1302 );
 		debugFree( hash, 1303 );
 		hash = NULL;
 	}
-	
+
 }
 
 
@@ -115,8 +115,8 @@ struct hash_it_t *hash_iterate(struct hashtable_t *hash, struct hash_it_t *iter_
 
 	if ( hash == NULL )
 		return NULL;
-	
-	
+
+
 	if (iter_in == NULL) {
 		iter= debugMalloc(sizeof(struct hash_it_t), 301);
 		iter->index =  -1;

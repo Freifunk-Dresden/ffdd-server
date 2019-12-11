@@ -100,8 +100,8 @@ void removeMemory( int32_t tag, int32_t freetag ) {
 
 			if ( walker->counter == 0 ) {
 
-				dbg( DBGL_SYS, DBGT_ERR, 
-				     "Freeing more memory than was allocated: malloc tag = %d, free tag = %d", 
+				dbg( DBGL_SYS, DBGT_ERR,
+				     "Freeing more memory than was allocated: malloc tag = %d, free tag = %d",
 				     tag, freetag );
 				cleanup_all( -500069 );
 
@@ -116,7 +116,7 @@ void removeMemory( int32_t tag, int32_t freetag ) {
 
 	if ( walker == NULL ) {
 
-		dbg( DBGL_SYS, DBGT_ERR, 
+		dbg( DBGL_SYS, DBGT_ERR,
 		     "Freeing memory that was never allocated: malloc tag = %d, free tag = %d",
 		     tag, freetag );
 		cleanup_all( -500070 );
@@ -128,7 +128,7 @@ void removeMemory( int32_t tag, int32_t freetag ) {
 #if defined MEMORY_USAGE
 
 void debugMemory( struct ctrl_node *cn ) {
-	
+
 	struct memoryUsage *memoryWalker;
 
 	dbg_printf( cn, "\nMemory usage information:\n" );
@@ -136,13 +136,13 @@ void debugMemory( struct ctrl_node *cn ) {
 	for ( memoryWalker = memoryList; memoryWalker != NULL; memoryWalker = memoryWalker->next ) {
 
 		if ( memoryWalker->counter != 0 )
-			dbg_printf( cn, "   tag: %4i, num malloc: %4i, bytes per malloc: %4i, total: %6i\n", 
-			         memoryWalker->tag, memoryWalker->counter, memoryWalker->length, 
+			dbg_printf( cn, "   tag: %4i, num malloc: %4i, bytes per malloc: %4i, total: %6i\n",
+			         memoryWalker->tag, memoryWalker->counter, memoryWalker->length,
 			         memoryWalker->counter * memoryWalker->length );
 
 	}
 	dbg_printf( cn, "\n" );
-	
+
 }
 
 #endif
@@ -159,8 +159,8 @@ void checkIntegrity(void)
 	{
 		if (walker->magicNumberHeader != MAGIC_NUMBER_HEADER)
 		{
-			dbgf( DBGL_SYS, DBGT_ERR, 
-			     "invalid magic number in header: %08x, malloc tag = %d", 
+			dbgf( DBGL_SYS, DBGT_ERR,
+			     "invalid magic number in header: %08x, malloc tag = %d",
 			     walker->magicNumberHeader, walker->tag );
 			cleanup_all( -500073 );
 		}
@@ -183,26 +183,26 @@ void checkIntegrity(void)
 void checkLeak(void)
 {
 	struct chunkHeader *walker;
-	
+
 	if ( chunkList != NULL ) {
-		
+
 		openlog( "bmx", LOG_PID, LOG_DAEMON );
-		
-		
+
+
 		for (walker = chunkList; walker != NULL; walker = walker->next) {
 			syslog( LOG_ERR, "Memory leak detected, malloc tag = %d\n", walker->tag );
-		
+
 			fprintf( stderr, "Memory leak detected, malloc tag = %d \n", walker->tag );
-			
+
 		}
-		
+
 		closelog();
 	}
 
 }
 
 void *debugMalloc(uint32_t length, int32_t tag) {
-	
+
 	prof_start( PROF_debugMalloc );
 	unsigned char *memory;
 	struct chunkHeader *chunkHeader;
@@ -213,7 +213,7 @@ void *debugMalloc(uint32_t length, int32_t tag) {
 
 	if (memory == NULL)
 	{
-		dbg( DBGL_SYS, DBGT_ERR, "Cannot allocate %u bytes, malloc tag = %d", 
+		dbg( DBGL_SYS, DBGT_ERR, "Cannot allocate %u bytes, malloc tag = %d",
 		     (unsigned int)(length + sizeof(struct chunkHeader) + sizeof(magicNumberTrailor)), tag );
 		cleanup_all( -500076 );
 	}
@@ -242,7 +242,7 @@ void *debugMalloc(uint32_t length, int32_t tag) {
 }
 
 void *debugRealloc(void *memoryParameter, uint32_t length, int32_t tag) {
-	
+
 	prof_start( PROF_debugRealloc );
 
 	unsigned char *memory;
@@ -257,8 +257,8 @@ void *debugRealloc(void *memoryParameter, uint32_t length, int32_t tag) {
 
 		if (chunkHeader->magicNumberHeader != MAGIC_NUMBER_HEADER)
 		{
-			dbgf( DBGL_SYS, DBGT_ERR, 
-			     "invalid magic number in header: %08x, malloc tag = %d", 
+			dbgf( DBGL_SYS, DBGT_ERR,
+			     "invalid magic number in header: %08x, malloc tag = %d",
 			     chunkHeader->magicNumberHeader, chunkHeader->tag );
 			cleanup_all( -500078 );
 		}
@@ -291,9 +291,9 @@ void *debugRealloc(void *memoryParameter, uint32_t length, int32_t tag) {
 }
 
 void debugFree(void *memoryParameter, int tag) {
-	
+
 	prof_start( PROF_debugFree );
-	
+
 	unsigned char *memory;
 	struct chunkHeader *chunkHeader;
 	magicNumberTrailor *chunkTrailer;
@@ -305,7 +305,7 @@ void debugFree(void *memoryParameter, int tag) {
 
 	if (chunkHeader->magicNumberHeader != MAGIC_NUMBER_HEADER)
 	{
-		dbgf( DBGL_SYS, DBGT_ERR, 
+		dbgf( DBGL_SYS, DBGT_ERR,
 		     "invalid magic number in header: %08x, malloc tag = %d, free tag = %d, malloc size = %d",
 		     chunkHeader->magicNumberHeader, chunkHeader->tag, tag, chunkHeader->length );
 		cleanup_all( -500080 );
@@ -352,7 +352,7 @@ void debugFree(void *memoryParameter, int tag) {
 #endif
 
 	free(chunkHeader);
-	
+
 	prof_stop( PROF_debugFree );
 
 }
