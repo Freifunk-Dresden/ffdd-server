@@ -12,6 +12,9 @@ _**version 1.1.0**_
 	- bmxd
 		- remove trailing spaces from scripts
 		- fix '__FUNCTION__' in gcc extension, use '__func__' now.
+	- fastd
+		- change repo url to github
+		- change to master rev
 	- nvram
 		- get current version branch by git
 		- change ffdd-server version output
