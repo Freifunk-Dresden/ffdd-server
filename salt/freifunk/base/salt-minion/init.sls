@@ -47,6 +47,7 @@ salt-minion:
         # ffdd-server - salt-minion masterless configuration file
         #
         {% from 'config.jinja' import install_dir %}
+        master_type: disable
         file_client: local
         file_roots:
           base:

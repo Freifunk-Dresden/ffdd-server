@@ -50,7 +50,7 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '?' ]; then
 	print_usage
 fi
 
-printf '\n### Check System\n'
+printf '\n### Check System ..\n'
 
 if [ "$EUID" -ne 0 ];  then
 	printf 'Please run as root!\n' ; exit 1
@@ -60,7 +60,7 @@ if ! ping -c1 -W5 github.com >/dev/null ; then
 	printf 'network not reachable or name resolution not working!\n' ; exit 1
 fi
 
-printf '\n# Check tun device is available.\n'
+printf '\n# Check tun device is available ..\n'
 if [ ! -e /dev/net/tun ]; then
 	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'; exit 1
 fi
@@ -74,7 +74,7 @@ do
 done
 
 
-printf '\n# Check System Distribution.\n'
+printf '\n# Check System Distribution ..\n'
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
@@ -148,7 +148,7 @@ printf '\n### Check nvram Setup ..\n'
 	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
 
 	if [ ! -f /etc/nvram.conf ]; then
-		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram\n'
+		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram ..\n'
 		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 	fi
 
@@ -183,6 +183,7 @@ cat > /etc/salt/minion.d/freifunk-masterless.conf <<EOF
 # ffdd-server - salt-minion masterless configuration file
 #
 
+master_type: disable
 file_client: local
 file_roots:
   base:
@@ -209,7 +210,7 @@ done
 #
 # -- Initial System --
 
-printf '\n### Start Initial System. (please wait! Coffee Time ~ 10-30min)\n'
+printf '\n### Start Initial System. (please wait! Coffee Time ~ 10-30min) ..\n'
 
 salt-call state.highstate --local -l error
 
