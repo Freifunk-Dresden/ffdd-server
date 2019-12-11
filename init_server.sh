@@ -28,7 +28,7 @@ print_not_supported_os() {
 }
 
 print_notice() {
-	printf '\n# Notice:\n'
+	printf '\n%s# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
 	printf ' * Please check your config options in /etc/nvram.conf\n'
 	printf ' * /etc/fastd/peers2/\n'
 	printf '   # add your first Fastd2 Connection:\n'

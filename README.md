@@ -86,8 +86,8 @@ Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kei
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
 
 **execute in screen**<br />
-Es wird empfohlen bei der Erstinstallation das Script in einem screen auszuführen!
-Sollte es zu Verbindungsabbrüchen während der Installations kommen so kannst du diesen einfach vorbeugen. Hier einige `screen` Kommandos:
+Es wird empfohlen bei der Erstinstallation das Script in einem screen auszuführen! Sollte es zu Verbindungsabbrüchen während der Installations kommen so kann man nach dem erneuten Verbinden sich einfach den screen wieder öffnen (attch).<br />
+Hier einige `screen` Kommandos:
 
 ```bash
 # list screen sockets
@@ -105,7 +105,7 @@ screen -S ffdd-init
 
 Folgendes cloned und Installiert das Repository.<br/>
 Es wird beim ersten Durchführen einige Zeit in Anspruch nehmen da einige Packages und ihre Abhängigkeiten
-installiert, Files kopiert und am Ende noch einige Tools compiliert werden müssen.
+installiert, Files kopiert und noch einige Tools compiliert werden müssen.
 
 **git**:
 ```bash
@@ -130,7 +130,7 @@ screen -S ffdd-init bash -c "$(wget https://raw.githubusercontent.com/Freifunk-D
 ```
 <br/>
 
-***Coffee Time (~ 10-30min)***
+***Coffee Time (~ 10-20min)***
 <br />
 
 ### Manuelle Anpassungen
