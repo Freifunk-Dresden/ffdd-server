@@ -23,12 +23,8 @@ BAT_IP='169.254.0.0'
 
 eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
 
-# check iptables command
-if [ -n "$(command -v iptables-legacy)" ]; then
-	IPT="$(command -v iptables-legacy)"
-else
-	IPT="$(command -v iptables)"
-fi
+# iptables command
+IPT="$(command -v iptables)"
 
 
 if [ "$1" = "start" ]; then
