@@ -76,7 +76,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 ([https://help.ubuntu.com/community/UpgradeNotes](https://help.ubuntu.com/community/UpgradeNotes))<br/>
 
 **Wichtig:**<br/>
-- Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige **`/etc/nvram.conf`** solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls wird diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+- Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige [**`/etc/nvram.conf`**](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/nvram/etc/nvram.conf) solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls wird diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
 - *Installations Path in `/etc/nvram.conf`*<br/>
 Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
@@ -138,7 +138,7 @@ screen -S ffdd-init bash -c "$(wget https://raw.githubusercontent.com/Freifunk-D
 Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
 
 - `/etc/hostname` (FQDN)
-- `/etc/nvram.conf`
+- [`/etc/nvram.conf`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/nvram/etc/nvram.conf)
   - servername
   - ifname
   - contact
