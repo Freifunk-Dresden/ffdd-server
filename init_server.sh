@@ -161,12 +161,15 @@ printf '\n### Check nvram Setup ..\n'
 		fi
 	fi
 
+	# check install_dir
+	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
+
+	# check autoupdate
+	[[ "$(nvram get autoupdate)" != "1" ]] && nvram set autoupdate 1
+
 	# check default Interface
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
 	[[ "$(nvram get ifname)" != "$def_if" ]] && nvram set ifname "$def_if"
-
-	# check install_dir
-	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
 
 #
 # create clean masterless salt enviroment
