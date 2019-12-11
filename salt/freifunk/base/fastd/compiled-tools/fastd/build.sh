@@ -20,8 +20,9 @@
 # fastd v18+ (devel)
 #fastd_rev=3995adf7882a43d4c7c206a1c5335e3fdbc9c529
 #libuecc_rev=7c9a6f6af088d0764e792cf849e553d7f55ff99e
+
 # 2019 fix
-fastd_rev=7d9f90ebe9dd3a7f6af1fbb97d8cc228fb0fded4
+fastd_rev=8dc1ed3a1ee9af731205a7a4e167c1c2d1b3d819
 libuecc_rev=7c9a6f6af088d0764e792cf849e553d7f55ff99e
 
 
