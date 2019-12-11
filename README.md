@@ -109,23 +109,22 @@ installiert, Files kopiert und noch einige Tools compiliert werden müssen.
 
 **git**:
 ```bash
-apt install -y git screen
+apt-get -y install git screen
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
-cd /srv/ffdd-server
-git checkout T_RELEASE_latest
+cd /srv/ffdd-server && git checkout T_RELEASE_latest
 screen -S ffdd-init bash -c './init_server.sh'
 ```
 Alternative Installations Möglichkeiten:
 
 **curl**:
 ```bash
-apt install -y curl screen
+apt-get -y install curl screen
 screen -S ffdd-init bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 
 **wget**:
 ```bash
-apt install -y wget screen
+apt-get -y install wget screen
 screen -S ffdd-init bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
@@ -200,9 +199,9 @@ salt-call state.highstate --local -l error
 ## Fehlerhaftes Repository
 Sollte es Probleme jeglicher Art mit dem 'ffdd-server' repo geben dann ist der einfachste Weg dieses neu zu erstellen und salt erneut aufzurufen:
 ```bash
-cd /srv/ ; rm -rf /srv/ffdd-server
+cd /srv/ && rm -rf /srv/ffdd-server
 git clone https://github.com/Freifunk-Dresden/ffdd-server/ /srv/ffdd-server
-cd /srv/ffdd-server/ ; git checkout T_RELEASE_latest
+cd /srv/ffdd-server/ && git checkout T_RELEASE_latest
 salt-call state.highstate --local -l error
 ```
 
