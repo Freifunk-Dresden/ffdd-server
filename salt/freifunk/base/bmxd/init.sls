@@ -39,7 +39,7 @@ get_bmxd_revision:
 
 compile_bmxd:
   cmd.run:
-    - name: "cd /usr/local/src/bmxd/ && make && make strip && cp -f bmxd /usr/local/bin/"
+    - name: "cd /usr/local/src/bmxd/ ; make clean_all ; make ; make strip ; cp -f bmxd /usr/local/bin/"
     - require:
       - pkg: devel
       - file: /usr/local/src/bmxd
