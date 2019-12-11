@@ -93,7 +93,8 @@ build_fastd()
 		cd fastd || exit 1
 		mkdir build
 		cd build || exit 1
-		cmake ../ "$CMAKE_OPTIONS"
+		# shellcheck disable=SC2086
+		cmake ../ $CMAKE_OPTIONS
 		#cmake ../ -DCMAKE_BUILD_TYPE=RELEASE -DENABLE_LIBSODIUM:BOOL=FALSE -DENABLE_LTO:BOOL=FALSE -DWITH_CAPABILITIES:BOOL=FALSE
 		make
 		strip src/fastd
