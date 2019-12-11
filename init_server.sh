@@ -109,6 +109,7 @@ printf '\n### Update System ..\n'
 
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
+systemctl disable salt-minion ; systemctl stop salt-minion
 
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
