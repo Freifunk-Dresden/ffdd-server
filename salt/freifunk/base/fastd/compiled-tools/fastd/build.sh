@@ -10,8 +10,8 @@
 # git: libuecc
 # http://git.universe-factory.net/libuecc/
 #
-# nacl: crypt lib wird dazugelinkt (keine shared lib)
-# apt-get install libnacl-dev
+
+REPO_URL='https://github.com/NeoRaider/fastd.git'
 
 # fastd v17
 #fastd_rev=0358cbf937ee73447970546290a01f82c450dab9
@@ -21,7 +21,7 @@
 #fastd_rev=3995adf7882a43d4c7c206a1c5335e3fdbc9c529
 #libuecc_rev=7c9a6f6af088d0764e792cf849e553d7f55ff99e
 
-# 2019 fix
+# master
 fastd_rev=8dc1ed3a1ee9af731205a7a4e167c1c2d1b3d819
 libuecc_rev=7c9a6f6af088d0764e792cf849e553d7f55ff99e
 
@@ -34,7 +34,7 @@ build_libuecc()
 		if [ -f libuecc-$libuecc_rev.tgz ]; then
 			tar xzf libuecc-$libuecc_rev.tgz
 		else
-			git clone git://git.universe-factory.net/libuecc
+			git clone "$REPO_URL"
 			git checkout $libuecc_rev
 			rev=$(git -C libuecc log -1 | sed -n '/^commit/s#commit ##p')
 			tar czf libuecc-$rev.tgz libuecc
@@ -82,7 +82,7 @@ build_fastd()
 		if [ -f fastd-$fastd_rev.tgz ]; then
 			tar xzf fastd-$fastd_rev.tgz
 		else
-			git clone git://git.universe-factory.net/fastd
+			git clone "$REPO_URL"
 			git checkout $fastd_rev
 			rev=$(git -C fastd log -1 | sed -n '/^commit/s#commit ##p')
 			tar czf fastd-$rev.tgz fastd
@@ -103,6 +103,7 @@ build_fastd()
 }
 
 #needed libs
+# nacl: crypt lib wird dazugelinkt (keine shared lib)
 apt-get -y install libnacl-dev
 apt-get -y install libjson-c-dev
 
