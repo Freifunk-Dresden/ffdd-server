@@ -1792,12 +1792,12 @@ static int32_t _opt_connect ( uint8_t cmd, struct opt_type *opt, struct ctrl_nod
 			cleanup_all( CLEANUP_FAILURE );
 		}
 
-		if ( cmd == OPT_CHECK )
+		if ( cmd == OPT_CHECK ) {
 			return SUCCESS;
 
 			Client_mode = YES;
 
-		do {
+		} do {
 
 			dbgf_all( DBGT_INFO, "called with %s",curr_strm_pos);
 

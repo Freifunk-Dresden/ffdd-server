@@ -115,11 +115,11 @@ struct dbg_histogram {
 #ifdef  NODEBUGALL
 #define dbgf_all(...) {;}
 #else
-#define dbgf_all( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
+#define dbgf_all( dbgt, ... ) do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0);
 #endif
 
 #ifdef EXTDEBUG
-#define dbgf_ext( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
+#define dbgf_ext( dbgt, ... ) do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0);
 #else
 #define dbgf_ext(...) {;}
 #endif
