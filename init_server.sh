@@ -169,6 +169,9 @@ printf '\n### Check nvram Setup ..\n'
 		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 	fi
 
+	# check install_dir
+	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
+
 	# check branch
 	if [ "$1" = 'dev' ]; then
 		if [ -n "$2" ]; then
@@ -176,10 +179,10 @@ printf '\n### Check nvram Setup ..\n'
 		else
 			[[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
 		fi
+	else
+		# T_RELEASE_latest
+		[[ "$(nvram get branch)" != "$tag" ]] && nvram set branch "$tag"
 	fi
-
-	# check install_dir
-	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
 
 	# check autoupdate
 	[[ "$(nvram get autoupdate)" != "1" ]] && nvram set autoupdate 1
