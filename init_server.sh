@@ -45,6 +45,15 @@ print_notice() {
 	printf '\n%sPLEASE READ THE NOTICE AND\nREBOOT THE SYSTEM WHEN EVERYTHING IS DONE!%s\n' "$(tput bold)" "$(tput sgr0)"
 }
 
+print_init_notice() {
+	local init_notice="$1"
+	if [ "$init_notice" -eq 1 ]; then
+		printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
+	else
+		printf '\n### run salt-call ..\n'
+	fi
+}
+
 #
 # -- Check & Setup System --
 
@@ -116,10 +125,14 @@ systemctl disable salt-minion ; systemctl stop salt-minion
 
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
+
 if [ -d "$INSTALL_DIR" ]; then
+	init_notice='0'
 	cd "$INSTALL_DIR" || exit 1
+	git stash
 	git fetch
 else
+	init_notice='1'
 	git clone "$REPO_URL" "$INSTALL_DIR"
 	cd "$INSTALL_DIR" || exit 1
 fi
@@ -175,13 +188,14 @@ printf '\n### Check nvram Setup ..\n'
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
 	[[ "$(nvram get ifname)" != "$def_if" ]] && nvram set ifname "$def_if"
 
-#
+
 # create clean masterless salt enviroment
 printf '\n### Check Salt Enviroment ..\n'
 
 rm -fv /etc/salt/minion.d/*.conf
 
-cat > /etc/salt/minion.d/freifunk-masterless.conf <<EOF
+printf '\# add salt freifunk-masterless.conf\n'
+tee /etc/salt/minion.d/freifunk-masterless.conf <<EOF
 ### This file managed by Salt, do not edit by hand! ###
 #
 # ffdd-server - salt-minion masterless configuration file
@@ -213,8 +227,7 @@ done
 #
 # -- Initial System --
 
-printf '\n### Start Initial System.. please wait! Coffee Time ~ 10-20min ..\n'
-
+print_init_notice "$init_notice"
 salt-call state.highstate --local -l error
 
 #
