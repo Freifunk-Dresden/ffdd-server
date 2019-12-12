@@ -85,47 +85,32 @@ Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kei
 
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
 
-**execute in screen**<br />
-Es wird empfohlen bei der Erstinstallation das Script in einem screen auszuführen! Sollte es zu Verbindungsabbrüchen während der Installations kommen so kann man nach dem erneuten Verbinden sich einfach den screen wieder öffnen (attch).<br />
-Hier einige `screen` Kommandos:
-
-```bash
-# list screen sockets
-screen -ls
-# create screen
-screen -dm -S ffdd-init
-# attach screen
-screen -S ffdd-init -r
-# create and attach screen
-screen -S ffdd-init
-# use: ' Ctrl+A+D ' to detach from screen
-# see `man screen` for more informations.
-```
+- ***execute in screen*** > Es wird empfohlen bei der Erstinstallation das Script in einem screen auszuführen! Sollte es zu Verbindungsabbrüchen während der Installations kommen so kann man nach dem erneuten Verbinden sich einfach den screen wieder öffnen (attch). `man screen` für weitere Informationen.
 <br/>
 
-Folgendes cloned und Installiert das Repository.<br/>
+**Folgendes cloned und Installiert das Repository.**<br/>
 Es wird beim ersten Durchführen einige Zeit in Anspruch nehmen da einige Packages und ihre Abhängigkeiten
 installiert, Files kopiert und noch einige Tools compiliert werden müssen.
 
 **git**:
 ```bash
-apt-get -y install git screen
+apt-get -y install git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server && git checkout T_RELEASE_latest
-screen -S ffdd-init bash -c './init_server.sh'
+./init_server.sh
 ```
 Alternative Installations Möglichkeiten:
 
 **curl**:
 ```bash
-apt-get -y install curl screen
-screen -S ffdd-init bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
+apt-get -y install curl
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 
 **wget**:
 ```bash
-apt-get -y install wget screen
-screen -S ffdd-init bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+apt-get -y install wget
+bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
 

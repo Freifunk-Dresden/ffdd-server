@@ -222,7 +222,7 @@ salt-call state.highstate --local -l error
 
 printf '\n### .. All done! Cleanup System ..\n'
 
-"$PKGMNGR" autoremove
+"$PKGMNGR" -y autoremove
 print_notice
 
 #
