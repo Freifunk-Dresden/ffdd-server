@@ -83,7 +83,7 @@ build_fastd()
 		if [ -f fastd-$fastd_rev.tgz ]; then
 			tar xzf fastd-"$fastd_rev".tgz
 		else
-			git clone "$REPO_URL"
+			git clone "$FASTD_REPO_URL"
 			git checkout "$fastd_rev"
 			rev="$(git -C fastd log -1 | sed -n '/^commit/s#commit ##p')"
 			tar czf fastd-"$rev".tgz fastd
