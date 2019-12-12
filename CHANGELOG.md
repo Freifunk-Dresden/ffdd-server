@@ -17,6 +17,7 @@ _**version 1.1.0**_
 		- change to master rev
 	- nvram
 		- get current version branch by git
+		- fix get: get only first entry when the user has duplicated option entries
 		- change ffdd-server version output
 	- apache2
 		- optimize salt state
