@@ -11,7 +11,8 @@
 # http://git.universe-factory.net/libuecc/
 #
 
-REPO_URL='https://github.com/NeoRaider/fastd.git'
+LIBUECC_REPO_URL='https://github.com/NeoRaider/libuecc.git'
+FASTD_REPO_URL='https://github.com/NeoRaider/fastd.git'
 
 # fastd v17
 #fastd_rev='0358cbf937ee73447970546290a01f82c450dab9'
@@ -34,7 +35,7 @@ build_libuecc()
 		if [ -f libuecc-$libuecc_rev.tgz ]; then
 			tar xzf libuecc-"$libuecc_rev".tgz
 		else
-			git clone "$REPO_URL"
+			git clone "$LIBUECC_REPO_URL"
 			git checkout "$libuecc_rev"
 			rev="$(git -C libuecc log -1 | sed -n '/^commit/s#commit ##p')"
 			tar czf libuecc-"$rev".tgz libuecc
