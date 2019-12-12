@@ -195,7 +195,7 @@ printf '\n### Check nvram Setup ..\n'
 # create clean masterless salt enviroment
 printf '\n### Check Salt Enviroment ..\n'
 
-rm -fv /etc/salt/minion.d/*.conf
+rm -f /etc/salt/minion.d/*.conf
 
 printf '\n# add salt freifunk-masterless.conf\n\n'
 tee /etc/salt/minion.d/freifunk-masterless.conf <<EOF
