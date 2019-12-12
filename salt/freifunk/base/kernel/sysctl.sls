@@ -1,5 +1,4 @@
 {# sysctl #}
-{% from 'config.jinja' import chassis %}
 {% set sysctld = "/etc/sysctl.d" %}
 
 net.ipv4.conf.all.forwarding:
@@ -24,10 +23,8 @@ net.ipv4.tcp_syncookies:
     - unless: "[ ! -e /proc/sys/net/ipv4/tcp_syncookies ]"
 
 {# increase conntrack hash table #}
-{% if chassis != 'container' %}
 net.netfilter.nf_conntrack_max:
   sysctl.present:
     - value: 200000
     - config: {{ sysctld }}/net.conf
     - unless: "[ ! -e /proc/sys/net/netfilter/nf_conntrack_max ]"
-{% endif %}
