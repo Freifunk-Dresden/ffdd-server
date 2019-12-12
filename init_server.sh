@@ -197,7 +197,7 @@ printf '\n### Check Salt Enviroment ..\n'
 
 rm -fv /etc/salt/minion.d/*.conf
 
-printf '\# add salt freifunk-masterless.conf\n'
+printf '\n# add salt freifunk-masterless.conf\n\n'
 tee /etc/salt/minion.d/freifunk-masterless.conf <<EOF
 ### This file managed by Salt, do not edit by hand! ###
 #
