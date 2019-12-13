@@ -81,7 +81,8 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 - *Installations Path in `/etc/nvram.conf`*<br/>
 Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 
-- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.
+- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br />
+Beispiel: `hostnamectl set-hostname vpnxy.freifunk-dresden.de`
 
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
 
@@ -125,7 +126,7 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
 - [`/etc/nvram.conf`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/nvram/etc/nvram.conf)
   - servername
   - ifname
-  - contact
+  - contact informations
 - `/etc/openvpn/`<br />
   *# creates openvpn.conf with:*<br />
     `/etc/openvpn/gen-config.sh vpn0 <original-provider-config-file>`<br />

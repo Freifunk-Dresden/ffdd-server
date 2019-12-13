@@ -9,7 +9,7 @@ case "$1" in
 	;;
 
 	get)
-		sed -n "/^$2=/{s#^.*=##;p}" "$CONFIG_FILE"
+		sed -n "/^$2=/{s#^.*=##;p}" "$CONFIG_FILE" | head -1
 	;;
 
 	set) # use '#' as separator, because when value contains '/'

@@ -17,6 +17,7 @@ _**version 1.1.0**_
 		- change to master rev
 	- nvram
 		- get current version branch by git
+		- fix get: get only first entry when the user has duplicated option entries
 		- change ffdd-server version output
 	- apache2
 		- optimize salt state
@@ -38,6 +39,7 @@ _**version 1.1.0**_
 		- remove temp parts and optimize some scripts and salt states
 		- check we can set sysctl tcp_syncookies
 		- make a shorter bash_alias help output
+		- add an sysctl.d/ipv6.conf template to deactivate ipv6
 
 <br />
 

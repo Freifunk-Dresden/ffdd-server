@@ -45,6 +45,15 @@ print_notice() {
 	printf '\n%sPLEASE READ THE NOTICE AND\nREBOOT THE SYSTEM WHEN EVERYTHING IS DONE!%s\n' "$(tput bold)" "$(tput sgr0)"
 }
 
+print_init_notice() {
+	local init_notice="$1"
+	if [ "$init_notice" -eq 1 ]; then
+		printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
+	else
+		printf '\n### run salt-call ..\n'
+	fi
+}
+
 #
 # -- Check & Setup System --
 
@@ -116,10 +125,14 @@ systemctl disable salt-minion ; systemctl stop salt-minion
 
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
+
 if [ -d "$INSTALL_DIR" ]; then
+	init_notice='0'
 	cd "$INSTALL_DIR" || exit 1
+	git stash
 	git fetch
 else
+	init_notice='1'
 	git clone "$REPO_URL" "$INSTALL_DIR"
 	cd "$INSTALL_DIR" || exit 1
 fi
@@ -156,6 +169,9 @@ printf '\n### Check nvram Setup ..\n'
 		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 	fi
 
+	# check install_dir
+	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
+
 	# check branch
 	if [ "$1" = 'dev' ]; then
 		if [ -n "$2" ]; then
@@ -163,10 +179,10 @@ printf '\n### Check nvram Setup ..\n'
 		else
 			[[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
 		fi
+	else
+		# T_RELEASE_latest
+		[[ "$(nvram get branch)" != "$tag" ]] && nvram set branch "$tag"
 	fi
-
-	# check install_dir
-	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
 
 	# check autoupdate
 	[[ "$(nvram get autoupdate)" != "1" ]] && nvram set autoupdate 1
@@ -175,13 +191,14 @@ printf '\n### Check nvram Setup ..\n'
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
 	[[ "$(nvram get ifname)" != "$def_if" ]] && nvram set ifname "$def_if"
 
-#
+
 # create clean masterless salt enviroment
 printf '\n### Check Salt Enviroment ..\n'
 
-rm -fv /etc/salt/minion.d/*.conf
+rm -f /etc/salt/minion.d/*.conf
 
-cat > /etc/salt/minion.d/freifunk-masterless.conf <<EOF
+printf '\n# add salt freifunk-masterless.conf\n\n'
+tee /etc/salt/minion.d/freifunk-masterless.conf <<EOF
 ### This file managed by Salt, do not edit by hand! ###
 #
 # ffdd-server - salt-minion masterless configuration file
@@ -191,7 +208,6 @@ file_client: local
 file_roots:
   base:
     - $INSTALL_DIR/salt/freifunk/base
-
 EOF
 
 
@@ -213,8 +229,7 @@ done
 #
 # -- Initial System --
 
-printf '\n### Start Initial System.. please wait! Coffee Time ~ 10-20min ..\n'
-
+print_init_notice "$init_notice"
 salt-call state.highstate --local -l error
 
 #

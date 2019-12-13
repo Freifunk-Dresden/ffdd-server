@@ -20,10 +20,11 @@
         #!/usr/bin/env bash
         cd {{ install_dir }}{{ ct_bmxd }}
         { export LC_ALL=C;
-          find -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo;
-          find -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo;
+          find . -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo;
+          find . -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo;
           find . -type d | sort; find . -type d | sort | md5sum;
         } | md5sum | sed -e 's/^\(.\{10\}\).*/\1/' > /usr/local/src/bmxd_revision
+        cat /usr/local/src/bmxd_revision ; exit 0
     - user: root
     - group: root
     - mode: 755
@@ -34,6 +35,9 @@
 get_bmxd_revision:
   cmd.run:
     - name: "/usr/local/bin/freifunk-get_bmxd_revision.sh"
+    - require:
+      - file: /usr/local/src/bmxd
+      - file: /usr/local/bin/freifunk-get_bmxd_revision.sh
     - onchanges:
       - file: /usr/local/src/bmxd
 

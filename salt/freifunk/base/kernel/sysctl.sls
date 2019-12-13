@@ -28,3 +28,18 @@ net.netfilter.nf_conntrack_max:
     - value: 200000
     - config: {{ sysctld }}/net.conf
     - unless: "[ ! -e /proc/sys/net/netfilter/nf_conntrack_max ]"
+
+{# template to deactivate ipv6 #}
+{{ sysctld }}/ipv6.conf:
+  file.managed:
+    - contents: |
+        ## comment out to deactivate IPv6
+        #net.ipv6.conf.default.disable_ipv6=1
+        #net.ipv6.conf.all.disable_ipv6=1
+        #net.ipv6.conf.lo.disable_ipv6=1
+        ## eth0 current main interface name
+        #net.ipv6.conf.eth0.disable_ipv6=1
+    - user: root
+    - group: root
+    - mode: 644
+    - replace: false

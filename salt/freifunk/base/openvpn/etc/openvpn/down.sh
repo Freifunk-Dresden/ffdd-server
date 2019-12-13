@@ -5,7 +5,7 @@
 m="${dev#vpn}"
 ip route del default dev "$dev" via "$route_vpn_gateway" table gateway_pool metric "$m"
 
-iptables -w -t nat -D POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local"
+iptables -t nat -D POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local"
 
 #update gateway infos and routing tables, fast after openvpn closes connection
 #Run in background, else openvpn blocks
