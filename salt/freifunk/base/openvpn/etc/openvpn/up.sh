@@ -17,10 +17,10 @@ iptables -w -t nat -A POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local
 #Run in background, else openvpn blocks. but avoid restarting ovpn by check-script
 #if no connection could be made. this would produces a permanent fast restart loop of
 #openvpn
-/usr/local/bin/freifunk-gateway-check.sh no-ovpn-restart&
+/usr/local/bin/freifunk-gateway-check.sh &
 
 BIND_FORWARDER_FILE="/etc/bind/vpn.forwarder.$dev"
-DEFAULT_DNS="8.8.8.8; 8.8.4.4;"		# semicolon is IMPORTANT
+DEFAULT_DNS="194.150.168.168; 46.182.19.48;"		# semicolon is IMPORTANT
 
 # flush public_dns routing table
 ip route flush table public_dns
