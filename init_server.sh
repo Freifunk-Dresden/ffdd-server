@@ -208,7 +208,6 @@ file_client: local
 file_roots:
   base:
     - $INSTALL_DIR/salt/freifunk/base
-
 EOF
 
 
