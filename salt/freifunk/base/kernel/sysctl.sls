@@ -1,4 +1,5 @@
 {# sysctl #}
+{% from 'config.jinja' import ifname %}
 {% set sysctld = "/etc/sysctl.d" %}
 
 net.ipv4.conf.all.forwarding:
@@ -37,8 +38,8 @@ net.netfilter.nf_conntrack_max:
         #net.ipv6.conf.default.disable_ipv6=1
         #net.ipv6.conf.all.disable_ipv6=1
         #net.ipv6.conf.lo.disable_ipv6=1
-        ## eth0 current main interface name
-        #net.ipv6.conf.eth0.disable_ipv6=1
+        ## deactivate current main interface
+        #net.ipv6.conf.{{ ifname }}.disable_ipv6=1
     - user: root
     - group: root
     - mode: 644
