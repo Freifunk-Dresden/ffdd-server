@@ -2,7 +2,7 @@
 {% from 'config.jinja' import kernel_pkg_check, ddmesh_disable_gateway %}
 
 {# install only than Kernel Package available #}
-{% if kernel_pkg_check >= '1' %}
+{% if kernel_pkg_check == '1' %}
 {% set wgvpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn0.conf && echo "1" || true') %}
 {% set wgvpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn1.conf && echo "1" || true') %}
 
@@ -127,5 +127,5 @@ wgvpn1_service_dead:
     - require:
       - pkg: wireguard
 
-{# if kernel_pkg_check >= '1' #}
+{# end if kernel_pkg_check == '1' #}
 {% endif %}

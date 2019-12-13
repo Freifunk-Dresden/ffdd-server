@@ -6,6 +6,10 @@
 openvpn:
   pkg.installed:
     - name: openvpn
+{# disable default openvpn service #}
+  service.dead:
+    - name: openvpn.service
+    - enable: false
 
 {# Service Start then Gateway Option Enabled #}
 {% if ddmesh_disable_gateway == '0' %}
