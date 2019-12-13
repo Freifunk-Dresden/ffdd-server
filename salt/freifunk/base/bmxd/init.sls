@@ -35,6 +35,9 @@
 get_bmxd_revision:
   cmd.run:
     - name: "/usr/local/bin/freifunk-get_bmxd_revision.sh"
+    - require:
+      - file: /usr/local/src/bmxd
+      - file: /usr/local/bin/freifunk-get_bmxd_revision.sh
     - onchanges:
       - file: /usr/local/src/bmxd
 
