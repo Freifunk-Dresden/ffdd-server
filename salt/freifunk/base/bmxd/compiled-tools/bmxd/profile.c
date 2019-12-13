@@ -17,7 +17,6 @@
  *
  */
 
-
 #include <stdio.h>
 
 #include "profile.h"
@@ -42,7 +41,6 @@ void prof_start( int32_t index ) {
 		prof_container[index].start_time = clock();
 
 }
-
 
 
 void prof_stop( int32_t index ) {
@@ -111,4 +109,3 @@ void init_profile( void ) {
 
 
 #endif
-

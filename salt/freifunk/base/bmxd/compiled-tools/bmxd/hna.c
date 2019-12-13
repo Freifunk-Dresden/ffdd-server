@@ -724,4 +724,3 @@ struct plugin_v1 *hna_get_plugin_v1( void ) {
 
 
 #endif //NOHNA
-

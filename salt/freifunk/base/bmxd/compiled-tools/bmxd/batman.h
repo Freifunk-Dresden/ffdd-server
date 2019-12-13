@@ -17,8 +17,6 @@
  *
  */
 
-
-
 #ifndef _BATMAN_BATMAN_H
 #define _BATMAN_BATMAN_H
 
@@ -193,8 +191,6 @@ extern uint32_t My_pid;
 #define UDP_HDR_SIZE 8
 
 #define UDP_OVERHEAD ( SOME_ADDITIONAL_SIZE + IEEE80211_HDR_SIZE + LLC_HDR_SIZE + IP_HDR_SIZE + UDP_HDR_SIZE )
-
-
 
 
 
@@ -793,9 +789,6 @@ struct srv_orig_data {
 struct plugin_v1 *srv_get_plugin_v1( void );
 
 #endif /*NOSRV*/
-
-
-
 
 
 #endif /* _BATMAN_BATMAN_H */

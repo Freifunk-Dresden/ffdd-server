@@ -252,8 +252,6 @@ int32_t cb_snd_ext_hook( uint16_t ext_type, unsigned char* ext_buff ) {
 
 
 
-
-
 int32_t reg_plugin_data( uint8_t data_type ) {
 
 	static int initialized = NO;

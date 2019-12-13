@@ -17,7 +17,6 @@
  *
  */
 
-
 #include <stdio.h>
 #include <string.h>
 
@@ -33,7 +32,6 @@ void flush_sq_record( struct sq_record *sqr ) {
         sqr->wa_clr_sqn = sqr->wa_set_sqn = ((SQ_TYPE) (sqr->wa_clr_sqn - (MAX_PATH_LOUNGE + MAX_PWS + 1)));
 
 }
-
 
 
 void update_lounged_metric(uint8_t probe, uint8_t lounge_size, SQ_TYPE sqn_incm, SQ_TYPE sqn_max, struct sq_record *sqr, uint8_t ws)
@@ -95,8 +93,6 @@ void update_lounged_metric(uint8_t probe, uint8_t lounge_size, SQ_TYPE sqn_incm,
 
 
 }
-
-
 
 
 uint32_t upd_wavg( uint32_t *wavg, uint32_t probe, uint8_t weight_exp ) {

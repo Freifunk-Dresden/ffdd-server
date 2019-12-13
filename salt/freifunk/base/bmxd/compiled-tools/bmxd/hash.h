@@ -17,7 +17,6 @@
  *
  */
 
-
 typedef int (*hashdata_compare_cb)(void *, void *, size_t);
 typedef int (*hashdata_choose_cb)(void *, int, size_t);
 typedef void (*hashdata_free_cb)(void *);

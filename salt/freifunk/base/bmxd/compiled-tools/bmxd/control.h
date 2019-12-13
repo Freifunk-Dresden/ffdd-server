@@ -17,7 +17,6 @@
  *
  */
 
-
 #define MIN_UPTIME 0
 #define MAX_UPTIME 2147383 /*(((TP32/1000)/2)-100) /1000 to talk about seconds and not ms, /2 to not render scheduled events outdated, -100 to be save */
 #define DEF_UPTIME 0
@@ -159,7 +158,6 @@ void accept_ctrl_node( void );
 void handle_ctrl_node( struct ctrl_node *cn );
 void close_ctrl_node( uint8_t cmd, struct ctrl_node *cn );
 struct ctrl_node *create_ctrl_node( int fd, void (*cn_fd_handler) (struct ctrl_node *), uint8_t authorized );
-
 
 
 

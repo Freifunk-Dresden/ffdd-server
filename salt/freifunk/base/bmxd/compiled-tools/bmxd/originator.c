@@ -91,8 +91,6 @@ SIMPEL_LIST( if_list );
 
 
 
-
-
 static void update_routes( struct orig_node *orig_node, struct neigh_node *new_router ) {
 
 	prof_start( PROF_update_routes );
@@ -284,7 +282,6 @@ struct neigh_node *update_orig(struct orig_node *on, uint16_t *oCtx, struct msg_
                         max_othr_recent_val = MAX(max_othr_recent_val, tmp_neigh->recent_sqr.wa_val);
 
         }
-
 
 
         paranoia( -500001, !incm_rt );
@@ -2155,4 +2152,3 @@ void init_originator( void ) {
 	register_options_array( originator_options, sizeof( originator_options ) );
 
 }
-
