@@ -29,6 +29,7 @@
 #define DATA_TYPE_HNA 3
 
 
+
 struct vis_packet {
 	uint32_t sender_ip;
 	uint8_t version;

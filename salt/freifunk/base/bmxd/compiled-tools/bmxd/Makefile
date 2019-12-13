@@ -56,9 +56,21 @@ CFLAGS += -DREVISION_VERSION=$(REVISION_VERSION)
 # -DTESTDEBUG		(testing syntax of __VA_ARGS__ dbg...() macros)
 # -DWITHUNUSED		(includes yet unused stuff)
 
-EXTRA_CFLAGS += -DNODEPRECATED -DNOVIS
+# remove all twt functions, as this would allocated memory also when
+# not using it (disabled by command line options of bmxd)
+# -DSTEPHAN_ENABLE_TWT
 
-LDFLAGS +=	-Wl,-export-dynamic -ldl -g3
+# to create coredumps on pc /var/crash) disable SIGSEGV handling
+#EXTRA_CFLAGS += -DSTEPHAN_ENABLE_SEGMENTATION_FAULT_HANDLING
+
+# This disables dynamic plugin support
+EXTRA_CFLAGS += -DSTEPHAN_NO_DYNAMIC_PLUGIN
+
+EXTRA_CFLAGS += -DNODEPRECATED -DNOVIS -DNOHNA
+
+
+#LDFLAGS +=	-Wl,-export-dynamic -ldl -g3
+LDFLAGS +=	-g3
 # -static
 # -pg
 
@@ -76,6 +88,7 @@ LOG_BRANCH= trunk/batman-experimental
 
 SRC_FILES= "\(\.c\)\|\(\.h\)\|\(Makefile\)\|\(INSTALL\)\|\(LIESMICH\)\|\(README\)\|\(THANKS\)\|\(./posix\)\|\(./linux\)\|\(./man\)\|\(./doc\)"
 
+#SRC_C= batman.c originator.c hna.c schedule.c plugin.c list-batman.c allocate.c avl.c profile.c control.c metrics.c $(OS_C) posix/posix.c posix/tunnel.c linux/route.c
 SRC_C= batman.c originator.c hna.c schedule.c plugin.c list-batman.c allocate.c avl.c profile.c control.c metrics.c $(OS_C)
 SRC_H= batman.h originator.h hna.h schedule.h plugin.h list-batman.h allocate.h avl.h profile.h control.h metrics.h vis-types.h os.h
 OBJS=  $(SRC_C:.c=.o)

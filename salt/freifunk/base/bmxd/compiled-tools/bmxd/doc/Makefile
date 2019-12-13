@@ -7,8 +7,8 @@ doc:	Makefile
 	pdflatex bmx.tex
 	pdflatex bmx.tex
 	rm -rv *.toc *.log *.aux
-	
-	
+
+
 clean:
-	rm -rfv *.toc *.pdf *.log *.aux 
+	rm -rfv *.toc *.pdf *.log *.aux
 #$$(find  -type d | grep "./")

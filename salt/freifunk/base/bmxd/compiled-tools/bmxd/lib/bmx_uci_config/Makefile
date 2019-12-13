@@ -1,7 +1,7 @@
 
 CFLAGS +=	-fpic -pedantic -Wall -W -Wno-unused-parameter -Os -g3 -std=gnu99 -I../../
 LDFLAGS +=	-shared -luci
-#-Wl,-soname,bmx_config 
+#-Wl,-soname,bmx_config
 
 PLUGIN_NAME =   bmx_uci_config
 PLUGIN_VER =    1
@@ -27,7 +27,7 @@ $(PLUGIN_FULLNAME):	$(OBJS) Makefile
 
 clean:
 	rm -f *.o *.so.$(PLUGIN_VER)
-	
+
 
 install:	all
 		mkdir -p $(LIBDIR)

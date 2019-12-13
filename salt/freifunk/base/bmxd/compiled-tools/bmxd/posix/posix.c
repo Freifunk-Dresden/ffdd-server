@@ -40,7 +40,7 @@
 #include "schedule.h"
 //#include "avl.h"
 
-# define timercpy(d, a) (d)->tv_sec = (a)->tv_sec; (d)->tv_usec = (a)->tv_usec; 
+# define timercpy(d, a) (d)->tv_sec = (a)->tv_sec; (d)->tv_usec = (a)->tv_usec;
 
 static int8_t stop = 0;
 
@@ -63,38 +63,38 @@ void fake_start_time( int32_t fake ) {
 //#define get_time_msec() get_time( YES, NULL )
 
 void update_batman_time( struct timeval *precise_tv ) {
-	
+
 	timeradd( &max_tv, &new_tv, &acceptable_p_tv );
 	timercpy( &acceptable_m_tv, &new_tv );
 	gettimeofday( &new_tv, NULL );
-	
+
 	if ( timercmp( &new_tv, &acceptable_p_tv, > ) ) {
-		
+
 		timersub( &new_tv, &acceptable_p_tv, &diff_tv );
 		timeradd( &start_time_tv, &diff_tv, &start_time_tv );
-		
-		dbg( DBGL_SYS, DBGT_WARN, 
-		     "critical system time drift detected: ++ca %ld s, %ld us! Correcting reference!",
-		     diff_tv.tv_sec, diff_tv.tv_usec );
-		
+
+//		dbg( DBGL_SYS, DBGT_WARN,
+//		     "critical system time drift detected: ++ca %ld s, %ld us! Correcting reference!",
+//		     diff_tv.tv_sec, diff_tv.tv_usec );
+
 	} else 	if ( timercmp( &new_tv, &acceptable_m_tv, < ) ) {
-		
+
 		timersub( &acceptable_m_tv, &new_tv, &diff_tv );
 		timersub( &start_time_tv, &diff_tv, &start_time_tv );
-		
-		dbg( DBGL_SYS, DBGT_WARN, 
-		     "critical system time drift detected: --ca %ld s, %ld us! Correcting reference!",
-		     diff_tv.tv_sec, diff_tv.tv_usec );
+
+//		dbg( DBGL_SYS, DBGT_WARN,
+//		     "critical system time drift detected: --ca %ld s, %ld us! Correcting reference!",
+//		     diff_tv.tv_sec, diff_tv.tv_usec );
 
 	}
-	
-	timersub( &new_tv, &start_time_tv, &ret_tv );	
-	
+
+	timersub( &new_tv, &start_time_tv, &ret_tv );
+
 	if ( precise_tv ) {
 		precise_tv->tv_sec = ret_tv.tv_sec;
 		precise_tv->tv_usec = ret_tv.tv_usec;
-	}		
-	
+	}
+
 	batman_time = ( (ret_tv.tv_sec * 1000) + (ret_tv.tv_usec / 1000) );
 	batman_time_sec = ret_tv.tv_sec;
 
@@ -142,20 +142,20 @@ char *get_human_uptime( uint32_t reference, int more ) {
 
 
 void bat_wait( uint32_t sec, uint32_t msec ) {
-	
+
 	struct timeval time;
-	
+
 	//no debugging here because this is called from debug_output() -> dbg_fprintf() which may case a loop!
-	//dbgf_all( DBGT_INFO, "%d sec %d msec...", sec, msec ); 
-	
+	//dbgf_all( DBGT_INFO, "%d sec %d msec...", sec, msec );
+
 	time.tv_sec = sec + (msec/1000) ;
 	time.tv_usec = ( msec * 1000 ) % 1000000;
-	
+
 	select( 0, NULL, NULL, NULL, &time );
-	
-	//update_batman_time( NULL ); //this will cause critical system time drift message from the client 
+
+	//update_batman_time( NULL ); //this will cause critical system time drift message from the client
 	//dbgf_all( DBGT_INFO, "bat_wait(): done");
-	
+
 	return;
 }
 
@@ -276,14 +276,14 @@ void print_animation( void ) {
 	BAT_LOGO_END( 0 ,350 );
 
 	printf( "\x1B[9;0H \t May the bat guide your path...\n\n\n" );
-	
+
 }
 #endif /* NOANIMATION */
 
 int32_t rand_num( uint32_t limit ) {
-	
+
 	return ( limit == 0 ? 0 : rand() % limit );
-	
+
 }
 
 
@@ -300,12 +300,12 @@ static void handler( int32_t sig ) {
 	if ( !Client_mode ) {
 		dbgf( DBGL_SYS, DBGT_ERR, "called with signal %d", sig);
 	}
-	
+
 	printf("\n");// to have a newline after ^C
-	
+
 	stop = 1;
 	cb_plugin_hooks( NULL, PLUGIN_CB_TERM );
-	
+
 }
 
 
@@ -337,32 +337,32 @@ uint8_t get_set_bits( uint32_t v ) {
 
 
 int8_t send_udp_packet( unsigned char *packet_buff, int32_t packet_buff_len, struct sockaddr_in *dst, int32_t send_sock ) {
-	
+
 	int status;
-	
+
 	dbgf_all( DBGT_INFO, "len %d", packet_buff_len );
 
 	if ( send_sock == 0 )
 		return 0;
-	
-	/*	
+
+	/*
 	static struct iovec iov;
 	iov.iov_base = packet_buff;
 	iov.iov_len  = packet_buff_len;
-	
+
 	static struct msghdr m = { 0, sizeof( struct sockaddr_in ), &iov, 1, NULL, 0, 0 };
 	m.msg_name = dst;
-	
+
 	status = sendmsg( send_sock, &m, 0 );
 	*/
-	
+
 	status = sendto( send_sock, packet_buff, packet_buff_len, 0, (struct sockaddr *)dst, sizeof(struct sockaddr_in) );
-		
+
 	if ( status < 0 ) {
-		
+
 		if ( errno == 1 ) {
 
-			dbg_mute( 60, DBGL_SYS, DBGT_ERR, 
+			dbg_mute( 60, DBGL_SYS, DBGT_ERR,
 			     "can't send udp packet: %s. Does your firewall allow outgoing packets on port %i ?",
 			     strerror(errno), ntohs(dst->sin_port));
 
@@ -371,44 +371,44 @@ int8_t send_udp_packet( unsigned char *packet_buff, int32_t packet_buff_len, str
 			dbg_mute( 60, DBGL_SYS, DBGT_ERR, "can't send udp packet via fd %d: %s", send_sock, strerror(errno));
 
 		}
-		
+
 		return -1;
-		
+
 	}
 
 	return 0;
 
 }
 
-
-
+#ifdef STEPHAN_ENABLE_SEGMENTATION_FAULT_HANDLING
 static void segmentation_fault( int32_t sig ) {
 
 	signal( SIGSEGV, SIG_DFL );
 
 	dbg( DBGL_SYS, DBGT_ERR, "SIGSEGV received, try cleaning up (%s%s)...",
 	     SOURCE_VERSION, ( strncmp( REVISION_VERSION, "0", 1 ) != 0 ? REVISION_VERSION : "" ) );
-	
+
 	if ( !on_the_fly )
-		dbg( DBGL_SYS, DBGT_ERR, 
+		dbg( DBGL_SYS, DBGT_ERR,
 		     "check up-to-dateness of bmx libs in default lib path %s or customized lib path defined by %s !",
 		     BMX_DEF_LIB_PATH, BMX_ENV_LIB_PATH );
-	
-	
+
+
 	cleanup_all( CLEANUP_RETURN );
-	
+
 	dbg( DBGL_SYS, DBGT_ERR, "raising SIGSEGV again ..." );
-	
+
 	errno=0;
 	if ( raise( SIGSEGV ) ) {
 		dbg( DBGL_SYS, DBGT_ERR, "raising SIGSEGV failed: %s...", strerror(errno) );
 	}
-	
+
 }
+#endif // STEPHAN_ENABLE_SEGMENTATION_FAULT_HANDLING
 
 
 void cleanup_all( int status ) {
-	
+
 	static int cleaning_up = NO;
 
         if (status < 0) {
@@ -429,29 +429,29 @@ void cleanup_all( int status ) {
                 cleaning_up = YES;
 
                 // first, restore defaults...
-		
+
 		stop = 1;
-		
+
 		cleanup_schedule();
-		
+
 		purge_orig( 0, NULL );
 
 		cleanup_plugin();
-		
+
 		cleanup_config(); //cleanup_init()
-		
+
 		cleanup_route();
-		
+
 		struct list_head *list_pos, *list_tmp;
 		list_for_each_safe( list_pos, list_tmp, &if_list ) {
-			
+
 			struct batman_if *bif = list_entry( list_pos, struct batman_if, list );
-			
+
 			if ( bif->if_active )
 				if_deactivate( bif );
-			
+
 			remove_outstanding_ogms( bif );
-			
+
 			list_del( (struct list_head *)&if_list, list_pos, &if_list );
 
                         //debugFree(bif->own_ogm_out, 1209);
@@ -460,25 +460,25 @@ void cleanup_all( int status ) {
 
 		// last, close debugging system and check for forgotten resources...
 		cleanup_control();
-		
+
 		checkLeak();
 	}
-	
+
 
 	if ( status == CLEANUP_SUCCESS ) {
-		
+
 		exit( EXIT_SUCCESS );
-		
+
 	} else if ( status == CLEANUP_FAILURE ) {
-			
+
 		exit( EXIT_FAILURE );
-			
+
 	} else if ( status == CLEANUP_RETURN ) {
 
 		return;
-		
+
 	}
-	
+
 	exit ( EXIT_FAILURE );
 }
 
@@ -487,7 +487,7 @@ int main( int argc, char *argv[] ) {
 
 	gettimeofday( &start_time_tv, NULL );
 	gettimeofday( &new_tv, NULL );
-	
+
 	update_batman_time( NULL );
 
 	My_pid = getpid();
@@ -496,42 +496,44 @@ int main( int argc, char *argv[] ) {
 	if ( d  &&  strtol(d, NULL , 10) >= DBGL_MIN  &&  strtol(d, NULL , 10) <= DBGL_MAX )
 		debug_level = strtol(d, NULL , 10);
 */
-	
+
 	srand( My_pid );
 
 	init_set_bits_table256();
-	
+
 	signal( SIGINT, handler );
 	signal( SIGTERM, handler );
 	signal( SIGPIPE, SIG_IGN );
+#ifdef STEPHAN_ENABLE_SEGMENTATION_FAULT_HANDLING
 	signal( SIGSEGV, segmentation_fault );
-	
+#endif
+
 	init_control();
 
 	init_profile();
-	
+
 	init_route();
-	
+
 //	init_control();
-	
+
 	init_route_args();
-	
+
 	init_originator();
-	
+
 	init_schedule();
-	
+
 	init_plugin();
-	
+
 	apply_init_args( argc, argv );
-	
+
 	check_kernel_config( NULL );
-	
+
 	start_schedule();
-	
+
 	batman();
 
 	cleanup_all( CLEANUP_SUCCESS );
-	
+
 	return -1;
 }
 

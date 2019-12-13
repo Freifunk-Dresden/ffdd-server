@@ -1,6 +1,6 @@
 # bmx_uci_config plugin depends on the UCI (universial configuration interface)
 # from http://downloads.openwrt.org/sources/uci-0.7.3.tar.gz
-# to compile first install uci: 
+# to compile first install uci:
 #	wget http://downloads.openwrt.org/sources/uci-0.7.3.tar.gz
 #	tar xzvf uci-0.7.3.tar.gz; cd uci-0.7.3; make; sudo make install
 #
@@ -38,7 +38,7 @@ config 'bmx' 'general'
 #	option 'two_way_tunnel' '0'
 
 # bmxd always tries to load bmx_uci_config.so from /usr/lib/
-# Therefore, there is no need to request this explicitly. 
+# Therefore, there is no need to request this explicitly.
 # But it does not hurt as well.
 # An alternative library-path can be set with the environment variable BMX_LIB_PATH
 # E.g. BMX_LIB_PATH=/usr/src/bmx/lib will check the given directory for plugins
@@ -51,9 +51,9 @@ config 'plugin'
 # 	option 'plugin' 'bmx_howto_plugin.so'
 
 
-# it is allways a good idea to use an alias on your loopback interface 
-# as the primary interface because the loopback interface is probably 
-# the most stable you have on your system and then you are always 
+# it is allways a good idea to use an alias on your loopback interface
+# as the primary interface because the loopback interface is probably
+# the most stable you have on your system and then you are always
 # reachable under your primary IP. E.g.:
 # ifconfig lo:bmx 6.6.1.1 netmask 255.255.0.0
 config 'dev'
@@ -84,7 +84,7 @@ config 'dev'
 #config 'throw'
 #	option 'throw' '104.0.0.0/8'
 #
-# Alternatively, because olsr interfaces are configured in /etc/config/network 
+# Alternatively, because olsr interfaces are configured in /etc/config/network
 # we may also load our values from there
 #
 #config 'throw'
