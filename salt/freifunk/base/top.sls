@@ -39,12 +39,11 @@ base:
 
     {# core-tools #}
     - salt-minion
+    - nvram
     - ddmesh
     - ddmesh.autoconfig
     - ddmesh.autoupdate
-    - ddmesh.serverpage
     - ddmesh
-    - nvram
 
     {# networking / firewall #}
     - iproute2
@@ -60,12 +59,16 @@ base:
     - openvpn
     - wireguard
     - bind
-    - bind.stats
 
     - iperf3
     - apache2
     - php
     - letsencrypt
-    - monitorix
     - vnstat
+
+    {# server webpages #}
+    - ddmesh.serverpage
+    - ddmesh.serverpage_ssl
+    - bind.stats
+    - monitorix
     - vnstat.dashboard
