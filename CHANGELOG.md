@@ -17,16 +17,18 @@
 		- get current version branch by git
 		- fix get: get only first entry when the user has duplicated option entries
 		- change ffdd-server version output
-	- apache2
+	- apache2/php
 		- optimize salt state
-		- move ffdd-server webpage states to ddmesh directory/state
+		- move ffdd-server webpage states to ddmesh.serverpage directory/state
 		- some optimations for php installation
-	- letsencrypt: optimize scripts and configs
+	- letsencrypt
+		- optimize state
+		- move ffdd apache part to ddmesh.startpage_ssl
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- monitorix
 		- update config options remove some issues
 		- enable bind stats
-		- disable fail2ban graph
+		- disable proc and fail2ban graph
 	- vnstat: change git source to a stable rev/commit
 	- init_server.sh
 		- add salt repo for debian 9 and ubuntu 16
