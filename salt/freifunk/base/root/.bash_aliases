@@ -52,6 +52,7 @@ tools:
     htop / psa          ( show processes list )
     conntrack           ( show more with -n LINENUM )
     vnstat              ( network traffic monitor )
+    pb                  ( command line pastebin - man pb )
     showip
     speedtest / speedtest-ovh / speedtest-belwue
     # Server Logs:

@@ -42,6 +42,7 @@ _**version 1.1.0**_
 		- check we can set sysctl tcp_syncookies
 		- make a shorter bash_alias help output
 		- add an sysctl.d/ipv6.conf template to deactivate ipv6
+		- add `pb` (pastebin tool for 0x0 on envs.sh)
 
 <br />
 
