@@ -40,6 +40,10 @@ base:
     {# core-tools #}
     - salt-minion
     - ddmesh
+    - ddmesh.autoconfig
+    - ddmesh.autoupdate
+    - ddmesh.serverpage
+    - ddmesh
     - nvram
 
     {# networking / firewall #}
@@ -56,6 +60,7 @@ base:
     - openvpn
     - wireguard
     - bind
+    - bind.stats
 
     - iperf3
     - apache2
@@ -63,3 +68,4 @@ base:
     - letsencrypt
     - monitorix
     - vnstat
+    - vnstat.dashboard

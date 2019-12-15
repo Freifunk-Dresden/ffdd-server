@@ -1,5 +1,5 @@
 {# Freifunk Dresden Configurations #}
-{% from 'config.jinja' import freifunk_version, freifunk_repo, branch, install_dir, autoupdate, ctime %}
+{% from 'config.jinja' import freifunk_version, ctime %}
 
 /etc/freifunk-server-version:
   file.managed:
@@ -8,27 +8,8 @@
     - user: root
     - group: root
     - mode: 644
-
-
-{# autoupdate #}
-{% if autoupdate == '1' %}
-ffdd-server_repo:
-  git.latest:
-    - name: {{ freifunk_repo }}
-    - rev: {{ branch }}
-    - target: {{ install_dir }}
-    - update_head: True
-    - force_fetch: True
-    - force_reset: True
-    - require:
-      - pkg: git
-
-apply_ffdd-server_update:
-  cmd.run:
-    - name: echo 'salt-call state.highstate --local -l error' | sudo at now + 1 min
-    - onchanges:
-        - ffdd-server_repo
-{% endif %}
+    - file: /usr/local/bin/nvram
+    - file: /etc/nvram.config
 
 
 {# cron #}
@@ -64,40 +45,37 @@ apply_ffdd-server_update:
       - pkg: salt-minion
 
 
-{# enable FFDD server page #}
-/etc/apache2/sites-available/001-freifunk.conf:
+{# Scripts #}
+/usr/local/bin/ddmesh-ipcalc.sh:
   file.managed:
-    - source: salt://ddmesh/etc/apache2/sites-available/001-freifunk.conf.tmpl
-    - template: jinja
+    - source: salt://ddmesh/usr/local/bin/ddmesh-ipcalc.sh
     - user: root
     - group: root
-    - mode: 644
-    - require:
-      - pkg: apache2
+    - mode: 755
 
-apache2_site_enable_freifunk:
-  apache_site.enabled:
-    - name: 001-freifunk
-    - require:
-      - pkg: apache2
-      - file: /etc/apache2/sites-available/001-freifunk.conf
+/usr/local/bin/freifunk-register-local-node.sh:
+  file.managed:
+    - source: salt://ddmesh/usr/local/bin/freifunk-register-local-node.sh
+    - user: root
+    - group: root
+    - mode: 755
+
+/usr/local/bin/freifunk-gateway-check.sh:
+  file.managed:
+    - source: salt://ddmesh/usr/local/bin/freifunk-gateway-check.sh
+    - user: root
+    - group: root
+    - mode: 755
+
+/usr/local/bin/freifunk-gateway-status.sh:
+  file.managed:
+    - source: salt://ddmesh/usr/local/bin/freifunk-gateway-status.sh
+    - user: root
+    - group: root
+    - mode: 755
 
 
 {# Directories #}
-/var/www_freifunk:
-  file.recurse:
-    - source: salt://ddmesh/var/www_freifunk
-    - user: www-data
-    - group: www-data
-    - file_mode: 755
-    - dir_mode: 755
-    - keep_symlinks: True
-    - force_symlinks: True
-    - clean: True
-    - recurse:
-      - user
-      - group
-
 /var/lib/freifunk:
   file.directory:
     - user: freifunk
@@ -147,33 +125,3 @@ apache2_site_enable_freifunk:
     - dir_mode: 755
     - require:
       - pkg: rsyslog
-
-
-{# Scripts #}
-/usr/local/bin/ddmesh-ipcalc.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/ddmesh-ipcalc.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-/usr/local/bin/freifunk-register-local-node.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/freifunk-register-local-node.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-/usr/local/bin/freifunk-gateway-check.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/freifunk-gateway-check.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-/usr/local/bin/freifunk-gateway-status.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/freifunk-gateway-status.sh
-    - user: root
-    - group: root
-    - mode: 755

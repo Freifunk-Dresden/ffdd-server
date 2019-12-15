@@ -229,6 +229,7 @@ Bitte einhalten:
 - Das Repository muss an mehreren Stellen angepasst werden:
   - `config.jinja`
   - `ddmesh/init.sls`
+  - `ddmesh/autoupdate.sls`
   - `ddmesh/usr/local/bin/ddmesh-ipcalc.sh`
   - `ddmesh/usr/local/bin/freifunk-register-local-node.sh`
   - `ddmesh/var/www_freifunk/`
