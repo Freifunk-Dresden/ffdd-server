@@ -1,5 +1,5 @@
 # Freifunk Dresden: ffdd-server Updates
-`current version 1.0.15`
+`current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
 <br/>
 
