@@ -169,27 +169,30 @@ printf '\n### Check nvram Setup ..\n'
 		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 	fi
 
+	nvram_get() { /usr/local/bin/nvram get "$1" ; }
+	nvram_set() { /usr/local/bin/nvram set "$1" "$2" ; }
+
 	# check install_dir
-	[[ "$(nvram get install_dir)" != "$INSTALL_DIR" ]] && nvram set install_dir "$INSTALL_DIR"
+	[[ "$(nvram_get install_dir)" != "$INSTALL_DIR" ]] && nvram_set install_dir "$INSTALL_DIR"
 
 	# check branch
 	if [ "$1" = 'dev' ]; then
 		if [ -n "$2" ]; then
-			[[ "$(nvram get branch)" != "$2" ]] && nvram set branch "$2"
+			[[ "$(nvram_get branch)" != "$2" ]] && nvram_set branch "$2"
 		else
-			[[ "$(nvram get branch)" != 'master' ]] && nvram set branch master
+			[[ "$(nvram_get branch)" != 'master' ]] && nvram_set branch master
 		fi
 	else
 		# T_RELEASE_latest
-		[[ "$(nvram get branch)" != "$tag" ]] && nvram set branch "$tag"
+		[[ "$(nvram_get branch)" != "$tag" ]] && nvram_set branch "$tag"
 	fi
 
 	# check autoupdate
-	[[ "$(nvram get autoupdate)" != "1" ]] && nvram set autoupdate 1
+	[[ "$(nvram_get autoupdate)" != '1' ]] && nvram_set autoupdate 1
 
 	# check default Interface
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
-	[[ "$(nvram get ifname)" != "$def_if" ]] && nvram set ifname "$def_if"
+	[[ "$(nvram_get ifname)" != "$def_if" ]] && nvram_set ifname "$def_if"
 
 
 # create clean masterless salt enviroment
@@ -230,7 +233,7 @@ done
 # -- Initial System --
 
 print_init_notice "$init_notice"
-salt-call state.highstate --local -l error
+$(command -v salt-call) state.highstate --local -l error
 
 #
 # -- Cleanup System & Print Notice --
