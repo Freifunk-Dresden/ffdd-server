@@ -52,6 +52,7 @@ base:
 
     {# f2b with ipset #}
     - fail2ban
+    - fail2ban.ipset
 
     {# services #}
     - ssh
