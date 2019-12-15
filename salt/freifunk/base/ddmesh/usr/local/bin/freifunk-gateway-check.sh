@@ -161,7 +161,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 	for ip in $gw_ping
 	do
 		$DEBUG && printf 'ping to: %s\n' "$ip"
-		ping -c 2 -w 10 "$ip"  2>&1 && countSuccessful="$((countSuccessful+1))"
+		ping -c 2 -w 10 "$ip" 2>&1 && countSuccessful="$((countSuccessful+1))"
 
 		if [ "$countSuccessful" -ge "$minSuccessful" ]; then
 			ok='true'
