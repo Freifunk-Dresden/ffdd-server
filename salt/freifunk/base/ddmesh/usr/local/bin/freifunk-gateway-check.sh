@@ -249,7 +249,7 @@ if ! "$ok"; then
 	systemctl reload bind9
 	printf 'DNS:\n%s\n' "$(cat $BIND_FORWARDER_FILE)"
 
-	# when we have a openvpn network interface and ok='false'
+	# when we have a vpn network interface and ok='false'
 
 	vpn_ping_check() { ping -c 1 -W5 -I "$1" 8.8.8.8 >/dev/null ; }
 	vpn_fail_log() { logger -s -t "$LOGGER_TAG" "vpn $1 connection is dead -> restarting" ; }
