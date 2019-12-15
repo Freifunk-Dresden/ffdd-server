@@ -151,15 +151,24 @@ bind_reload_daemon:
 
 {% else %}
 {# Default GW Server #}
-/etc/bind/vpn.forwarder:
+/etc/bind/vpn.forwarder.def:
   file.managed:
     - source: salt://bind/etc/bind/vpn.forwarder
     - user: root
     - group: root
     - mode: 644
-    - replace: false
     - require:
       - pkg: bind
+
+/etc/bind/vpn.forwarder:
+  file.symlink:
+    - target: /etc/bind/vpn.forwarder.def
+    - user: root
+    - group: root
+    - mode: 644
+    - replace: false
+    - require:
+      - file: /etc/bind/vpn.forwarder.def
 {% endif %}
 
 
