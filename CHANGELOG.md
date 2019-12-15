@@ -1,8 +1,6 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
-<br/>
-
 ## version 1.1.0
 
 	- bind9
@@ -43,8 +41,6 @@
 		- make a shorter bash_alias help output
 		- add `pb` (pastebin tool for 0x0 on envs.sh)
 
-<br />
-
 ## version 1.0.15
 
 	- update README
@@ -55,21 +51,15 @@
 	- fix kernel-headers package check
 	- fix wireguard gen-config predown
 
-<br />
-
 ## version 1.0.14
 
 	- fail2ban changes:
 		- add ignored private IP's
 		- remove jail: apache-fakegooglebot , apache-botsearch
 
-<br />
-
 ## version 1.0.13
 
 	- fix bind9 db.root check
-
-<br />
 
 ## version 1.0.12
 
@@ -79,8 +69,6 @@
 	- add a faster speedtest to .bash_alias
 	- small readme and comments changes
 
-<br />
-
 ## version 1.0.11
 
 	- add CHANGELOG.md
@@ -89,16 +77,12 @@
 	    - add 'ssh_pwauth' option to enable/disable password-authentification
 	- some more small improvements
 
-<br />
-
 ## version 1.0.10
 
 	- some improvements
 	- update/fix vnstat and vnstat-dashboard
 	- fix fastd2 service
 	- fix nvram autosetup
-
-<br />
 
 ## version 1.0.9
 
@@ -111,14 +95,10 @@
 	- update README.md
 	- update init_server.sh for dev-installtions
 
-<br/>
-
 ## version 1.0.8
 
 	- add mosh support
 	- add routing rule for DNS servers that are only accessable via tunnel
-
-<br/>
 
 ## version 1.0.7
 
@@ -128,20 +108,14 @@
 		- bind root.hints
 		- vnstat dir perms
 
-<br/>
-
 ## version 1.0.6_fix6
 
 	- update apt autoupdate
 	- add freifunk_repo to config file and update letsencrypt NAT'd check
 
-<br/>
-
 ## version 1.0.6_fix5
 
 	- fastd: add support to restrict any new connection to a server. should be used when server has too much connections and is overloaded. in this case we must change backbones in clients
-
-<br/>
 
 ## version 1.0.6_fix4
 
@@ -149,15 +123,11 @@
 	- fastd2/bmxd: update docs url
 	- root: bash_aliases typo fix
 
-<br/>
-
 ## version 1.0.6_fix3
 
 	- add systemtools and linux-firmware
 	- f2b: remove old hopglass server from ignore list
 	- bash_aliases add htop/psa, conntrack notice
-
-<br/>
 
 ## version 1.0.6_fix2
 
@@ -166,15 +136,11 @@
 	- optimze nvram autosetup
 	- remove temp. clear old server enviroment
 
-<br/>
-
 ## version 1.0.6_fix1
 
 	- nvram: show version-fix
 	- fix bind9
 	- fix locales
-
-<br/>
 
 ## version 1.0.6
 
@@ -193,8 +159,6 @@
 	- fix S42firewall6
 		- Required-Start
 		- Wait for the xtables lock
-
-<br/>
 
 ## version 1.0.5
 
@@ -223,8 +187,6 @@
 		- force symlink creation
 		- make sure that only files that are set up by salt
 	- fix monitorix owner for images
-
-<br/>
 
 ## version 1.0.4
 
@@ -258,8 +220,6 @@
 		- bind: rename openvpn.forwarder vpn.forwarder to generalize
 		- clear old HNA
 
-<br/>
-
 ## version 1.0.3
 
 	- add vnstat Traffic Statistik Dashboard
@@ -267,8 +227,6 @@
 	- update clear_oldenv
 	- small Bugfixes
 		- ff-www: change encoding to utf-8
-
-<br/>
 
 ## version 1.0.2
 
@@ -286,8 +244,6 @@
 	- cleanup old code
 	- Bugfixes and Optimation
 
-<br/>
-
 ## version 1.0.1_fix1
 
 	- fix letsencrypt service and add hostname fqdn check
@@ -295,8 +251,6 @@
 	- Readme.md corrections
 	- cleanup old code
 	- bugfixes and optimation
-
-<br/>
 
 ## version 1.0.1
 
@@ -314,10 +268,8 @@
 	- add fail2ban as IPS
 	- bugfixes and optimation
 
-<br/>
 
 # Updates Archiv - v0.0.X
-<br/>
 
 ## version 0.0.10
 
@@ -325,7 +277,6 @@
 		- fix bmxd revison_version
 		- add release version
 		- add branch and tag system
-<br/>
 
 ## version 0.0.9
 
@@ -336,8 +287,6 @@
 		- fix bmxd revison_version
 		- add crontab variant minute
 
-<br/>
-
 ## version 0.0.8
 
 	* Bugfixes and Optimizing
@@ -346,16 +295,12 @@
 		- change configs header
 		- add monitorix name and interface variable
 
-<br/>
-
 ## version 0.0.7
 
 	* Bugfixes and Optimizing
 		- small changes in cron.d
 		- small fixes in letsencrypt (+ ENABLED)
 		- fix monitorix restrictions
-
-<br/>
 
 ## version 0.0.6
 
@@ -364,8 +309,6 @@
 		- fix crontabs
 	* (#add letsencrypt for https support)
 
-<br/>
-
 ## version 0.0.5
 
 	* Optimizing and Cleanup
@@ -373,14 +316,10 @@
 		- remove pkg: php
 		- remove ddmesh - _freifunk-services.sh_
 
-<br/>
-
 ## version 0.0.4
 
 	* Bugfix
 		- fix: add fail2ban ignore rule for 10.200.0.1
-
-<br/>
 
 ## version 0.0.3
 
@@ -391,8 +330,6 @@
 				- fix ensure _/usr/local/bin/nvram_ is present
 		- fix old file list
 		- add new alias ('freifunk-call') for '_salt-call state.highstate --local_'
-
-<br/>
 
 ## version 0.0.2
 
@@ -414,12 +351,10 @@
 				> add stats for autoupdate, firmware, hostinfo's
 		- check old files and cleanup
 	* add _/etc/freifunk-server-version_
-	* add _/etc/firewall.users_<br/>
+	* add _/etc/firewall.users
 		- for user defined firewall rules - includes in _/etc/init.d/S41firewall_
-	* add Autosetup for new Servers (without configured nvram.conf)<br/>
+	* add Autosetup for new Servers (without configured nvram.conf
 		- salt check if not 'ddmesh_registerkey' set in _/etc/nvram.conf_ and run: _nvram/usr/.../freifunk-nvram_autosetup.sh_
-
-<br/>
 
 ## version 0.01
 
