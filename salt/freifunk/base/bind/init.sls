@@ -161,14 +161,14 @@ bind_reload_daemon:
       - pkg: bind
 
 /etc/bind/vpn.forwarder:
-  file.symlink:
-    - target: /etc/bind/vpn.forwarder.def
+  file.managed:
+    - source: salt://bind/etc/bind/vpn.forwarder
     - user: root
     - group: root
     - mode: 644
     - replace: false
     - require:
-      - file: /etc/bind/vpn.forwarder.def
+      - pkg: bind
 {% endif %}
 
 
