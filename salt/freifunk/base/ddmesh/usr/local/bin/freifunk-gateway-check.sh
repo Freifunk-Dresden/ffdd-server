@@ -7,6 +7,8 @@ ip_rule_priority_unreachable='99'
 DEBUG='true'
 LOGGER_TAG='GW_CHECK'
 
+BIND_FORWARDER_FILE='/etc/bind/vpn.forwarder'
+
 
 setup_gateway_table() {
 	dev="$1"
@@ -201,17 +203,15 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			/etc/init.d/S52batmand gateway
 
 			# select correct dns
-			BIND_FORWARDER_FILE="/etc/bind/vpn.forwarder"
 			rm -f "$BIND_FORWARDER_FILE"
 			ln -s "$BIND_FORWARDER_FILE"."$dev" "$BIND_FORWARDER_FILE"
-			service bind9 reload
-			printf 'DNS:\n'
-			cat "$BIND_FORWARDER_FILE"
+			systemctl reload bind9
+			printf 'DNS:\n%s\n' "$(cat $BIND_FORWARDER_FILE)"
 
 			# add routes to DNS through tunnel (mullvad DNS is only accessible through tunnel)
 			# - extract all dns from BIND_FORWARDER_FILE and create dns rules
 			# openvpn:up.sh and wireguard:configs create the forwarder file but with different layout.
-			tunnel_dns_servers="$(cat $BIND_FORWARDER_FILE | sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
+			tunnel_dns_servers="$(sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' "$BIND_FORWARDER_FILE" | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
 			for dns_ip in $tunnel_dns_servers
 			do
 				ip route add $dns_ip dev $dev table public_dns
@@ -243,11 +243,36 @@ if ! "$ok"; then
 	ip route flush table public_dns 2>/dev/null
 	/etc/init.d/S52batmand no_gateway
 
+	# reload bind9
+	rm -f "$BIND_FORWARDER_FILE"
+	ln -s "$BIND_FORWARDER_FILE".def "$BIND_FORWARDER_FILE"
+	systemctl reload bind9
+	printf 'DNS:\n%s\n' "$(cat $BIND_FORWARDER_FILE)"
+
 	# when we have a openvpn network interface and ok='false'
-	# then openvpn is dead
+
+	vpn_ping_check() { ping -c 1 -W5 -I "$1" 8.8.8.8 >/dev/null ; }
+	vpn_fail_log() { logger -s -t "$LOGGER_TAG" "vpn $1 connection is dead -> restarting" ; }
+
+	# then vpn is dead
 	if [ -n "$default_vpn_route_list" ]; then
-		logger -s -t "$LOGGER_TAG" "openvpn connection is dead -> restarting"
-		service openvpn restart
+		# check we use openvpn or wireguard
+		# OVPN
+		if [ -f /etc/openvpn/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
+			vpn_fail_log vpn0
+			systemctl restart openvpn@openvpn-vpn0.service
+		elif [ -f /etc/openvpn/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
+			vpn_fail_log vpn1
+			systemctl restart openvpn@openvpn-vpn1.service
+		fi
+		# WG
+		if [ -f /etc/wireguard/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
+			vpn_fail_log vpn0
+			systemctl restart wg-quick@vpn0.service
+		elif [ -f /etc/wireguard/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
+			vpn_fail_log vpn1
+			systemctl restart wg-quick@vpn1.service
+		fi
 	fi
 fi
 
