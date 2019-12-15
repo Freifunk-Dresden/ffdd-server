@@ -183,7 +183,7 @@ salt-call state.highstate --local -l error
 ```
 
 ## Fehlerhaftes Repository
-Sollte es Probleme jeglicher Art mit dem 'ffdd-server' repo geben dann ist der einfachste Weg dieses neu zu erstellen und salt erneut aufzurufen:
+Sollte es Probleme jeglicher Art mit dem 'ffdd-server' repo geben dann ist der einfachste Weg dieses neu zu erstellen und salt aufzurufen:
 ```bash
 cd /srv/ && rm -rf /srv/ffdd-server
 git clone https://github.com/Freifunk-Dresden/ffdd-server/ /srv/ffdd-server
@@ -223,10 +223,19 @@ cd /srv/ffdd-server
 Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal**, wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
 
 Bitte einhalten:
-- Ändern der BSSID auf eine eigene!
+- Ändern der BSSID auf eine eigene! Nutze **NICHT/NOT** `1206`!
 - Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
 - Kein Aufbau von Brücken zwischen Routern/Servern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
-- `/usr/local/bin/ddmesh-ipcalc.sh` muss angepasst werden!
+- Das Repository muss an mehreren Stellen angepasst werden:
+  - `config.jinja`
+  - `ddmesh/usr/local/bin/ddmesh-ipcalc.sh`
+  - `ddmesh/usr/local/bin/freifunk-register-local-node.sh`
+  - `ddmesh/var/www_freifunk/`
+  - `bind/init.sls`
+  - `bind/etc/bind/zones/`
+  - `bind/etc/bind/named.conf.tmpl`
+  - `bind/etc/bind/named.conf.option.tmpl`
+  - `bind/etc/bind/named.conf.local*`
 
 Links
 ----
