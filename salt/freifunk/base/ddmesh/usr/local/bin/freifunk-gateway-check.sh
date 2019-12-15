@@ -251,7 +251,7 @@ if ! "$ok"; then
 
 	# when we have a vpn network interface and ok='false'
 
-	vpn_ping_check() { ping -c 1 -W5 -I "$1" 8.8.8.8 >/dev/null ; }
+	vpn_ping_check() { ping -c1 -W5 -I "$1" 8.8.8.8 >/dev/null ; }
 	vpn_fail_log() { logger -s -t "$LOGGER_TAG" "vpn $1 connection is dead -> restarting" ; }
 
 	# then vpn is dead
