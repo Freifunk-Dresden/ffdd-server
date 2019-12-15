@@ -228,6 +228,7 @@ Bitte einhalten:
 - Kein Aufbau von Brücken zwischen Routern/Servern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
 - Das Repository muss an mehreren Stellen angepasst werden:
   - `config.jinja`
+  - `ddmesh/init.sls`
   - `ddmesh/usr/local/bin/ddmesh-ipcalc.sh`
   - `ddmesh/usr/local/bin/freifunk-register-local-node.sh`
   - `ddmesh/var/www_freifunk/`
