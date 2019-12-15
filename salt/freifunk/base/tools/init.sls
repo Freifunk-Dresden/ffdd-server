@@ -30,4 +30,5 @@ pb_make:
     - require:
       - pb_repo
     - onchanges:
+      - pkg: devel
       - pb_repo
