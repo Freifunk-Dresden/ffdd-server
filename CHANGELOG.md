@@ -3,7 +3,7 @@
 
 <br/>
 
-_**version 1.1.0**_
+## version 1.1.0
 
 	- bind9
 		- some optimations for different DNS states: "default gw" / "master" and "slave" Server
@@ -45,7 +45,7 @@ _**version 1.1.0**_
 
 <br />
 
-_**version 1.0.15**_
+## version 1.0.15
 
 	- update README
 	- do not install resolvconf per default
@@ -57,7 +57,7 @@ _**version 1.0.15**_
 
 <br />
 
-_**version 1.0.14**_
+## version 1.0.14
 
 	- fail2ban changes:
 		- add ignored private IP's
@@ -65,13 +65,13 @@ _**version 1.0.14**_
 
 <br />
 
-_**version 1.0.13**_
+## version 1.0.13
 
 	- fix bind9 db.root check
 
 <br />
 
-_**version 1.0.12**_
+## version 1.0.12
 
 	- fix init.d S52batmand and S53backbone-fastd2
 	- fix ffdd-autoupdate
@@ -81,7 +81,7 @@ _**version 1.0.12**_
 
 <br />
 
-_**version 1.0.11**_
+## version 1.0.11
 
 	- add CHANGELOG.md
 	- update fastd2 source
@@ -91,7 +91,7 @@ _**version 1.0.11**_
 
 <br />
 
-_**version 1.0.10**_
+## version 1.0.10
 
 	- some improvements
 	- update/fix vnstat and vnstat-dashboard
@@ -100,7 +100,7 @@ _**version 1.0.10**_
 
 <br />
 
-_**version 1.0.9**_
+## version 1.0.9
 
 	- fix bind9
 	- fix f2b cleanup
@@ -113,14 +113,14 @@ _**version 1.0.9**_
 
 <br/>
 
-_**version 1.0.8**_
+## version 1.0.8
 
 	- add mosh support
 	- add routing rule for DNS servers that are only accessable via tunnel
 
 <br/>
 
-_**version 1.0.7**_
+## version 1.0.7
 
 	- add Debian 10 (buster) support
 	- update Debian Security Repo and Information
@@ -130,20 +130,20 @@ _**version 1.0.7**_
 
 <br/>
 
-_**version 1.0.6_fix6**_
+## version 1.0.6_fix6
 
 	- update apt autoupdate
 	- add freifunk_repo to config file and update letsencrypt NAT'd check
 
 <br/>
 
-_**version 1.0.6_fix5**_
+## version 1.0.6_fix5
 
 	- fastd: add support to restrict any new connection to a server. should be used when server has too much connections and is overloaded. in this case we must change backbones in clients
 
 <br/>
 
-_**version 1.0.6_fix4**_
+## version 1.0.6_fix4
 
 	- apt: provide default sources.list for debian
 	- fastd2/bmxd: update docs url
@@ -151,7 +151,7 @@ _**version 1.0.6_fix4**_
 
 <br/>
 
-_**version 1.0.6_fix3**_
+## version 1.0.6_fix3
 
 	- add systemtools and linux-firmware
 	- f2b: remove old hopglass server from ignore list
@@ -159,7 +159,7 @@ _**version 1.0.6_fix3**_
 
 <br/>
 
-_**version 1.0.6_fix2**_
+## version 1.0.6_fix2
 
 	- fix Service requirements and watches
 	- fix salt and script code
@@ -168,7 +168,7 @@ _**version 1.0.6_fix2**_
 
 <br/>
 
-_**version 1.0.6_fix1**_
+## version 1.0.6_fix1
 
 	- nvram: show version-fix
 	- fix bind9
@@ -176,7 +176,7 @@ _**version 1.0.6_fix1**_
 
 <br/>
 
-_**version 1.0.6**_
+## version 1.0.6
 
 	- remove Debian 8 (jessie) support
 
@@ -196,7 +196,7 @@ _**version 1.0.6**_
 
 <br/>
 
-_**version 1.0.5**_
+## version 1.0.5
 
 	- add root bash_user_aliases for user definded aliases
 
@@ -226,7 +226,7 @@ _**version 1.0.5**_
 
 <br/>
 
-_**version 1.0.4**_
+## version 1.0.4
 
 	- add Wireguard VPN Support
 	- add default resolv.conf with dynamic resolvconf
@@ -260,7 +260,7 @@ _**version 1.0.4**_
 
 <br/>
 
-_**version 1.0.3**_
+## version 1.0.3
 
 	- add vnstat Traffic Statistik Dashboard
 	- update README.md
@@ -270,7 +270,7 @@ _**version 1.0.3**_
 
 <br/>
 
-_**version 1.0.2**_
+## version 1.0.2
 
 	- fix letsencrypt service and add hostname - fqdn check
 
@@ -288,7 +288,7 @@ _**version 1.0.2**_
 
 <br/>
 
-_**version 1.0.1_fix1**_
+## version 1.0.1_fix1
 
 	- fix letsencrypt service and add hostname fqdn check
 	- fix openvpn service
@@ -298,7 +298,7 @@ _**version 1.0.1_fix1**_
 
 <br/>
 
-_**version 1.0.1**_
+## version 1.0.1
 
 	- add branch and tag git-system
 	- add Autosetup for new Servers (without _/etc/nvram.conf_)
@@ -319,7 +319,7 @@ _**version 1.0.1**_
 # Updates Archiv - v0.0.X
 <br/>
 
-_**version 0.0.10**_
+## version 0.0.10
 
 	* Bugfixes and Optimizing
 		- fix bmxd revison_version
@@ -327,7 +327,7 @@ _**version 0.0.10**_
 		- add branch and tag system
 <br/>
 
-_**version 0.0.9**_
+## version 0.0.9
 
 	* Bugfixes and Optimizing
 		- fix nvram autosetup
@@ -338,7 +338,7 @@ _**version 0.0.9**_
 
 <br/>
 
-_**version 0.0.8**_
+## version 0.0.8
 
 	* Bugfixes and Optimizing
 		- fix jinja syntax
@@ -348,7 +348,7 @@ _**version 0.0.8**_
 
 <br/>
 
-_**version 0.0.7**_
+## version 0.0.7
 
 	* Bugfixes and Optimizing
 		- small changes in cron.d
@@ -357,7 +357,7 @@ _**version 0.0.7**_
 
 <br/>
 
-_**version 0.0.6**_
+## version 0.0.6
 
 	* Bugfixes and Optimizing
 		- fix sysinfo.json version number
@@ -366,7 +366,7 @@ _**version 0.0.6**_
 
 <br/>
 
-_**version 0.0.5**_
+## version 0.0.5
 
 	* Optimizing and Cleanup
 		- clear old icvpn stuff
@@ -375,14 +375,14 @@ _**version 0.0.5**_
 
 <br/>
 
-_**version 0.0.4**_
+## version 0.0.4
 
 	* Bugfix
 		- fix: add fail2ban ignore rule for 10.200.0.1
 
 <br/>
 
-_**version 0.0.3**_
+## version 0.0.3
 
 	* Bugfixes and Optimizing
 		- bmxd path fixing in _apache2/var/www_freifunk/index.cgi_
@@ -394,7 +394,7 @@ _**version 0.0.3**_
 
 <br/>
 
-_**version 0.0.2**_
+## version 0.0.2
 
 	* Bugfixes and Optimizing</br>
 		- change binaray path to _/usr/local/bin/_
@@ -421,6 +421,6 @@ _**version 0.0.2**_
 
 <br/>
 
-_**version 0.01**_
+## version 0.01
 
-_**Initial Commit from Git-Repository [ddmesh/vserver-base](https://github.com/ddmesh/vserver-base)**_
+### Initial Commit from Git-Repository [ddmesh/vserver-base](https://github.com/ddmesh/vserver-base)
