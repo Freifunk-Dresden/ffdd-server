@@ -105,13 +105,13 @@ Alternative Installations Möglichkeiten:
 **curl**:
 ```bash
 apt-get -y install curl
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
 ```
 
 **wget**:
 ```bash
 apt-get -y install wget
-bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
 ```
 <br/>
 

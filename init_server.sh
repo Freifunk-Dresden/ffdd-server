@@ -1,13 +1,29 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 #version="1.1.0"
 tag="T_RELEASE_latest"
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 INSTALL_DIR='/srv/ffdd-server'
+INIT_DATE_FILE='/etc/freifunk-server-initdate'
 ###
 #
 #  Freifunk Dresden Server - Installation & Update Script
 #
 ###
+
+check_salt_repo() {
+	[ -z "$(command -v wget)" ] && "$PKGMNGR" -y install wget ;
+
+	case "$1" in
+		deb9 )
+			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
+			echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/2018.3 stretch main' | tee /etc/apt/sources.list.d/saltstack.list
+			;;
+		u16 )
+			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
+			echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
+			;;
+	esac
+}
 
 print_usage() {
 	printf 'FFDD-Server - Initial Setup\n\nUsage:\n'
@@ -28,7 +44,7 @@ print_not_supported_os() {
 }
 
 print_notice() {
-	printf '\n%s#\n# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
+	printf '%s#\n# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
 	printf ' * Please check your config options in /etc/nvram.conf\n'
 	printf ' * /etc/fastd/peers2/\n'
 	printf '   # add your first Fastd2 Connection:\n'
@@ -54,7 +70,7 @@ esac
 
 printf '\n### Check System ..\n'
 
-if [ "$EUID" -ne 0 ];  then
+if [ "$(id -u)" -ne 0 ];  then
 	printf 'Please run as root!\n' ; exit 1
 fi
 
@@ -80,23 +96,16 @@ printf '\n# Check System Distribution ..\n'
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
-check_wget() { [[ -z "$(command -v wget)" ]] && "$1" -y install wget ; }
 
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		9*)     PKGMNGR='apt-get' ; check_wget "$PKGMNGR"
-                wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
-                echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/2018.3 stretch main' | tee /etc/apt/sources.list.d/saltstack.list
-                ;;
+		9*)     PKGMNGR='apt-get' ; check_salt_repo deb9 ;;
 		10*)    PKGMNGR='apt-get' ;;
 		*)      print_not_supported_os ;;
 	esac
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		16.04*) PKGMNGR='apt-get' ; check_wget "$PKGMNGR"
-                wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
-                echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
-                ;;
+		16.04*) PKGMNGR='apt-get' ; check_salt_repo u16 ;;
 		18.04*) PKGMNGR='apt-get' ;;
 		*)      print_not_supported_os ;;
 	esac
@@ -162,26 +171,26 @@ printf '\n### Check nvram Setup ..\n'
 	nvram_set() { /usr/local/bin/nvram set "$1" "$2" ; }
 
 	# check install_dir
-	[[ "$(nvram_get install_dir)" != "$INSTALL_DIR" ]] && nvram_set install_dir "$INSTALL_DIR"
+	[ "$(nvram_get install_dir)" != "$INSTALL_DIR" ] && nvram_set install_dir "$INSTALL_DIR"
 
 	# check branch
 	if [ "$1" = 'dev' ]; then
 		if [ -n "$2" ]; then
-			[[ "$(nvram_get branch)" != "$2" ]] && nvram_set branch "$2"
+			[ "$(nvram_get branch)" != "$2" ] && nvram_set branch "$2"
 		else
-			[[ "$(nvram_get branch)" != 'master' ]] && nvram_set branch master
+			[ "$(nvram_get branch)" != 'master' ] && nvram_set branch master
 		fi
 	else
 		# T_RELEASE_latest
-		[[ "$(nvram_get branch)" != "$tag" ]] && nvram_set branch "$tag"
+		[ "$(nvram_get branch)" != "$tag" ] && nvram_set branch "$tag"
 	fi
 
 	# check autoupdate
-	[[ "$(nvram_get autoupdate)" != '1' ]] && nvram_set autoupdate 1
+	[ "$(nvram_get autoupdate)" != '1' ] && nvram_set autoupdate 1
 
 	# check default Interface
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
-	[[ "$(nvram_get ifname)" != "$def_if" ]] && nvram_set ifname "$def_if"
+	[ "$(nvram_get ifname)" != "$def_if" ] && nvram_set ifname "$def_if"
 
 
 # create clean masterless salt enviroment
@@ -205,16 +214,39 @@ EOF
 #
 # -- Initial System --
 
-printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
-salt-call state.highstate --local -l error
+write_init_date_file() {
+	if [ ! -f "$INIT_DATE_FILE" ]; then
+		printf '# Please do not delete this file!\n\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
+		chmod 600 "$INIT_DATE_FILE"
+	fi
+}
+
+salt_call() { salt-call state.highstate --local -l error ; }
+
+if [ -f "$INIT_DATE_FILE" ]; then
+	printf '\n### run salt ..\n'
+else
+	printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
+fi
+if salt_call ; then
+	printf '\nOK.\n' ; write_init_date_file
+else
+	printf '\ntry to fix some issues\n'
+	if salt_call ; then
+		printf '\nOK\n' ; write_init_date_file
+	else
+		printf '\nFAIL!\nSorry, you need to check some issues. Please check your salt-output and logfile.\n'
+		exit 1
+	fi
+fi
 
 #
 # -- Cleanup System & Print Notice --
 
-printf '\n### .. All done! Cleanup System ..\n'
+printf '\n### .. All done! Cleanup System ..\n\n'
 
 "$PKGMNGR" -y autoremove
-print_notice
+test ! -f "$INIT_DATE_FILE" && print_notice
 
 #
 # Exit gracefully.
