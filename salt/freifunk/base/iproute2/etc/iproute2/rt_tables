@@ -15,9 +15,9 @@
 252	local_gateway
 251	public_gateway
 250	gateway_pool
-249	ping
-248	ping_unreachable
-247	unreachable
+#249	ping
+#248	ping_unreachable
+#247	unreachable
 53	public_dns
 
 #

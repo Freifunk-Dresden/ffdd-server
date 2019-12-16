@@ -2,9 +2,6 @@
 ### This file managed by Salt, do not edit by hand! ###
 #usage: freifunk-gateway-check.sh
 
-ip_rule_priority='98'
-ip_rule_priority_unreachable='99'
-
 DEBUG='true'
 LOGGER_TAG='GW_CHECK'
 
