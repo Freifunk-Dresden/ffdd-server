@@ -2,18 +2,28 @@
 ### This file managed by Salt, do not edit by hand! ###
 #usage: freifunk-gateway-check.sh
 
-ip_rule_priority='98'
-ip_rule_priority_unreachable='99'
 DEBUG='true'
 LOGGER_TAG='GW_CHECK'
 
 BIND_FORWARDER_FILE='/etc/bind/vpn.forwarder'
 
 
+ping_check() {
+	local ifname="$1"
+	local ping_ip="$2"
+
+	[ -z "$ping_ip" ] && local ping_ip='8.8.8.8'
+	if [ -z "$ifname" ]; then
+		ping -c1 -W5 "$ping_ip" >/dev/null
+	else
+		ping -c1 -W5 -I "$ifname" "$ping_ip" >/dev/null
+	fi
+}
+
 setup_gateway_table() {
-	dev="$1"
-	via="$2"
-	gateway_table="$3"
+	local dev="$1"
+	local via="$2"
+	local gateway_table="$3"
 
 	#check if changed
 	unset d
@@ -26,7 +36,7 @@ setup_gateway_table() {
 	ip route flush table "$gateway_table" 2>/dev/null
 
 	#redirect gateway ip directly to gateway interface
-	test "$via" = "none" || ip route add "$via"/32 dev "$dev" table "$gateway_table" 2>/dev/null
+	[ "$via" = 'none' ] || ip route add "$via"/32 dev "$dev" table "$gateway_table" 2>/dev/null
 
 	#jump over private ranges
 	ip route add throw 10.0.0.0/8 table "$gateway_table" 2>/dev/null
@@ -51,14 +61,15 @@ IFS=' '
 printf '%s,%s\n' "$pname" "$mypid"
 for i in $(pidof "$pname")
 do
-	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
+	[ "$i" != "$mypid" ] && printf 'kill %s\n' "$i" && kill -9 "$i"
 done
 
-$DEBUG && printf '%s\n' "start"
+
+$DEBUG && printf '\ngateway check start.\n\n'
 
 #dont use vpn server (or any openvpn server), it could interrupt connection
-# cloudflare, google 2x, freifunk-dresden.de, vpn1.freifunk-dresden.de, vpn2.freifunk-dresden.de vpn5.freifunk-dresden.de
-ping_hosts="1.1.1.1 8.8.8.8 9.9.9.9 89.163.140.199 178.63.61.147 148.251.48.91 5.45.106.241"
+# cloudflare, google, quad9, freifunk-dresden.de
+ping_hosts='1.1.1.1 8.8.8.8 9.9.9.9 89.163.140.199'
 #process max 3 user ping
 #cfg_ping="$(uci -q get ddmesh.network.gateway_check_ping)"
 #gw_ping="$(echo "$cfg_ping" | sed 's#[ ,;/	]\+# #g' | cut -d' ' -f1-3 ) $ping_hosts"
@@ -80,7 +91,7 @@ printf 'LAN:%s via %s\n' "$default_lan_ifname" "$default_lan_gateway"
 for ifname in vpn0 vpn1
 do
 	eval default_"$ifname"_ifname="$ifname"
-	eval default_"$ifname"_gateway="$(ip route list table gateway_pool| sed -n "/default via [0-9.]\+ dev $ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
+	eval default_"$ifname"_gateway="$(ip route list table gateway_pool | sed -n "/default via [0-9.]\+ dev $ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
 	eval valid_ifname=\$default_"$ifname"_ifname
 	eval valid_gateway=\$default_"$ifname"_gateway
 
@@ -110,64 +121,22 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 
 	$DEBUG && printf 'via=%s, dev=%s\n' "$via" "$dev"
 
-	#add ping rule before all others;only pings from this host (no forwards)
-	ip rule del iif lo fwmark 0x11 priority "$ip_rule_priority" table ping 2>/dev/null
-	ip rule add iif lo fwmark 0x11 priority "$ip_rule_priority" table ping
-	ip rule del iif lo fwmark 0x11 priority "$ip_rule_priority_unreachable" table ping_unreachable 2>/dev/null
-	ip rule add iif lo fwmark 0x11 priority "$ip_rule_priority_unreachable" table ping_unreachable
-
-	#no check of gateway, it might not return icmp reply, also
-	#it might not be reachable because of routing rules
-
-	#add ping hosts to special ping table
-	ip route flush table ping
-	ip route flush table ping_unreachable
-
-	#add route to gateway, to avoid routing via freifunk
-	test "$via" = "none" || ip route add "$via"/32 dev "$dev" table ping
-
-	# ping must be working for at least the half of IPs
-	IFS=' '
-	numIPs='0'
-	for ip in $gw_ping
-	do
-		$DEBUG && printf 'add ping route ip:%s\n' "$ip"
-		if [ "$via" = "none" ]; then
-			ip route add "$ip" dev "$dev" table ping
-		else
-			ip route add "$ip" via "$via" dev "$dev" table ping
-		fi
-		ip route add unreachable "$ip" table ping_unreachable
-		$DEBUG && printf 'route: %s\n' "$(ip route get "$ip")"
-	#	$DEBUG && printf 'route via:%s\n' "$(ip route get "$via")"
-		numIPs="$((numIPs+1))"
-	done
-	printf 'number IPs: %s\n' "$numIPs"
-
-	$DEBUG && ip ro li ta ping
-	ip ro li ta ping
-
-	#activate routes
-	ip route flush cache
-
 	#run check
 	ok='false'
 	countSuccessful='0'
-	minSuccessful="$(( (numIPs+1)/2 ))"
-	if [ "$minSuccessful" -lt 4 ]; then minSuccessful='4'; fi
+	minSuccessful='1'
 	printf 'minSuccessful: %s\n' "$minSuccessful"
 
 	IFS=' '
 	for ip in $gw_ping
 	do
 		$DEBUG && printf 'ping to: %s\n' "$ip"
-		ping -c 2 -w 10 "$ip" 2>&1 && countSuccessful="$((countSuccessful+1))"
+		ping_check "$dev" "$ip" 2>&1 && countSuccessful="$((countSuccessful+1))"
 
 		if [ "$countSuccessful" -ge "$minSuccessful" ]; then
 			ok='true'
 			break
 		fi
-
 	done
 
 	logger -s -t "$LOGGER_TAG" "ok: $ok"
@@ -211,7 +180,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			# add routes to DNS through tunnel (mullvad DNS is only accessible through tunnel)
 			# - extract all dns from BIND_FORWARDER_FILE and create dns rules
 			# openvpn:up.sh and wireguard:configs create the forwarder file but with different layout.
-			tunnel_dns_servers="$(cat "$BIND_FORWARDER_FILE" | sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
+			tunnel_dns_servers="$(cat < "$BIND_FORWARDER_FILE" | sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
 			for dns_ip in $tunnel_dns_servers
 			do
 				ip route add $dns_ip dev $dev table public_dns
@@ -222,17 +191,12 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			ok='false'
 		fi
 
-		break;
+		break
 	fi
 
 done
 unset IFS
 
-
-ip route flush table ping
-ip route flush table ping_unreachable
-ip rule del iif lo fwmark 0x11 priority "$ip_rule_priority" table ping >/dev/null
-ip rule del iif lo fwmark 0x11 priority "$ip_rule_priority_unreachable" table ping_unreachable >/dev/null
 
 if ! "$ok"; then
 	$DEBUG && printf 'no gateway\n'
@@ -251,29 +215,32 @@ if ! "$ok"; then
 
 	# when we have a vpn network interface and ok='false'
 	# then vpn is dead
-	vpn_ping_check() { ping -c1 -W5 -I "$1" 8.8.8.8 >/dev/null ; }
-	vpn_fail_log() { logger -s -t "$LOGGER_TAG" "vpn $1 connection is dead -> restarting" ; }
+	vpn_fail_log() { logger -s -t "$LOGGER_TAG" "$1 $2 connection is dead -> restarting" ; }
 
 	if [ -n "$default_vpn_route_list" ]; then
 		# check we use openvpn or wireguard
 		# OVPN
-		if [ -f /etc/openvpn/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
-			vpn_fail_log vpn0
+		if [ -f /etc/openvpn/vpn0.conf ] && ! ping_check vpn0 ; then
+			vpn_fail_log openvpn vpn0
 			systemctl restart openvpn@openvpn-vpn0.service
-		elif [ -f /etc/openvpn/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
-			vpn_fail_log vpn1
+		fi
+		if [ -f /etc/openvpn/vpn1.conf ] && ! ping_check vpn1 ; then
+			vpn_fail_log openvpn vpn1
 			systemctl restart openvpn@openvpn-vpn1.service
 		fi
+
 		# WG
-		if [ -f /etc/wireguard/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
-			vpn_fail_log vpn0
+		if [ -f /etc/wireguard/vpn0.conf ] && ! ping_check vpn0 ; then
+			vpn_fail_log wireguard vpn0
 			systemctl restart wg-quick@vpn0.service
-		elif [ -f /etc/wireguard/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
-			vpn_fail_log vpn1
+		fi
+		if [ -f /etc/wireguard/vpn1.conf ] && ! ping_check vpn1 ; then
+			vpn_fail_log wireguard vpn1
 			systemctl restart wg-quick@vpn1.service
 		fi
 	fi
 fi
+
 
 $DEBUG && printf 'end.\n'
 logger -s -t "$LOGGER_TAG" "gateway check end."

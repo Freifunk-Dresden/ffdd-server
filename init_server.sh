@@ -45,21 +45,12 @@ print_notice() {
 	printf '\n%sPLEASE READ THE NOTICE AND\nREBOOT THE SYSTEM WHEN EVERYTHING IS DONE!%s\n' "$(tput bold)" "$(tput sgr0)"
 }
 
-print_init_notice() {
-	local init_notice="$1"
-	if [ "$init_notice" -eq 1 ]; then
-		printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
-	else
-		printf '\n### run salt-call ..\n'
-	fi
-}
-
 #
 # -- Check & Setup System --
 
-if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '?' ]; then
-	print_usage
-fi
+case "$1" in
+	-h|--help|?|-?) print_usage ;;
+esac
 
 printf '\n### Check System ..\n'
 
@@ -127,12 +118,10 @@ systemctl disable salt-minion ; systemctl stop salt-minion
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
 
 if [ -d "$INSTALL_DIR" ]; then
-	init_notice='0'
 	cd "$INSTALL_DIR" || exit 1
 	git stash
 	git fetch
 else
-	init_notice='1'
 	git clone "$REPO_URL" "$INSTALL_DIR"
 	cd "$INSTALL_DIR" || exit 1
 fi
@@ -232,7 +221,7 @@ done
 #
 # -- Initial System --
 
-print_init_notice "$init_notice"
+printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
 $(command -v salt-call) state.highstate --local -l error
 
 #

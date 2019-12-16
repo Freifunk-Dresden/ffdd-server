@@ -12,7 +12,7 @@
     - target: /bin/bash
     - force: True
 
-{# 0x0 pastbin util #}
+{# 0x0 pastebin util #}
 pb_repo:
   git.latest:
     - name: https://git.envs.net/envs/pb.git
@@ -30,4 +30,5 @@ pb_make:
     - require:
       - pb_repo
     - onchanges:
+      - pkg: devel
       - pb_repo

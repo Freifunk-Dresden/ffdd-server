@@ -10,6 +10,7 @@ base:
 
     {# basic software and tools #}
     - install_pkg
+    - devel
     - tools
 
     {# system defaults #}
@@ -32,15 +33,16 @@ base:
     - logrotate
     - cron
 
-    {# compilling #}
-    - devel
+    {# core-tools #}
     - bmxd
     - fastd
 
-    {# core-tools #}
     - salt-minion
-    - ddmesh
     - nvram
+
+    - ddmesh
+    - ddmesh.autoconfig
+    - ddmesh.autoupdate
 
     {# networking / firewall #}
     - iproute2
@@ -50,16 +52,23 @@ base:
 
     {# f2b with ipset #}
     - fail2ban
+    - fail2ban.ipset
 
     {# services #}
     - ssh
+    - bind
     - openvpn
     - wireguard
-    - bind
 
     - iperf3
+    - vnstat
     - apache2
     - php
     - letsencrypt
+
+    {# server webpages #}
+    - ddmesh.serverpage
+    - ddmesh.serverpage_ssl
     - monitorix
-    - vnstat
+    - bind.stats
+    - vnstat.dashboard
