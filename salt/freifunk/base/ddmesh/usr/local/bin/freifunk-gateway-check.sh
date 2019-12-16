@@ -4,16 +4,25 @@
 
 ip_rule_priority='98'
 ip_rule_priority_unreachable='99'
+
 DEBUG='true'
 LOGGER_TAG='GW_CHECK'
 
 BIND_FORWARDER_FILE='/etc/bind/vpn.forwarder'
 
 
+ping_check() {
+	local ifname="$1"
+	local ping_ip="$2"
+
+	[[ -z "$ping_ip" ]] && local ping_ip='8.8.8.8'
+	ping -c2 -W5 -I "$ifname" "$ping_ip" >/dev/null
+}
+
 setup_gateway_table() {
-	dev="$1"
-	via="$2"
-	gateway_table="$3"
+	local dev="$1"
+	local via="$2"
+	local gateway_table="$3"
 
 	#check if changed
 	unset d
@@ -54,7 +63,8 @@ do
 	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
 done
 
-$DEBUG && printf '%s\n' "start"
+
+$DEBUG && printf 'start\n'
 
 #dont use vpn server (or any openvpn server), it could interrupt connection
 # cloudflare, google 2x, freifunk-dresden.de, vpn1.freifunk-dresden.de, vpn2.freifunk-dresden.de vpn5.freifunk-dresden.de
@@ -251,32 +261,32 @@ if ! "$ok"; then
 
 	# when we have a vpn network interface and ok='false'
 	# then vpn is dead
-	vpn_ping_check() { ping -c1 -W5 -I "$1" 8.8.8.8 >/dev/null ; }
-	vpn_fail_log() { logger -s -t "$LOGGER_TAG" "vpn $1 connection is dead -> restarting" ; }
+	vpn_fail_log() { logger -s -t "$LOGGER_TAG" "$1 $2 connection is dead -> restarting" ; }
 
 	if [ -n "$default_vpn_route_list" ]; then
 		# check we use openvpn or wireguard
 		# OVPN
-		if [ -f /etc/openvpn/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
-			vpn_fail_log vpn0
+		if [ -f /etc/openvpn/vpn0.conf ] && ! ping_check vpn0 ; then
+			vpn_fail_log openvpn vpn0
 			systemctl restart openvpn@openvpn-vpn0.service
 		fi
-		if [ -f /etc/openvpn/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
-			vpn_fail_log vpn1
+		if [ -f /etc/openvpn/vpn1.conf ] && ! ping_check vpn1 ; then
+			vpn_fail_log openvpn vpn1
 			systemctl restart openvpn@openvpn-vpn1.service
 		fi
 
 		# WG
-		if [ -f /etc/wireguard/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
-			vpn_fail_log vpn0
+		if [ -f /etc/wireguard/vpn0.conf ] && ! ping_check vpn0 ; then
+			vpn_fail_log wireguard vpn0
 			systemctl restart wg-quick@vpn0.service
 		fi
-		if [ -f /etc/wireguard/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
-			vpn_fail_log vpn1
+		if [ -f /etc/wireguard/vpn1.conf ] && ! ping_check vpn1 ; then
+			vpn_fail_log wireguard vpn1
 			systemctl restart wg-quick@vpn1.service
 		fi
 	fi
 fi
+
 
 $DEBUG && printf 'end.\n'
 logger -s -t "$LOGGER_TAG" "gateway check end."
