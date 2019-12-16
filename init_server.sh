@@ -43,7 +43,7 @@ print_not_supported_os() {
 	exit 1
 }
 
-print_notice() {
+print_init_notice() {
 	printf '%s#\n# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
 	printf ' * Please check your config options in /etc/nvram.conf\n'
 	printf ' * /etc/fastd/peers2/\n'
@@ -218,10 +218,12 @@ EOF
 #
 # -- Initial System --
 
+init_run='0'
 write_init_date_file() {
 	if [ ! -f "$INIT_DATE_FILE" ]; then
 		printf '# Please do not delete this file!\n\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
 		chmod 600 "$INIT_DATE_FILE"
+		init_run='1'
 	fi
 }
 
@@ -251,7 +253,7 @@ printf '\n### Cleanup System ..\n\n'
 "$PKGMNGR" -y autoremove
 
 printf '\n### .. All done! Exit script.\n'
-test ! -f "$INIT_DATE_FILE" && print_notice
+[ "$init_run" -eq 1 ] && print_init_notice
 
 #
 # -- Exit --
