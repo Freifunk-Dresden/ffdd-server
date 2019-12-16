@@ -48,9 +48,9 @@ print_notice() {
 #
 # -- Check & Setup System --
 
-if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '?' ]; then
-	print_usage
-fi
+case "$1" in
+	-h|--help|?|-?) print_usage ;;
+esac
 
 printf '\n### Check System ..\n'
 
