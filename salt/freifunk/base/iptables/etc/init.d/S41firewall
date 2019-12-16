@@ -153,14 +153,6 @@ if [ "$1" = "start" ]; then
 #----- setup OUTPUT rules -----
 	printf 'setting up OUTPUT rules ...\n'
 
-	# mark all icmp packages that comming from localhost.
-	# during gateway check a special fmwark routing rule ensurs that only
-	# icmp pakets are passing vpn0. This is needed when gateway check uses freifunk
-	# vpn servers public ip to check internet.
-	# if I do not mark, all pakets (answers) for existing connections between localhost
-	# an other freifunk vservers are routet through openvpn (e.g.: ssh, fastd)
-	$IPT -w -t mangle -A OUTPUT -p icmp -j MARK --set-mark 0x11
-
 	#allow all output
 	$IPT -w -A OUTPUT -j ACCEPT
 fi

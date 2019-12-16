@@ -121,15 +121,6 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 
 	$DEBUG && printf 'via=%s, dev=%s\n' "$via" "$dev"
 
-	# ping must be working for at least the half of IPs
-	IFS=' '
-	numIPs='0'
-	for ip in $gw_ping
-	do
-		numIPs="$((numIPs+1))"
-	done
-	printf 'number IPs: %s\n' "$numIPs"
-
 	#run check
 	ok='false'
 	countSuccessful='0'
