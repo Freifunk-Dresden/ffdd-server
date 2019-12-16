@@ -28,7 +28,7 @@ print_not_supported_os() {
 }
 
 print_notice() {
-	printf '\n%s# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
+	printf '\n%s#\n# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
 	printf ' * Please check your config options in /etc/nvram.conf\n'
 	printf ' * /etc/fastd/peers2/\n'
 	printf '   # add your first Fastd2 Connection:\n'
@@ -112,7 +112,7 @@ printf '\n### Update System ..\n'
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
 # run salt-minion only as masterless. disable the service:
-systemctl disable salt-minion ; systemctl stop salt-minion
+systemctl disable salt-minion ; systemctl stop salt-minion &
 
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
@@ -202,27 +202,11 @@ file_roots:
     - $INSTALL_DIR/salt/freifunk/base
 EOF
 
-
-# ensure running services are stopped
-printf '\n### Ensure Services are Stopped ..\n'
-
-services='S40network S41firewall S42firewall6 S52batmand S53backbone-fastd2 S90iperf3 fail2ban apache2 monitorix openvpn@openvpn-vpn0 openvpn@openvpn-vpn1 wg-quick@vpn0 wg-quick@vpn1'
-for s in $services
-do
-	# check service exists
-	if [ "$(systemctl list-units | grep -c "$s")" -ge 1 ]; then
-		# true: stop it
-		if [ "$(systemctl show -p ActiveState "$s" | cut -d'=' -f2 | grep -c inactive)" -lt 1 ]; then
-			systemctl stop "$s" >/dev/null 2>&1
-		fi
-	fi
-done
-
 #
 # -- Initial System --
 
 printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
-$(command -v salt-call) state.highstate --local -l error
+salt-call state.highstate --local -l error
 
 #
 # -- Cleanup System & Print Notice --
