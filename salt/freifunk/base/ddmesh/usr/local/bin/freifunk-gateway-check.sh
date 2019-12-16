@@ -12,8 +12,12 @@ ping_check() {
 	local ifname="$1"
 	local ping_ip="$2"
 
-	[[ -z "$ping_ip" ]] && local ping_ip='8.8.8.8'
-	ping -c1 -W5 -I "$ifname" "$ping_ip" >/dev/null
+	[ -z "$ping_ip" ] && local ping_ip='8.8.8.8'
+	if [ -z "$ifname" ]; then
+		ping -c1 -W5 "$ping_ip" >/dev/null
+	else
+		ping -c1 -W5 -I "$ifname" "$ping_ip" >/dev/null
+	fi
 }
 
 setup_gateway_table() {
@@ -32,7 +36,7 @@ setup_gateway_table() {
 	ip route flush table "$gateway_table" 2>/dev/null
 
 	#redirect gateway ip directly to gateway interface
-	test "$via" = "none" || ip route add "$via"/32 dev "$dev" table "$gateway_table" 2>/dev/null
+	[ "$via" = 'none' ] || ip route add "$via"/32 dev "$dev" table "$gateway_table" 2>/dev/null
 
 	#jump over private ranges
 	ip route add throw 10.0.0.0/8 table "$gateway_table" 2>/dev/null
@@ -57,7 +61,7 @@ IFS=' '
 printf '%s,%s\n' "$pname" "$mypid"
 for i in $(pidof "$pname")
 do
-	test "$i" != "$mypid" && printf 'kill %s\n' "$i" && kill -9 "$i"
+	[ "$i" != "$mypid" ] && printf 'kill %s\n' "$i" && kill -9 "$i"
 done
 
 
@@ -185,7 +189,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			# add routes to DNS through tunnel (mullvad DNS is only accessible through tunnel)
 			# - extract all dns from BIND_FORWARDER_FILE and create dns rules
 			# openvpn:up.sh and wireguard:configs create the forwarder file but with different layout.
-			tunnel_dns_servers="$(cat "$BIND_FORWARDER_FILE" | sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
+			tunnel_dns_servers="$(cat < "$BIND_FORWARDER_FILE" | sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
 			for dns_ip in $tunnel_dns_servers
 			do
 				ip route add $dns_ip dev $dev table public_dns
