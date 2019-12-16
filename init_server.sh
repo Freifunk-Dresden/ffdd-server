@@ -61,6 +61,9 @@ print_notice() {
 	printf '\n%sPLEASE READ THE NOTICE AND\nREBOOT THE SYSTEM WHEN EVERYTHING IS DONE!%s\n' "$(tput bold)" "$(tput sgr0)"
 }
 
+###
+scriptfail='0'
+
 #
 # -- Check & Setup System --
 
@@ -170,6 +173,7 @@ printf '\n### Check nvram Setup ..\n'
 	nvram_get() { /usr/local/bin/nvram get "$1" ; }
 	nvram_set() { /usr/local/bin/nvram set "$1" "$2" ; }
 
+	# check some basic nvram options
 	# check install_dir
 	[ "$(nvram_get install_dir)" != "$INSTALL_DIR" ] && nvram_set install_dir "$INSTALL_DIR"
 
@@ -236,18 +240,23 @@ else
 		printf '\nOK\n' ; write_init_date_file
 	else
 		printf '\nFAIL!\nSorry, you need to check some errors. Please check your salt-output and logfile.\n'
-		exit 1
+		scriptfail='1'
 	fi
 fi
 
 #
 # -- Cleanup System & Print Notice --
 
-printf '\n### .. All done! Cleanup System ..\n\n'
-
+printf '\n### Cleanup System ..\n\n'
 "$PKGMNGR" -y autoremove
+
+printf '\n### .. All done! Exit script.\n'
 test ! -f "$INIT_DATE_FILE" && print_notice
 
 #
-# Exit gracefully.
-exit 0
+# -- Exit --
+if [ "$scriptfail" -eq 0 ]; then
+	exit 0
+else
+	exit 1
+fi
