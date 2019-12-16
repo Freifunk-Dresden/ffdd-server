@@ -271,7 +271,7 @@
 	- bugfixes and optimation
 
 
-# Updates Archiv - v0.0.X
+# Archiv - v0.0.X
 
 ## version 0.0.10
 
@@ -360,4 +360,4 @@
 
 ## version 0.01
 
-### Initial Commit from Git-Repository [ddmesh/vserver-base](https://github.com/ddmesh/vserver-base)
+### Initial Commit from old Git-Repository <ddmesh/vserver-base>

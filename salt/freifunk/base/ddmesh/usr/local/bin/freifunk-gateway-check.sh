@@ -260,15 +260,18 @@ if ! "$ok"; then
 		if [ -f /etc/openvpn/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
 			vpn_fail_log vpn0
 			systemctl restart openvpn@openvpn-vpn0.service
-		elif [ -f /etc/openvpn/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
+		fi
+		if [ -f /etc/openvpn/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
 			vpn_fail_log vpn1
 			systemctl restart openvpn@openvpn-vpn1.service
 		fi
+
 		# WG
 		if [ -f /etc/wireguard/vpn0.conf ] && ! vpn_ping_check vpn0 ; then
 			vpn_fail_log vpn0
 			systemctl restart wg-quick@vpn0.service
-		elif [ -f /etc/wireguard/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
+		fi
+		if [ -f /etc/wireguard/vpn1.conf ] && ! vpn_ping_check vpn1 ; then
 			vpn_fail_log vpn1
 			systemctl restart wg-quick@vpn1.service
 		fi
