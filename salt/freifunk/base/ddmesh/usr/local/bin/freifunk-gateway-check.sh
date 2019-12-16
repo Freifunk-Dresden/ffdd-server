@@ -13,7 +13,7 @@ ping_check() {
 	local ping_ip="$2"
 
 	[[ -z "$ping_ip" ]] && local ping_ip='8.8.8.8'
-	ping -c2 -W5 -I "$ifname" "$ping_ip" >/dev/null
+	ping -c1 -W5 -I "$ifname" "$ping_ip" >/dev/null
 }
 
 setup_gateway_table() {
@@ -129,8 +129,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 	#run check
 	ok='false'
 	countSuccessful='0'
-	minSuccessful="$numIPs"
-	if [ "$minSuccessful" -lt 1 ]; then minSuccessful='1'; fi
+	minSuccessful='1'
 	printf 'minSuccessful: %s\n' "$minSuccessful"
 
 	IFS=' '
