@@ -13,11 +13,7 @@ ping_check() {
 	local ping_ip="$2"
 
 	[ -z "$ping_ip" ] && local ping_ip='8.8.8.8'
-	if [ -z "$ifname" ]; then
-		ping -c1 -W5 "$ping_ip" >/dev/null
-	else
-		ping -c1 -W5 -I "$ifname" "$ping_ip" >/dev/null
-	fi
+	ping -c1 -W5 -I "$ifname" "$ping_ip" >/dev/null
 }
 
 setup_gateway_table() {
@@ -70,12 +66,8 @@ $DEBUG && printf '\ngateway check start.\n\n'
 #dont use vpn server (or any openvpn server), it could interrupt connection
 # cloudflare, google, quad9, freifunk-dresden.de
 ping_hosts='1.1.1.1 8.8.8.8 9.9.9.9 89.163.140.199'
-#process max 3 user ping
-#cfg_ping="$(uci -q get ddmesh.network.gateway_check_ping)"
-#gw_ping="$(echo "$cfg_ping" | sed 's#[ ,;/	]\+# #g' | cut -d' ' -f1-3 ) $ping_hosts"
-gw_ping="$ping_hosts"
-$DEBUG && printf 'hosts:[%s]\n' "$gw_ping"
-logger -s -t "$LOGGER_TAG" "hosts: [$gw_ping]"
+$DEBUG && printf 'hosts:[%s]\n' "$ping_hosts"
+logger -s -t "$LOGGER_TAG" "hosts: [$ping_hosts]"
 
 
 #determine all possible gateways
@@ -128,9 +120,9 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 	printf 'minSuccessful: %s\n' "$minSuccessful"
 
 	IFS=' '
-	for ip in $gw_ping
+	for ip in $ping_hosts
 	do
-		$DEBUG && printf 'ping to: %s\n' "$ip"
+		$DEBUG && printf 'ping to: %s via dev %s\n' "$ip" "$dev"
 		ping_check "$dev" "$ip" 2>&1 && countSuccessful="$((countSuccessful+1))"
 
 		if [ "$countSuccessful" -ge "$minSuccessful" ]; then
