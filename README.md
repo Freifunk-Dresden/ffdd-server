@@ -222,7 +222,7 @@ cd /srv/ffdd-server
 
 Im moment gibt es keinen Schutz, dass Routerfirmware einer Communitiy sich mit Servern oder Routern anderer Communities verbinden. Es ist **Fatal**, wenn sich die Netze wegen gleicher WLAN BSSID oder via Backbone verbinden. Da überall das gleiche Routingprotokoll verwendet wird, würden Geräte von verschiedenen Communities miteinander reden können und das Netz würde gigantisch groß und die Router überlasten.
 
-Bitte einhalten:
+### Bitte einhalten:
 - Ändern der BSSID auf eine eigene! Nutze **NICHT/NOT** `1206`!
 - Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
 - Kein Aufbau von Brücken zwischen Routern/Servern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
@@ -240,8 +240,8 @@ Bitte einhalten:
   - [`bind/etc/bind/named.conf.local_master`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.local_master)
   - [`bind/etc/bind/named.conf.local_slave`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.local_slave)
 
-Links
-----
+## Links
+
 [Freifunk Dresden](https://www.freifunk-dresden.de)<br/>
 [Wiki: Freifunk Dresden](https://wiki.freifunk-dresden.de)<br/>
 [Issues](https://github.com/Freifunk-Dresden/ffdd-server/issues)<br/>
