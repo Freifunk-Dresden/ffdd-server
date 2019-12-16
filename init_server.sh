@@ -11,7 +11,7 @@ INIT_DATE_FILE='/etc/freifunk-server-initdate'
 ###
 
 check_salt_repo() {
-	[ -z "$(command -v wget)" ] && "$PKGMNGR" -y install wget ;
+	[ -z "$(command -v wget)" ] && "$PKGMNGR" -y install wget
 
 	case "$1" in
 		deb9 )
@@ -231,11 +231,11 @@ fi
 if salt_call ; then
 	printf '\nOK.\n' ; write_init_date_file
 else
-	printf '\ntry to fix some issues\n'
+	printf '\ntry to fix some mistakes ..\n'
 	if salt_call ; then
 		printf '\nOK\n' ; write_init_date_file
 	else
-		printf '\nFAIL!\nSorry, you need to check some issues. Please check your salt-output and logfile.\n'
+		printf '\nFAIL!\nSorry, you need to check some errors. Please check your salt-output and logfile.\n'
 		exit 1
 	fi
 fi
