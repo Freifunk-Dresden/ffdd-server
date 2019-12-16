@@ -48,6 +48,7 @@ apache2_site_enable_freifunk-ssl:
     - require:
       - pkg: apache2
       - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
+      - file: /etc/apache2/conf-available/ssl-params.conf
 
 apache2_ssl:
   service:
