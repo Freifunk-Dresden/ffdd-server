@@ -227,18 +227,18 @@ Bitte einhalten:
 - Keine Verwendung von Registratoren anderen Communities (Webserverdienst zum Verteilen von Knotennummern)
 - Kein Aufbau von Brücken zwischen Routern/Servern verschiedener Communities über Backboneverbindungen. (das wird in Zukunft noch unterbunden, dazu ist aber eine Änderung am Routingprotokoll notwendig). Verbindungen von Communities dürfen nur über das ICVPN erfolgen.
 - Das Repository muss an mehreren Stellen angepasst werden:
-  - `[config.jinja](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/config.jinja)`
-  - `[ddmesh/init.sls](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/init.sls)`
-  - `[ddmesh/autoupdate.sls](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/autoupdate.sls)`
-  - `[ddmesh/usr/local/bin/ddmesh-ipcalc.sh](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/usr/local/bin/ddmesh-ipcalc.sh)`
-  - `[ddmesh/usr/local/bin/freifunk-register-local-node.sh](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/usr/local/bin/freifunk-register-local-node.sh)`
-  - `[ddmesh/var/www_freifunk/](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/salt/freifunk/base/ddmesh/var/www_freifunk)`
-  - `[bind/init.sls](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/init.sls)`
-  - `[bind/etc/bind/zones/](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/salt/freifunk/base/bind/etc/bind/zones)`
-  - `[bind/etc/bind/named.conf.tmpl](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.tmpl)`
-  - `[bind/etc/bind/named.conf.option.tmpl](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.options.tmpl)`
-  - `[bind/etc/bind/named.conf.local_master](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.local_master)`
-  - `[bind/etc/bind/named.conf.local_slave](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.local_slave)`
+  - [`config.jinja`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/config.jinja)
+  - [`ddmesh/init.sls`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/init.sls)
+  - [`ddmesh/autoupdate.sls`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/autoupdate.sls)
+  - [`ddmesh/usr/local/bin/ddmesh-ipcalc.sh`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/usr/local/bin/ddmesh-ipcalc.sh)
+  - [`ddmesh/usr/local/bin/freifunk-register-local-node.sh`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/ddmesh/usr/local/bin/freifunk-register-local-node.sh)
+  - [`ddmesh/var/www_freifunk/`](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/salt/freifunk/base/ddmesh/var/www_freifunk)
+  - [`bind/init.sls`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/init.sls)
+  - [`bind/etc/bind/zones/`](https://github.com/Freifunk-Dresden/ffdd-server/tree/master/salt/freifunk/base/bind/etc/bind/zones)
+  - [`bind/etc/bind/named.conf.tmpl`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.tmpl)
+  - [`bind/etc/bind/named.conf.option.tmpl`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.options.tmpl)
+  - [`bind/etc/bind/named.conf.local_master`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.local_master)
+  - [`bind/etc/bind/named.conf.local_slave`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/bind/etc/bind/named.conf.local_slave)
 
 Links
 ----
