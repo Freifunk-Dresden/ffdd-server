@@ -221,7 +221,7 @@ EOF
 init_run='0'
 write_init_date_file() {
 	if [ ! -f "$INIT_DATE_FILE" ]; then
-		printf '# Please do not delete this file!\n\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
+		printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
 		chmod 600 "$INIT_DATE_FILE"
 		init_run='1'
 	fi
