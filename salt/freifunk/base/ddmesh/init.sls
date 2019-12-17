@@ -11,6 +11,16 @@
     - file: /usr/local/bin/nvram
     - file: /etc/nvram.config
 
+/etc/freifunk-server-initdate:
+  file.managed:
+    - contents: |
+        # Please do not delete this file!
+        #
+        FFDD-Server - INIT BEFORE v1.0.1
+    - user: root
+    - group: root
+    - mode: 600
+    - replace: false
 
 {# cron #}
 /etc/cron.d/freifunk:
