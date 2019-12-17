@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export DATE="27.11.2019"
-export TITLE="Allgemein > Status"
+export TITLE="Allgemein &gt; Status"
 
 ddmesh_node="$(nvram get ddmesh_node)"
 eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"

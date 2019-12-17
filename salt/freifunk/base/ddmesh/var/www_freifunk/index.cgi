@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export DATE="27.11.2019"
-export TITLE="Allgemein > Nodes"
+export TITLE="Allgemein &gt; Nodes"
 . ./cgi-bin-pre.cgi
 
 
