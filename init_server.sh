@@ -67,18 +67,18 @@ scriptfail='0'
 #
 # -- Check & Setup System --
 
-case "$1" in
-	-h|--help|?|-?) print_usage ;;
+case "$*" in
+	-h|--help|?|-\? ) print_usage ;;
 esac
 
 printf '\n### Check System ..\n'
 
 if [ "$(id -u)" -ne 0 ];  then
-	printf 'Please run as root!\n' ; exit 1
+	printf 'Please run as root!\n'; exit 1
 fi
 
 if ! ping -c1 -W5 github.com >/dev/null ; then
-	printf 'network not reachable or name resolution not working!\n' ; exit 1
+	printf 'network not reachable or name resolution not working!\n'; exit 1
 fi
 
 printf '\n# Check tun device is available ..\n'
@@ -218,30 +218,26 @@ EOF
 #
 # -- Initial System --
 
-init_run='0'
-write_init_date_file() {
-	if [ ! -f "$INIT_DATE_FILE" ]; then
-		printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
-		chmod 600 "$INIT_DATE_FILE"
-		init_run='1'
-	fi
-}
-
 salt_call() { salt-call state.highstate --local -l error ; }
 
+init_run='0'
 if [ -f "$INIT_DATE_FILE" ]; then
 	printf '\n### run salt ..\n'
 else
 	printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
+	printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
+	chmod 600 "$INIT_DATE_FILE"
+	init_run='1'
 fi
+
 if salt_call ; then
-	printf '\nOK.\n' ; write_init_date_file
+	printf '\nOK.\n'
 else
 	printf '\ntry to fix some mistakes ..\n'
 	if salt_call ; then
-		printf '\nOK\n' ; write_init_date_file
+		printf '\nOK.\n'
 	else
-		printf '\nFAIL!\nSorry, you need to check some errors. Please check your salt-output and logfile.\n'
+		printf '\nFAIL!\nSorry, you need to check some errors. Please check your salt-output and logs.\n'
 		scriptfail='1'
 	fi
 fi
