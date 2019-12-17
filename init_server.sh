@@ -67,7 +67,7 @@ scriptfail='0'
 #
 # -- Check & Setup System --
 
-case "$*" in
+case "$1" in
 	-h|--help|?|-\? ) print_usage ;;
 esac
 
