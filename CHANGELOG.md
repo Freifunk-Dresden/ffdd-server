@@ -18,12 +18,9 @@
 		- fix get: get only first entry when the user has duplicated option entries
 		- change ffdd-server version output
 	- apache2/php
-		- optimize salt state
 		- move ffdd-server webpage states to ddmesh.serverpage directory/state
 		- some optimations for php installation
-	- letsencrypt
-		- optimize state
-		- move ffdd apache part to ddmesh.startpage_ssl
+	- letsencrypt: move ffdd apache part to ddmesh.startpage_ssl
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- monitorix
 		- update config options remove some issues
@@ -34,14 +31,17 @@
 		- add salt repo for debian 9 and ubuntu 16
 		- a bit makeup for the script
 		- add a small ping check
-	- other changes and optimations
+		- check salt_call is possible
+	- generally changes and optimizations
 		- update README
-		- remove temp parts and optimize some scripts and salt states
+		- remove temp parts
+		- optimize some scripts and salt states
 		- fixes in freifunk-gatewaycheck when we have a vpn network interface and ok='false'
 		- check we can set sysctl tcp_syncookies
 		- add an sysctl.d/ipv6.conf template to deactivate ipv6
 		- make a shorter bash_alias help output
-		- add `pb` (pastebin tool for 0x0 on envs.sh)
+		- add /etc/freifunk-server-initdate
+		- add `pb` (pastebin tool for 0x0 on https://envs.sh)
 
 ## version 1.0.15
 
