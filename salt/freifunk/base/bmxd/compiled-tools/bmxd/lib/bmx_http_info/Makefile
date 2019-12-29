@@ -1,7 +1,7 @@
 
 CFLAGS +=	-fpic -pedantic -Wall -W -Wno-unused-parameter -Os -g3 -std=gnu99 -I../../
 LDFLAGS +=	-shared
-#-Wl,-soname,bmxd_config 
+#-Wl,-soname,bmxd_config
 
 PLUGIN_NAME =   bmx_http_info
 PLUGIN_VER =    1
@@ -19,7 +19,7 @@ all:	$(PLUGIN_FULLNAME) Makefile
 
 
 $(PLUGIN_FULLNAME):	$(OBJS) Makefile
-	$(CC) $(LDFLAGS) $(EXTRA_LDFLAGS) $(OBJS) -o $(PLUGIN_FULLNAME) 
+	$(CC) $(LDFLAGS) $(EXTRA_LDFLAGS) $(OBJS) -o $(PLUGIN_FULLNAME)
 
 %.o:	%.c %.h Makefile
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
@@ -27,7 +27,7 @@ $(PLUGIN_FULLNAME):	$(OBJS) Makefile
 
 clean:
 	rm -f *.o *.so.$(PLUGIN_VER)
-	
+
 
 install:	all
 		mkdir -p $(LIBDIR)

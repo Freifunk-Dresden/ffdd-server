@@ -17,7 +17,6 @@
  *
  */
 
-
 #include <stdio.h>		/* NULL */
 #include <string.h>
 
@@ -30,7 +29,6 @@ int compare_key( void *data1, void *data2, size_t key_size ) {
 	return ( memcmp( data1, data2, key_size ) );
 
 }
-
 
 
 /* hashfunction to choose an entry in a hash table of given size */
@@ -92,7 +90,6 @@ void hash_delete(struct hashtable_t *hash, hashdata_free_cb free_cb) {
 }
 
 
-
 /* free only the hashtable and the hash itself. */
 void hash_destroy(struct hashtable_t *hash) {
 
@@ -104,8 +101,6 @@ void hash_destroy(struct hashtable_t *hash) {
 	}
 
 }
-
-
 
 
 /* iterate though the hash. first element is selected with iter_in NULL.

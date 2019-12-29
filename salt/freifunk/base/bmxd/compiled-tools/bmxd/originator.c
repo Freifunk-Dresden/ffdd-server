@@ -91,8 +91,6 @@ SIMPEL_LIST( if_list );
 
 
 
-
-
 static void update_routes( struct orig_node *orig_node, struct neigh_node *new_router ) {
 
 	prof_start( PROF_update_routes );
@@ -284,7 +282,6 @@ struct neigh_node *update_orig(struct orig_node *on, uint16_t *oCtx, struct msg_
                         max_othr_recent_val = MAX(max_othr_recent_val, tmp_neigh->recent_sqr.wa_val);
 
         }
-
 
 
         paranoia( -500001, !incm_rt );
@@ -727,6 +724,8 @@ int8_t validate_primary_orig( struct orig_node *orig_node, struct msg_buff *mb, 
 		if ( pip->EXT_PIP_FIELD_PIPSEQNO  &&  //remain compatible to COMPAT_VERSION 10
 		     validate_orig_seqno( orig_node->primary_orig_node, 0, ntohs( pip->EXT_PIP_FIELD_PIPSEQNO ) ) == FAILURE )
 		{
+			dbg( DBGL_SYS, DBGT_WARN, "validation primary originator %15s failed",
+	                        ipStr(orig_node->primary_orig_node->orig) );
 			//orig_node->primary_orig_node = NULL;
 			set_primary_orig( orig_node, 0 );
 			return FAILURE;
@@ -766,7 +765,14 @@ int8_t validate_primary_orig( struct orig_node *orig_node, struct msg_buff *mb, 
 
 
 	if ( (oCtx & IS_DIRECT_NEIGH)  &&  !(orig_node->primary_orig_node->id4him) )
-		return init_pifnb_node( orig_node->primary_orig_node );
+	{
+		uint8_t ret = init_pifnb_node( orig_node->primary_orig_node );
+
+//		dbg( DBGL_SYS, DBGT_WARN, "validation: no id4him for primary originator %15s. init_pifnb_node() ret=%d",
+//	                        ipStr(orig_node->primary_orig_node->orig), ret );
+
+		return ret;
+	}
 
 
 	return SUCCESS;
@@ -1403,7 +1409,8 @@ void process_ogm( struct msg_buff *mb ) {
 
 
 	if ( validate_primary_orig( orig_node, mb, oCtx ) == FAILURE ) {
-		dbg( DBGL_SYS, DBGT_WARN, "drop OGM: primary originator/if conflict!" );
+		dbg( DBGL_SYS, DBGT_WARN, "drop OGM: primary originator %15s/if conflict!",
+			ipStr(ogm->orig) );
 		goto process_ogm_end;
 	}
 
@@ -1517,8 +1524,8 @@ void process_ogm( struct msg_buff *mb ) {
 	//paranoia( -5000151, (!orig_node_neigh->primary_orig_node->id4him) );
 	if ( !orig_node_neigh->primary_orig_node->id4him ) {
 
-                dbgf( DBGL_SYS, DBGT_WARN, "invalid id4him for orig %s via %s",
-                        orig_node->orig_str, mb->neigh_str );
+              //  dbgf( DBGL_SYS, DBGT_WARN, "invalid id4him for orig %s via %s",
+              //          orig_node->orig_str, mb->neigh_str );
 
 		goto process_ogm_end;
 	}
@@ -1562,8 +1569,9 @@ int32_t opt_show_origs ( uint8_t cmd, uint8_t _save, struct opt_type *opt, struc
                                 orig_ip = orig_node->orig;
 
 				if ( !orig_node->router  ||  orig_node->primary_orig_node != orig_node )
+				{
 					continue;
-
+				}
                                 /*
                                 struct orig_node *onn = get_orig_node( orig_node->router->addr, NO );
 
@@ -2144,4 +2152,3 @@ void init_originator( void ) {
 	register_options_array( originator_options, sizeof( originator_options ) );
 
 }
-

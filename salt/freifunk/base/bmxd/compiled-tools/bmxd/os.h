@@ -21,7 +21,7 @@
 #define _BATMAN_OS_H
 
 
-# define timercpy(d, a) (d)->tv_sec = (a)->tv_sec; (d)->tv_usec = (a)->tv_usec;
+#define timercpy(d, a) do { (d)->tv_sec = (a)->tv_sec; (d)->tv_usec = (a)->tv_usec; } while(0)
 
 
 /* posix.c */
@@ -52,7 +52,7 @@ void cleanup_all( int status );
 #ifdef NOPARANOIA
 #define paranoia( ... )
 #else
-#define paranoia( code , problem ); do { if ( problem ) { cleanup_all( code ); } }while(0)
+#define paranoia( code , problem ) do { if ( problem ) { cleanup_all( code ); } } while(0)
 #endif
 
 
@@ -76,8 +76,6 @@ int8_t is_aborted();
 uint8_t get_set_bits( uint32_t v );
 
 
-
-
 /* route.c */
 
 #define DEV_LO "lo"
@@ -93,7 +91,6 @@ extern int32_t base_port;
 #define DEF_BASE_PORT 4305
 #define MIN_BASE_PORT 1025
 #define MAX_BASE_PORT 60000
-
 
 
 
@@ -113,7 +110,6 @@ extern int32_t base_port;
 #define RT_TABLE_HOSTS      -1
 #define RT_TABLE_NETWORKS   -2
 #define RT_TABLE_TUNNEL     -3
-
 
 
 extern uint8_t if_conf_soft_changed; // temporary enabled to trigger changed interface configuration

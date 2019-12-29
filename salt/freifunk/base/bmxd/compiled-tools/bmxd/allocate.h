@@ -17,7 +17,6 @@
  *
  */
 
-
 #ifndef _ALLOCATE_H
 #define _ALLOCATE_H 1
 #include <stdint.h>

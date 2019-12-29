@@ -3,7 +3,7 @@ very short HOWTO for the bmx_http_info.so plugin
 just load launch bmxd with new startup args e.g.:
 bmxd plugin=bmx_http_info.so http_info_port=8099 eth0
 
-then point you browser to 
+then point you browser to
 http://localhost:8099/originators or /hnas or /status or /interfaces or /version or /services or...
 
 alternatively, when using the bmx_uci_config.so plugin,

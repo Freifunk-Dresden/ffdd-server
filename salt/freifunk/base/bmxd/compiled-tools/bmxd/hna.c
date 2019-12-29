@@ -17,11 +17,13 @@
  *
  */
 
+//move include here to calm compiler warning when NOHNA is defined
+#include <stdio.h>
 
 #ifndef NOHNA
 #include <arpa/inet.h>
 #include <string.h>
-#include <stdio.h>
+
 #include <asm/types.h>
 #include <sys/socket.h>
 #include <linux/netlink.h>
@@ -722,4 +724,3 @@ struct plugin_v1 *hna_get_plugin_v1( void ) {
 
 
 #endif //NOHNA
-

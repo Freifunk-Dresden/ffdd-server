@@ -17,7 +17,6 @@
  *
  */
 
-
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdarg.h>
@@ -340,7 +339,6 @@ void accept_ctrl_node( void ) {
 }
 
 
-
 void handle_ctrl_node( struct ctrl_node *cn ) {
 	char buff[MAX_UNIX_MSG_SIZE+1];
 
@@ -377,10 +375,8 @@ void handle_ctrl_node( struct ctrl_node *cn ) {
 	} else {
 
 		close_ctrl_node( CTRL_CLOSE_STRAIGHT, cn );
-
-		//leaving this after close_ctrl_node() -> remove_dbgl_node() prevents debugging via broken -d4 pipe
-		dbgf_all( DBGT_INFO, "closed fd %d, rcvd %d bytes, auth %d: %s",
-		          cn->fd, input, cn->authorized, buff );
+//stephan: remove debug print on closed and already freed cn
+//bmxd crashed when bmxd -cd4
 
 	}
 
@@ -687,9 +683,6 @@ uint8_t __dbgf_all( void ) {
 
 
 
-
-
-
 int (*load_config_cb) ( uint8_t test, struct opt_type *opt, struct ctrl_node *cn ) = NULL;
 
 int (*save_config_cb) ( uint8_t del, struct opt_type *opt, char *parent, char *val, struct ctrl_node *cn ) = NULL;
@@ -735,8 +728,6 @@ static int32_t opt_deprecated ( uint8_t cmd, uint8_t _save, struct opt_type *opt
 	return SUCCESS;
 }
 #endif
-
-
 
 
 
@@ -878,8 +869,6 @@ static char *debugWordDup( char* word, int32_t tag ) {
 	snprintf( ret, wordlen(word)+1, "%s", word );
 	return ret;
 }
-
-
 
 
 static void strchange( char *s, char i, char o ) {
@@ -1445,7 +1434,6 @@ static struct opt_child *add_opt_child( struct opt_type *opt, struct opt_parent 
 
 
 
-
 void set_opt_parent_val( struct opt_parent *p, char *val ) {
 
 	if ( val &&  p->p_val  &&  wordsEqual( p->p_val, val ) )
@@ -1586,7 +1574,6 @@ static struct opt_parent *dup_opt_parent (  struct opt_type *opt, struct opt_par
 
 
 
-
 char *opt_cmd2str[] = {
 	"OPT_REGISTER",
 		"OPT_PATCH",
@@ -1603,7 +1590,7 @@ int32_t check_apply_parent_option( uint8_t del, uint8_t cmd, uint8_t _save, stru
 
 	int32_t ret;
 
-	paranoia( -500102, ( (cmd != OPT_CHECK  &&  cmd != OPT_APPLY)  ||  opt->parent_name ) );
+    paranoia( -500102, ( (cmd != OPT_CHECK  &&  cmd != OPT_APPLY)  ||  !opt || opt->parent_name ) );
 
 	struct opt_parent *p = add_opt_parent( &Patch_opt );
 
@@ -1793,9 +1780,11 @@ static int32_t _opt_connect ( uint8_t cmd, struct opt_type *opt, struct ctrl_nod
 		}
 
 		if ( cmd == OPT_CHECK )
+        {
 			return SUCCESS;
+        }
 
-			Client_mode = YES;
+        Client_mode = YES;
 
 		do {
 
@@ -2786,11 +2775,6 @@ void apply_init_args( int argc, char *argv[] ) {
 
 
 
-
-
-
-
-
 char *ipStr( uint32_t addr ) {
 #define IP2S_ARRAY_LEN 10
 	static uint8_t c=0;
@@ -2950,7 +2934,6 @@ int32_t check_dir( char *path, uint8_t create, uint8_t write ) {
 
 
 
-
 uint32_t wordlen ( char *s ) {
 
 	uint32_t i = 0;
@@ -2994,11 +2977,6 @@ void wordCopy( char *out, char *in ) {
 
 	}
 }
-
-
-
-
-
 
 
 
@@ -3057,7 +3035,6 @@ static int32_t opt_show_info ( uint8_t cmd, uint8_t _save, struct opt_type *opt,
 }
 
 
-
 static int32_t opt_no_fork ( uint8_t cmd, uint8_t _save, struct opt_type *opt, struct opt_parent *patch, struct ctrl_node *cn ) {
 
 	if ( cmd == OPT_APPLY ) {
@@ -3106,15 +3083,16 @@ static int32_t opt_debug ( uint8_t cmd, uint8_t _save, struct opt_type *opt, str
 			check_apply_parent_option( ADD, OPT_APPLY, 0, get_option( 0, 0, ARG_STATUS ), 0, cn );
 			check_apply_parent_option( ADD, OPT_APPLY, _save, get_option( 0, 0, ARG_LINKS ), 0, cn );
 			check_apply_parent_option( ADD, OPT_APPLY, _save, get_option( 0, 0, ARG_ORIGINATORS ), 0, cn );
-
+#ifndef NOSRV
 		} else if ( ival == DBGL_SERVICES  ) {
 
 			check_apply_parent_option( ADD, OPT_APPLY, _save, get_option( 0, 0, ARG_SERVICES ), 0, cn );
-
+#endif
+#ifndef NOHNA
 		} else if ( ival == DBGL_HNAS ) {
 
 			check_apply_parent_option( ADD, OPT_APPLY, _save, get_option( 0, 0, ARG_HNAS ), 0, cn );
-
+#endif
 		} else if ( ival == DBGL_GATEWAYS ) {
 
 			check_apply_parent_option( ADD, OPT_APPLY, _save, get_option( 0, 0, ARG_GATEWAYS ), 0, cn );
@@ -3223,12 +3201,6 @@ static int32_t opt_run_dir ( uint8_t cmd, uint8_t _save, struct opt_type *opt, s
 
 
 
-
-
-
-
-
-
 static struct opt_type control_options[]=
 {
 //        ord parent long_name          shrt Attributes				*ival		min		max		default		*func,*syntax,*help
@@ -3267,7 +3239,9 @@ static struct opt_type control_options[]=
 			"	 3  : changes\n"
 			"	 4  : verbose changes\n"
 			"	 5  : profiling (depends on -DDEBUG_MALLOC -DMEMORY_USAGE -DPROFILE_DATA)\n"
+#ifndef NOSRV
 			"	 7  : services\n"
+#endif
 			"	 8  : details\n"
 			"	 9  : announced networks and interfaces\n"
 			"	10  : links\n"
@@ -3341,6 +3315,7 @@ void init_control( void ) {
 
 }
 
+
 void cleanup_config( void ) {
 
 	del_opt_parent( &Patch_opt, NULL );
@@ -3351,7 +3326,6 @@ void cleanup_config( void ) {
 	free_init_string();
 
 }
-
 
 
 void cleanup_control( void ) {
@@ -3376,4 +3350,3 @@ void cleanup_control( void ) {
 	}
 
 }
-

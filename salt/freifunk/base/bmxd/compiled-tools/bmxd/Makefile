@@ -16,7 +16,7 @@
 # 02110-1301, USA
 #
 
-ct_bmxd = '/srv/ffdd-server/salt/freifunk/base/bmxd/compiled-tools/bmxd'
+ct_bmxd = /srv/ffdd-server/salt/freifunk/base/bmxd/compiled-tools/bmxd
 REVISION = $(shell cd $(ct_bmxd); { export LC_ALL=C; find . -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo; find . -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo; find . -type d | sort; find . -type d | sort | md5sum; } | md5sum | sed -e 's/^\(.\{10\}\).*/\1/')
 REVISION_VERSION =\"-src:[$(REVISION)]\"
 
@@ -32,45 +32,56 @@ CFLAGS += -DREVISION_VERSION=$(REVISION_VERSION)
 # -static
 # -pedantic -Wall -W -Wno-unused-parameter -O1 -g3 -std=gnu99
 # -pg  # "-pg" with openWrt toolchain results in "gcrt1.o: No such file" ?!
-#
 
-# -DDEBUG_MALLOC  						+ ~0k
-# -DMEMORY_USAGE 						+ ~1k
-# -DPROFILE_DATA	(some realtime profiling)		+ ~3k
+# -DDEBUG_MALLOC                                   + ~0k
+# -DMEMORY_USAGE                                   + ~1k
+# -DPROFILE_DATA   (some realtime profiling)       + ~3k
 
 # optional defines (you may disable these features if you dont need it):
-# -DNOTRAILER							- ~3K
-# -DNODEBUGALL							- ~13k
-# -DLESS_OPTIONS                                                - ~7K
+# -DNOTRAILER                                      - ~3K
+# -DNODEBUGALL                                     - ~13k
+# -DLESS_OPTIONS                                   - ~7K
 #
-# -DNOTUNNEL  		(only affects this node)		- ~23k
-# -DNOSRV  		(only affects this node)		- ~3k
-# -DNOVIS  		(only affects this node)		- ~2k
+# -DNOTUNNEL       (only affects this node)        - ~23k
+# -DNOSRV          (only affects this node)        - ~3k
+# -DNOVIS          (only affects this node)        - ~2k
 
-# -DNODEPRECATED	(for backward compatibility)		- ~2k
+# -DNODEPRECATED   (for backward compatibility)    - ~2k
 
 # experimental or advanced defines (please dont touch):
-# -DNOHNA		(affects all nodes in network)		- ~6k
-# -DNOPARANOIA		(makes bug-hunting impossible)		- ~2k
-# -DEXTDEBUG		(this eats your cpu)			+ ~0k
-# -DTESTDEBUG		(testing syntax of __VA_ARGS__ dbg...() macros)
-# -DWITHUNUSED		(includes yet unused stuff)
+# -DNOHNA          (affects all nodes in network)  - ~6k
+# -DNOPARANOIA     (makes bug-hunting impossible)  - ~2k
+# -DEXTDEBUG       (this eats your cpu)            + ~0k
+# -DTESTDEBUG      (testing syntax of __VA_ARGS__ dbg...() macros)
+# -DWITHUNUSED     (includes yet unused stuff)
 
-EXTRA_CFLAGS += -DNODEPRECATED -DNOVIS
+# remove all twt functions, as this would allocated memory also when
+# not using it (disabled by command line options of bmxd)
+# -DSTEPHAN_ENABLE_TWT
 
-LDFLAGS +=	-Wl,-export-dynamic -ldl -g3
+# to create coredumps on pc /var/crash) disable SIGSEGV handling
+#EXTRA_CFLAGS += -DSTEPHAN_ENABLE_SEGMENTATION_FAULT_HANDLING
+
+# This disables dynamic plugin support
+EXTRA_CFLAGS += -DSTEPHAN_NO_DYNAMIC_PLUGIN
+
+EXTRA_CFLAGS += -DNODEPRECATED -DNOVIS -DNOHNA
+
+
+LDFLAGS +=	-g3
+#LDFLAGS += -Wl,-export-dynamic -ldl -g3
 # -static
 # -pg
 
 
-UNAME=		$(shell uname)
-POSIX_C=	posix/posix.c posix/tunnel.c
+UNAME=   $(shell uname)
+POSIX_C= posix/posix.c posix/tunnel.c
 
 ifeq ($(UNAME),Linux)
-OS_C=	 linux/route.c  $(POSIX_C)
+OS_C=    linux/route.c  $(POSIX_C)
 endif
 
-SBINDIR =       $(INSTALL_PREFIX)/usr/sbin
+SBINDIR = $(INSTALL_PREFIX)/usr/sbin
 
 LOG_BRANCH= trunk/batman-experimental
 
@@ -80,25 +91,24 @@ SRC_C= batman.c originator.c hna.c schedule.c plugin.c list-batman.c allocate.c 
 SRC_H= batman.h originator.h hna.h schedule.h plugin.h list-batman.h allocate.h avl.h profile.h control.h metrics.h vis-types.h os.h
 OBJS=  $(SRC_C:.c=.o)
 
-#PACKAGE_NAME=	batmand-exp
-#BINARY_NAME=	batmand
+#PACKAGE_NAME= batmand-exp
+#BINARY_NAME=  batmand
 
-PACKAGE_NAME=	bmxd
-BINARY_NAME=	bmxd
+PACKAGE_NAME=  bmxd
+BINARY_NAME=   bmxd
 
 
 
 SOURCE_VERSION_HEADER= batman.h
 
+BAT_VERSION=   $(shell grep "^\#define SOURCE_VERSION " $(SOURCE_VERSION_HEADER) | sed -e '1p' -n | awk -F '"' '{print $$2}' | awk '{print $$1}')
+FILE_NAME=     $(PACKAGE_NAME)_$(BAT_VERSION)-rv$(REVISION)_$@
 
-BAT_VERSION=    $(shell grep "^\#define SOURCE_VERSION " $(SOURCE_VERSION_HEADER) | sed -e '1p' -n | awk -F '"' '{print $$2}' | awk '{print $$1}')
-FILE_NAME=      $(PACKAGE_NAME)_$(BAT_VERSION)-rv$(REVISION)_$@
+NOW=           $(shell date +%Y%m%d%H%M)-$(REVISION)
 
-NOW=		$(shell date +%Y%m%d%H%M)-$(REVISION)
+IPKG_DEPENDS=  "kmod-tun"
 
-IPKG_DEPENDS=	"kmod-tun"
-
-SNAPSHOT_DIR=	../bmx-snapshots
+SNAPSHOT_DIR=  ../bmx-snapshots
 
 
 all:
@@ -107,7 +117,6 @@ all:
 
 libs:	all
 	$(MAKE) -C lib all
-
 
 
 $(BINARY_NAME):	$(OBJS) Makefile
@@ -120,22 +129,19 @@ $(BINARY_NAME):	$(OBJS) Makefile
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
 
 
-strip:	all
+strip: all
 	strip $(BINARY_NAME)
 
 strip_libs: all libs
 	$(MAKE) -C lib strip
 
 
-
-
-install:	all
+install: all
 	mkdir -p $(SBINDIR)
 	install -m 0755 $(BINARY_NAME) $(SBINDIR)
 
 install_libs:
 	$(MAKE) -C lib install
-
 
 
 clean:
@@ -160,4 +166,3 @@ help:
 	# strip / strip_libs / strip_all	strip    bmxd / plugins / all
 	# install / install_libs / install_all	install  bmxd / plugins / all
 	# clean / clean_libs / clean_all	clean    bmxd / libs / all
-

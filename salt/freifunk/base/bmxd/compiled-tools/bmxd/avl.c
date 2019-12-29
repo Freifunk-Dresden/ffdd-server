@@ -26,8 +26,6 @@
  * for any damages from improper use. ;-)
  */
 
-
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -37,7 +35,6 @@
 #include "os.h"
 
 #include "avl.h"
-
 
 
 struct avl_node *avl_find( struct avl_tree *tree, void *key )
@@ -99,8 +96,6 @@ struct avl_node *avl_iterate(struct avl_tree *tree, struct avl_node *an )
 
         return NULL;
 }
-
-
 
 
 static struct avl_node *avl_create_node(void *key)
@@ -232,7 +227,6 @@ void avl_insert(struct avl_tree *tree, void *key) {
 
         return;
 }
-
 
 
 void *avl_remove(struct avl_tree *tree, void *key)
@@ -563,10 +557,6 @@ static void avl_test()
                         printf(" failed rm %d\n", i);
                 }
         }
-
-
-
-
 
 
 

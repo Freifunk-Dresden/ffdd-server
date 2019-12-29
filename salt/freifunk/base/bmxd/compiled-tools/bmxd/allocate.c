@@ -17,7 +17,6 @@
  *
  */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +31,6 @@
 
 #if defined DEBUG_MALLOC
 
-
 struct chunkHeader *chunkList = NULL;
 
 struct chunkHeader
@@ -44,7 +42,6 @@ struct chunkHeader
 };
 
 typedef unsigned char magicNumberTrailor;
-
 
 
 

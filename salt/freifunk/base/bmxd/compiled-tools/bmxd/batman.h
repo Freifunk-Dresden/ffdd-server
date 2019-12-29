@@ -17,8 +17,6 @@
  *
  */
 
-
-
 #ifndef _BATMAN_BATMAN_H
 #define _BATMAN_BATMAN_H
 
@@ -61,7 +59,7 @@
  * Global Variables and definitions
  */
 
-#define SOURCE_VERSION "0.3-freifunk-dresden" //put exactly one distinct word inside the string like "0.3-pre-alpha" or "0.3-rc1" or "0.3"
+#define SOURCE_VERSION "0.5-freifunk-dresden" //put exactly one distinct word inside the string like "0.3-pre-alpha" or "0.3-rc1" or "0.3"
 
 #define COMPAT_VERSION 10
 
@@ -182,9 +180,9 @@ extern uint32_t My_pid;
 // e.g. sudo BMX_LIB_PATH="$(pwd)/lib" ./bmxd -d3 eth0:bmx
 #define BMX_ENV_DEBUG "BMX_DEBUG"
 
-
-#define ARG_SERVICES "services"
-
+#ifndef STEPHAN_NOSERVICES
+    #define ARG_SERVICES "services"
+#endif
 
 #define SOME_ADDITIONAL_SIZE 0 /*100*/
 #define IEEE80211_HDR_SIZE 24
@@ -193,8 +191,6 @@ extern uint32_t My_pid;
 #define UDP_HDR_SIZE 8
 
 #define UDP_OVERHEAD ( SOME_ADDITIONAL_SIZE + IEEE80211_HDR_SIZE + LLC_HDR_SIZE + IP_HDR_SIZE + UDP_HDR_SIZE )
-
-
 
 
 
@@ -793,9 +789,6 @@ struct srv_orig_data {
 struct plugin_v1 *srv_get_plugin_v1( void );
 
 #endif /*NOSRV*/
-
-
-
 
 
 #endif /* _BATMAN_BATMAN_H */

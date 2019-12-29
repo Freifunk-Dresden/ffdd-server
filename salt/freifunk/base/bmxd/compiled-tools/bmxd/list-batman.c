@@ -17,10 +17,7 @@
  *
  */
 
-
-
 #include "list-batman.h"
-
 
 
 /*
@@ -84,7 +81,6 @@ void list_add_before( struct list_head *prev_node, struct list_head *next_node, 
 }
 
 
-
 /*
  * Delete a list entry by making the next entries
  * point to each other.
@@ -117,7 +113,6 @@ void list_del( struct list_head *prev_entry, struct list_head *entry, struct lis
 	entry->next = (void *) 0;
 
 }
-
 
 
 /**

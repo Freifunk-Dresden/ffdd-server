@@ -8,6 +8,7 @@
 		- enable dnssec
 		- add stats to ffdd status page
 	- bmxd
+		- update to version 0.5-freifunk-dresden
 		- remove trailing spaces from scripts
 		- fix '__FUNCTION__' in gcc extension, use '__func__' now.
 	- fastd

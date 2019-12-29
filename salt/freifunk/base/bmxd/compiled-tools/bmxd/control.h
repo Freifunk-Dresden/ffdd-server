@@ -17,7 +17,6 @@
  *
  */
 
-
 #define MIN_UPTIME 0
 #define MAX_UPTIME 2147383 /*(((TP32/1000)/2)-100) /1000 to talk about seconds and not ms, /2 to not render scheduled events outdated, -100 to be save */
 #define DEF_UPTIME 0
@@ -37,9 +36,13 @@
 #define DBGL_ALL	4
 #define DBGL_PROFILE	5
 #define DBGL_UNUSED	6
-#define DBGL_SERVICES	7
+#ifndef NOSRV
+    #define DBGL_SERVICES	7
+#endif
 #define DBGL_DETAILS	8
-#define DBGL_HNAS	9
+#ifndef NOHNA
+    #define DBGL_HNAS	9
+#endif
 #define DBGL_LINKS	10
 #define DBGL_TEST	11
 #define DBGL_MAX 	11
@@ -115,11 +118,11 @@ struct dbg_histogram {
 #ifdef  NODEBUGALL
 #define dbgf_all(...) {;}
 #else
-#define dbgf_all( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
+#define dbgf_all( dbgt, ... ) do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
 #endif
 
 #ifdef EXTDEBUG
-#define dbgf_ext( dbgt, ... ); do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
+#define dbgf_ext( dbgt, ... ) do { if ( __dbgf_all() ) { _dbgf_all( dbgt, __func__, __VA_ARGS__ ); } } while (0)
 #else
 #define dbgf_ext(...) {;}
 #endif
@@ -155,7 +158,6 @@ void accept_ctrl_node( void );
 void handle_ctrl_node( struct ctrl_node *cn );
 void close_ctrl_node( uint8_t cmd, struct ctrl_node *cn );
 struct ctrl_node *create_ctrl_node( int fd, void (*cn_fd_handler) (struct ctrl_node *), uint8_t authorized );
-
 
 
 

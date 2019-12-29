@@ -25,7 +25,6 @@
 extern struct list_head_first cb_fd_list;
 
 
-
 enum {
  PLUGIN_CB_CONF,
  PLUGIN_CB_ORIG_CREATE,
@@ -48,7 +47,6 @@ struct plugin_v1 {
 	//some other attributes
 
 };
-
 
 
 struct plugin_node {
@@ -136,7 +134,6 @@ void **get_plugin_data( void *data, uint8_t data_type, int32_t registry );
 
 
 
-
 /**************************************
  *to be used by batman sceleton...
  */
@@ -156,5 +153,4 @@ int32_t cb_ogm_hooks( struct msg_buff *mb, uint16_t oCtx, struct neigh_node *old
 int32_t cb_snd_ext_hook( uint16_t ext_type, unsigned char* ext_buff );
 
 // use void change_selects( void ) to trigger cb_fd_handler()
-
 
