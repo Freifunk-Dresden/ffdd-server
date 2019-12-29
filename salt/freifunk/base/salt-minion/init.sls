@@ -2,6 +2,7 @@
 {% from 'config.jinja' import ctime, install_dir %}
 
 {# Package #}
+{# repos needs also a check in init_server.sh #}
 salt-minion:
   {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
   pkgrepo.managed:

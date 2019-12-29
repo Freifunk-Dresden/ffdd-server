@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 #version="1.1.0"
-tag="T_RELEASE_latest"
+REV="T_RELEASE_latest" # means git rev/branch/tag
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
+#
 INSTALL_DIR='/srv/ffdd-server'
 INIT_DATE_FILE='/etc/freifunk-server-initdate'
 ###
@@ -12,7 +13,7 @@ INIT_DATE_FILE='/etc/freifunk-server-initdate'
 
 check_salt_repo() {
 	[ -z "$(command -v wget)" ] && "$PKGMNGR" -y install wget
-
+	# repos needs also a check in salt/freifunk/base/salt-minion/init.sls
 	case "$1" in
 		deb9 )
 			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
@@ -31,7 +32,7 @@ print_usage() {
 	printf '   ./init_server.sh\n\n'
 	printf 'install unstable development Release:\n'
 	printf '   ./init_server.sh dev\n'
-	printf '   ./init_server.sh dev <branch/tag>\n'
+	printf '   ./init_server.sh dev <rev/branch/tag>\n'
 	exit 1
 }
 
@@ -60,9 +61,6 @@ print_init_notice() {
 	printf '   /etc/wireguard/gen-config vpn1 <original-provider-config-file>\n'
 	printf '\n%sPLEASE READ THE NOTICE AND\nREBOOT THE SYSTEM WHEN EVERYTHING IS DONE!%s\n' "$(tput bold)" "$(tput sgr0)"
 }
-
-###
-scriptfail='0'
 
 #
 # -- Check & Setup System --
@@ -98,7 +96,6 @@ done
 printf '\n# Check System Distribution ..\n'
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
-
 
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
@@ -137,7 +134,7 @@ else
 	git clone "$REPO_URL" "$INSTALL_DIR"
 	cd "$INSTALL_DIR" || exit 1
 fi
-# check branch/tag for initial
+# check rev/branch/tag for initial
 if [ "$1" = 'dev' ]; then
 	if [ -z "$2" ]; then
 		git checkout master
@@ -148,8 +145,8 @@ if [ "$1" = 'dev' ]; then
 	fi
 else
 	# T_RELEASE_latest
-	git checkout "$tag"
-	git pull -f origin "$tag"
+	git checkout "$REV"
+	git pull -f origin "$REV"
 fi
 
 
@@ -183,11 +180,11 @@ printf '\n### Check nvram Setup ..\n'
 		fi
 	else
 		# T_RELEASE_latest
-		[ "$(nvram get branch)" != "$tag" ] && nvram set branch "$tag"
+		[ "$(nvram get branch)" != "$REV" ] && nvram set branch "$REV"
 	fi
 
 	# check autoupdate
-	[ "$(nvram get autoupdate)" != '1' ] && nvram set autoupdate 1
+	[ "$(nvram get autoupdate)" -ne 1 ] && nvram set autoupdate 1
 
 	# check default Interface
 	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
@@ -217,6 +214,7 @@ EOF
 
 salt_call() { salt-call state.highstate --local -l error ; }
 
+scriptfail='0'
 init_run='0'
 if [ -f "$INIT_DATE_FILE" ]; then
 	printf '\n### run salt ..\n'
