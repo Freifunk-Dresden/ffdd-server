@@ -111,40 +111,6 @@
 		- bind root.hints
 		- vnstat dir perms
 
-## version 1.0.6_fix6
-
-	- update apt autoupdate
-	- add freifunk_repo to config file and update letsencrypt NAT'd check
-
-## version 1.0.6_fix5
-
-	- fastd: add support to restrict any new connection to a server. should be used when server has too much connections and is overloaded. in this case we must change backbones in clients
-
-## version 1.0.6_fix4
-
-	- apt: provide default sources.list for debian
-	- fastd2/bmxd: update docs url
-	- root: bash_aliases typo fix
-
-## version 1.0.6_fix3
-
-	- add systemtools and linux-firmware
-	- f2b: remove old hopglass server from ignore list
-	- bash_aliases add htop/psa, conntrack notice
-
-## version 1.0.6_fix2
-
-	- fix Service requirements and watches
-	- fix salt and script code
-	- optimze nvram autosetup
-	- remove temp. clear old server enviroment
-
-## version 1.0.6_fix1
-
-	- nvram: show version-fix
-	- fix bind9
-	- fix locales
-
 ## version 1.0.6
 
 	- remove Debian 8 (jessie) support
@@ -152,13 +118,27 @@
 	- update init_server: extend OS-Check
 	- update helper packages
 	- update aliases
+	- update apt autoupdate
 	- optimze
 		- enable package refresh
 		- timezone state
 		- locales state
 		- nvram get version
+		- nvram autosetup
 
+	- add freifunk_repo to config file and update letsencrypt NAT'd check
+	- add systemtools and linux-firmware
+	- add bash_aliases: htop/psa, conntrack notice
+	- f2b: remove old hopglass server from ignore list
+	- apt: provide default sources.list for debian
+	- fastd2/bmxd: update docs url
+	- fastd: add support to restrict any new connection to a server. should be used when server has too much connections and is overloaded. in this case we must change backbones in clients
+
+	- fix Service requirements and watches
+	- fix salt and script code
 	- fix sysctl options
+	- fix bind9
+	- fix locales
 	- fix S42firewall6
 		- Required-Start
 		- Wait for the xtables lock
@@ -247,14 +227,6 @@
 	- cleanup old code
 	- Bugfixes and Optimation
 
-## version 1.0.1_fix1
-
-	- fix letsencrypt service and add hostname fqdn check
-	- fix openvpn service
-	- Readme.md corrections
-	- cleanup old code
-	- bugfixes and optimation
-
 ## version 1.0.1
 
 	- add branch and tag git-system
@@ -269,6 +241,8 @@
 		> for user defined firewall rules - includes in _/etc/init.d/S41firewall_
 	- add letsencrypt https support
 	- add fail2ban as IPS
+	- Readme.md corrections
+	- cleanup old code
 	- bugfixes and optimation
 
 
