@@ -71,7 +71,7 @@ esac
 
 printf '\n### Check System ..\n'
 
-if [ "$(id -u)" -ne 0 ];  then
+if [ "$(id -u)" -ne 0 ]; then
 	printf 'Please run as root!\n'; exit 1
 fi
 
