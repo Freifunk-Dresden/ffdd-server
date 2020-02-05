@@ -12,7 +12,7 @@
 
 
 {# autoupdate #}
-{% if autoupdate == '1' %}
+{% if autoupdate == 'xNEWx' %}
 ffdd-server_repo:
   git.latest:
     - name: {{ freifunk_repo }}

@@ -1,7 +1,15 @@
 # Freifunk Dresden: ffdd-server Updates
-`current version 1.0.15`
+`current version 1.0.16`
 
 <br/>
+
+_**version 1.0.16**_
+
+	- turn autoupdate off. the next release needs a reboot after update.
+	  here it is better if the admin carries out the update manually and then restarts the server.
+	  ( after the update, the auto-update becomes active again if it is enabled in nvram.conf. )
+
+<br />
 
 _**version 1.0.15**_
 
