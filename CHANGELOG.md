@@ -44,6 +44,12 @@
 		- add /etc/freifunk-server-initdate
 		- add `pb` (pastebin tool for 0x0 on https://envs.sh)
 
+## version 1.0.16
+
+	- turn autoupdate off. the next release needs a reboot after update.
+	  here it is better if the admin carries out the update manually and then restarts the server.
+	  ( after the update, the auto-update becomes active again if it is enabled in nvram.conf. )
+
 ## version 1.0.15
 
 	- update README
