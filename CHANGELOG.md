@@ -25,7 +25,6 @@
 	- openvpn/wireguard: check service is stopped and disable then no config file available
 	- monitorix
 		- update config options remove some issues
-		- enable bind stats
 		- disable proc and fail2ban graph
 	- vnstat: change git source to a stable rev/commit
 	- init_server.sh
