@@ -56,30 +56,13 @@
 
 
 {# Scripts #}
-/usr/local/bin/ddmesh-ipcalc.sh:
+/usr/local/bin/freifunk:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/ddmesh-ipcalc.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-/usr/local/bin/freifunk-register-local-node.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/freifunk-register-local-node.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-/usr/local/bin/freifunk-gateway-check.sh:
-  file.managed:
+    - source: salt://ddmesh/usr/local/bin/freifunk-manuell_update.sh
     - source: salt://ddmesh/usr/local/bin/freifunk-gateway-check.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-/usr/local/bin/freifunk-gateway-status.sh:
-  file.managed:
     - source: salt://ddmesh/usr/local/bin/freifunk-gateway-status.sh
+    - source: salt://ddmesh/usr/local/bin/freifunk-register-local-node.sh
     - user: root
     - group: root
     - mode: 755
