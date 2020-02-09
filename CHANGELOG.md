@@ -31,6 +31,7 @@
 		- add salt repo for debian 9 and ubuntu 16
 		- a bit makeup for the script
 		- add a small ping check
+		- add check to install ffdd-server on host
 		- check salt_call is possible
 	- generally changes and optimizations
 		- update README
@@ -41,6 +42,7 @@
 		- add an sysctl.d/ipv6.conf template to deactivate ipv6
 		- make a shorter bash_alias help output
 		- add /etc/freifunk-server-initdate
+		- add /usr/local/bin/freifunk-manuell_update.sh
 		- add `pb` (pastebin tool for 0x0 on https://envs.sh)
 
 ## version 1.0.16

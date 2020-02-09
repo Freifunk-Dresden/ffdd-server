@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #version="1.1.0"
 REV="T_RELEASE_latest" # means git rev/branch/tag
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
@@ -62,6 +62,15 @@ print_init_notice() {
 	printf '\n%sPLEASE READ THE NOTICE AND\nREBOOT THE SYSTEM WHEN EVERYTHING IS DONE!%s\n' "$(tput bold)" "$(tput sgr0)"
 }
 
+
+hostname="$(cat /etc/hostname)"
+def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
+def_addr="$(ip addr show dev "$def_if" | awk '/inet/ {printf "%s\n",$2}' | head -1)"
+def_ip="${def_addr//\/*/}"
+
+os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
+version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
+
 #
 # -- Check & Setup System --
 
@@ -70,10 +79,15 @@ case "$1" in
 esac
 
 printf '\n### Check System ..\n'
+if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
 
-if [ "$(id -u)" -ne 0 ]; then
-	printf 'Please run as root!\n'; exit 1
-fi
+printf '\nAre you sure you want to install the ffdd-server on %s%s%s ( IP: %s )?\n' "$(tput bold)" "$hostname" "$(tput sgr0)" "$def_ip"
+printf 'System Info: %s %s' "$os_id" "$version_id"
+select yn in "Yes" "No"; do
+case $yn in
+	Yes) break ;;
+	No)  exit 1 ; break ;;
+esac ; done
 
 if ! ping -c1 -W5 github.com >/dev/null ; then
 	printf 'network not reachable or name resolution not working!\n'; exit 1
@@ -81,7 +95,8 @@ fi
 
 printf '\n# Check tun device is available ..\n'
 if [ ! -e /dev/net/tun ]; then
-	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'; exit 1
+	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'
+	exit 1
 fi
 
 printf '\n# Check users are present ..\n'
@@ -94,9 +109,6 @@ done
 
 
 printf '\n# Check System Distribution ..\n'
-os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
-version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
-
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
 		9*)     PKGMNGR='apt-get' ; check_salt_repo deb9 ;;
@@ -159,38 +171,37 @@ mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
 # ensure nvram and nvram.conf are present
 printf '\n### Check nvram Setup ..\n'
+cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
 
-	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
+if [ ! -f /etc/nvram.conf ]; then
+	printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram ..\n'
+	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
+fi
 
-	if [ ! -f /etc/nvram.conf ]; then
-		printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram ..\n'
-		cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
-	fi
+# check some basic nvram options
+# check install_dir
+[ "$(nvram get install_dir)" != "$INSTALL_DIR" ] && nvram set install_dir "$INSTALL_DIR"
 
-	# check some basic nvram options
-	# check install_dir
-	[ "$(nvram get install_dir)" != "$INSTALL_DIR" ] && nvram set install_dir "$INSTALL_DIR"
-
-	# check branch
-	if [ "$1" = 'dev' ]; then
-		if [ -n "$2" ]; then
-			[ "$(nvram get branch)" != "$2" ] && nvram set branch "$2"
-		else
-			[ "$(nvram get branch)" != 'master' ] && nvram set branch master
-		fi
+# check branch
+if [ "$1" = 'dev' ]; then
+	if [ -n "$2" ]; then
+		[ "$(nvram get branch)" != "$2" ] && nvram set branch "$2"
 	else
-		# T_RELEASE_latest
-		[ "$(nvram get branch)" != "$REV" ] && nvram set branch "$REV"
+		[ "$(nvram get branch)" != 'master' ] && nvram set branch master
 	fi
+else
+	# T_RELEASE_latest
+	[ "$(nvram get branch)" != "$REV" ] && nvram set branch "$REV"
+fi
 
-	# check autoupdate
-	[ "$(nvram get autoupdate)" -ne 1 ] && nvram set autoupdate 1
+# check autoupdate
+[ "$(nvram get autoupdate)" -ne 1 ] && nvram set autoupdate 1
 
-	# check default Interface
-	def_if="$(awk '$2 == 00000000 { print $1 }' /proc/net/route)"
-	[ "$(nvram get ifname)" != "$def_if" ] && nvram set ifname "$def_if"
+# check default Interface
+[ "$(nvram get ifname)" != "$def_if" ] && nvram set ifname "$def_if"
 
 
+#
 # create clean masterless salt enviroment
 printf '\n### Check Salt Enviroment ..\n'
 
