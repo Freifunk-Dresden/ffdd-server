@@ -27,7 +27,7 @@ check_salt_repo() {
 }
 
 print_usage() {
-	printf 'FFDD-Server - Initial Setup\n\nUsage:\n'
+	printf '\nUsage:\n'
 	printf 'install latest stable Release:\n'
 	printf '   ./init_server.sh\n\n'
 	printf 'install unstable development Release:\n'
@@ -70,6 +70,10 @@ def_ip="${def_addr//\/*/}"
 
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
+
+
+#
+printf '### FFDD-Server - Initial Setup ###\n'
 
 #
 # -- Check & Setup System --
