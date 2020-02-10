@@ -82,7 +82,7 @@ printf '\n### Check System ..\n'
 if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
 
 printf '\nAre you sure you want to install the ffdd-server on %s%s%s ( IP: %s )?\n' "$(tput bold)" "$hostname" "$(tput sgr0)" "$def_ip"
-printf 'System Info: %s %s' "$os_id" "$version_id"
+printf 'System Info: %s %s\n' "$os_id" "$version_id"
 select yn in "Yes" "No"; do
 case $yn in
 	Yes) break ;;
