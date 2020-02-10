@@ -81,8 +81,8 @@ esac
 printf '\n### Check System ..\n'
 if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
 
-printf '\nAre you sure you want to install the ffdd-server on %s%s%s ( IP: %s )?\n' "$(tput bold)" "$hostname" "$(tput sgr0)" "$def_ip"
-printf 'System Info: %s %s\n' "$os_id" "$version_id"
+printf '\nAre you sure you want to install the FFDD-Server on %s%s%s?\n' "$(tput bold)" "$hostname" "$(tput sgr0)" "$def_ip"
+printf 'OS: %s %s | IP: %s\n' "$os_id" "$version_id" "$def_ip"
 select yn in "Yes" "No"; do
 case $yn in
 	Yes) break ;;
