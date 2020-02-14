@@ -173,10 +173,10 @@ Dies gewährleistet dass Änderungen sowie Bugfixes aber auch Neuerungen schnell
 Das Autoupdate kann zur jeder Zeit abgeschaltet werden. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/nvram.conf` deaktiviert werden:<br>
 `nvram set autoupdate 0`
 
-**Ein manuelles Update durchzuführen:**
+**Ein manuelles Update durchzuführen:**<br />
 use: `/usr/local/bin/freifunk-manuell_update.sh`
 
-***OR***
+***OR***<br />
 `sh -c "$(curl -fsSL http://2ffd.de/ffdd-server_manuell_update)"`
 
 ***OR***
@@ -189,7 +189,8 @@ salt-call state.highstate --local -l error
 ```
 
 ## Fehlerhaftes Repository
-Sollte es Probleme jeglicher Art mit dem 'ffdd-server' repo geben dann ist der einfachste Weg dieses neu zu erstellen und salt aufzurufen:
+Sollte es Probleme jeglicher Art mit dem 'ffdd-server' repo geben dann ist der einfachste Weg dieses neu zu erstellen und salt aufzurufen.
+
 use: `/usr/local/bin/freifunk-manuell_update.sh`
 
 ***OR***
