@@ -7,15 +7,9 @@ if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
 
 nvram set branch "$REV"
 
-if [ -d "$INSTALL_DIR" ]; then
-	cd "$INSTALL_DIR" && git stash
-	git fetch
-	git checkout "$REV"
-	git pull -f origin "$REV"
-else
-	git clone "$REPO_URL".git "$INSTALL_DIR"
-	cd "$INSTALL_DIR" && git checkout "$REV"
-fi
+[ -n "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
+git clone "$REPO_URL" "$INSTALL_DIR"
+cd "$INSTALL_DIR" && git checkout "$REV"
 
 salt-call state.highstate --local -l error
 
