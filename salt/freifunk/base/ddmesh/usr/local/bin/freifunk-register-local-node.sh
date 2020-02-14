@@ -22,7 +22,6 @@ cmd="$(echo "$node_info" | sed -n '/^OK/p;/^ERROR/p;/^INFO/p')"
 case "$cmd" in
 
   OK*)
-	# shellcheck disable=SC2001
 	node_id="$(echo "$node_info" | sed -n '/\"node\":/{s#^.*:##;p}')"
 	node_id="${node_id//\"/}"
 	printf 'node=%s\nupdated.\n' "$node_id"
