@@ -85,13 +85,15 @@ esac
 printf '\n### Check System ..\n'
 if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
 
-printf '\nAre you sure you want to install the FFDD-Server on %s%s%s?\n' "$(tput bold)" "$hostname" "$(tput sgr0)"
-printf 'OS: %s %s | IP: %s\n' "$os_id" "$version_id" "$def_ip"
-select yn in "Yes" "No"; do
-case $yn in
-	Yes) break ;;
-	No)  exit 1 ; break ;;
-esac ; done
+if [ ! -f "$INIT_DATE_FILE" ]; then
+	printf '\nAre you sure you want to install the FFDD-Server on %s%s%s?\n' "$(tput bold)" "$hostname" "$(tput sgr0)"
+	printf 'OS: %s %s | IP: %s\n' "$os_id" "$version_id" "$def_ip"
+	select yn in "Yes" "No"; do
+	case $yn in
+		Yes) break ;;
+		No)  exit 1 ; break ;;
+	esac ; done
+fi
 
 if ! ping -c1 -W5 github.com >/dev/null ; then
 	printf 'network not reachable or name resolution not working!\n'; exit 1
