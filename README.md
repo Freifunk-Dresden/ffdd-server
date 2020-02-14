@@ -174,6 +174,12 @@ Das Autoupdate kann zur jeder Zeit abgeschaltet werden. Dazu muss dieses ledigli
 `nvram set autoupdate 0`
 
 **Ein manuelles Update durchzuführen:**
+use: `/usr/local/bin/freifunk-manuell_update.sh`
+
+***OR***
+`sh -c "$(curl -fsSL http://2ffd.de/ffdd-server_manuell_update)"`
+
+***OR***
 ```bash
 cd /srv/ffdd-server
 git stash
@@ -184,6 +190,9 @@ salt-call state.highstate --local -l error
 
 ## Fehlerhaftes Repository
 Sollte es Probleme jeglicher Art mit dem 'ffdd-server' repo geben dann ist der einfachste Weg dieses neu zu erstellen und salt aufzurufen:
+use: `/usr/local/bin/freifunk-manuell_update.sh`
+
+***OR***
 ```bash
 cd /srv/ && rm -rf /srv/ffdd-server
 git clone https://github.com/Freifunk-Dresden/ffdd-server/ /srv/ffdd-server
