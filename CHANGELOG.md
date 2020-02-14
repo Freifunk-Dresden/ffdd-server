@@ -38,6 +38,7 @@
 		- remove temp parts
 		- optimize some scripts and salt states
 		- fixes in freifunk-gatewaycheck when we have a vpn network interface and ok='false'
+		- fix freifunk-register-local-node.sh - get nodeid
 		- check we can set sysctl tcp_syncookies
 		- add an sysctl.d/ipv6.conf template to deactivate ipv6
 		- make a shorter bash_alias help output
