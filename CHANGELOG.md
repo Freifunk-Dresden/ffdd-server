@@ -45,7 +45,10 @@
 		- add /usr/local/bin/freifunk-manuell_update.sh
 		- add `pb` (pastebin tool for 0x0 on https://envs.sh)
 
-**Please reboot the Server after upgrade.**
+**Notice:**
+This update is not carried out automatically and must be done manually be performed.
+
+***Please reboot the Server after upgrade.***
 
 ## version 1.0.16
 
