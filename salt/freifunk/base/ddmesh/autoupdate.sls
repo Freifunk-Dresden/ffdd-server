@@ -4,7 +4,7 @@
 {% if autoupdate == '1' %}
 ffdd-server_repo:
   git.latest:
-{% if freifunk_repo_user_conf != '' AND freifunk_repo_user_conf != freifunk_repo %}
+{% if freifunk_repo_user_conf != '' and freifunk_repo_user_conf != freifunk_repo %}
     - name: {{ freifunk_repo_user_conf }}
 {% else %}
     - name: {{ freifunk_repo }}
