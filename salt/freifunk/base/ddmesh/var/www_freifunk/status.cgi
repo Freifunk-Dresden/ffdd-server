@@ -34,7 +34,7 @@ cat<<EOF
 		do
 			[ "$(systemctl show -p ActiveState "$s" | cut -d'=' -f2 | grep -c inactive)" -lt 1 ] && vs='1'
 		done
-		if [ "$vs" -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi
+		if [ "$vs" -eq '1' ]; then printf '<img src="/images/yes.png" alt="yes">'; else printf '<img src="/images/no.gif" alt="no">'; fi
 	else
 		vs='0'
 		printf '<img src="/images/no.gif">'
@@ -49,7 +49,7 @@ cat<<EOF
 		printf '<tr><th>Selected-Gateway:</th><td colspan="7">%s %s</td></tr>\n' "$SELGW" "$(if [[ $SELID =~ $re ]]; then printf '(%s)\n' "$SELID"; fi)"
 	fi
 )
-<tr><th width="250">Auto-Update:</th><td colspan="7">$(if [ "$(nvram get autoupdate)" -eq '1' ]; then printf '<img src="/images/yes.png">'; else printf '<img src="/images/no.gif">'; fi)</td></tr>
+<tr><th width="250">Auto-Update:</th><td colspan="7">$(if [ "$(nvram get autoupdate)" -eq '1' ]; then printf '<img src="/images/yes.png" alt="yes">'; else printf '<img src="/images/no.gif" alt="no">'; fi)</td></tr>
 <tr><th>Knoten-IP-Adresse:</th><td colspan="7">$_ddmesh_ip ($_ddmesh_node)</td></tr>
 <tr><th>Nameserver:</th><td colspan="7">$(grep nameserver /etc/resolv.conf | sed 's#nameserver##g')</td></tr>
 <tr><th>Ger&auml;telaufzeit:</th><td colspan="7">$(uptime)</td></tr>
@@ -79,9 +79,9 @@ $(
 
 		printf '<tr><th width="250">%s:</th><td>' "$s"
 		if [ "$(systemctl show -p ActiveState "$s" | cut -d'=' -f2 | grep -c 'inactive\|failed')" -lt 1 ]; then
-			printf '<img src="/images/yes.png">'
+			printf '<img src="/images/yes.png" alt="yes">'
 		else
-			printf '<img src="/images/no.gif">'
+			printf '<img src="/images/no.gif" alt="no">'
 		fi
 		printf '</td>'
 		printf '<td>%s</td>' "$SERVICE_INFO"
