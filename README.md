@@ -174,10 +174,8 @@ Das Autoupdate kann zur jeder Zeit abgeschaltet werden. Dazu muss dieses ledigli
 `nvram set autoupdate 0`
 
 **Ein manuelles Update durchzuführen:**<br />
-use: `/usr/local/bin/freifunk-manuell_update.sh`
-
-***OR***<br />
-`sh -c "$(curl -fsSL http://2ffd.de/ffdd-server_manuell_update)"`
+use: `/srv/ffdd-server/init_server.sh` (incl. OS Upgrade)<br />
+or: `/usr/local/bin/freifunk-manuell_update.sh`
 
 ***OR***
 ```bash
