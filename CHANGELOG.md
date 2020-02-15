@@ -3,9 +3,10 @@
 
 ## version 1.1.1
 
-    - new `/etc/nvram.conf` config option:
-      allow user to change the repo url
-      `freifunk_repo=https://github.com/Freifunk-Dresden/ffdd-server.git`
+	- add the default nvram.conf as a sample to `/etc/nvram_sample.conf`
+	- new `/etc/nvram.conf` config option:
+	  allow user to change the repo url
+	  `freifunk_repo=https://github.com/Freifunk-Dresden/ffdd-server.git`
 
 ## version 1.1.0
 
