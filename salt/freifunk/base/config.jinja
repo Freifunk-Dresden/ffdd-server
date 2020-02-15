@@ -6,6 +6,7 @@
 {% set ffdom = 'freifunk-dresden.de' %}
 
 {% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server.git' %}
+{% set freifunk_repo_user_conf = salt['cmd.shell']('/usr/local/bin/nvram get freifunk_repo') %}
 
 {% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
 {% set autoupdate = salt['cmd.shell']('/usr/local/bin/nvram get autoupdate') %}

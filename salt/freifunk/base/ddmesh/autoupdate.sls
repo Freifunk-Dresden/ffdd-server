@@ -1,10 +1,14 @@
 {# Freifunk Dresden - Autoupdate #}
-{% from 'config.jinja' import freifunk_repo, branch, install_dir, autoupdate %}
+{% from 'config.jinja' import freifunk_repo, freifunk_repo_user_conf, branch, install_dir, autoupdate %}
+
+{% if freifunk_repo_user_conf != '' && freifunk_repo_user_conf != freifunk_repo %}
+{% set repo = {{ freifunk_repo_user_conf }} %}
+{% endif %}
 
 {% if autoupdate == '1' %}
 ffdd-server_repo:
   git.latest:
-    - name: {{ freifunk_repo }}
+    - name: {{ repo }}
     - rev: {{ branch }}
     - target: {{ install_dir }}
     - update_head: True

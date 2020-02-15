@@ -1,6 +1,12 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.1.1
+
+    - new `/etc/nvram.conf` config option:
+      allow user to change the repo url
+      `freifunk_repo=https://github.com/Freifunk-Dresden/ffdd-server.git`
+
 ## version 1.1.0
 
 	- bind9

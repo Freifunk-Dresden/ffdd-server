@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version="1.1.0"
+#version="1.1.1"
 REV="T_RELEASE_latest" # means git rev/branch/tag
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 #
@@ -144,6 +144,11 @@ systemctl disable salt-minion ; systemctl stop salt-minion &
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
 
+if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
+	CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
+	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
+fi
+
 if [ -d "$INSTALL_DIR" ]; then
 	cd "$INSTALL_DIR" || exit 1
 	git stash
@@ -187,6 +192,9 @@ fi
 # check some basic nvram options
 # check install_dir
 [ "$(nvram get install_dir)" != "$INSTALL_DIR" ] && nvram set install_dir "$INSTALL_DIR"
+
+# check repo_url
+[ -z $(nvram get freifunk_repo) ] && nvram set freifunk_repo "$REPO_URL"
 
 # check branch
 if [ "$1" = 'dev' ]; then
