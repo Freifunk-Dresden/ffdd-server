@@ -37,7 +37,7 @@ cat<<EOF
 		if [ "$vs" -eq '1' ]; then printf '<img src="/images/yes.png" alt="yes">'; else printf '<img src="/images/no.gif" alt="no">'; fi
 	else
 		vs='0'
-		printf '<img src="/images/no.gif">'
+		printf '<img src="/images/no.gif" alt="no">'
 	fi
 	printf '</td></tr>\n'
 
