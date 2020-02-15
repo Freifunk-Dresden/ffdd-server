@@ -15,8 +15,9 @@ fi
 alias freifunk-version='cat /etc/freifunk-server-version'
 alias freifunk-gw-status='/usr/local/bin/freifunk-gateway-status.sh'
 
-salt_call() { salt-call state.highstate --local -l error ; }
+alias salt_call='salt-call state.highstate --local -l error'
 alias freifunk-call='salt_call'
+alias init_server='/srv/ffdd-server/init_server.sh'
 
 alias f2b-list='/sbin/ipset list blacklist_fail2ban'
 
@@ -44,6 +45,7 @@ alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --repo
 cat <<EOM
 -----------------------------------------------------------------
 tools:
+    init_server         ( update OS and Firmware )
     freifunk-version    ( show Server Version and Branch )
     freifunk-call       ( salt-call state.highstate --local )
     freifunk-gw-status  ( show GW-Country )
