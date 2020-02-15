@@ -63,7 +63,7 @@ sudo /usr/local/bin/bmxd -c --gateways | awk '
 
 	if(match($0,"^[=> 	]*[0-9]+[.][0-9]+[.][0-9]+[.][0-9]"))
  	{
-		img=match($0,"=>") ? "<img src=\"/images/yes.png\">" : ""
+		img=match($0,"=>") ? "<img src=\"/images/yes.png\" alt=\"yes\">" : ""
 		gsub("^=>","")
  		rest=substr($0,index($0,$3))
  		gsub("/ ","/",rest)
