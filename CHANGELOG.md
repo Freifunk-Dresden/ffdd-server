@@ -7,9 +7,9 @@
 	- new `/etc/nvram.conf` config option:
 	  allow user to change the repo url
 	  `freifunk_repo=https://github.com/Freifunk-Dresden/ffdd-server`
-	- add `init_server` alias (OS and Firmware Update)
 	- www status.cgi - add alt text for status images
 	- update bash_aliases and print output
+		- add `init_server` alias (OS and Firmware Update)
 
 ## version 1.1.0
 

@@ -76,11 +76,6 @@ xterm*|rxvt*)
     ;;
 esac
 
-# add freifunk specifics to prompt, because on some vservers /etc/hostname is
-# always replaced after booting
-PS1="${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;34m\]$(nvram get contact_note)\[\033[00m\] #
-\[\033[01;37m\]\w\[\033[00m\] > "
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
