@@ -244,7 +244,7 @@ init_run='0'
 if [ -f "$INIT_DATE_FILE" ]; then
 	printf '\n### run salt ..\n'
 else
-	printf '\n### Start Initial System .. please wait! Coffee Time ~ 10-20min ..\n'
+	printf '\n### Start Initial System .. please wait! Coffee Time ~ 10min ..\n'
 	printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
 	chmod 600 "$INIT_DATE_FILE"
 	init_run='1'

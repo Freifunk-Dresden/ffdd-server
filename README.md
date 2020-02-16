@@ -115,7 +115,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 ```
 <br/>
 
-***Coffee Time (~ 10-20min)***
+***Coffee Time (~ 10min)***
 <br />
 
 ### Manuelle Anpassungen
