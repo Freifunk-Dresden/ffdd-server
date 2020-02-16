@@ -1,7 +1,7 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
-## version 1.1.1
+## version 1.2.0
 
 	- add the default nvram.conf as a sample to `/etc/nvram_sample.conf`
 	- new `/etc/nvram.conf` config option:
