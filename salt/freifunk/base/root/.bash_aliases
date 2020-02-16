@@ -45,18 +45,22 @@ alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --repo
 cat <<EOM
 -----------------------------------------------------------------
 tools:
-    init_server         ( update OS and Firmware )
-    freifunk-version    ( show Server Version and Branch )
-    freifunk-call       ( salt-call state.highstate --local )
-    freifunk-gw-status  ( show GW-Country )
-    f2b-list            ( show blocked IP's )
-    f2b-unban <IP>      ( unban blocked IP )
-    htop / psa          ( show processes list )
-    conntrack           ( show more with -n LINENUM )
-    vnstat              ( network traffic monitor )
-    pb                  ( command line pastebin - man pb )
+    init_server             ( update OS and Firmware )
+    freifunk-version        ( show Server Version and Branch )
+    freifunk-call           ( salt-call state.highstate --local )
+    freifunk-manuell-update ( reset and Update  Repo )
+    freifunk-gw-status      ( show GW-Country )
+
+    f2b-list                ( show blocked IP's )
+    f2b-unban <IP>          ( unban blocked IP )
+
+    htop / psa              ( show processes list )
+    conntrack               ( show more with -n LINENUM )
+    vnstat                  ( network traffic monitor )
+    pb                      ( command line pastebin - man pb )
     showip
     speedtest / speedtest-ovh / speedtest-belwue
+
     # Server Logs:
     journalctl -efx / journalctl -ef -u <service>
 -----------------------------------------------------------------
