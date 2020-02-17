@@ -7,6 +7,7 @@
 	- new `/etc/nvram.conf` config option:
 		- allow user to change the repo url
 		  `freifunk_repo=https://github.com/Freifunk-Dresden/ffdd-server`
+	- add nvram edit
 	- init-server.sh:
 		- change check for autoupdate (do not overwrite user config)
 		- add a check for CUSTOM REPO and REV
