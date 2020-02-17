@@ -156,6 +156,9 @@ printf '\n### Install/Update ffdd-server Git-Repository ..\n'
 if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
 	CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
 	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
+
+	CUSTOM_REV="$(nvram get branch)"
+	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
 fi
 
 if [ -d "$INSTALL_DIR" ]; then
@@ -176,7 +179,7 @@ if [ "$1" = 'dev' ]; then
 		git pull -f origin "$2"
 	fi
 else
-	# T_RELEASE_latest
+	# T_RELEASE_latest OR $CUSTOM_REV
 	git checkout "$REV"
 	git pull -f origin "$REV"
 fi

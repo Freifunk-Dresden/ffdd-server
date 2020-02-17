@@ -5,11 +5,18 @@ INSTALL_DIR='/srv/ffdd-server'
 
 if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
 
-nvram set branch "$REV"
+
+CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
+[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
+
+CUSTOM_REV="$(nvram get branch)"
+[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
+
 
 [ -n "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"
+
 
 salt-call state.highstate --local -l error
 

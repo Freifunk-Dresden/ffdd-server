@@ -5,15 +5,16 @@
 {% set ffip = '89.163.140.199' %}
 {% set ffdom = 'freifunk-dresden.de' %}
 
-{% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server.git' %}
-{% set freifunk_repo_user_conf = salt['cmd.shell']('/usr/local/bin/nvram get freifunk_repo') %}
-
-{% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
-{% set autoupdate = salt['cmd.shell']('/usr/local/bin/nvram get autoupdate') %}
-{% set branch = salt['cmd.shell']('/usr/local/bin/nvram get branch') %}
 {% set install_dir = salt['cmd.shell']('/usr/local/bin/nvram get install_dir') %}
 
-{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
+{% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server.git' %}
+{% set custom_freifunk_repo = salt['cmd.shell']('/usr/local/bin/nvram get freifunk_repo') %}
+
+{% set branch = 'T_RELEASE_latest' %}
+{% set custom_branch = salt['cmd.shell']('/usr/local/bin/nvram get branch') %}
+
+{% set autoupdate = salt['cmd.shell']('/usr/local/bin/nvram get autoupdate') %}
+{% set freifunk_version = salt['cmd.shell']('/usr/local/bin/nvram version') %}
 
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_registerkey') %}
 {% set fastd_secret = salt['cmd.shell']('/usr/local/bin/nvram get fastd_secret') %}
@@ -23,6 +24,8 @@
 {% set ifname = salt['cmd.shell']('/usr/local/bin/nvram get ifname') %}
 {% set nodeid = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_node') %}
 {% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
+
+{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/bin/nvram get ddmesh_disable_gateway') %}
 
 {# used for crontab minutes #}
 {%- set ctime = salt['cmd.shell']('expr '~ nodeid ~' % 60 || true') %}
