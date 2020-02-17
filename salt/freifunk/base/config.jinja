@@ -7,7 +7,7 @@
 
 {% set install_dir = salt['cmd.shell']('/usr/local/bin/nvram get install_dir') %}
 
-{% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server.git' %}
+{% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server' %}
 {% set custom_freifunk_repo = salt['cmd.shell']('/usr/local/bin/nvram get freifunk_repo') %}
 
 {% set branch = 'T_RELEASE_latest' %}
