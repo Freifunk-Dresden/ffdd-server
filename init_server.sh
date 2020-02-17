@@ -189,7 +189,8 @@ if [ ! -f /etc/nvram.conf ]; then
 	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
 fi
 
-# check some basic nvram options
+#
+# check basic nvram options
 # check install_dir
 [ "$(nvram get install_dir)" != "$INSTALL_DIR" ] && nvram set install_dir "$INSTALL_DIR"
 
@@ -209,10 +210,13 @@ else
 fi
 
 # check autoupdate
-[ "$(nvram get autoupdate)" -ne 1 ] && nvram set autoupdate 1
+[ "$(nvram get autoupdate)" == '' ] && nvram set autoupdate 1
 
 # check default Interface
 [ "$(nvram get ifname)" != "$def_if" ] && nvram set ifname "$def_if"
+
+# ssh_pwauth
+[ "$(nvram get ssh_pwauth)" == '' ] && nvram set ssh_pwauth 1
 
 
 #
