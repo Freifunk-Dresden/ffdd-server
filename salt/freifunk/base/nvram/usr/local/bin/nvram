@@ -36,7 +36,7 @@ case "$1" in
 	;;
 
 	*)
-		printf 'usage: nvram [get name] [set name value] [unset name] [show] [version]\n';
+		printf 'usage: nvram [get name] [set name value] [unset name] [show] [edit] [version]\n';
 		exit 0
 	;;
 esac
