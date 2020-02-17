@@ -8,6 +8,10 @@ case "$1" in
 		cat "$CONFIG_FILE"
 	;;
 
+	edit)
+		if [[ -n "$EDITOR" ]]; then "$EDITOR" "$CONFIG_FILE"; else nano "$CONFIG_FILE"; fi ;
+	;;
+
 	get)
 		sed -n "/^$2=/{s#^.*=##;p}" "$CONFIG_FILE" | head -1
 	;;
