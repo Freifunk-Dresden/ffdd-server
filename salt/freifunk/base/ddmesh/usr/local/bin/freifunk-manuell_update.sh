@@ -21,7 +21,7 @@ cd "$INSTALL_DIR" && git checkout "$REV"
 
 salt-call state.highstate --local -l error
 
-printf 'Please check the changelog for the case there are config deprecations, special update steps.\n'
+printf '\nPlease check the changelog for the case there are config deprecations, special update steps.\n'
 printf '%s/blob/master/CHANGELOG.md\n' "$REPO_URL"
 
 exit 0
