@@ -24,7 +24,7 @@ alias f2b-list='/sbin/ipset list blacklist_fail2ban'
 alias psa='ps -axuwf'
 alias conntrack='tail /var/log/conntrack.log'
 
-alias showip='printf "IP: %s\n" "$(curl -s ip.envs.net)"'
+alias showip='printf "IP: %s\n" "$(curl -sL ip.envs.net)"'
 alias speedtest='wget -O /dev/null http://90.130.70.73/10GB.zip --report-speed=bits'
 alias speedtest-ovh='wget -O /dev/null http://213.186.33.6/files/10Gb.dat --report-speed=bits'
 alias speedtest-belwue='wget -O /dev/null http://speedtest.belwue.net/10G --report-speed=bits'
