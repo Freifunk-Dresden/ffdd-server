@@ -95,14 +95,19 @@ if [ ! -f "$INIT_DATE_FILE" ]; then
 	esac ; done
 fi
 
+printf '\n# Check github is reachable ..\n'
 if ! ping -c1 -W5 github.com >/dev/null ; then
 	printf 'network not reachable or name resolution not working!\n'; exit 1
+else
+	printf '\nOK.\n'
 fi
 
 printf '\n# Check tun device is available ..\n'
 if [ ! -e /dev/net/tun ]; then
 	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'
 	exit 1
+else
+	printf '\nOK.\n'
 fi
 
 printf '\n# Check users are present ..\n'
@@ -112,6 +117,7 @@ do
 		adduser --shell /bin/bash --disabled-login --disabled-password --system --group --no-create-home "$users"
 	fi
 done
+printf '\nOK.\n'
 
 
 printf '\n# Check System Distribution ..\n'
@@ -130,14 +136,17 @@ elif [ "$os_id" = 'ubuntu' ]; then
 else
 	print_not_supported_os
 fi
+printf '\nOK.\n'
 
 
 printf '\n### Update System ..\n'
 "$PKGMNGR" -y update
+printf '\n'
 "$PKGMNGR" -y dist-upgrade
 
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
+
 # run salt-minion only as masterless. disable the service:
 systemctl disable salt-minion ; systemctl stop salt-minion &
 
@@ -217,7 +226,8 @@ fi
 
 # ssh_pwauth
 [ "$(nvram get ssh_pwauth)" == '' ] && nvram set ssh_pwauth 1
-
+#
+printf '\nOK.\n'
 
 #
 # create clean masterless salt enviroment
@@ -237,6 +247,7 @@ file_roots:
   base:
     - $INSTALL_DIR/salt/freifunk/base
 EOF
+printf '\nOK.\n'
 
 #
 # -- Initial System --
