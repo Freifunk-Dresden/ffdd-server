@@ -14,6 +14,7 @@ if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
 	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
 fi
 
+cd /srv || exit 1
 [ -n "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"
