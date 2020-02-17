@@ -254,15 +254,15 @@ printf '\nOK.\n'
 
 salt_call() { salt-call state.highstate --local -l error ; }
 
-scriptfail='0'
-init_run='0'
+_scriptfail='0'
+_init_run='0'
 if [ -f "$INIT_DATE_FILE" ]; then
 	printf '\n### run salt ..\n'
 else
 	printf '\n### Start Initial System .. please wait! Coffee Time ~ 10min ..\n'
 	printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
 	chmod 600 "$INIT_DATE_FILE"
-	init_run='1'
+	_init_run='1'
 fi
 
 if salt_call ; then
@@ -273,7 +273,7 @@ else
 		printf '\nOK.\n'
 	else
 		printf '\nFAIL!\nSorry, you need to check some errors. Please check your salt-output and logs.\n'
-		scriptfail='1'
+		_scriptfail='1'
 	fi
 fi
 
@@ -284,11 +284,11 @@ printf '\n### Cleanup System ..\n\n'
 "$PKGMNGR" -y autoremove
 
 printf '\n### .. All done! Exit script.\n'
-[ "$init_run" -eq 1 ] && print_init_notice
+[ "$_init_run" -eq 1 ] && print_init_notice
 
 #
 # -- Exit --
-if [ "$scriptfail" -eq 0 ]; then
+if [ "$_scriptfail" -eq 0 ]; then
 	exit 0
 else
 	exit 1
