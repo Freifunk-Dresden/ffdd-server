@@ -5,10 +5,11 @@
 
 	- add the default nvram.conf as a sample to `/etc/nvram_sample.conf`
 	- new `/etc/nvram.conf` config option:
-	  allow user to change the repo url
-	  `freifunk_repo=https://github.com/Freifunk-Dresden/ffdd-server`
+		- allow user to change the repo url
+		  `freifunk_repo=https://github.com/Freifunk-Dresden/ffdd-server`
 	- init-server.sh:
 		- change check for autoupdate (do not overwrite user config)
+		- add a check for CUSTOM REPO and REV
 		- add check for nvram option "ssh_pwauth"
 	- www status.cgi - add alt text for status images
 	- update bash_aliases and print output

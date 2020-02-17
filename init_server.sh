@@ -159,6 +159,9 @@ if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
 
 	CUSTOM_REV="$(nvram get branch)"
 	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
+
+	# notice: we do not need to replace the REPO in the next step.
+	# salt_call will do that for us later.
 fi
 
 if [ -d "$INSTALL_DIR" ]; then
@@ -217,7 +220,7 @@ if [ "$1" = 'dev' ]; then
 		[ "$(nvram get branch)" != 'master' ] && nvram set branch master
 	fi
 else
-	# T_RELEASE_latest
+	# T_RELEASE_latest OR $CUSTOM_REV
 	[ "$(nvram get branch)" != "$REV" ] && nvram set branch "$REV"
 fi
 
