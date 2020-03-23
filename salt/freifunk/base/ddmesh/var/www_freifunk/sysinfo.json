@@ -20,20 +20,20 @@ chassis="$(hostnamectl status | awk '/Chassis/ {print $2}')"
 virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
 
 # check contact community
-communites=('Freifunk Dresden'
-	'Freifunk Freiberg'
-	'Freifunk Freital'
-	'Freifunk Meissen'
-	'Freifunk O.L.'
-	'Freifunk Pirna'
-	'Freifunk Radebeul'
-	'Freifunk Tharandt'
-	'Freifunk Waldheim')
+communites=('Dresden'
+	'Freiberg'
+	'Freital'
+	'Meissen'
+	'O.L.'
+	'Pirna'
+	'Radebeul'
+	'Tharandt'
+	'Waldheim')
 
 if [[ ":${communites[*]}:" =~ $(nvram get city) ]]; then
 	contact_city="$(nvram get city)"
 else
-	contact_city='Freifunk Dresden'
+	contact_city='Dresden'
 fi
 
 
