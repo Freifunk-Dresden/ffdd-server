@@ -32,6 +32,10 @@ communites=('Dresden'
 
 if [[ ":${communites[*]}:" =~ $(nvram get city) ]]; then
 	contact_city="$(nvram get city)"
+elif [ "$(nvram get city)" = 'OL' ] || [ "$(nvram get city)" = 'Oberlausitz' ]; then
+	contact_city='O.L.'
+elif [ "$(nvram get city)" = 'Meißen' ]; then
+	contact_city='Meissen'
 else
 	contact_city='Dresden'
 fi
