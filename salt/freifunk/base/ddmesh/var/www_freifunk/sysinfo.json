@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo 'Content-Type: application/json;charset=UTF-8'
 echo ''
@@ -18,6 +18,23 @@ export tbb_fastd_ifname=tbb_fastd2
 # Board and Model Information
 chassis="$(hostnamectl status | awk '/Chassis/ {print $2}')"
 virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
+
+# check contact community
+communites=('Freifunk Dresden'
+	'Freifunk Freiberg'
+	'Freifunk Freital'
+	'Freifunk Meissen'
+	'Freifunk O.L.'
+	'Freifunk Pirna'
+	'Freifunk Radebeul'
+	'Freifunk Tharandt'
+	'Freifunk Waldheim')
+
+if [[ ":${communites[*]}:" =~ $(nvram get city) ]]; then
+	contact_city="$(nvram get city)"
+else
+	contact_city='Freifunk Dresden'
+fi
 
 
 cat << EOM
@@ -55,7 +72,7 @@ cat << EOM
 			"autoupdate":$(nvram get autoupdate)
 		},
 		"common":{
-			"city":"$(nvram get city)",
+			"city":"$(printf '%s\n' "$contact_city")",
 			"node":"$_ddmesh_node",
 			"domain":"$_ddmesh_domain",
 			"ip":"$_ddmesh_ip",
