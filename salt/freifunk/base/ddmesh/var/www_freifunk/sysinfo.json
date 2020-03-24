@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo 'Content-Type: application/json;charset=UTF-8'
 echo ''
@@ -20,7 +20,7 @@ chassis="$(hostnamectl status | awk '/Chassis/ {print $2}')"
 virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
 
 # check contact community
-communites=('Dresden'
+communities=('Dresden'
 	'Freiberg'
 	'Freital'
 	'Meissen'
@@ -30,11 +30,13 @@ communites=('Dresden'
 	'Tharandt'
 	'Waldheim')
 
-if [[ ":${communites[*]}:" =~ $(nvram get city) ]]; then
-	contact_city="$(nvram get city)"
-elif [ "$(nvram get city)" = 'OL' ] || [ "$(nvram get city)" = 'O.L.' ]; then
+gu_c="$(uci get ddmesh.system.community | awk '{print $2}')"
+
+if [ "${communities#*$gu_c}" != "$communities" ]; then
+	contact_city="$gu_c"
+elif [ "$gu_c" = 'OL' ] || [ "$gu_c" = 'O.L.' ]; then
 	contact_city='Oberlausitz'
-elif [ "$(nvram get city)" = 'Meißen' ]; then
+elif [ "$gu_c" = 'Meißen' ]; then
 	contact_city='Meissen'
 else
 	contact_city='Dresden'
