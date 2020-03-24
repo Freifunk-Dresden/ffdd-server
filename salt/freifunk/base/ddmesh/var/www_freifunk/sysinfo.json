@@ -30,7 +30,7 @@ communities=('Dresden'
 	'Tharandt'
 	'Waldheim')
 
-gu_c="$(uci get ddmesh.system.community | awk '{print $2}')"
+gu_c="$(nvram get city)"
 
 if [ "${communities#*$gu_c}" != "$communities" ]; then
 	contact_city="$gu_c"
