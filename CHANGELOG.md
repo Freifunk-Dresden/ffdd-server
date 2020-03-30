@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.2.2
+	- fix gateway-check (get tunnel_dns_servers)
+
 ## version 1.2.1
 	- prevent usage of self created communities
 
