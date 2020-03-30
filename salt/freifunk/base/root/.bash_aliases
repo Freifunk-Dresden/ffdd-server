@@ -54,7 +54,7 @@ tools:
     init_server             ( update OS and Firmware )
     freifunk-version        ( show Server Version and Branch )
     freifunk-call           ( salt-call state.highstate --local )
-    freifunk-manuell-update ( reset and Update  Repo )
+    freifunk-manuell-update ( reset and Update Repo )
     freifunk-gw-status      ( show GW-Country )
 
     f2b-list                ( show blocked IP's )
