@@ -8,7 +8,9 @@ openvpn:
     - name: openvpn
 {# disable default openvpn service #}
   service.dead:
-    - name: openvpn.service
+    - names:
+      - openvpn.service
+      - openvpn@openvpn.service
     - enable: false
 
 {# Service Start then Gateway Option Enabled #}
