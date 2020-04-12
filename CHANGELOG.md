@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.2.3
+	- bind: add {c3d2,zentralwerk}.ffdd delegations
+
 ## version 1.2.2
 	- fix gateway-check (get tunnel_dns_servers)
 	- check default openvpn service 'openvpn@openvpn.service' is dead
