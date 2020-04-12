@@ -1,0 +1,17 @@
+;; ### This file managed by Salt, do not edit by hand? ###
+;;
+;; db.4.200.10
+;; Reverselookupzone für ffdd
+;;
+$TTL 28800
+@       IN  SOA ns1.ffdd. root.ffdd. (
+                1 ; Serial
+                10800 ; Refresh
+                3600 ; Retry
+                604800 ; Expire
+                28800 ) ; Negative Cache TTL
+;
+@       IN  NS      ns1.ffdd.
+@       IN  NS      ns2.ffdd.
+;
+120     IN  PTR     turm-d.zentralwerk.ffdd.

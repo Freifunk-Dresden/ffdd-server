@@ -40,3 +40,9 @@ zone "3.200.10.in-addr.arpa" {
 	file "/var/cache/bind/db.3.200.10";
 	masters { 10.200.0.4; };
 };
+
+zone "4.200.10.in-addr.arpa" {
+	type slave;
+	file "/var/cache/bind/db.4.200.10";
+	masters { 10.200.0.4; };
+};

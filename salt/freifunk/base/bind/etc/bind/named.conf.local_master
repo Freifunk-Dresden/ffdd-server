@@ -47,3 +47,10 @@ zone "3.200.10.in-addr.arpa" {
 	also-notify { 10.200.0.16; };
 	allow-transfer { 10.200.0.16; };
 };
+
+zone "4.200.10.in-addr.arpa" {
+	type master;
+	file "/etc/bind/zones/db.4.200.10";
+	also-notify { 10.200.0.16; };
+	allow-transfer { 10.200.0.16; };
+};

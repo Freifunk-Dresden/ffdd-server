@@ -20,3 +20,4 @@ $TTL 28800
 65      IN  PTR     vpn-offloader.ffdd.
 ;
 26      IN  PTR     speedtest.ffdd.
+74      IN  PTR     c3d2.ffdd.
