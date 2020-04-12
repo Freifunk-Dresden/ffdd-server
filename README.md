@@ -70,6 +70,8 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server oder Container aufgesetzt, so funktionieren als Umgebungen QEMU(KVM), XEN, LXC / LXD und OPENVZ sehr gut.
 
+- Firewall: Bitte stelle sicher dass der Server über Port: 80/tcp , 443/tcp und 5002/udp aus dem Internet erreichbar ist.
+
 ## Installation
 
 * Bringe Debian/Ubuntu auf die aktuelle Version. Das geht bei Ubuntu Schrittweise von Version zu Version.
@@ -127,15 +129,17 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
   - servername
   - ifname
   - contact informations
-- `/etc/openvpn/`<br />
-  *# creates openvpn.conf with:*<br />
-    `/etc/openvpn/gen-config.sh vpn0 <original-provider-config-file>`<br />
-  *# for vpn user and password credantials use:* `/etc/openvpn/openvpn.login`
-- `/etc/wireguard`/<br />
-  *# creates vpn0.conf with:*<br />
-    `/etc/wireguard/gen-config.sh vpn0 <original-provider-config-file>`
+- VPN-Gateway Service
+  - `/etc/openvpn/`<br />
+    *# creates openvpn-vpn0.conf with:*<br />
+      `/etc/openvpn/gen-config.sh vpn0 <original-provider-config-file>`<br />
+    *# for vpn user and password credantials use:* `/etc/openvpn/openvpn.login`
+  - `/etc/wireguard/`<br />
+    *# creates vpn0.conf with:*<br />
+      `/etc/wireguard/gen-config.sh vpn0 <original-provider-config-file>`
 
 *# Notice: OVPN/WG supports interface `vpn0` and `vpn1`*
+
 - `/etc/fastd/peers2/`<br />
   *# To Create a Fastd2 Connection use:*<br />
     `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`
