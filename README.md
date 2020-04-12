@@ -131,7 +131,7 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
   - contact informations
 - `/etc/fastd/peers2/`<br />
   *# To Create a Fastd2 Connection use:*<br />
-    `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`
+    `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`<br />
     `or: /etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
 - VPN-Gateway Service
   - `/etc/openvpn/`<br />
