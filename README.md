@@ -129,6 +129,10 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
   - servername
   - ifname
   - contact informations
+- `/etc/fastd/peers2/`<br />
+  *# To Create a Fastd2 Connection use:*<br />
+    `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`
+    `or: /etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
 - VPN-Gateway Service
   - `/etc/openvpn/`<br />
     *# creates openvpn-vpn0.conf with:*<br />
@@ -139,10 +143,6 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
       `/etc/wireguard/gen-config.sh vpn0 <original-provider-config-file>`
 
 *# Notice: OVPN/WG supports interface `vpn0` and `vpn1`*
-
-- `/etc/fastd/peers2/`<br />
-  *# To Create a Fastd2 Connection use:*<br />
-    `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`
 
 ### Apply
 
