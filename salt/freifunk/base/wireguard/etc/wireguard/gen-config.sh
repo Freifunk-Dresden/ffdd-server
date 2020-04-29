@@ -81,7 +81,7 @@ read_config
 # only use ipv4 as private ip
 ipv4="$(echo "$WG_IF_ADDRESS" | awk 'match($0, /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) {print substr($0, RSTART, RLENGTH)}')"
 
-if [ -n "$(nvram get branch)" ]; then
+if [ -n "$(nvram get default_dns)" ]; then
 	DEFAULT_DNS="$(nvram get default_dns)"
 else
 	DEFAULT_DNS="$(sed -n "/^default_dns=/{s#^.*=##;p}" /srv/ffdd-server/salt/freifunk/base/nvram/etc/nvram.conf | head -1)"
