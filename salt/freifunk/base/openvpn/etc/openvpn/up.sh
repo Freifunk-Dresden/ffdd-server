@@ -20,7 +20,12 @@ iptables -w -t nat -A POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local
 /usr/local/bin/freifunk-gateway-check.sh &
 
 BIND_FORWARDER_FILE="/etc/bind/vpn.forwarder.$dev"
-DEFAULT_DNS="194.150.168.168; 46.182.19.48;"		# semicolon is IMPORTANT
+# get DEFAULT_DNS
+if [ -n "$(nvram get branch)" ]; then
+	DEFAULT_DNS="$(nvram get branch)"
+else
+	DEFAULT_DNS="$(sed -n "/^default_dns=/{s#^.*=##;p}" /srv/ffdd-server/salt/freifunk/base/nvram/etc/nvram.conf | head -1)"
+fi
 
 # flush public_dns routing table
 ip route flush table public_dns
