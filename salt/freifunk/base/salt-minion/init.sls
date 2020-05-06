@@ -66,9 +66,9 @@ salt-minion:
         MAILTO=""
         #
         # Execute a local salt-call every hour
-        {{ ctime }} */1 * * *  root  /usr/bin/salt-call state.highstate --local
+        {{ ctime }} */1 * * *  root  nice -n19 /usr/bin/salt-call state.highstate --local
         # Execute after boot
-        @reboot       root  /usr/bin/salt-call state.highstate --local
+        @reboot       root  nice -n19 /usr/bin/salt-call state.highstate --local
     - user: root
     - group: root
     - mode: 600
