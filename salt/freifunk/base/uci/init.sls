@@ -14,7 +14,7 @@ libubox_repo:
   git.latest:
     - name: https://github.com/xfguo/libubox.git
     - rev: master
-    - target: /opt/uci
+    - target: /opt/libubox
     - update_head: True
     - force_fetch: True
     - force_reset: True
@@ -57,3 +57,20 @@ uci_make:
       - pkg: devel
       - uci_repo
       - libubox_repo
+
+{# config #}
+/etc/uci.conf:
+  file.managed:
+    - source: salt://uci/etc/uci.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - replace: false
+
+{# sample config (default) #}
+/etc/uci_sample.conf:
+  file.managed:
+    - source: salt://uci/etc/uci.conf
+    - user: root
+    - group: root
+    - mode: 644
