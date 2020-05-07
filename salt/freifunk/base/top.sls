@@ -38,6 +38,7 @@ base:
     - fastd
 
     - salt-minion
+    - uci
     - nvram
 
     - ddmesh
