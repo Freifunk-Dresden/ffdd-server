@@ -15,6 +15,7 @@ devel:
       - zlibc
       - pkg-config
       - cmake
+      - lua-5.1
 
 {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
       - libcurl4
