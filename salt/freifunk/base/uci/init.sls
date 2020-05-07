@@ -59,25 +59,18 @@ uci_make:
       - libubox_repo
 
 {# config #}
-/etc/uci.conf:
+/etc/config/ffdd:
   file.managed:
-    - source: salt://uci/etc/uci.conf
+    - source: salt://uci/etc/config/ffdd
     - user: root
     - group: root
     - mode: 644
     - replace: false
 
-/etc/config:
-  file.symlink:
-    - makedirs: true
-    - target: /etc/uci.conf
-    - user: root
-    - group: root
-
 {# sample config (default) #}
-/etc/uci_sample.conf:
+/etc/config/ffdd_sample.conf:
   file.managed:
-    - source: salt://uci/etc/uci.conf
+    - source: salt://uci/etc/config/ffdd
     - user: root
     - group: root
     - mode: 644
