@@ -20,7 +20,7 @@ config 'ffdd' 'sys'
 	option 'ddmesh_disable_gateway' '0'
 
 	# used by webpage and /etc/issue.net
-	option 'servername' 'VPN Server <number>'
+	option 'servername' 'VPN Server X'
 
 	#vserver network interface; this depends on vserver provider (hoster)
 	option 'ifname' 'eth0'
