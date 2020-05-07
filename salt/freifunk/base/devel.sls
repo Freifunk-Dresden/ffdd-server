@@ -15,17 +15,15 @@ devel:
       - zlibc
       - pkg-config
       - cmake
+      - lua5.1
 
 {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
-      - lua5.1
       - libcurl4
 
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
-      - lua-5.1
       - libcurl4
 
 {% else %}
-      - lua5.1
       - libcurl3
 
 {% endif %}
