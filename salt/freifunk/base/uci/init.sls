@@ -69,7 +69,7 @@ uci_make:
     - replace: false
 
 {# sample config (default) #}
-/etc/config/ffdd_sample.conf:
+/etc/config/ffdd_sample:
   file.managed:
     - source: salt://uci/etc/config/ffdd
     - makedirs: true
