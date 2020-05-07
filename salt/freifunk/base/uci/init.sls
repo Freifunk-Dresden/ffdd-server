@@ -62,6 +62,7 @@ uci_make:
 /etc/config/ffdd:
   file.managed:
     - source: salt://uci/etc/config/ffdd
+    - makedirs: true
     - user: root
     - group: root
     - mode: 644
@@ -71,6 +72,7 @@ uci_make:
 /etc/config/ffdd_sample.conf:
   file.managed:
     - source: salt://uci/etc/config/ffdd
+    - makedirs: true
     - user: root
     - group: root
     - mode: 644
