@@ -28,6 +28,7 @@ pb_make:
   cmd.run:
     - name: "cd /opt/pb ; make install"
     - require:
+      - pkg: devel
       - pb_repo
     - onchanges:
       - pkg: devel
