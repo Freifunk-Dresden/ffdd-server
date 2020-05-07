@@ -67,6 +67,13 @@ uci_make:
     - mode: 644
     - replace: false
 
+/etc/config:
+  file.symlink:
+    - makedirs: true
+    - target: /etc/uci.conf
+    - user: root
+    - group: root
+
 {# sample config (default) #}
 /etc/uci_sample.conf:
   file.managed:
