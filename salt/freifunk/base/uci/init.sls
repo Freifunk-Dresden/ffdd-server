@@ -2,7 +2,7 @@
 uci_repo:
   git.latest:
     - name: https://git.openwrt.org/project/uci.git
-    - rev: master
+    - rev: ec8d3233948603485e1b97384113fac9f1bab5d6
     - target: /opt/uci
     - update_head: True
     - force_fetch: True
@@ -13,7 +13,7 @@ uci_repo:
 libubox_repo:
   git.latest:
     - name: https://github.com/xfguo/libubox.git
-    - rev: master
+    - rev: 0d399543c8618b5030fe73d1d335602ff75c563d
     - target: /opt/libubox
     - update_head: True
     - force_fetch: True
