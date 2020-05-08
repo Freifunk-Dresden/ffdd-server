@@ -1,7 +1,7 @@
 config 'ffdd' 'sys'
 
 	# install_dir !Please do not touch!
-	option 'install_dir '/srv/ffdd-server'
+	option 'install_dir' '/srv/ffdd-server'
 
 	# ffdd-server repo url
 	option 'freifunk_repo' 'https://github.com/Freifunk-Dresden/ffdd-server'
