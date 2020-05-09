@@ -41,7 +41,8 @@ config 'ffdd' 'sys'
 	option 'ssh_pwauth' '1'
 
 	# DNS - semicolon is IMPORTANT
-	option 'default_dns' '194.150.168.168; 46.182.19.48;'
+	list 'default_dns' '194.150.168.168'
+	list 'default_dns' '46.182.19.48'
 
 	# BMXD
 	option 'bmxd_prefered_gateway' ''
