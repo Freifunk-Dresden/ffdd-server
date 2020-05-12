@@ -200,7 +200,7 @@ mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 printf '\n### Check uci Setup ..\n'
 # build uci
 # libubox
-if [ ! -d /opt/libubox ] && [ ! -f /usr/local/lib/libubox.so ]; then
+if [ ! -d /opt/libubox ] || [ ! -f /usr/local/lib/libubox.so ]; then
 	printf '\n# build libubox ..\n'
 	git clone https://github.com/xfguo/libubox.git /opt/libubox
 
@@ -212,7 +212,7 @@ if [ ! -d /opt/libubox ] && [ ! -f /usr/local/lib/libubox.so ]; then
 	ldconfig
 fi
 # uci
-if [ ! -d /opt/uci ] && [ ! -f /usr/local/bin/uci ]; then
+if [ ! -d /opt/uci ] || [ ! -f /usr/local/bin/uci ]; then
 	printf '\n# build uci ..\n'
 	git clone https://git.openwrt.org/project/uci.git /opt/uci
 
