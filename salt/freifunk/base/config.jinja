@@ -5,7 +5,7 @@
 {% set ffip = '89.163.140.199' %}
 {% set ffdom = 'freifunk-dresden.de' %}
 
-{% set install_dir = salt['cmd.shell']('/usr/local/bin/uci -qX get ffdd.sys.install_dir') %}
+{% set install_dir = '/srv/ffdd-server' %}
 
 {% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server' %}
 {% set custom_freifunk_repo = salt['cmd.shell']('/usr/local/bin/uci -qX get ffdd.sys.freifunk_repo') %}

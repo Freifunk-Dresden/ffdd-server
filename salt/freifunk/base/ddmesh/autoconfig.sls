@@ -25,7 +25,7 @@ ddmesh_autosetup_fix:
   cmd.run:
     - name: nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')" && uci set ffdd.sys.ddmesh_node="$nodeid"
     - require:
-      - file: /etc/config/ffdd
       - sls: uci
+      - file: /etc/config/ffdd
 
 {% endif %}

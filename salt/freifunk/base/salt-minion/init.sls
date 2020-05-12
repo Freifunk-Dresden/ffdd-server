@@ -1,5 +1,5 @@
 {# FFDD Salt-Minion (masterless) #}
-{% from 'config.jinja' import ctime %}
+{% from 'config.jinja' import ctime, install_dir %}
 
 {# Package #}
 {# repos needs also a check in init_server.sh #}
@@ -51,7 +51,7 @@ salt-minion:
         file_client: local
         file_roots:
           base:
-            - /srv/ffdd-server/salt/freifunk/base
+            - {{ install_dir }}/salt/freifunk/base
     - user: root
     - group: root
     - mode: 644

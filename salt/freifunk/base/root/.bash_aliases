@@ -52,8 +52,8 @@ cat <<EOM
 -----------------------------------------------------------------
 tools:
     init_server             ( update OS and Firmware )
-    freifunk-call           ( salt-call state.highstate --local )
     freifunk-manuell-update ( reset and Update Repo )
+    freifunk-call           ( salt-call state.highstate --local )
 
     uci                     ( config management helper )
     freifunk-version        ( show Server Version and Branch )

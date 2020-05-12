@@ -52,7 +52,7 @@ do
 done
 
 #if openvpn did not deliver DNS, use default DNS
-test -z "$dns_list" && dns_list="$DEFAULT_DNS;"
+test -z "$dns_list" && dns_list="$DEFAULT_DNS"';'
 
 #write data
 cat<<EOM >"$BIND_FORWARDER_FILE"
