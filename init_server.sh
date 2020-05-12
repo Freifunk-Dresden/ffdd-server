@@ -226,10 +226,21 @@ if [ ! -d /opt/uci ] && [ ! -f /usr/local/bin/uci ]; then
 	ldconfig
 fi
 
+# uci config
 if [ ! -f /etc/config/ffdd ]; then
 	printf '\n### Create New /etc/config/ffdd ..\n'
 	cp -fv "$INSTALL_DIR"/salt/freifunk/base/uci/etc/config/ffdd /etc/config/ffdd
 fi
+
+# nvram migration
+if [ -f /etc/nvram.conf ]; then
+	printf '\n### migrate old nvram to uci ..\n'
+	"$INSTALL_DIR"/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
+
+	# remove old nvram
+	rm /etc/nvram.config* /etc/nvram_sample.conf /usr/local/bin/nvram
+fi
+
 
 #
 # check basic uci options

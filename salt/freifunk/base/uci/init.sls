@@ -58,6 +58,7 @@ uci_make:
       - uci_repo
       - libubox_repo
 
+
 {# config #}
 /etc/config/ffdd:
   file.managed:
@@ -76,3 +77,16 @@ uci_make:
     - user: root
     - group: root
     - mode: 644
+
+
+{# migrate old /etc/nvram.conf #}
+migrate_nvram:
+  cmd.run:
+    - name: /srv/ffdd-server/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
+    - onlyif: test -f /etc/nvram.conf
+
+{# symlink for old nvram cmd #}
+/usr/local/bin/nvram:
+  file.symlink:
+    - target: /usr/local/bin/uci
+    - force: True

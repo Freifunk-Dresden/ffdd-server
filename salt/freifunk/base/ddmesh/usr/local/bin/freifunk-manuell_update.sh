@@ -1,4 +1,5 @@
 #!/bin/sh
+
 REV="T_RELEASE_latest"
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 INSTALL_DIR='/srv/ffdd-server'
@@ -18,6 +19,16 @@ cd /srv || exit 1
 [ -n "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"
+
+
+# nvram migration
+if [ -f /etc/nvram.conf ]; then
+	printf '\n### migrate old nvram to uci ..\n'
+	"$INSTALL_DIR"/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
+
+	# remove old nvram
+	rm /etc/nvram.config* /etc/nvram_sample.conf /usr/local/bin/nvram
+fi
 
 
 salt-call state.highstate --local -l error
