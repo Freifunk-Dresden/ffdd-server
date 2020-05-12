@@ -49,7 +49,7 @@ S41firewall:
       - file: /etc/firewall.user
       - cmd: rc.d_S41firewall
       - file: /usr/local/bin/ddmesh-ipcalc.sh
-      - uci
+      - sls: uci
       - file: /etc/config/ffdd
 
 
@@ -86,5 +86,5 @@ S42firewall6:
       - file: /etc/init.d/S42firewall6
       - cmd: rc.d_S42firewall6
       - file: /usr/local/bin/ddmesh-ipcalc.sh
-      - uci
+      - sls: uci
       - file: /etc/config/ffdd

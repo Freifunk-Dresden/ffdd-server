@@ -88,6 +88,6 @@ S52batmand:
       - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
       - file: /usr/local/bin/ddmesh-ipcalc.sh
-      - uci
+      - sls: uci
       - file: /etc/config/ffdd
 {% endif %}

@@ -82,6 +82,6 @@ S53backbone-fastd2:
       - file: /etc/fastd/cmd.sh
       - file: /usr/local/src/fastd
       - file: /usr/local/bin/ddmesh-ipcalc.sh
-      - uci
+      - sls: uci
       - file: /etc/config/ffdd
 {% endif %}

@@ -14,7 +14,7 @@ ddmesh_autosetup:
     - name: /usr/local/bin/freifunk-uci_autosetup.sh
     - require:
       - file: /etc/config/ffdd
-      - uci
+      - sls: uci
       - file: /usr/local/bin/freifunk-uci_autosetup.sh
 
 {% endif %}
@@ -26,6 +26,6 @@ ddmesh_autosetup_fix:
     - name: nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')" && uci set ffdd.sys.ddmesh_node="$nodeid"
     - require:
       - file: /etc/config/ffdd
-      - uci
+      - sls: uci
 
 {% endif %}

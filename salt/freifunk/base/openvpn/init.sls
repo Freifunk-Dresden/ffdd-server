@@ -159,6 +159,8 @@ ovpn1_service_dead:
     - mode: 755
     - require:
       - pkg: openvpn
+      - file: /etc/config/ffdd
+      - file: /etc/config/ffdd_sample
 
 /etc/openvpn/down.sh:
   file.managed:

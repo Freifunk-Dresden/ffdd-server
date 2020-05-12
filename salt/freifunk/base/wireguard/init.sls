@@ -126,6 +126,8 @@ wgvpn1_service_dead:
     - mode: 755
     - require:
       - pkg: wireguard
+      - file: /etc/config/ffdd
+      - file: /etc/config/ffdd_sample
 
 {# end if kernel_pkg_check == '1' #}
 {% endif %}
