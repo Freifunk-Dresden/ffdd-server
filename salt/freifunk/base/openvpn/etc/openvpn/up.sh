@@ -21,10 +21,10 @@ iptables -w -t nat -A POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local
 
 BIND_FORWARDER_FILE="/etc/bind/vpn.forwarder.$dev"
 # get DEFAULT_DNS
-if [ -n "$(nvram get default_dns)" ]; then
-	DEFAULT_DNS="$(nvram get default_dns)"
+if [ -n "$(uci -qX get ffdd.sys.default_dns)" ]; then
+	DEFAULT_DNS="$(uci -qX get ffdd.sys.default_dns)"
 else
-	DEFAULT_DNS="$(sed -n "/^default_dns=/{s#^.*=##;p}" /srv/ffdd-server/salt/freifunk/base/nvram/etc/nvram.conf | head -1)"
+	DEFAULT_DNS="$(uci -qX get ffdd_sample.sys.default_dns)"
 fi
 
 # flush public_dns routing table

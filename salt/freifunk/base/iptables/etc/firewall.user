@@ -10,6 +10,6 @@ iptables -w -A INPUT -s 10.200.0.0/15 -d 10.200.0.0/15 -p udp --dport 514 -j ACC
 
 #some portforwarding backbone alternativ port
 #iptables -w -A INPUT -i $WAN_DEV -p udp --dport 443 -j ACCEPT
-#ipaddr=$(ip addr show dev $(nvram get ifname) | sed -n '/[      ]\+inet[        ]\+/s#[         ]\+inet[        ]\+\([0-9.]\+\).*#\1#p')
+#ipaddr=$(ip addr show dev $(uci -qX get ffdd.sys.ifname) | sed -n '/[      ]\+inet[        ]\+/s#[         ]\+inet[        ]\+\([0-9.]\+\).*#\1#p')
 #iptables -w -t nat -I PREROUTING -i $WAN_DEV -p udp --dport 443 -j DNAT --to-destination 127.0.0.1:5002
 #iptables -w -t nat -I PREROUTING -i $WAN_DEV -p udp --dport 443 -j DNAT --to-destination $ipaddr:5002

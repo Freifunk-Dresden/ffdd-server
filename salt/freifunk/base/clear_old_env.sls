@@ -3,6 +3,13 @@
 /root/freifunk/vserver-base:
   file.absent
 
+# nvram
+/usr/local/bin/nvram:
+  file.absent
+
+/usr/local/bin/freifunk-nvram_autosetup.sh:
+  file.absent
+
 
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.absent:

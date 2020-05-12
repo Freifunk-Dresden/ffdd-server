@@ -26,20 +26,20 @@ RUN_STATUS_FILE='/var/run/batman-status-running'
 test ! -d "$DB_PATH" && mkdir -p "$DB_PATH"
 
 #eval $(/usr/bin/netparam)
-eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
+eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
 
 
-#NUMBER_OF_CLIENTS="$(nvram get backbone_max_tunnel)"
+#NUMBER_OF_CLIENTS="$(uci -qX get ffdd.sys.backbone_max_tunnel)"
 
-ROUTING_CLASS="$(nvram get batman_routing_class)"
+ROUTING_CLASS="$(uci -qX get ffdd.sys.batman_routing_class)"
 ROUTING_CLASS="${ROUTING_CLASS:-3}"
 ROUTING_CLASS="-r $ROUTING_CLASS --gateway-hysteresis 100"
 
-GATEWAY_CLASS="$(nvram get batman_gateway_class)"
+GATEWAY_CLASS="$(uci -qX get ffdd.sys.batman_gateway_class)"
 GATEWAY_CLASS="${GATEWAY_CLASS:-8mbit/8mbit}"
 GATEWAY_CLASS="-g $GATEWAY_CLASS"
 
-PREFERED_GATEWAY="$(nvram get bmxd_prefered_gateway)"
+PREFERED_GATEWAY="$(uci -qX get ffdd.sys.bmxd_prefered_gateway)"
 test -n "$PREFERED_GATEWAY" && PREFERED_GATEWAY="-p $PREFERED_GATEWAY" \
 && printf '%s\n' "$PREFERED_GATEWAY"
 

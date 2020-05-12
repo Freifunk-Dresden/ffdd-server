@@ -36,7 +36,7 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
   Das Script ddmesh-ipcalc.sh wird ebenfalls in der Firmware verwendet, welches dort auch angepasst werden muss.<br/>
   In der Firmware gibt es zwei weitere Stellen, die dafür angepasst werden müssen. Das sind /www/nodes.cgi und /www/admin/nodes.cgi. Hier wurde auf den Aufruf von ddmesh-ipcalc.sh verzichtet und die Berechnung direkt gemacht, da die Ausgabe der Router-Webpage extrem lange dauern würde.<br/>
   <br/>
-  In `/etc/nvram.conf` werden die meisten Einstellungen für den Server hinterlegt.
+  In `/etc/config/ffdd` werden die meisten Einstellungen für den Server hinterlegt.
 
 - Weiterhin verwendet das Freifunk Dresden Netz als Backbone-VPN Tool fastd2.
 
@@ -78,9 +78,9 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 ([https://help.ubuntu.com/community/UpgradeNotes](https://help.ubuntu.com/community/UpgradeNotes))<br/>
 
 **Wichtig:**<br/>
-- Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige [**`/etc/nvram.conf`**](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/nvram/etc/nvram.conf) solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls wird diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
+- Habt ihr bereits einen Registrierten Gateway-Knoten und die dazugehörige [**`/etc/config/ffdd`**](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd) solltet ihr diese jetzt auf dem Server hinterlegen! Anderen falls wird diese automatisch generiert und eine neue Knotennummer vergeben und registriert.
 
-- *Installations Path in `/etc/nvram.conf`*<br/>
+- *Installations Path in `/etc/config/ffdd`*<br/>
 Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 
 - ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br />
@@ -125,7 +125,7 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
 
 - `/etc/hostname` (FQDN)
-- [`/etc/nvram.conf`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/nvram/etc/nvram.conf)
+- [`/etc/config/ffdd`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd)
   - servername
   - ifname
   - contact informations
@@ -174,8 +174,8 @@ Bei jeder Durchführung des `salt`-Befehls wird überprüft ob das locale ffdd-s
 Dies gewährleistet dass Änderungen sowie Bugfixes aber auch Neuerungen schnellst möglich zur Verfügung gestellt werden können.
 
 ### Manuell Update
-Das Autoupdate kann zur jeder Zeit abgeschaltet werden. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/nvram.conf` deaktiviert werden:<br>
-`nvram set autoupdate 0`
+Das Autoupdate kann zur jeder Zeit abgeschaltet werden. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/config/ffdd` deaktiviert werden:<br>
+`uci set ffdd.sys.autoupdate=0`
 
 **Ein manuelles Update durchzuführen:**<br />
 use: `/srv/ffdd-server/init_server.sh` (incl. OS Upgrade)<br />
@@ -185,8 +185,8 @@ or: `/usr/local/bin/freifunk-manuell_update.sh`
 ```bash
 cd /srv/ffdd-server
 git stash
-git checkout $(nvram get branch)
-git pull -f origin $(nvram get branch)
+git checkout $(uci -qX get ffdd.sys.branch)
+git pull -f origin $(uci -qX get ffdd.sys.branch)
 salt-call state.highstate --local -l error
 ```
 
@@ -205,16 +205,16 @@ salt-call state.highstate --local -l error
 
 ## Development
 
-Um eine andere Release-Version zu benutzen ist ein notwendig in der `/etc/nvram.conf` die Option "branch=" anzupassen.
+Um eine andere Release-Version zu benutzen ist ein notwendig in der `/etc/config/ffdd` die Option "branch" anzupassen.
 
 Default (Stable):
 ```
-branch=T_RELEASE_latest
+uci set ffdd.sys.branch='T_RELEASE_latest'
 ```
 
 Development:
 ```
-branch=master
+uci set ffdd.sys.branch='master'
 ```
 
 ### DEV init_server.sh - Installation

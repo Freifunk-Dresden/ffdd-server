@@ -8,8 +8,8 @@
     - user: root
     - group: root
     - mode: 644
-    - file: /usr/local/bin/nvram
-    - file: /etc/nvram.config
+    - uci
+    - file: /etc/config/ffdd
 
 /etc/freifunk-server-initdate:
   file.managed:
@@ -90,6 +90,14 @@
     - user: root
     - group: root
     - mode: 755
+
+/usr/local/bin/freifunk-version:
+  file.managed:
+    - source: salt://ddmesh/usr/local/bin/freifunk-version
+    - user: root
+    - group: root
+    - mode: 755
+
 
 {# Directories #}
 /var/lib/freifunk:

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version="1.2.4"
+#version="1.3.0"
 REV="T_RELEASE_latest" # means git rev/branch/tag
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 #
@@ -46,7 +46,7 @@ print_not_supported_os() {
 
 print_init_notice() {
 	printf '%s#\n# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
-	printf ' * Please check your config options in /etc/nvram.conf\n'
+	printf ' * Please check your config options in /etc/config/ffdd\n'
 	printf ' * /etc/fastd/peers2/\n'
 	printf '   # add your first Fastd2 Connection:\n'
 	printf '   /etc/init.d/S53backbone-fastd2 add_connect <host> 5002\n'
@@ -154,11 +154,11 @@ systemctl disable salt-minion ; systemctl stop salt-minion &
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
 
-if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
-	CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
+if [ -f /usr/local/bin/uci ] && [ -f /etc/config/ffdd ]; then
+	CUSTOM_REPO_URL="$(uci -qX get ffdd.sys.freifunk_repo)"
 	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
 
-	CUSTOM_REV="$(nvram get branch)"
+	CUSTOM_REV="$(uci -qX get ffdd.sys.branch)"
 	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
 
 	# notice: we do not need to replace the REPO in the next step.
@@ -196,43 +196,69 @@ test -f /root/.bash_aliases && cp -vf /root/.bash_aliases /root/.bash_aliases_ba
 mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
 
-# ensure nvram and nvram.conf are present
-printf '\n### Check nvram Setup ..\n'
-cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/usr/local/bin/nvram /usr/local/bin/
+# ensure uci and /etc/config/ffdd are present
+printf '\n### Check uci Setup ..\n'
+# build uci
+# libubox
+if [ ! -d /opt/libubox ] && [ ! -f /usr/local/lib/libubox.so ]; then
+	printf '\n# build libubox ..\n'
+	git clone https://github.com/xfguo/libubox.git /opt/libubox
 
-if [ ! -f /etc/nvram.conf ]; then
-	printf '\n### Create New /etc/nvram.conf and /usr/local/bin/nvram ..\n'
-	cp -fv "$INSTALL_DIR"/salt/freifunk/base/nvram/etc/nvram.conf /etc/nvram.conf
+	cd /opt/libubox
+	mkdir build ; cd build ; cmake .. ; make ubox
+	mkdir -p /usr/local/include/libubox
+	cp -f ../*.h /usr/local/include/libubox
+	cp -f libubox.so /usr/local/lib
+	ldconfig
+fi
+# uci
+if [ ! -d /opt/uci ] && [ ! -f /usr/local/bin/uci ]; then
+	printf '\n# build uci ..\n'
+	git clone https://git.openwrt.org/project/uci.git /opt/uci
+
+	cd /opt/uci
+	cmake [-D BUILD_LUA:BOOL=OFF] . ; make uci cli
+	mkdir -p /usr/local/include/uci
+	cp -f uci.h uci_config.h /usr/local/include/uci
+	cp -f uci_blob.h ucimap.h /usr/local/include/uci
+	cp -f libuci.so /usr/local/lib
+	cp -f uci /usr/local/bin
+	ldconfig
+fi
+
+if [ ! -f /etc/config/ffdd ]; then
+	printf '\n### Create New /etc/config/ffdd ..\n'
+	cp -fv "$INSTALL_DIR"/salt/freifunk/base/uci/etc/config/ffdd /etc/config/ffdd
 fi
 
 #
-# check basic nvram options
+# check basic uci options
 # check install_dir
-[ "$(nvram get install_dir)" != "$INSTALL_DIR" ] && nvram set install_dir "$INSTALL_DIR"
+[ "$(uci -qX get ffdd.sys.install_dir)" != "$INSTALL_DIR" ] && uci set ffdd.sys.install_dir="$INSTALL_DIR"
 
 # check repo_url
-[ -z $(nvram get freifunk_repo) ] && nvram set freifunk_repo "$REPO_URL"
+[ -z $(uci -qX get ffdd.sys.freifunk_repo) ] && uci set ffdd.sys.freifunk_repo="$REPO_URL"
 
 # check branch
 if [ "$1" = 'dev' ]; then
 	if [ -n "$2" ]; then
-		[ "$(nvram get branch)" != "$2" ] && nvram set branch "$2"
+		[ "$(uci -qX get ffdd.sys.branch)" != "$2" ] && uci set ffdd.sys.branch="$2"
 	else
-		[ "$(nvram get branch)" != 'master' ] && nvram set branch master
+		[ "$(uci -qX get ffdd.sys.branch)" != 'master' ] && uci set ffdd.sys.branch='master'
 	fi
 else
 	# T_RELEASE_latest OR $CUSTOM_REV
-	[ "$(nvram get branch)" != "$REV" ] && nvram set branch "$REV"
+	[ "$(uci -qX get ffdd.sys.branch)" != "$REV" ] && uci set ffdd.sys.branch="$REV"
 fi
 
 # check autoupdate
-[ "$(nvram get autoupdate)" == '' ] && nvram set autoupdate 1
+[ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='1'
 
 # check default Interface
-[ "$(nvram get ifname)" != "$def_if" ] && nvram set ifname "$def_if"
+[ "$(uci -qX get ffdd.sys.ifname)" != "$def_if" ] && uci set ffdd.sys.ifname="$def_if"
 
 # ssh_pwauth
-[ "$(nvram get ssh_pwauth)" == '' ] && nvram set ssh_pwauth 1
+[ "$(uci -qX get ffdd.sys.ssh_pwauth)" == '' ] && uci set ffdd.sys.ssh_pwauth='1'
 #
 printf '\nOK.\n'
 

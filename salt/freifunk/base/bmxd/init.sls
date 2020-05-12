@@ -81,7 +81,6 @@ S52batmand:
       - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
     - require:
-      - sls: nvram
       - service: S40network
       - service: S53backbone-fastd2
       - cmd: rc.d_S52batmand
@@ -89,6 +88,6 @@ S52batmand:
       - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
       - file: /usr/local/bin/ddmesh-ipcalc.sh
-      - file: /usr/local/bin/nvram
-      - file: /etc/nvram.conf
+      - uci
+      - file: /etc/config/ffdd
 {% endif %}

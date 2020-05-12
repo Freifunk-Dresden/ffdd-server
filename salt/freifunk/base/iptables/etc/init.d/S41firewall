@@ -12,7 +12,7 @@
 ### END INIT INFO
 
 BACKBONE_DEV='tbb+'
-WAN_DEV="$(nvram get ifname)"
+WAN_DEV="$(uci -qX get ffdd.sys.ifname)"
 
 # needed to speedtest through gateway tunnel.
 # BAT_IP is for bmxd server currently fixed (defined by bmxd internally)
@@ -21,7 +21,7 @@ WAN_DEV="$(nvram get ifname)"
 BAT_DEV='bat0'
 BAT_IP='169.254.0.0'
 
-eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
+eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
 
 # iptables command
 IPT="$(command -v iptables)"
@@ -135,7 +135,7 @@ if [ "$1" = "start" ]; then
 
 	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -o "$BACKBONE_DEV" -j ACCEPT
 
-	#dns; da in nvram.conf der dns eingetragen ist und eine routing rule fuer dns erzeugt,
+	#dns; da in /etc/config/ffdd der dns eingetragen ist und eine routing rule fuer dns erzeugt,
 	#damit locale aufloesung geht, gibt es probleme wenn aus dem freifunk netz dns anfragen
 	#via gleichem dns server (wie in resolv.conf) kommen. diese werden von firewall geblockt.
 	#erlaube dns anfragen via localem server

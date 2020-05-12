@@ -6,7 +6,7 @@ echo ''
 BMXD_DB_PATH='/var/lib/freifunk/bmxd'
 
 
-ddmesh_node="$(nvram get ddmesh_node)"
+ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
 test -z "$ddmesh_node" && exit
 
 eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
@@ -30,7 +30,7 @@ communities=('Dresden'
 	'Tharandt'
 	'Waldheim')
 
-gu_c="$(nvram get city)"
+gu_c="$(uci -qX get ffdd.sys.city)"
 
 if [ "${communities#*$gu_c}" != "$communities" ]; then
 	contact_city="$gu_c"
@@ -75,7 +75,7 @@ cat << EOM
 			"cpucount":"$(grep -c ^processor /proc/cpuinfo)",
 			"bmxd" : "$(cat $BMXD_DB_PATH/status)",
 			"node_type":"server",
-			"autoupdate":$(nvram get autoupdate)
+			"autoupdate":$(uci -qX get ffdd.sys.autoupdate)
 		},
 		"common":{
 			"city":"$(printf '%s\n' "$contact_city")",
@@ -86,15 +86,15 @@ cat << EOM
 			"network_id":"1206"
 		},
 		"gps":{
-			"latitude":$(gps_la="$(nvram get gps_latitude)"; [ "$gps_la" != '' ] && echo "$gps_la" || echo '0'),
-			"longitude":$(gps_lo="$(nvram get gps_longitude)"; [ "$gps_lo" != '' ] && echo "$gps_lo" || echo '0'),
-			"altitude":$(gps_al="$(nvram get gps_altitude)"; [ "$gps_al" != '' ] && echo "$gps_al" || echo '0')
+			"latitude":$(gps_la="$(uci -qX get ffdd.sys.gps_latitude)"; [ "$gps_la" != '' ] && echo "$gps_la" || echo '0'),
+			"longitude":$(gps_lo="$(uci -qX get ffdd.sys.gps_longitude)"; [ "$gps_lo" != '' ] && echo "$gps_lo" || echo '0'),
+			"altitude":$(gps_al="$(uci -qX get ffdd.sys.gps_altitude)"; [ "$gps_al" != '' ] && echo "$gps_al" || echo '0')
 		},
 		"contact":{
-			"name":"$(nvram get contact_name)",
-			"location":"$(nvram get contact_location)",
-			"email":"$(nvram get contact_email)",
-			"note":"$(nvram get contact_note)"
+			"name":"$(uci -qX get ffdd.sys.contact_name)",
+			"location":"$(uci -qX get ffdd.sys.contact_location)",
+			"email":"$(uci -qX get ffdd.sys.contact_email)",
+			"note":"$(uci -qX get ffdd.sys.contact_note)"
 		},
 EOM
 

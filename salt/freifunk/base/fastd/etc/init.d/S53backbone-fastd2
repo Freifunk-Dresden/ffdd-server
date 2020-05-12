@@ -22,7 +22,7 @@ PID_FILE='/var/run/fastd2.pid'
 backbone_server_port='5002'
 COMMAND='/etc/fastd/cmd.sh'
 
-eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
+eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
 
 if [ ! -d "$CONF_DIR"/"$CONF_PEERS" ]; then
 	mkdir -p "$CONF_DIR"/"$CONF_PEERS"
@@ -31,7 +31,7 @@ fi
 generate_fastd_conf()
 {
 	MTU=1200
-	secret="$(nvram get fastd_secret)"
+	secret="$(uci -qX get ffdd.sys.fastd_secret)"
 	if [ -z "$secret" ]; then
 		logger -t fastd "no secret key - abort"
 		exit 1
@@ -143,7 +143,7 @@ case "$1" in
   ;;
 
   get_public_key)
-	nvram get fastd_public
+	uci -qX get ffdd.sys.fastd_public
   ;;
 
   add_accept)

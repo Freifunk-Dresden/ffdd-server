@@ -72,7 +72,7 @@ logger -s -t "$LOGGER_TAG" "hosts: [$ping_hosts]"
 
 #determine all possible gateways
 
-default_lan_ifname="$(nvram get ifname)"
+default_lan_ifname="$(uci -qX get ffdd.sys.ifname)"
 default_lan_gateway="$(ip route list table main | sed -n "/default via [0-9.]\+ dev $default_lan_ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
 if [ -n "$default_lan_gateway" ] && [ -n "$default_lan_ifname" ]; then
 	lan_default_route="$default_lan_gateway:$default_lan_ifname"
@@ -157,7 +157,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 		# If internet is disabled, add only vpn if detected.
 		# When lan/wan gateway gets lost, also vpn get lost
 		# If only vpn get lost, remove public gateway
-		if [ "$(nvram get ddmesh_disable_gateway)" = "0" ] && [ "$dev_is_vpn" = "1" ]; then
+		if [ "$(uci -qX get ffdd.sys.ddmesh_disable_gateway)" = "0" ] && [ "$dev_is_vpn" = "1" ]; then
 			logger -s -t "$LOGGER_TAG" "Set public gateway: dev:$dev, ip:$via"
 			setup_gateway_table "$dev" "$via" public_gateway
 

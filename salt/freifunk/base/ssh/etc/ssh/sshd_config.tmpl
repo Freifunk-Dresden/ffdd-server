@@ -1,5 +1,5 @@
 ### This file managed by Salt, do not edit by hand! ###
-{%- set ssh_pwauth = salt['cmd.shell']('/usr/local/bin/nvram get ssh_pwauth') %}
+{%- set ssh_pwauth = salt['cmd.shell']('/usr/local/bin/uci -qX get ffdd.sys.ssh_pwauth') %}
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -55,7 +55,7 @@ PubkeyAuthentication yes
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, do not change it here!
-# see: /etc/nvram.conf
+# see: /etc/config/ffdd
 {% if ssh_pwauth == '0' %}
 PasswordAuthentication no
 {% else %}

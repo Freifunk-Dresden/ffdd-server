@@ -3,10 +3,10 @@
 export DATE="27.11.2019"
 export TITLE="Allgemein &gt; Status"
 
-ddmesh_node="$(nvram get ddmesh_node)"
+ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
 eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 
-fastd_restrict="$(nvram get fastd_restrict)"
+fastd_restrict="$(uci -qX get ffdd.sys.fastd_restrict)"
 
 . ./cgi-bin-pre.cgi
 
@@ -16,10 +16,10 @@ cat<<EOF
 <fieldset class="bubble">
 <legend>Kontakt</legend>
 <table>
-<tr><th width="250">Name:</th><td>$(nvram get contact_name)</td></tr>
-<tr><th width="250">E-Mail:</th><td>$(nvram get contact_email)</td></tr>
-<tr><th width="250">Location:</th><td>$(nvram get contact_location)</td></tr>
-<tr><th width="250">Note:</th><td>$(nvram get contact_note)</td></tr>
+<tr><th width="250">Name:</th><td>$(uci -qX get ffdd.sys.contact_name)</td></tr>
+<tr><th width="250">E-Mail:</th><td>$(uci -qX get ffdd.sys.contact_email)</td></tr>
+<tr><th width="250">Location:</th><td>$(uci -qX get ffdd.sys.contact_location)</td></tr>
+<tr><th width="250">Note:</th><td>$(uci -qX get ffdd.sys.contact_note)</td></tr>
 </table>
 </fieldset>
 <br>
@@ -27,7 +27,7 @@ cat<<EOF
 <legend>Allgemeines</legend>
 <table>
 <tr><th width="250">Internet-Gateway:</th><td colspan="7">$(
-	if [ "$(nvram get ddmesh_disable_gateway)" -eq '0' ]; then
+	if [ "$(uci -qX get ffdd.sys.ddmesh_disable_gateway)" -eq '0' ]; then
 		vpnservice='openvpn@openvpn-vpn0 openvpn@openvpn-vpn1 wg-quick@vpn0 wg-quick@vpn1'
 		vs='0'
 		for s in $vpnservice
@@ -49,7 +49,7 @@ cat<<EOF
 		printf '<tr><th>Selected-Gateway:</th><td colspan="7">%s %s</td></tr>\n' "$SELGW" "$(if [[ $SELID =~ $re ]]; then printf '(%s)\n' "$SELID"; fi)"
 	fi
 )
-<tr><th width="250">Auto-Update:</th><td colspan="7">$(if [ "$(nvram get autoupdate)" -eq '1' ]; then printf '<img src="/images/yes.png" alt="yes">'; else printf '<img src="/images/no.gif" alt="no">'; fi)</td></tr>
+<tr><th width="250">Auto-Update:</th><td colspan="7">$(if [ "$(uci -qX get ffdd.sys.autoupdate)" -eq '1' ]; then printf '<img src="/images/yes.png" alt="yes">'; else printf '<img src="/images/no.gif" alt="no">'; fi)</td></tr>
 <tr><th>Knoten-IP-Adresse:</th><td colspan="7">$_ddmesh_ip ($_ddmesh_node)</td></tr>
 <tr><th>Nameserver:</th><td colspan="7">$(grep nameserver /etc/resolv.conf | sed 's#nameserver##g')</td></tr>
 <tr><th>Ger&auml;telaufzeit:</th><td colspan="7">$(uptime)</td></tr>

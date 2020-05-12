@@ -42,8 +42,8 @@ PEER_KEY: $PEER_KEY
 EOM
 }
 
-eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
-fastd_restrict="$(nvram get fastd_restrict)"
+eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
+fastd_restrict="$(uci -qX get ffdd.sys.fastd_restrict)"
 
 case $1 in
 

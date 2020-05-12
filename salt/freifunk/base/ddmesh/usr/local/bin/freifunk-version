@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+version="$(head -n3 /srv/ffdd-server/init_server.sh | grep -oP '(?<=^#version=).+' | tr -d '"')"
+rev="$(cd /srv/ffdd-server && git describe --all --abbrev=0 | cut -f2 -d"/")"
+
+printf '%s - %s\n' "$version" "$rev"
+
+exit 0

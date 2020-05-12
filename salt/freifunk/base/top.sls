@@ -39,7 +39,6 @@ base:
 
     - salt-minion
     - uci
-    - nvram
 
     - ddmesh
     - ddmesh.autoconfig

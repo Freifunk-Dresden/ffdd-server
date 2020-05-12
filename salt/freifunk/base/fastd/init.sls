@@ -82,6 +82,6 @@ S53backbone-fastd2:
       - file: /etc/fastd/cmd.sh
       - file: /usr/local/src/fastd
       - file: /usr/local/bin/ddmesh-ipcalc.sh
-      - file: /usr/local/bin/nvram
-      - file: /etc/nvram.conf
+      - uci
+      - file: /etc/config/ffdd
 {% endif %}

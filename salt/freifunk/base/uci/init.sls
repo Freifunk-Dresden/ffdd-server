@@ -28,8 +28,8 @@ libubox_make:
         cd /opt/libubox
         mkdir build ; cd build ; cmake .. ; make ubox
         mkdir -p /usr/local/include/libubox
-        cp ../*.h /usr/local/include/libubox
-        cp libubox.so /usr/local/lib
+        cp -f ../*.h /usr/local/include/libubox
+        cp -f libubox.so /usr/local/lib
         ldconfig
     - require:
       - pkg: devel
@@ -44,10 +44,10 @@ uci_make:
         cd /opt/uci
         cmake [-D BUILD_LUA:BOOL=OFF] . ; make uci cli
         mkdir -p /usr/local/include/uci
-        cp uci.h uci_config.h /usr/local/include/uci
-        cp uci_blob.h ucimap.h /usr/local/include/uci
-        cp libuci.so /usr/local/lib
-        cp uci /usr/local/bin
+        cp -f uci.h uci_config.h /usr/local/include/uci
+        cp -f uci_blob.h ucimap.h /usr/local/include/uci
+        cp -f libuci.so /usr/local/lib
+        cp -f uci /usr/local/bin
         ldconfig
     - require:
       - pkg: devel

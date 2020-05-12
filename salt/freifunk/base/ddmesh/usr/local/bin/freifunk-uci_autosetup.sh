@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
 ### This file managed by Salt, do not edit by hand! ###
 #
-# Freifunk - Autosetup for /etc/nvram.conf
+# Freifunk - Autosetup for /etc/config/ffdd
 #
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 #
-# Get variables from /etc/nvram.conf
-ddmesh_node="$(nvram get ddmesh_node)"
-ddmesh_key="$(nvram get ddmesh_registerkey)"
+# Get variables from /etc/config/ffdd
+ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
+ddmesh_key="$(uci -qX get dffdd.sys.ddmesh_registerkey)"
 
-fastd_secret="$(nvram get fastd_secret)"
+fastd_secret="$(uci -qX get ffdd.sys.fastd_secret)"
 
 
 if [ -z "$ddmesh_key" ] || [ -z "$fastd_secret" ]; then
 
-	# set ddmesh_registerkey in /etc/nvram.conf
+	# set ddmesh_registerkey
 	nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"
 	genkey="$(ip link | sha256sum | sed 's#\(..\)#\1:#g;s#[ :-]*$##')"
-	nvram set ddmesh_registerkey "$genkey"
+	uci set ffdd.sys.ddmesh_registerkey="$genkey"
 
-	# set ddmesh_node in /etc/nvram.conf
-	[ -z "$ddmesh_node" ] && nvram set ddmesh_node "$nodeid"
+	# set ddmesh_node
+	[ -z "$ddmesh_node" ] && uci set ffdd.sys.ddmesh_node="$nodeid"
 
 	# generate fastd secret & public key
 	fastd --generate-key > /tmp/.ffdd_h.txt
@@ -31,9 +31,9 @@ if [ -z "$ddmesh_key" ] || [ -z "$fastd_secret" ]; then
 
 	rm -f /tmp/.ffdd_h.txt
 
-	# set fastd-key in /etc/nvram.conf
-	nvram set fastd_secret "$fastd_secret_key"
-	nvram set fastd_public "$fastd_public_key"
+	# set fastd-key
+	uci set ffdd.sys.fastd_secret="$fastd_secret_key"
+	uci set ffdd.sys.fastd_public="$fastd_public_key"
 
 fi
 

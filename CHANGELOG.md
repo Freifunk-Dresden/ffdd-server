@@ -1,6 +1,12 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.3.0
+	- add uci config management
+		- change nvram to uci
+	- reduced process priority for salt-call
+	- fix pb requirement
+
 ## version 1.2.4
 	- add fallback dns for tunnel provider and make it configurable
 
@@ -291,14 +297,14 @@ This update is not carried out automatically and must be done manually be perfor
 
 ## version 0.0.10
 
-	* Bugfixes and Optimizing
+	- Bugfixes and Optimizing
 		- fix bmxd revison_version
 		- add release version
 		- add branch and tag system
 
 ## version 0.0.9
 
-	* Bugfixes and Optimizing
+	- Bugfixes and Optimizing
 		- fix nvram autosetup
 		- fix apache2 _001-freifunk.conf_
 		- fix fastd _S53backbone-fastd_ add_connect
@@ -307,7 +313,7 @@ This update is not carried out automatically and must be done manually be perfor
 
 ## version 0.0.8
 
-	* Bugfixes and Optimizing
+	- Bugfixes and Optimizing
 		- fix jinja syntax
 		- add config.jinja
 		- change configs header
@@ -315,63 +321,63 @@ This update is not carried out automatically and must be done manually be perfor
 
 ## version 0.0.7
 
-	* Bugfixes and Optimizing
+	- Bugfixes and Optimizing
 		- small changes in cron.d
 		- small fixes in letsencrypt (+ ENABLED)
 		- fix monitorix restrictions
 
 ## version 0.0.6
 
-	* Bugfixes and Optimizing
+	- Bugfixes and Optimizing
 		- fix sysinfo.json version number
 		- fix crontabs
-	* (#add letsencrypt for https support)
+	- (#add letsencrypt for https support)
 
 ## version 0.0.5
 
-	* Optimizing and Cleanup
+	- Optimizing and Cleanup
 		- clear old icvpn stuff
 		- remove pkg: php
 		- remove ddmesh - _freifunk-services.sh_
 
 ## version 0.0.4
 
-	* Bugfix
+	- Bugfix
 		- fix: add fail2ban ignore rule for 10.200.0.1
 
 ## version 0.0.3
 
-	* Bugfixes and Optimizing
+	- Bugfixes and Optimizing
 		- bmxd path fixing in _apache2/var/www_freifunk/index.cgi_
-		* init_server.sh
-				- add check for 'install_dir'
-				- fix ensure _/usr/local/bin/nvram_ is present
+		- init_server.sh
+			- add check for 'install_dir'
+			- fix ensure _/usr/local/bin/nvram_ is present
 		- fix old file list
 		- add new alias ('freifunk-call') for '_salt-call state.highstate --local_'
 
 ## version 0.0.2
 
-	* Bugfixes and Optimizing</br>
+	- Bugfixes and Optimizing</br>
 		- change binaray path to _/usr/local/bin/_
 		- change source path to _/usr/local/src/_
 		- change server path to _/srv/ffdd-server/_
 		- _nvram/etc/nvram.conf_
-				> add config option for 'install_dir' and 'autoupdate'
+			- add config option for 'install_dir' and 'autoupdate'
 		- _nvram/usr/local/bin/nvram_
-				> add function 'set', 'unset' and 'version'
+			- add function 'set', 'unset' and 'version'
 		- _fastd/compiled-tools/fastd/build.sh_
-				> correct needed lib 'libjson0-dev' to 'libjson-c-dev'
+			- correct needed lib 'libjson0-dev' to 'libjson-c-dev'
 		- _bmxd/init.sls_ - compile_bmxd
-				> change cp bmxd to /usr/local/bin/
+			- change cp bmxd to /usr/local/bin/
 		- _network/etc/init.d/S40network_
-				> add check if param. hashsize available to set
+			- add check if param. hashsize available to set
 		- _apache2/var/www_freifunk/sysinfo.json_
-				> add stats for autoupdate, firmware, hostinfo's
+			- add stats for autoupdate, firmware, hostinfo's
 		- check old files and cleanup
-	* add _/etc/freifunk-server-version_
-	* add _/etc/firewall.users
+	- add _/etc/freifunk-server-version_
+	- add _/etc/firewall.users
 		- for user defined firewall rules - includes in _/etc/init.d/S41firewall_
-	* add Autosetup for new Servers (without configured nvram.conf
+	- add Autosetup for new Servers (without configured nvram.conf
 		- salt check if not 'ddmesh_registerkey' set in _/etc/nvram.conf_ and run: _nvram/usr/.../freifunk-nvram_autosetup.sh_
 
 ## version 0.01

@@ -12,9 +12,9 @@
 ### END INIT INFO
 
 BACKBONE_DEV='tbb+'
-WAN_DEV="$(nvram get ifname)"
+WAN_DEV="$(uci -qX get ffdd.sys.ifname)"
 
-eval "$(ddmesh-ipcalc.sh -n $(nvram get ddmesh_node))"
+eval "$(ddmesh-ipcalc.sh -n $(uci -qX get ffdd.sys.ddmesh_node))"
 
 
 if [ "$1" = "start" ]; then

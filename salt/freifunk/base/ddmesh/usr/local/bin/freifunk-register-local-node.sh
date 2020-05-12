@@ -3,8 +3,8 @@
 
 printf 'usage: register_node.sh [new_node]\n\n'
 
-node="$(nvram get ddmesh_node)"
-key="$(nvram get ddmesh_registerkey)"
+node="$(uci -qX get ffdd.sys.ddmesh_node)"
+key="$(uci -qX get ffdd.sys.ddmesh_registerkey)"
 
 #vserver
 #if node was changed to valid range 0->100 than a change back is not possible

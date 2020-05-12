@@ -44,7 +44,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # add freifunk specifics to prompt, because on some vservers /etc/hostname is
 # always replaced after booting
-PS1="${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;34m\]$(nvram get contact_note)\[\033[00m\] #
+PS1="${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;34m\]$(uci -qX get ffdd.sys.contact_note)\[\033[00m\] #
 \[\033[01;37m\]\w\[\033[00m\] > "
 
 
@@ -52,9 +52,11 @@ cat <<EOM
 -----------------------------------------------------------------
 tools:
     init_server             ( update OS and Firmware )
-    freifunk-version        ( show Server Version and Branch )
     freifunk-call           ( salt-call state.highstate --local )
     freifunk-manuell-update ( reset and Update Repo )
+
+    uci                     ( config management helper )
+    freifunk-version        ( show Server Version and Branch )
     freifunk-gw-status      ( show GW-Country )
 
     f2b-list                ( show blocked IP's )
