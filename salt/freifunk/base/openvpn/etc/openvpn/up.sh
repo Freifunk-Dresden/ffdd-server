@@ -22,9 +22,9 @@ iptables -w -t nat -A POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local
 BIND_FORWARDER_FILE="/etc/bind/vpn.forwarder.$dev"
 # get DEFAULT_DNS
 if [ -n "$(uci -qX get ffdd.sys.default_dns)" ]; then
-	DEFAULT_DNS="$(uci -qX get ffdd.sys.default_dns)"
+	DEFAULT_DNS="$(uci -d '; ' -qX get ffdd.sys.default_dns)"
 else
-	DEFAULT_DNS="$(uci -qX get ffdd_sample.sys.default_dns)"
+	DEFAULT_DNS="$(uci -d '; ' -qX get ffdd_sample.sys.default_dns)"
 fi
 
 # flush public_dns routing table
@@ -52,7 +52,7 @@ do
 done
 
 #if openvpn did not deliver DNS, use default DNS
-test -z "$dns_list" && dns_list="$DEFAULT_DNS"
+test -z "$dns_list" && dns_list="$DEFAULT_DNS;"
 
 #write data
 cat<<EOM >"$BIND_FORWARDER_FILE"
