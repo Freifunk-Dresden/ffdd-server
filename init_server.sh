@@ -202,7 +202,8 @@ printf '\n### Check uci Setup ..\n'
 # libubox
 if [ ! -d /opt/libubox ] || [ ! -f /usr/local/lib/libubox.so ]; then
 	printf '\n# build libubox ..\n'
-	git clone https://github.com/xfguo/libubox.git /opt/libubox
+	git clone https://git.openwrt.org/project/libubox.git /opt/libubox
+	git checkout lede-17.01
 
 	cd /opt/libubox
 	mkdir build ; cd build ; cmake .. ; make ubox

@@ -12,8 +12,8 @@ uci_repo:
 
 libubox_repo:
   git.latest:
-    - name: https://github.com/xfguo/libubox.git
-    - rev: 0d399543c8618b5030fe73d1d335602ff75c563d
+    - name: https://git.openwrt.org/project/libubox.git
+    - rev: lede-17.01
     - target: /opt/libubox
     - update_head: True
     - force_fetch: True
