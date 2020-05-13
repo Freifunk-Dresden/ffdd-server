@@ -215,6 +215,7 @@ fi
 if [ ! -d /opt/uci ] || [ ! -f /usr/local/bin/uci ]; then
 	printf '\n# build uci ..\n'
 	git clone https://git.openwrt.org/project/uci.git /opt/uci
+	git checkout lede-17.01
 
 	cd /opt/uci
 	cmake [-D BUILD_LUA:BOOL=OFF] . ; make uci cli

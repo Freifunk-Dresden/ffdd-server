@@ -2,7 +2,7 @@
 uci_repo:
   git.latest:
     - name: https://git.openwrt.org/project/uci.git
-    - rev: ec8d3233948603485e1b97384113fac9f1bab5d6
+    - rev: lede-17.01
     - target: /opt/uci
     - update_head: True
     - force_fetch: True
