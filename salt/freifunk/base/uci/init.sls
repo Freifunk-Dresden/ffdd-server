@@ -87,6 +87,7 @@ migrate_nvram:
         rm -f /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
     - onlyif: test -f /etc/nvram.conf
     - require:
+      - uci_make
       - file: /etc/config/ffdd
 
 {# symlink for old nvram cmd #}
@@ -94,3 +95,5 @@ migrate_nvram:
   file.symlink:
     - target: /usr/local/bin/uci
     - force: True
+    - require:
+      - uci_make
