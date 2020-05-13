@@ -272,6 +272,7 @@ fi
 # ssh_pwauth
 [ "$(uci -qX get ffdd.sys.ssh_pwauth)" == '' ] && uci set ffdd.sys.ssh_pwauth='1'
 #
+uci commit
 printf '\nOK.\n'
 
 #

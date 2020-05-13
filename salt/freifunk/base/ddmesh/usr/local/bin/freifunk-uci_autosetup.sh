@@ -35,6 +35,7 @@ if [ -z "$ddmesh_key" ] || [ -z "$fastd_secret" ]; then
 	uci set ffdd.sys.fastd_secret="$fastd_secret_key"
 	uci set ffdd.sys.fastd_public="$fastd_public_key"
 
+	uci commit
 fi
 
 #

@@ -43,6 +43,9 @@ if [ -f /etc/nvram.conf ]; then
 	uci set ffdd.sys.contact_location="$(nvram_get contact_location)"
 	uci set ffdd.sys.contact_email="$(nvram_get contact_email)"
 	uci set ffdd.sys.contact_note="$(nvram_get contact_note)"
+
+	#
+	uci commit
 fi
 
 exit 0
