@@ -240,7 +240,8 @@ if [ -f /etc/nvram.conf ]; then
 	"$INSTALL_DIR"/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
 
 	# remove old nvram
-	rm /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
+	mv /etc/nvram.conf /etc/nvram.backup
+	rm -f /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
 fi
 
 

@@ -84,6 +84,7 @@ migrate_nvram:
   cmd.run:
     - name: |
         /srv/ffdd-server/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
+        mv /etc/nvram.conf /etc/nvram.backup
         rm -f /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
     - onlyif: test -f /etc/nvram.conf
     - require:
