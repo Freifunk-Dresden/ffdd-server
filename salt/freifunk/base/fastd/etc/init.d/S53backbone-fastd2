@@ -86,6 +86,8 @@ add_outgoing()
 	local port="$2"
 	local key="$3"
 
+	[ -z "$port" ] && local port='5002'
+
 	if [ -z "$key" ]; then
 		local key="$(wget -q -O - http://"$host"/sysinfo-json.cgi | jq -r '.data.common.fastd_pubkey')"
 
