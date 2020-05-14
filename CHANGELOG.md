@@ -4,7 +4,7 @@
 ## version 1.3.0
 	- add uci config management
 		- change nvram to uci
-	- reduced process priority for salt-
+	- reduced process priority for salt
 	- fix fastd `add_connect`
 	- fix pb requirement
 
