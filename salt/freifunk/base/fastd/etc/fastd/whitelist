@@ -1,0 +1,3 @@
+# add one IP each line without any leading or trailing characters!
+# entries in /etc/fastd/whitelist always has higher priority than 
+# 	/etc/conf/ffdd:fastd_restrict and /etc/fastd/blacklist
