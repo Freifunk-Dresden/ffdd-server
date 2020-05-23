@@ -7,6 +7,7 @@
 	- reduced process priority for salt
 	- fix fastd `add_connect`
 	- fix pb requirement
+	- increase fail2ban maxretry
 
 ## version 1.2.4
 	- add fallback dns for tunnel provider and make it configurable
