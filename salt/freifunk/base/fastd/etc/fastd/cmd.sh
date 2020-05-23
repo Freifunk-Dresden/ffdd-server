@@ -42,8 +42,8 @@ PEER_KEY: $PEER_KEY
 EOM
 }
 
-eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
-fastd_restrict="$(uci -qX get ffdd.sys.fastd_restrict)"
+eval "$(ddmesh-ipcalc.sh -n "$(nvram get ddmesh_node)")"
+fastd_restrict="$(nvram get fastd_restrict)"
 
 case $1 in
 
@@ -70,14 +70,30 @@ case $1 in
  	;;
 
 	verify)
-		# check if further new connections are accepted
-		if [ "$fastd_restrict" = "1" ]; then
-			logger -t fastd "no more connection allowed. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
-			exit 1;
+		# mask dots in ip address
+		_PEER_ADDRESS=${PEER_ADDRESS//\./\\.}
+
+		# check whitelist 
+		if [ -n "$(grep ^$_PEER_ADDRESS$ /etc/fastd/whitelist)" ]; then
+			logger -t fastd "whitelisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+		else
+
+			# check if further new connections are accepted
+			if [ "$fastd_restrict" = "1" ]; then
+				logger -t fastd "no more connection allowed. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+				exit 1;
+			fi
+
+			# check blacklist
+			if [ -n "$(grep ^$_PEER_ADDRESS$ /etc/fastd/blacklist)" ]; then
+					logger -t fastd "blacklisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+				exit 1;
+			fi
+
+			#if verify-cmd was registerred in fastd.conf
+			logger -t fastd "allow connection from $PEER_ADDRESS:$PEER_PORT key $PEER_KEY"
 		fi
 
-		#if verify-cmd was registerred in fastd.conf
-		logger -t fastd "allow connection from $PEER_ADDRESS:$PEER_PORT key $PEER_KEY"
 
 		# "learn" client. add config to peer directory
 		/etc/init.d/S53backbone-fastd2 add_accept "$PEER_KEY" "$(date) - client learned: peer_address [$PEER_ADDRESS:$PEER_PORT]" 
