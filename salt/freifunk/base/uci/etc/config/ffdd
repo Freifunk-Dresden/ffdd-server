@@ -40,7 +40,7 @@ config 'ffdd' 'sys'
 	# To disable tunneled clear text passwords and allow only pub-key auth.
 	option 'ssh_pwauth' '1'
 
-	# DNS - semicolon is IMPORTANT
+	# DNS-Server
 	list 'default_dns' '194.150.168.168'
 	list 'default_dns' '46.182.19.48'
 
