@@ -5,7 +5,9 @@
 	- add uci config management
 		- change nvram to uci
 	- reduced process priority for salt
-	- fix fastd `add_connect`
+	- fastd:
+		- add white/blacklists for better connection control
+		- fix `add_connect`
 	- fix pb requirement
 	- increase fail2ban maxretry
 
