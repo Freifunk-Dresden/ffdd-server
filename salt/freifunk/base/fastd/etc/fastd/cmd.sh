@@ -73,7 +73,7 @@ case $1 in
 		# mask dots in ip address
 		_PEER_ADDRESS=${PEER_ADDRESS//\./\\.}
 
-		# check whitelist 
+		# check whitelist
 		if [ -n "$(grep ^$_PEER_ADDRESS$ /etc/fastd/whitelist)" ]; then
 			logger -t fastd "whitelisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
 		else
@@ -86,7 +86,7 @@ case $1 in
 
 			# check blacklist
 			if [ -n "$(grep ^$_PEER_ADDRESS$ /etc/fastd/blacklist)" ]; then
-					logger -t fastd "blacklisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+				logger -t fastd "blacklisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
 				exit 1;
 			fi
 
@@ -96,7 +96,7 @@ case $1 in
 
 
 		# "learn" client. add config to peer directory
-		/etc/init.d/S53backbone-fastd2 add_accept "$PEER_KEY" "$(date) - client learned: peer_address [$PEER_ADDRESS:$PEER_PORT]" 
+		/etc/init.d/S53backbone-fastd2 add_accept "$PEER_KEY" "$(date) - client learned: peer_address [$PEER_ADDRESS:$PEER_PORT]"
 		exit 0;
 	;;
 esac
