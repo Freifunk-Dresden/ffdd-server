@@ -67,6 +67,9 @@ if [ "$1" = "start" ]; then
 	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
 	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 53 -j ACCEPT
 
+	#ntp
+	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 123 -j ACCEPT
+
 	#ssh
 	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p tcp --dport 22 -j ACCEPT
 
