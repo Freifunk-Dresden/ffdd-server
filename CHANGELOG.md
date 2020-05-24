@@ -4,12 +4,13 @@
 ## version 1.3.0
 	- add uci config management
 		- change nvram to uci
-	- reduced process priority for salt
 	- fastd:
 		- add white/blacklists for better connection control
 		- fix `add_connect`
-	- fix pb requirement
+	- reduced process priority for salt
 	- increase fail2ban maxretry
+	- fix ntp.service to wait for bat0 interface
+	- fix pb requirement
 
 ## version 1.2.4
 	- add fallback dns for tunnel provider and make it configurable
