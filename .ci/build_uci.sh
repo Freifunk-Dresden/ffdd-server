@@ -32,9 +32,10 @@ cp -RPvf ../uci/debian uci/
 
 cd libubox
 debuild -uc -us
-ls -lah
+test ! -d /usr/local/include/libubox && mkdir -p /usr/local/include/libubox
+cp -f ../*.h /usr/local/include/libubox
+cp -f libubox.so /usr/local/lib
 cd ..
-ls -lah
 dpkg -i *.deb
 ldconfig
 
