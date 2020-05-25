@@ -2,7 +2,7 @@
 
 mkdir -p workdir/bmxd
 
-cp -RPvf ../salt/freifunk/base/bmxd/compiled-tools/bmxd/DEBIAN/* workdir/bmxd/
+cp -RPvf ../salt/freifunk/base/bmxd/sources/DEBIAN/* workdir/bmxd/
 
 cd workdir/bmxd
 
