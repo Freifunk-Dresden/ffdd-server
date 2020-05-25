@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 apt update -y
-apt install -y git build-essential devscripts debhelper libssl-dev libncurses5-dev unzip gawk zlib1g-dev gcc-multilib flex gettext curl wget time jq
+apt install -y nodejs git build-essential devscripts debhelper dh-systemd python dh-python libssl-dev libncurses5-dev unzip gawk zlib1g-dev subversion gcc-multilib flex gettext curl wget time rsync jq
 apt install -y libjson-c-dev clang lua5.1 liblua5.1-dev cmake
 
 mkdir build/ ; cd build
