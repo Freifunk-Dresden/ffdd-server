@@ -17,7 +17,7 @@
   file.managed:
     - contents: |
         #!/usr/bin/env bash
-        cd {{ install_dir }}/salt/freifunk/base/bmxd/sources
+        cd /usr/local/src/bmxd
         { export LC_ALL=C;
           find . -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo;
           find . -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo;
@@ -42,7 +42,7 @@ get_bmxd_revision:
 
 compile_bmxd:
   cmd.run:
-    - name: "cd /usr/local/src/bmxd/ ; make clean_all ; make ; make strip ; cp -f bmxd /usr/local/bin/"
+    - name: "cd /usr/local/src/bmxd ; make clean_all ; make ; make strip ; cp -f bmxd /usr/local/bin/"
     - require:
       - pkg: devel
       - file: /usr/local/src/bmxd

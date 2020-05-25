@@ -16,8 +16,7 @@
 # 02110-1301, USA
 #
 
-ct_bmxd = /srv/ffdd-server/salt/freifunk/base/bmxd/sources
-REVISION = $(shell cd $(ct_bmxd); { export LC_ALL=C; find . -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo; find . -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo; find . -type d | sort; find . -type d | sort | md5sum; } | md5sum | sed -e 's/^\(.\{10\}\).*/\1/')
+REVISION = $(shell { export LC_ALL=C; find . -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo; find . -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo; find . -type d | sort; find . -type d | sort | md5sum; } | md5sum | sed -e 's/^\(.\{10\}\).*/\1/')
 REVISION_VERSION =\"-src:[$(REVISION)]\"
 
 
