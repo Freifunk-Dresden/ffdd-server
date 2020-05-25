@@ -22,17 +22,17 @@ cd ..
 git clone https://git.openwrt.org/project/ubox.git
 git clone https://git.openwrt.org/project/ubus.git
 
-#mkdir BUILD-ubox
-#mkdir BUILD-uci
-
-mkdir BUILD-libubox
+mkdir BUILD-ubox
 mkdir BUILD-ubus
 
-#cd BUILD-libubox
-#CXX=clang++ CC=clang cmake ../libubox; make; make install
 
 cp -RPvf ../libubox/debian libubox/
 cp -RPvf ../uci/debian uci/
+
+
+#mkdir BUILD-libubox
+#cd BUILD-libubox
+#CXX=clang++ CC=clang cmake ../libubox; make; make install
 
 cd libubox
 debuild -uc -us
@@ -41,6 +41,8 @@ dpkg -i *.deb
 
 ls -lah
 
+
+#mkdir BUILD-uci
 #cd BUILD-uci
 #CXX=clang++ CC=clang cmake ../uci; make; make install
 
@@ -48,6 +50,7 @@ cd uci
 debuild -uc -us
 cd ..
 dpkg -i *.deb
+
 
 cd BUILD-ubus
 CXX=clang++ CC=clang cmake ../ubus; make; make install

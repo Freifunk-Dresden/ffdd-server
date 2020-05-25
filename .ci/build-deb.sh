@@ -24,5 +24,6 @@ sed -i "s/VERSION/$VERSION/g" DEBIAN/control
 #sed -i "s/RELEASE/$RELEASE/g" DEBIAN/control
 md5sum `find . -type f | grep -v '^[.]/DEBIAN/'` > DEBIAN/md5sums
 
-dpkg-deb --build ./ ../bmxd-$VERSION-$RELEASE.deb
+#dpkg-deb --build ./ ../bmxd-$VERSION-$RELEASE_amd64.deb
+dpkg-deb --build ./ ../bmxd-$VERSION_amd64.deb
 ls -lah
