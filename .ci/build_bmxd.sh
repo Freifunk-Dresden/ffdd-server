@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mkdir build/ ; cd build
+test ! -d build && mkdir build/ ; cd build
 
 git clone https://github.com/Freifunk-Dresden/ffdd-bmxd.git bmxd
 cd bmxd
