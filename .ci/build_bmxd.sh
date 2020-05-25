@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-test ! -d build && mkdir build/ ; cd build
+test ! -d build && mkdir build ; cd build
 
 git clone https://github.com/Freifunk-Dresden/ffdd-bmxd.git bmxd
 cd bmxd
@@ -24,6 +24,5 @@ sed -i "s/VERSION/$VERSION/g" DEBIAN/control
 md5sum "$(find . -type f | grep -v '^[.]/DEBIAN/')" > DEBIAN/md5sums
 
 dpkg-deb --build ./ /builds/firmware-developer/ffdd-server/.ci/build/bmxd-"$VERSION"_"$ARCH".deb
-ls -lah
 
 exit 0

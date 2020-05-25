@@ -32,7 +32,9 @@ cp -RPvf ../uci/debian uci/
 
 cd libubox
 debuild -uc -us
+ls -lah
 cd ..
+ls -lah
 dpkg -i *.deb
 ldconfig
 
@@ -54,7 +56,6 @@ cd ../BUILD-ubox
 cmake ../ubox; make; make install
 ldconfig
 
-ls -lah
 uci
 
 exit 0
