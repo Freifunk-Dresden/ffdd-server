@@ -1,0 +1,18 @@
+Source: libubox
+Section: comm
+Priority: optional
+Maintainer: Yaroslav Petrov <info@lank.me>
+Build-Depends: debhelper (>= 9.20160114), cmake, clang,
+               dh-systemd (>= 1.5), libjson-c-dev
+Standards-Version: 1.0.0
+Homepage: https://openwrt.org/
+Vcs-Git: https://git.openwrt.org/project/libubox.git
+Vcs-Browser: https://git.openwrt.org/?p=project/libubox.git;a=summary
+
+Package: libubox
+Architecture: any
+Depends:
+Suggests: ubox
+Description: ubox
+ ubus provides some pretty awesome as dbus functionality without requiring huge
+ libraries with huge dependencies.

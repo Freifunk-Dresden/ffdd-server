@@ -1,0 +1,10 @@
+Package: bmxd
+Version: VERSION-RELEASE
+Architecture: ARCH
+Maintainer: Yaroslav Petrov <info@lank.me>
+Installed-Size: 1500
+Section: misc
+Priority: optional
+Homepage: https://freifunk-dresden.de
+Description: BMXD
+

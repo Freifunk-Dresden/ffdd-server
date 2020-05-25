@@ -1,0 +1,36 @@
+Source: uci
+Section: comm
+Priority: optional
+Maintainer: Yaroslav Petrov <info@lank.me>
+Build-Depends: debhelper (>= 9.20160114), cmake, clang,
+               dh-systemd (>= 1.5), libjson-c-dev
+Standards-Version: 1.0.0
+Homepage: https://openwrt.org/
+Vcs-Git: https://git.openwrt.org/project/uci.git
+Vcs-Browser: https://git.openwrt.org/?p=project/uci.git;a=summary
+
+Package: libuci
+Architecture: any
+Depends:
+Suggests:
+Description:
+ LIBUCI library for UCI interface
+
+Package: libucilua
+Architecture: any
+Depends:
+Suggests:
+Description:
+ UCI for LUA 5.1
+
+Package: uci
+Architecture: any
+Depends: libuci
+Suggests:
+Description:
+ UCI is a small utility written in C (a shell script-wrapper is available as well)
+ and is intended to centralize the whole configuration of a device running OpenWrt.
+ UCI is the successor of the NVRAM based configuration found in the historical 
+ OpenWrt branch White Russian and a wrapper for the standard configuration files 
+ programs bring with them, like e.g. /etc/network/interfaces, /etc/exports, 
+ /etc/dnsmasq.conf, /etc/samba/samba.conf etc.

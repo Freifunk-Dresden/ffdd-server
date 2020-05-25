@@ -1,0 +1,71 @@
+stages:
+- init
+- build
+- test
+- deploy
+
+
+docker:ffdd-debian9:
+  except:
+    - schedules
+  image: debian:9
+  stage: build
+  script:
+  - cd .ci
+  - bash build.sh
+  - bash build-deb.sh
+  - ls -lah
+  artifacts:
+    paths:
+    - .ci/build/*.deb
+  tags:
+  - docker
+
+docker:ffdd-debian10:
+  except:
+    - schedules
+  image: debian:10
+  stage: build
+  script:
+  - cd .ci
+  - bash build.sh
+  - bash build-deb.sh
+  - ls -lah
+  artifacts:
+    paths:
+    - .ci/build/*.deb
+  tags:
+  - docker
+
+
+docker:ffdd-ubuntu1604:
+  except:
+    - schedules
+  image: ubuntu:16.04
+  stage: build
+  script:
+  - cd .ci
+  - bash build.sh
+  - bash build-deb.sh
+  - ls -lah
+  artifacts:
+    paths:
+    - .ci/build/*.deb
+  tags:
+  - docker
+
+docker:ffdd-ubuntu1804:
+  except:
+    - schedules
+  image: ubuntu:18.04
+  stage: build
+  script:
+  - cd .ci
+  - bash build.sh
+  - bash build-deb.sh
+  - ls -lah
+  artifacts:
+    paths:
+    - .ci/build/*.deb
+  tags:
+  - docker

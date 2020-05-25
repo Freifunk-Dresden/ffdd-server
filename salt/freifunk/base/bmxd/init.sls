@@ -1,10 +1,9 @@
 {# FFDD Batmand Network #}
 {% from 'config.jinja' import install_dir, nodeid, ddmesh_registerkey %}
-{% set ct_bmxd = '/salt/freifunk/base/bmxd/compiled-tools/bmxd' %}
 
 /usr/local/src/bmxd:
   file.recurse:
-    - source: salt://bmxd/compiled-tools/bmxd
+    - source: salt://bmxd/sources
     - user: freifunk
     - group: freifunk
     - file_mode: 775
@@ -18,7 +17,7 @@
   file.managed:
     - contents: |
         #!/usr/bin/env bash
-        cd {{ install_dir }}{{ ct_bmxd }}
+        cd {{ install_dir }}/salt/freifunk/base/bmxd/sources
         { export LC_ALL=C;
           find . -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo;
           find . -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo;

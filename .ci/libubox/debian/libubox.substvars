@@ -1,0 +1,3 @@
+shlibs:Depends=libc6 (>= 2.17), libjson-c3 (>= 0.10)
+misc:Depends=
+misc:Pre-Depends=

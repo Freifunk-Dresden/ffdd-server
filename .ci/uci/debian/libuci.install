@@ -1,0 +1,5 @@
+usr/local/lib/libuci.so /usr/local/lib/
+usr/local/include/uci_config.h /usr/local/include/
+usr/local/include/uci_blob.h /usr/local/include/
+usr/local/include/uci.h /usr/local/include/
+usr/local/include/ucimap.h /usr/local/include/
