@@ -11,15 +11,15 @@ docker:ffdd-debian9:
   image: debian:9
   stage: build
   script:
-  - cd .ci
-  - bash build.sh
-  - bash build-deb.sh
-  - ls -lah
+    - cd .ci
+    - bash build.sh
+    - bash build-deb.sh
+    - ls -lah
   artifacts:
     paths:
-    - .ci/build/*.deb
+      - .ci/build/*.deb
   tags:
-  - docker
+    - docker2
 
 docker:ffdd-debian10:
   except:
@@ -27,15 +27,15 @@ docker:ffdd-debian10:
   image: debian:10
   stage: build
   script:
-  - cd .ci
-  - bash build.sh
-  - bash build-deb.sh
-  - ls -lah
+    - cd .ci
+    - bash build.sh
+    - bash build-deb.sh
+    - ls -lah
   artifacts:
     paths:
-    - .ci/build/*.deb
+      - .ci/build/*.deb
   tags:
-  - docker
+    - docker2
 
 
 docker:ffdd-ubuntu1604:
@@ -44,15 +44,15 @@ docker:ffdd-ubuntu1604:
   image: ubuntu:16.04
   stage: build
   script:
-  - cd .ci
-  - bash build.sh
-  - bash build-deb.sh
-  - ls -lah
+    - cd .ci
+    - bash build.sh
+    - bash build-deb.sh
+    - ls -lah
   artifacts:
     paths:
-    - .ci/build/*.deb
+      - .ci/build/*.deb
   tags:
-  - docker
+    - docker2
 
 docker:ffdd-ubuntu1804:
   except:
@@ -60,12 +60,12 @@ docker:ffdd-ubuntu1804:
   image: ubuntu:18.04
   stage: build
   script:
-  - cd .ci
-  - bash build.sh
-  - bash build-deb.sh
-  - ls -lah
+    - cd .ci
+    - bash build.sh
+    - bash build-deb.sh
+    - ls -lah
   artifacts:
     paths:
-    - .ci/build/*.deb
+      - .ci/build/*.deb
   tags:
-  - docker
+    - docker2
