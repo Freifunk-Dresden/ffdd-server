@@ -2,8 +2,7 @@
 
 mkdir -p workdir/bmxd
 
-cp -RPvf ../salt/freifunk/base/bmxd/sources/DEBIAN/* workdir/bmxd/
-
+cp -RPvf ../salt/freifunk/base/bmxd/sources/* workdir/bmxd/
 cd workdir/bmxd
 
 chmod 755 DEBIAN
