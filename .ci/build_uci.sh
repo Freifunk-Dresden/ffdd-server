@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-apt update -y
-apt install -y nodejs git build-essential devscripts debhelper dh-systemd python dh-python libssl-dev libncurses5-dev unzip gawk zlib1g-dev subversion gcc-multilib flex gettext curl wget time dateutils rsync jq
-apt install -y libjson-c-dev clang lua5.1 liblua5.1-dev cmake
-
 mkdir build/ ; cd build
 
 # LIBUBOX
@@ -58,3 +54,5 @@ cd ../BUILD-ubox
 cmake ../ubox; make; make install
 ldconfig
 uci
+
+exit 0

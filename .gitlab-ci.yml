@@ -12,8 +12,9 @@ docker:ffdd-debian9:
   stage: build
   script:
     - cd .ci
-    - bash build.sh
-    - bash build-deb.sh
+    - bash install_deps.sh
+    - bash build_uci.sh
+    - bash build_bmxd.sh
     - ls -lah
   artifacts:
     paths:
@@ -28,8 +29,9 @@ docker:ffdd-debian10:
   stage: build
   script:
     - cd .ci
-    - bash build.sh
-    - bash build-deb.sh
+    - bash install_deps.sh
+    - bash build_uci.sh
+    - bash build_bmxd.sh
     - ls -lah
   artifacts:
     paths:
@@ -45,8 +47,9 @@ docker:ffdd-ubuntu1604:
   stage: build
   script:
     - cd .ci
-    - bash build.sh
-    - bash build-deb.sh
+    - bash install_deps.sh
+    - bash build_uci.sh
+    - bash build_bmxd.sh
     - ls -lah
   artifacts:
     paths:
@@ -61,8 +64,9 @@ docker:ffdd-ubuntu1804:
   stage: build
   script:
     - cd .ci
-    - bash build.sh
-    - bash build-deb.sh
+    - bash install_deps.sh
+    - bash build_uci.sh
+    - bash build_bmxd.sh
     - ls -lah
   artifacts:
     paths:
