@@ -23,6 +23,6 @@ sed -i "s/ARCH/$ARCH/g" DEBIAN/control
 sed -i "s/VERSION/$VERSION/g" DEBIAN/control
 md5sum "$(find . -type f | grep -v '^[.]/DEBIAN/')" > DEBIAN/md5sums
 
-dpkg-deb --build ./ /builds/firmware-developer/ffdd-server/.ci/build/bmxd-"$VERSION"_"$ARCH".deb
+dpkg-deb --build ./ ../../build/bmxd-"$VERSION"_"$ARCH".deb
 
 exit 0
