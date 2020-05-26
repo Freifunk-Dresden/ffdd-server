@@ -1,8 +1,8 @@
 stages:
-- init
-- build
-- test
-- deploy
+  - init
+  - build
+  - test
+  - deploy
 
 
 docker:ffdd-debian9:
@@ -19,6 +19,7 @@ docker:ffdd-debian9:
   artifacts:
     paths:
       - .ci/build/*.deb
+    expire_in: 24 hour
   tags:
     - docker2
 
@@ -36,6 +37,7 @@ docker:ffdd-debian10:
   artifacts:
     paths:
       - .ci/build/*.deb
+    expire_in: 24 hour
   tags:
     - docker2
 
@@ -54,6 +56,7 @@ docker:ffdd-ubuntu1604:
   artifacts:
     paths:
       - .ci/build/*.deb
+    expire_in: 24 hour
   tags:
     - docker2
 
@@ -71,5 +74,23 @@ docker:ffdd-ubuntu1804:
   artifacts:
     paths:
       - .ci/build/*.deb
+    expire_in: 24 hour
   tags:
     - docker2
+
+
+staging:
+  variables:
+    ENVIRONMENT: staging
+  stage: deploy
+  only:
+    - master
+  dependencies:
+    - build
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  script:
+    - rsync -av --numeric-ids .ci/build/* -e ssh -p22 $USER@$HOST:$RPATH
