@@ -13,6 +13,8 @@
 {% set branch = 'T_RELEASE_latest' %}
 {% set custom_branch = salt['cmd.shell']('/usr/local/bin/uci -qX get ffdd.sys.branch') %}
 
+{% set freifunk_dl_url = 'https://download.freifunk-dresden.de/server/packages' %}
+
 {% set autoupdate = salt['cmd.shell']('/usr/local/bin/uci -qX get ffdd.sys.autoupdate') %}
 {% set freifunk_version = salt['cmd.shell']('/usr/local/bin/freifunk-version') %}
 
