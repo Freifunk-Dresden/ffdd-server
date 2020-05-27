@@ -23,6 +23,26 @@ docker:ffdd-debian9:
   tags:
     - docker2
 
+ffdd-debian9-staging:
+  stage: deploy
+  image: debian:10
+  only:
+    - master
+  dependencies:
+    - docker:ffdd-debian9
+  before_script:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan $HOST >> ~/.ssh/known_hosts
+  script:
+    - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/debian9/
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/debian9/* $DLPATH/debian9/"
+  tags:
+    - docker2
+
+
 docker:ffdd-debian10:
   except:
     - schedules
@@ -38,6 +58,25 @@ docker:ffdd-debian10:
     paths:
       - .ci/build/*.deb
     expire_in: 24 hour
+  tags:
+    - docker2
+
+ffdd-debian10-staging:
+  stage: deploy
+  image: debian:10
+  only:
+    - master
+  dependencies:
+    - docker:ffdd-debian10
+  before_script:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan $HOST >> ~/.ssh/known_hosts
+  script:
+    - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/debian10/
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/debian10/* $DLPATH/debian10/"
   tags:
     - docker2
 
@@ -60,6 +99,26 @@ docker:ffdd-ubuntu1604:
   tags:
     - docker2
 
+ffdd-ubuntu1604-staging:
+  stage: deploy
+  image: debian:10
+  only:
+    - master
+  dependencies:
+    - docker:ffdd-ubuntu1604
+  before_script:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan $HOST >> ~/.ssh/known_hosts
+  script:
+    - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu16/
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/ubuntu16/* $DLPATH/ubuntu16/"
+  tags:
+    - docker2
+
+
 docker:ffdd-ubuntu1804:
   except:
     - schedules
@@ -78,19 +137,21 @@ docker:ffdd-ubuntu1804:
   tags:
     - docker2
 
-
-staging:
-  variables:
-    ENVIRONMENT: staging
+ffdd-ubuntu1804-staging:
   stage: deploy
+  image: debian:10
   only:
     - master
   dependencies:
-    - build
+    - docker:ffdd-ubuntu1804
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - apt-get update -y && apt-get install -y openssh-client rsync
     - eval $(ssh-agent -s)
-    - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan "$HOST" >> ~/.ssh/known_hosts
   script:
-    - rsync -av --numeric-ids .ci/build/* -e ssh -p22 $USER@$HOST:$RPATH
+    - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu18/
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/ubuntu18/* $DLPATH/ubuntu18/"
+  tags:
+    - docker2
