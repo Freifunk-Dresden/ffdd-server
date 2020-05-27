@@ -1,3 +1,2 @@
-*.h /usr/local/include/libubox
 libubox.so /usr/local/lib/
 libblobmsg_json.so /usr/local/lib/
