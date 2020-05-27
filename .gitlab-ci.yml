@@ -38,7 +38,7 @@ ffdd-debian9-staging:
     - ssh-keyscan $HOST >> ~/.ssh/known_hosts
   script:
     - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/debian9/
-    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/debian9/* $DLPATH/debian9/"
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync --remove-source-files -avz $RPATH/debian9/* $DLPATH/debian9/"
   tags:
     - docker2
 
@@ -76,7 +76,7 @@ ffdd-debian10-staging:
     - ssh-keyscan $HOST >> ~/.ssh/known_hosts
   script:
     - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/debian10/
-    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/debian10/* $DLPATH/debian10/"
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync --remove-source-files -avz $RPATH/debian10/* $DLPATH/debian10/"
   tags:
     - docker2
 
@@ -114,7 +114,7 @@ ffdd-ubuntu1604-staging:
     - ssh-keyscan $HOST >> ~/.ssh/known_hosts
   script:
     - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu16/
-    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/ubuntu16/* $DLPATH/ubuntu16/"
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync --remove-source-files -avz $RPATH/ubuntu16/* $DLPATH/ubuntu16/"
   tags:
     - docker2
 
@@ -152,6 +152,6 @@ ffdd-ubuntu1804-staging:
     - ssh-keyscan "$HOST" >> ~/.ssh/known_hosts
   script:
     - rsync -avz .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu18/
-    - ssh "$USER"@"$HOST" "sudo -Hu root rsync -avz $RPATH/ubuntu18/* $DLPATH/ubuntu18/"
+    - ssh "$USER"@"$HOST" "sudo -Hu root rsync --remove-source-files -avz $RPATH/ubuntu18/* $DLPATH/ubuntu18/"
   tags:
     - docker2
