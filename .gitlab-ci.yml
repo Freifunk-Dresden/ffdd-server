@@ -15,7 +15,6 @@ docker:ffdd-debian9:
     - bash install_deps.sh
     - bash build_uci.sh
     - bash build_bmxd.sh
-    - ls -lah
   artifacts:
     paths:
       - .ci/build/*.deb
@@ -53,7 +52,6 @@ docker:ffdd-debian10:
     - bash install_deps.sh
     - bash build_uci.sh
     - bash build_bmxd.sh
-    - ls -lah
   artifacts:
     paths:
       - .ci/build/*.deb
@@ -91,7 +89,6 @@ docker:ffdd-ubuntu1604:
     - bash install_deps.sh
     - bash build_uci.sh
     - bash build_bmxd.sh
-    - ls -lah
   artifacts:
     paths:
       - .ci/build/*.deb
@@ -129,7 +126,6 @@ docker:ffdd-ubuntu1804:
     - bash install_deps.sh
     - bash build_uci.sh
     - bash build_bmxd.sh
-    - ls -lah
   artifacts:
     paths:
       - .ci/build/*.deb
