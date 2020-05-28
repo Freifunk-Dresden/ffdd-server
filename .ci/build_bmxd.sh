@@ -13,7 +13,7 @@ make
 
 ARCH='amd64'
 VERSION="$(grep -R 'SOURCE_VERSION' batman.h | awk '/SOURCE_VERSION/ {print $3}' | sed -e 's/^"//' -e 's/"$//')"
-REVISION="$(cat /tmp/bmx_revision)"
+REVISION="$(cat /tmp/bmxd_revision)"
 
 mkdir -p OUT/usr/sbin/
 cp bmxd OUT/usr/sbin/
