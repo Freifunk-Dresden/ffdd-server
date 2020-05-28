@@ -12,7 +12,7 @@ chmod 555 DEBIAN/*
 make
 
 ARCH='amd64'
-VERSION="$(grep -R 'SOURCE_VERSION' batman.h | awk '/SOURCE_VERSION/ {print $3}' | sed -e 's/^"//' -e 's/"$//')"
+VERSION="$(grep -R 'SOURCE_VERSION' batman.h | awk '/SOURCE_VERSION/ {print $3}' | sed -e 's/^"//' -e 's/"$//' -e 's/-freifunk-dresden//')"
 REVISION="$(cat /tmp/bmxd_revision)"
 
 mkdir -p OUT/usr/sbin/
