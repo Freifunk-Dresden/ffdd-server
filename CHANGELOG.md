@@ -14,6 +14,7 @@ The current nvram.conf will be migrated automatically.
 	- fastd:
 		- add white/blacklists for better connection control
 		- fix `add_connect`
+	- add wan-traffic stat to sysinfo.json
 	- optimize freifunk-manuell_update.sh to use init_server.sh
 	- reduced process priority for salt
 	- increase fail2ban maxretry
