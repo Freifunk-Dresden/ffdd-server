@@ -2,15 +2,23 @@
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
 ## version 1.3.0
+**Notice:**<br />
+In the current version the configuration management changes from `nvram` (/etc/nvram.conf) to uci (/etc/config/ffdd)!<br />
+*You can find a complete example configuration in [/etc/config/ffdd_sample](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd).*<br />
+The current nvram.conf is migrated automatically.
+
 	- add uci config management
 		- change nvram to uci
+	- change bmxd from manuell build to package installation
 	- fastd:
 		- add white/blacklists for better connection control
 		- fix `add_connect`
+	- optimize freifunk-manuell_update.sh to use init_server.sh
 	- reduced process priority for salt
 	- increase fail2ban maxretry
 	- fix ntp.service to wait for bat0 interface
 	- fix pb requirement
+	- some small code optimizations
 
 ## version 1.2.4
 	- add fallback dns for tunnel provider and make it configurable
@@ -41,6 +49,10 @@
 		- add `init_server` alias (OS and Firmware Update)
 
 ## version 1.1.0
+**Notice:**<br />
+This update is not carried out automatically and must be done manually be performed.
+
+***Please reboot the Server after upgrade.***
 
 	- bind9
 		- some optimations for different DNS states: "default gw" / "master" and "slave" Server
@@ -84,11 +96,6 @@
 		- add /etc/freifunk-server-initdate
 		- add /usr/local/bin/freifunk-manuell_update.sh
 		- add `pb` (pastebin tool for 0x0 on https://envs.sh)
-
-**Notice:**
-This update is not carried out automatically and must be done manually be performed.
-
-***Please reboot the Server after upgrade.***
 
 ## version 1.0.16
 
