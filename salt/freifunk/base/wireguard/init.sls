@@ -3,8 +3,6 @@
 
 {# install only than Kernel Package available #}
 {% if kernel_pkg_check == '1' %}
-{% set wgvpn0 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn0.conf && echo "1" || true') %}
-{% set wgvpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn1.conf && echo "1" || true') %}
 
 {# Package #}
 wireguard:
@@ -41,7 +39,7 @@ unstable_pkg_prio:
 {% if ddmesh_disable_gateway == '0' %}
 
 {# VPN 0 #}
-{% if wgvpn0 == '1' %}
+{% if salt['file.directory_exists' ]('/etc/wireguard/vpn0.conf') %}
 wgvpn0_service:
   service.running:
     - name: wg-quick@vpn0.service
@@ -69,7 +67,7 @@ wgvpn0_service_dead:
 {% endif %}
 
 {# VPN 1 #}
-{% if wgvpn1 == '1' %}
+{% if salt['file.directory_exists' ]('/etc/wireguard/vpn1.conf') %}
 wgvpn1_service:
   service.running:
     - name: wg-quick@vpn1.service
@@ -100,7 +98,7 @@ wgvpn1_service_dead:
 {# Service Dead then Gateway Option Disabled #}
 {% elif ddmesh_disable_gateway == '1' %}
 {# VPN 0 #}
-{% if wgvpn0 == '1' %}
+{% if salt['file.directory_exists' ]('/etc/wireguard/vpn0.conf') %}
 wgvpn0_service_dead:
   service.dead:
     - name: wg-quick@vpn0.service
@@ -108,7 +106,7 @@ wgvpn0_service_dead:
 {% endif %}
 
 {# VPN 1 #}
-{% if wgvpn1 == '1' %}
+{% if salt['file.directory_exists' ]('/etc/wireguard/vpn1.conf') %}
 wgvpn1_service_dead:
   service.dead:
     - name: wg-quick@vpn1.service
