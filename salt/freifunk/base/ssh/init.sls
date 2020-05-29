@@ -1,4 +1,6 @@
 {# Secure Shell #}
+{% from 'config.jinja' import freifunk_version, servername %}
+
 ssh:
   pkg.installed:
     - refresh: True
@@ -33,7 +35,7 @@ ssh_check:
 /etc/issue.net:
   file.managed:
     - contents: |
-        {% from 'config.jinja' import servername, freifunk_version %}-----------------------------------------------------------------
+        -----------------------------------------------------------------
          Freifunk {{ servername }}
 
          ( Version: {{ freifunk_version }} )
