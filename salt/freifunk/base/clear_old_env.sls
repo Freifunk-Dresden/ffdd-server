@@ -4,10 +4,6 @@
   file.absent
 
 
-/usr/local/bin/freifunk-nvram_autosetup.sh:
-  file.absent
-
-
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.absent:
     - onlyif: test ! -L /etc/apache2/sites-enabled/001-freifunk.conf
@@ -118,6 +114,18 @@
   file.absent
 
 /usr/lib/bmxd:
+  file.absent
+
+/usr/local/bin/bmxd:
+  file.absent
+
+/usr/local/bin/freifunk-nvram_autosetup.sh:
+  file.absent
+
+/usr/local/src/bmxd:
+  file.absent
+
+/usr/local/src/bmxd_revision:
   file.absent
 
 
