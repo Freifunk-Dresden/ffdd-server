@@ -22,5 +22,5 @@ override_dh_strip:
 	dh_strip --dbgsym-migration='libuci-dbg (<< 0.20~)'
 
 override_dh_installdocs:
-	
+
 override_dh_usrlocal:

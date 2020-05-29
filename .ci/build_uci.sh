@@ -34,7 +34,6 @@ cd libubox
 debuild -uc -us
 cd ..
 dpkg -i *.deb
-ldconfig
 
 
 #mkdir BUILD-uci
@@ -45,15 +44,14 @@ cd uci
 debuild -uc -us
 cd ..
 dpkg -i *.deb
-ldconfig
 
 
 cd BUILD-ubus
 CXX=clang++ CC=clang cmake ../ubus; make; make install
 cd ../BUILD-ubox
 cmake ../ubox; make; make install
-ldconfig
 
+ldconfig
 uci
 
 exit 0

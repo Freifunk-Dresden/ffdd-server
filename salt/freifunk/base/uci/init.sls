@@ -1,62 +1,65 @@
 {# uci - config management helper #}
-uci_repo:
-  git.latest:
-    - name: https://git.openwrt.org/project/uci.git
-    - rev: lede-17.01
-    - target: /opt/uci
-    - update_head: True
-    - force_fetch: True
-    - force_reset: True
-    - require:
-      - pkg: git
+{% from 'config.jinja' import freifunk_dl_url %}
 
-libubox_repo:
-  git.latest:
-    - name: https://git.openwrt.org/project/libubox.git
-    - rev: lede-17.01
-    - target: /opt/libubox
-    - update_head: True
-    - force_fetch: True
-    - force_reset: True
-    - require:
-      - pkg: git
+# the pkg version must also be changed in init_server.sh
+{% set libubox_version = '20200227' %}
+{% set libuci_version = '20200427' %}
+{% set uci_version = '20200427' %}
 
+{% if salt['cmd.shell']("dpkg-query -W -f='${Version}' libubox || true") != libubox_version %}
+libubox_pkg_removed:
+  pkg.removed:
+    - name: libubox
+    - require_in:
+      - pkg: uci
+{% endif %}
 
-libubox_make:
-  cmd.run:
-    - name: |
-        cd /opt/libubox
-        mkdir build ; cd build ; cmake .. ; make ubox
-        mkdir -p /usr/local/include/libubox
-        cp -f ../*.h /usr/local/include/libubox
-        cp -f libubox.so /usr/local/lib
-        ldconfig
-    - require:
-      - pkg: devel
-      - libubox_repo
-    - onchanges:
-      - pkg: devel
-      - libubox_repo
+{% if salt['cmd.shell']("dpkg-query -W -f='${Version}' libuci || true") != libuci_version %}
+libuci_pkg_removed:
+  pkg.removed:
+    - name: libuci
+    - require_in:
+      - pkg: uci
+{% endif %}
 
-uci_make:
-  cmd.run:
-    - name: |
-        cd /opt/uci
-        cmake [-D BUILD_LUA:BOOL=OFF] . ; make uci cli
-        mkdir -p /usr/local/include/uci
-        cp -f uci.h uci_config.h /usr/local/include/uci
-        cp -f uci_blob.h ucimap.h /usr/local/include/uci
-        cp -f libuci.so /usr/local/lib
-        cp -f uci /usr/local/bin
-        ldconfig
-    - require:
-      - pkg: devel
-      - uci_repo
-      - libubox_repo
-    - onchanges:
-      - pkg: devel
-      - uci_repo
-      - libubox_repo
+{% if salt['cmd.shell']("dpkg-query -W -f='${Version}' uci || true") != uci_version %}
+uci_pkg_removed:
+  pkg.removed:
+    - name: uci
+    - require_in:
+      - pkg: uci
+{% endif %}
+
+uci:
+  pkg.installed:
+    - sources:
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
+      - libubox: {{ freifunk_dl_url }}/debian9/libubox_{{ libubox_version }}_amd64.deb
+      - libuci: {{ freifunk_dl_url }}/debian9/libuci_{{ libuci_version }}_amd64.deb
+      - uci: {{ freifunk_dl_url }}/debian9/uci_{{ uci_version }}_amd64.deb
+
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
+      - libubox: {{ freifunk_dl_url }}/debian10/libubox_{{ libubox_version }}_amd64.deb
+      - libuci: {{ freifunk_dl_url }}/debian10/libuci_{{ libuci_version }}_amd64.deb
+      - uci: {{ freifunk_dl_url }}/debian10/uci_{{ uci_version }}_amd64.deb
+
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
+      - libubox: {{ freifunk_dl_url }}/ubuntu16/libubox_{{ libubox_version }}_amd64.deb
+      - libuci: {{ freifunk_dl_url }}/ubuntu16/libuci_{{ libuci_version }}_amd64.deb
+      - uci: {{ freifunk_dl_url }}/ubuntu16/uci_{{ uci_version }}_amd64.deb
+
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
+      - libubox: {{ freifunk_dl_url }}/ubuntu18/libubox_{{ libubox_version }}_amd64.deb
+      - libuci: {{ freifunk_dl_url }}/ubuntu18/libuci_{{ libuci_version }}_amd64.deb
+      - uci: {{ freifunk_dl_url }}/ubuntu18/uci_{{ uci_version }}_amd64.deb
+
+{% endif %}
+
+uci_ldconfig:
+  cmd.wait:
+    - name: /sbin/ldconfig
+    - watch:
+      - pkg: uci
 
 
 {# config #}
@@ -88,13 +91,13 @@ migrate_nvram:
         rm -f /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
     - onlyif: test -f /etc/nvram.conf
     - require:
-      - uci_make
+      - pkg: uci
       - file: /etc/config/ffdd
 
 {# symlink for old nvram cmd #}
 /usr/local/bin/nvram:
   file.symlink:
-    - target: /usr/local/bin/uci
+    - target: /usr/local/sbin/uci
     - force: True
     - require:
-      - uci_make
+      - pkg: uci

@@ -2,7 +2,6 @@
 
 nvram_get() { sed -n "/^$1=/{s#^.*=##;p}" /etc/nvram.conf | head -1 ; }
 
-
 if [ -f /etc/nvram.conf ]; then
 
 	uci set ffdd.sys.install_dir='/srv/ffdd-server'
