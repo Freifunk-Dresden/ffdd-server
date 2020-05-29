@@ -13,7 +13,8 @@ eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 
 # store fix value for interface name (used later by awk script to map nettype)
 # in firmware this and similar variables are set by ddmesh-utils-network-info.sh
-export tbb_fastd_ifname=tbb_fastd2
+export tbb_fastd_ifname='tbb_fastd2'
+wan_ifname="$(uci -qX get ffdd.sys.ifname)"
 
 # Board and Model Information
 chassis="$(hostnamectl status | awk '/Chassis/ {print $2}')"
@@ -106,19 +107,24 @@ cat<<EOM
 			"dhcp_count":0,
 			"dhcp_lease":"0",
 EOM
-			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
-			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
-			echo "				\"traffic_ovpn\" : \"$rx,$tx\","
-
 			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann
 			# Also hier fuer die server, das interface befragen
 			for iface in $(sed -n '3,${s#^[	 ]*\([^:]\+\).*#\1#p}' /proc/net/dev)
 			do
-				if [ "$iface" = "tbb_fastd2" ]; then
+				if [ "$iface" = "$wan_ifname" ]; then
+					iface_alias="wan"
+					echo "		\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+				fi
+
+				if [ "$iface" = "$tbb_fastd_ifname" ]; then
 					iface_alias="tbb_fastd"
 					echo "		\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
 			done
+
+			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
+			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
+			echo "				\"traffic_ovpn\" : \"$rx,$tx\","
 
 cat<<EOM
 			$(sed -n '/^MemTotal\|^MemFree\|^Buffers\|^Cached/{s#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#p}' /proc/meminfo)
