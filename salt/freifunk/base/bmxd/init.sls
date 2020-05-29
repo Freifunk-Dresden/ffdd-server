@@ -1,53 +1,31 @@
 {# FFDD Batmand Network #}
-{% from 'config.jinja' import install_dir, nodeid, ddmesh_registerkey %}
+{% from 'config.jinja' import freifunk_dl_url, nodeid, ddmesh_registerkey %}
 
-/usr/local/src/bmxd:
-  file.recurse:
-    - source: salt://bmxd/sources
-    - user: freifunk
-    - group: freifunk
-    - file_mode: 775
-    - dir_mode: 775
-    - require:
-      - pkg: devel
-      - user: freifunk
+{% set bmxd_version = '0.6-da39a3ee5e' %}
 
-{# revision: md5sum over sources (exclude: 'Makefile') #}
-/usr/local/bin/freifunk-get_bmxd_revision.sh:
-  file.managed:
-    - contents: |
-        #!/usr/bin/env bash
-        cd /usr/local/src/bmxd
-        { export LC_ALL=C;
-          find . -type f ! -iname "Makefile" -exec wc -c {} \; | sort; echo;
-          find . -type f ! -iname "Makefile" -exec md5sum {} + | sort; echo;
-          find . -type d | sort; find . -type d | sort | md5sum;
-        } | md5sum | sed -e 's/^\(.\{10\}\).*/\1/' > /usr/local/src/bmxd_revision
-        cat /usr/local/src/bmxd_revision ; exit 0
-    - user: root
-    - group: root
-    - mode: 755
+{% if salt['cmd.shell']("dpkg-query -W -f='${Version}' bmxd || true") != bmxd_version %}
+bmxd_pkg_removed:
+  pkg.removed:
+    - name: bmxd
+    - require_in:
+      - pkg: bmxd
+{% endif %}
 
+bmxd:
+  pkg.installed:
+    - sources:
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
+      - bmxd: {{ freifunk_dl_url }}/debian9/bmxd-{{ bmxd_version }}_amd64.deb
 
-{# Compling #}
-{# needs devel.sls (compiling tools) #}
-get_bmxd_revision:
-  cmd.run:
-    - name: "/usr/local/bin/freifunk-get_bmxd_revision.sh"
-    - require:
-      - file: /usr/local/src/bmxd
-      - file: /usr/local/bin/freifunk-get_bmxd_revision.sh
-    - onchanges:
-      - file: /usr/local/src/bmxd
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
+      - bmxd: {{ freifunk_dl_url }}/debian10/bmxd-{{ bmxd_version }}_amd64.deb
 
-compile_bmxd:
-  cmd.run:
-    - name: "cd /usr/local/src/bmxd ; make clean_all ; make ; make strip ; cp -f bmxd /usr/local/bin/"
-    - require:
-      - pkg: devel
-      - file: /usr/local/src/bmxd
-    - onchanges:
-      - file: /usr/local/src/bmxd
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
+      - bmxd: {{ freifunk_dl_url }}/ubuntu16/bmxd-{{ bmxd_version }}_amd64.deb
+
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
+      - bmxd: {{ freifunk_dl_url }}/ubuntu18/bmxd-{{ bmxd_version }}_amd64.deb
+{% endif %}
 
 
 {# Service #}
@@ -74,17 +52,17 @@ S52batmand:
     - enable: True
     - restart: True
     - watch:
+      - pkg: bmxd
       - service: S40network
       - service: S53backbone-fastd2
       - file: /etc/init.d/S52batmand
-      - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
     - require:
+      - pkg: bmxd
       - service: S40network
       - service: S53backbone-fastd2
       - cmd: rc.d_S52batmand
       - file: /etc/init.d/S52batmand
-      - file: /usr/local/src/bmxd
       - file: /etc/init.d/S40network
       - file: /usr/local/bin/ddmesh-ipcalc.sh
       - sls: uci
