@@ -8,8 +8,6 @@
     - user: root
     - group: root
     - mode: 644
-    - sls: uci
-    - file: /etc/config/ffdd
 
 /etc/freifunk-server-initdate:
   file.managed:

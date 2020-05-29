@@ -7,7 +7,7 @@ INSTALL_DIR='/srv/ffdd-server'
 if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
 
 
-if [ -f /usr/local/bin/uci ] && [ -f /etc/config/ffdd ]; then
+if [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
 	CUSTOM_REPO_URL="$(uci -qX get ffdd.sys.freifunk_repo)"
 	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
 
@@ -20,18 +20,7 @@ cd /srv || exit 1
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"
 
-
-# nvram migration
-if [ -f /etc/nvram.conf ]; then
-	printf '\n### migrate old nvram to uci ..\n'
-	"$INSTALL_DIR"/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
-
-	# remove old nvram
-	rm /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
-fi
-
-
-salt-call state.highstate --local -l error
+"$INSTALL_DIR"/init_server.sh
 
 printf '\nPlease check the changelog for the case there are config deprecations, special update steps.\n'
 printf '%s/blob/master/CHANGELOG.md\n' "$REPO_URL"
