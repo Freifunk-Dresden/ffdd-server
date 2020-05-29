@@ -4,18 +4,15 @@ devel:
     - refresh: True
     - names:
       - build-essential
-      - nodejs
+      - cmake
+      - pkg-config
+      - bison
+      - zlibc
       - zlib1g-dev
       - liblzo2-dev
       - libssl-dev
       - libnacl-dev
       - libjson-c-dev
-      - bison
-      - flex
-      - zlibc
-      - pkg-config
-      - cmake
-      - lua5.1
 
 {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
       - libcurl4
