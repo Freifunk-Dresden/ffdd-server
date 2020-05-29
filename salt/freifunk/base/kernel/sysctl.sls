@@ -17,6 +17,15 @@ net.ipv4.conf.all.rp_filter:
     - value: 0
     - config: {{ sysctld }}/net.conf
 
+net.ipv4.conf.default.send_redirects:
+  sysctl.present:
+    - value: 0
+    - config: {{ sysctld }}/net.conf
+net.ipv4.conf.all.send_redirects:
+  sysctl.present:
+    - value: 0
+    - config: {{ sysctld }}/net.conf
+
 net.ipv4.tcp_syncookies:
   sysctl.present:
     - value: 1
