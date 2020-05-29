@@ -56,7 +56,7 @@ EOM
 cat << EOM
 		"firmware":{
 			"version":"$(awk '{print $1}' /etc/freifunk-server-version)",
-			"git-ddmesh-branch":"$(awk '{print $4}' /etc/freifunk-server-version)",
+			"git-ddmesh-branch":"$(awk '{print $3}' /etc/freifunk-server-version)",
 			"DISTRIB_ID":"$(lsb_release -si)",
 			"DISTRIB_RELEASE":"$(lsb_release -sr)",
 			"DISTRIB_REVISION":"",
