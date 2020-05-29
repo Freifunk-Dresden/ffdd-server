@@ -169,10 +169,11 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		;;
 		*)      print_not_supported_os ;;
 	esac
+
+	printf '\nOK.\n'
 else
 	print_not_supported_os
 fi
-printf '\nOK.\n'
 
 
 printf '\n### Update System ..\n'
@@ -242,7 +243,7 @@ fi
 
 # nvram migration
 if [ -f /etc/nvram.conf ]; then
-	printf '\n### migrate old nvram to uci ..\n'
+	printf '\n# migrate old nvram to uci ..\n'
 	"$INSTALL_DIR"/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
 
 	# remove old nvram
@@ -250,8 +251,6 @@ if [ -f /etc/nvram.conf ]; then
 	rm -f /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
 fi
 
-
-#
 # check basic uci options
 # check install_dir
 [ "$(uci -qX get ffdd.sys.install_dir)" != "$INSTALL_DIR" ] && uci set ffdd.sys.install_dir="$INSTALL_DIR"
@@ -282,6 +281,7 @@ fi
 #
 uci commit
 printf '\nOK.\n'
+
 
 #
 # create clean masterless salt enviroment
