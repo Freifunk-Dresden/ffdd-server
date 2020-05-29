@@ -34,6 +34,13 @@ ntp:
 
 {# Service #}
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' or grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
+
+/etc/systemd/system/multi-user.target.wants/ntp.service:
+  file.absent
+
+/lib/systemd/system/ntp.service:
+  file.absent
+
 /etc/init.d/ntp:
   file.managed:
     - source: salt://ntp/etc/init.d/ntp
