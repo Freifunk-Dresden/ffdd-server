@@ -18,7 +18,7 @@ export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 ARG1="$1"
 
 DAEMON='bmxd'
-DAEMON_PATH='/usr/local/bin'
+DAEMON_PATH='/usr/sbin'
 DB_PATH='/var/lib/freifunk/bmxd'
 RUN_STATUS_FILE='/var/run/batman-status-running'
 
@@ -72,7 +72,7 @@ case "$ARG1" in
 #	echo /tmp/coredump > /proc/sys/kernel/core_pattern
 #	ulimit -c unlimited
 	# check bmxd is running
-	proc_bmxd="$(ps x | grep -v grep | grep -c /usr/local/bin/bmxd)"
+	proc_bmxd="$(ps x | grep -v grep | grep -c "$DAEMON_PATH"/"$DAEMON")"
 	if [ "$proc_bmxd" -eq '0' ]; then
 		# return error code to systemd to reflect correct status
 		"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" || exit 1
