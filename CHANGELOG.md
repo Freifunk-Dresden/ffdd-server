@@ -3,9 +3,10 @@
 
 ## version 1.3.0
 **Notice:**<br />
-In the current version the configuration management changes from `nvram` (/etc/nvram.conf) to uci (/etc/config/ffdd)!<br />
-*You can find a complete example configuration in [/etc/config/ffdd_sample](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd).*<br />
-The current nvram.conf is migrated automatically.
+In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!<br />
+*You can find a complete example configuration in [/etc/config/ffdd_sample](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd).*
+
+The current nvram.conf will be migrated automatically.
 
 	- add uci config management
 		- change nvram to uci
