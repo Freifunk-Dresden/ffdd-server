@@ -12,19 +12,44 @@ INIT_DATE_FILE='/etc/freifunk-server-initdate'
 ###
 
 check_salt_repo() {
-	[ -z "$(command -v wget)" ] && "$PKGMNGR" -y install wget
 	# repos needs also a check in salt/freifunk/base/salt-minion/init.sls
 	case "$1" in
-		deb9 )
+		debian9 )
 			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
 			echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/2018.3 stretch main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
-		u16 )
+		ubuntu16 )
 			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
 			echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 	esac
 }
+
+install_uci() {
+	DL_URL='https://download.freifunk-dresden.de/server/packages'
+
+	# # the pkg version must also be changed in uci/init.sls
+	libubox='libubox_20200227_amd64.deb'
+	libuci='libuci_20200427_amd64.deb'
+	uci='uci_20200427_amd64.deb'
+
+	pkgs=("$libubox" "$libuci" "$uci")
+
+	for PKG in "${pkgs[@]}"; do
+		PKG_NAME="$(echo "$PKG" | cut -d'_' -f 1)"
+		PKG_VERSION="$(echo "$PKG" | cut -d'_' -f 2 | grep -o '[0-9]*')"
+		# check pkg is not installed or has another version
+		if [ "$(dpkg-query -W -f='${Status}' "$PKG_NAME" 2>/dev/null | grep -c "ok installed")" -eq 0 ] || \
+			[ "$(dpkg-query -W -f='${Version}' "$PKG_NAME")" != "$PKG_VERSION" ]; then
+				TEMP_DEB="$(mktemp)" &&
+				wget -O "$TEMP_DEB" "$DL_URL/$1/$PKG" &&
+				dpkg -i "$TEMP_DEB"
+				rm -f "$TEMP_DEB"
+				ldconfig
+		fi
+	done
+}
+
 
 print_usage() {
 	printf '\nUsage:\n'
@@ -122,16 +147,26 @@ printf '\nOK.\n'
 
 
 printf '\n# Check System Distribution ..\n'
+[ -z "$(command -v wget)" ] && "$PKGMNGR" -y install wget
+
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		9*)     PKGMNGR='apt-get' ; check_salt_repo deb9 ;;
-		10*)    PKGMNGR='apt-get' ;;
+		9*)     PKGMNGR='apt-get' ; check_salt_repo debian9
+				install_uci debian9
+		;;
+		10*)    PKGMNGR='apt-get'
+				install_uci debian10
+		;;
 		*)      print_not_supported_os ;;
 	esac
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		16.04*) PKGMNGR='apt-get' ; check_salt_repo u16 ;;
-		18.04*) PKGMNGR='apt-get' ;;
+		16.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu16
+				install_uci ubuntu16
+		;;
+		18.04*) PKGMNGR='apt-get'
+				install_uci ubuntu18
+		;;
 		*)      print_not_supported_os ;;
 	esac
 else
@@ -154,7 +189,7 @@ systemctl disable salt-minion ; systemctl stop salt-minion &
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
 
-if [ -f /usr/local/bin/uci ] && [ -f /etc/config/ffdd ]; then
+if [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
 	CUSTOM_REPO_URL="$(uci -qX get ffdd.sys.freifunk_repo)"
 	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
 
@@ -198,39 +233,10 @@ mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 
 # ensure uci and /etc/config/ffdd are present
 printf '\n### Check uci Setup ..\n'
-# build uci
-# libubox
-if [ ! -d /opt/libubox ] || [ ! -f /usr/local/lib/libubox.so ]; then
-	printf '\n# build libubox ..\n'
-	git clone https://git.openwrt.org/project/libubox.git /opt/libubox
-	git checkout lede-17.01
-
-	cd /opt/libubox
-	mkdir build ; cd build ; cmake .. ; make ubox
-	mkdir -p /usr/local/include/libubox
-	cp -f ../*.h /usr/local/include/libubox
-	cp -f libubox.so /usr/local/lib
-	ldconfig
-fi
-# uci
-if [ ! -d /opt/uci ] || [ ! -f /usr/local/bin/uci ]; then
-	printf '\n# build uci ..\n'
-	git clone https://git.openwrt.org/project/uci.git /opt/uci
-	git checkout lede-17.01
-
-	cd /opt/uci
-	cmake [-D BUILD_LUA:BOOL=OFF] . ; make uci cli
-	mkdir -p /usr/local/include/uci
-	cp -f uci.h uci_config.h /usr/local/include/uci
-	cp -f uci_blob.h ucimap.h /usr/local/include/uci
-	cp -f libuci.so /usr/local/lib
-	cp -f uci /usr/local/bin
-	ldconfig
-fi
-
 # uci config
 if [ ! -f /etc/config/ffdd ]; then
 	printf '\n### Create New /etc/config/ffdd ..\n'
+	[ ! -d /etc/config ] && mkdir /etc/config
 	cp -fv "$INSTALL_DIR"/salt/freifunk/base/uci/etc/config/ffdd /etc/config/ffdd
 fi
 
@@ -251,7 +257,7 @@ fi
 [ "$(uci -qX get ffdd.sys.install_dir)" != "$INSTALL_DIR" ] && uci set ffdd.sys.install_dir="$INSTALL_DIR"
 
 # check repo_url
-[ -z $(uci -qX get ffdd.sys.freifunk_repo) ] && uci set ffdd.sys.freifunk_repo="$REPO_URL"
+[ -z "$(uci -qX get ffdd.sys.freifunk_repo)" ] && uci set ffdd.sys.freifunk_repo="$REPO_URL"
 
 # check branch
 if [ "$1" = 'dev' ]; then
