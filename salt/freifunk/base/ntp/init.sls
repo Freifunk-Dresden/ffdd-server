@@ -7,7 +7,6 @@ ntp:
     - running
     - enable: true
     - restart: true
-    - reload: true
     - watch:
       - file: /etc/ntp.conf
     - require:
