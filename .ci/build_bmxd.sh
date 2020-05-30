@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-test ! -d build && mkdir build ; cd build
+cd build || mkdir build
 
 git clone https://github.com/Freifunk-Dresden/ffdd-bmxd.git bmxd
-cd bmxd
+cd bmxd || exit 1
 git checkout latest_server
 
 chmod 755 DEBIAN
@@ -12,8 +12,8 @@ chmod 555 DEBIAN/*
 make
 
 ARCH='amd64'
-VERSION="$(grep -R 'SOURCE_VERSION' batman.h | awk '/SOURCE_VERSION/ {print $3}' | sed -e 's/^"//' -e 's/"$//' -e 's/-freifunk-dresden//')"
-REVISION="$(cat /tmp/bmxd_revision)"
+VERSION="$(awk '/SOURCE_VERSION/ {print $3}' batman.h | head -1 | sed -e 's/^"//' -e 's/"$//' -e 's/-freifunk-dresden//')"
+REVISION="$(test -f /tmp/bmxd_revision && cat /tmp/bmxd_revision || echo 0)"
 
 mkdir -p OUT/usr/sbin/
 cp bmxd OUT/usr/sbin/

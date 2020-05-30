@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-test ! -d build && mkdir build ; cd build
+cd build || mkdir build
 
 # LIBUBOX
 git clone https://git.openwrt.org/project/libubox.git
-cd libubox
+cd libubox || exit 1
 git checkout 7da66430de3fc235bfc6ebb0b85fb90ea246138d
 cd ..
 
 # LIBUCI und UCI
 git clone https://git.openwrt.org/project/uci.git
-cd uci
+cd uci || exit 1
 git checkout ec8d3233948603485e1b97384113fac9f1bab5d6
 cd ..
 
@@ -33,7 +33,7 @@ cp -RPvf ../uci/debian uci/
 cd libubox
 debuild -uc -us
 cd ..
-dpkg -i *.deb
+dpkg -i ./*.deb
 
 
 #mkdir BUILD-uci
@@ -43,7 +43,7 @@ dpkg -i *.deb
 cd uci
 debuild -uc -us
 cd ..
-dpkg -i *.deb
+dpkg -i ./*.deb
 
 
 cd BUILD-ubus
