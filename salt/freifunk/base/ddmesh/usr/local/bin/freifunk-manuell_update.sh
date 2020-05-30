@@ -1,4 +1,5 @@
 #!/bin/sh
+
 REV="T_RELEASE_latest"
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 INSTALL_DIR='/srv/ffdd-server'
@@ -15,12 +16,11 @@ if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
 fi
 
 cd /srv || exit 1
-[ -n "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
+[ -d "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"
 
-
-salt-call state.highstate --local -l error
+"$INSTALL_DIR"/init_server.sh
 
 printf '\nPlease check the changelog for the case there are config deprecations, special update steps.\n'
 printf '%s/blob/master/CHANGELOG.md\n' "$REPO_URL"
