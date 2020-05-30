@@ -277,12 +277,8 @@ fi
 [ -z "$(uci -qX get ffdd.sys.freifunk_repo)" ] && uci set ffdd.sys.freifunk_repo="$REPO_URL"
 
 # check branch
-if [ "$1" = 'dev' ]; then
-	if [ -n "$2" ]; then
-		[ "$(uci -qX get ffdd.sys.branch)" != "$2" ] && uci set ffdd.sys.branch="$2"
-	else
-		[ "$(uci -qX get ffdd.sys.branch)" != 'master' ] && uci set ffdd.sys.branch='master'
-	fi
+if [ -n "$OPT_BRANCH" ]; then
+	[ "$(uci -qX get ffdd.sys.branch)" != "$OPT_BRANCH" ] && uci set ffdd.sys.branch="$OPT_BRANCH"
 else
 	# T_RELEASE_latest OR $CUSTOM_REV
 	[ "$(uci -qX get ffdd.sys.branch)" != "$REV" ] && uci set ffdd.sys.branch="$REV"
