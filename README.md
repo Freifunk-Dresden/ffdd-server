@@ -223,11 +223,13 @@ uci set ffdd.sys.branch='master'
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 
-# master branch
-./init_server.sh dev
+# install master (devel) branch
+./init_server.sh -b
 # or
-./init_server.sh dev <branch/tag>
+./init_server.sh -b <rev/branch/tag>
 
+# do not overwrite local changes (disable git update)
+./init_server.sh -d
 ```
 
 ## Wichig für Communitiy Forks
