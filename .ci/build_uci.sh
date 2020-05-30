@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd build || mkdir build
+test ! -d build && mkdir build ; cd build
 
 # LIBUBOX
 git clone https://git.openwrt.org/project/libubox.git
