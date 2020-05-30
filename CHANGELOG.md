@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.2.5
+	- fix freifunk-manuell_update.sh
+
 ## version 1.2.4
 	- add fallback dns for tunnel provider and make it configurable
 
