@@ -61,7 +61,7 @@ rc.d_S53backbone-fastd2:
       - file: /etc/init.d/S53backbone-fastd2
 
 
-{% if nodeid != '' or ddmesh_registerkey != '' %}
+{% if nodeid != '' or nodeid != '-' or ddmesh_registerkey != '' or ddmesh_registerkey != '-' %}
 S53backbone-fastd2:
   service:
     - running
@@ -82,6 +82,8 @@ S53backbone-fastd2:
       - file: /etc/fastd/cmd.sh
       - file: /usr/local/src/fastd
       - file: /usr/local/bin/ddmesh-ipcalc.sh
+      - sls: ddmesh
+      - sls: ddmesh.autoconfig
       - sls: uci
       - file: /etc/config/ffdd
 {% endif %}

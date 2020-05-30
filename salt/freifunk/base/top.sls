@@ -34,11 +34,11 @@ base:
     - cron
 
     {# core-tools #}
-    - bmxd
-    - fastd
-
     - salt-minion
     - uci
+
+    - bmxd
+    - fastd
 
     - ddmesh
     - ddmesh.autoconfig

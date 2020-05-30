@@ -45,7 +45,6 @@ install_uci() {
 				wget -O "$TEMP_DEB" "$DL_URL/$1/$PKG" &&
 				dpkg -i "$TEMP_DEB"
 				rm -f "$TEMP_DEB"
-				ldconfig
 		fi
 	done
 }
@@ -53,12 +52,17 @@ install_uci() {
 
 print_usage() {
 	printf '\nUsage:\n'
-	printf 'install latest stable Release:\n'
-	printf '   ./init_server.sh\n\n'
-	printf 'install unstable development Release:\n'
-	printf '   ./init_server.sh dev\n'
-	printf '   ./init_server.sh dev <rev/branch/tag>\n'
-	exit 1
+	printf '  # print this help:\n'
+	printf '    ./init_server.sh -h\n\n'
+	printf '  # install latest stable Release:\n'
+	printf '    ./init_server.sh\n\n'
+	printf '  DEVELOPMENT:\n'
+	printf '  # install master (devel) branch\n'
+	printf '    ./init_server.sh -b\n'
+	printf '    ./init_server.sh -b <rev/branch/tag>\n\n'
+	printf '  # disable git update to use local changes\n'
+	printf '    ./init_server.sh -d\n'
+	exit 0
 }
 
 print_not_supported_os() {
@@ -101,12 +105,30 @@ version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 #
 printf '### FFDD-Server - Initial Setup ###\n'
 
+while getopts ":hbd" opt "${@}"; do
+	case $opt in
+	  b)
+		OPT_BRANCH="$OPTARG"
+		[ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
+		;;
+
+	  d)
+		OPT_UPDATE="0"
+		;;
+
+	  \?)
+		printf 'Invalid option: -%s\n' "$OPTARG"
+		print_usage
+		;;
+
+	  h | *)
+		print_usage
+		;;
+	esac
+done
+
 #
 # -- Check & Setup System --
-
-case "$1" in
-	-h|--help|?|-\? ) print_usage ;;
-esac
 
 printf '\n### Check System ..\n'
 if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
@@ -203,27 +225,23 @@ fi
 
 if [ -d "$INSTALL_DIR" ]; then
 	cd "$INSTALL_DIR" || exit 1
-	git stash
+	[ "$OPT_UPDATE" != '0' ] && git stash
 	git fetch
 else
 	git clone "$REPO_URL" "$INSTALL_DIR"
 	cd "$INSTALL_DIR" || exit 1
 fi
-# check rev/branch/tag for initial
-if [ "$1" = 'dev' ]; then
-	if [ -z "$2" ]; then
-		git checkout master
-		git pull -f origin master
+if [ "$OPT_UPDATE" != '0' ]; then
+	# check rev/branch/tag for initial
+	if [ -n "$OPT_BRANCH" ]; then
+		git checkout "$OPT_BRANCH"
+		git pull -f origin "$OPT_BRANCH"
 	else
-		git checkout "$2"
-		git pull -f origin "$2"
+		# T_RELEASE_latest OR $CUSTOM_REV
+		git checkout "$REV"
+		git pull -f origin "$REV"
 	fi
-else
-	# T_RELEASE_latest OR $CUSTOM_REV
-	git checkout "$REV"
-	git pull -f origin "$REV"
 fi
-
 
 printf '\n### Backup old User configs ..\n'
 
@@ -272,6 +290,11 @@ fi
 
 # check autoupdate
 [ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='1'
+if [ "$OPT_UPDATE" = '0' ]; then
+	# disable temporary autoupdate
+	tmp_au="$(uci -qX get ffdd.sys.autoupdate)"
+	uci set ffdd.sys.autoupdate='0'
+fi
 
 # check default Interface
 [ "$(uci -qX get ffdd.sys.ifname)" != "$def_if" ] && uci set ffdd.sys.ifname="$def_if"
@@ -333,6 +356,12 @@ fi
 
 #
 # -- Cleanup System & Print Notice --
+
+if [ "$OPT_UPDATE" = '0' ]; then
+	# reset temporary disabled autoupdate
+	uci set ffdd.sys.autoupdate="$tmp_au"
+	uci commit
+fi
 
 printf '\n### Cleanup System ..\n\n'
 "$PKGMNGR" -y autoremove

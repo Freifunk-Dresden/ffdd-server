@@ -3,19 +3,26 @@
 
 printf 'usage: register_node.sh [new_node]\n\n'
 
-node="$(uci -qX get ffdd.sys.ddmesh_node)"
-key="$(uci -qX get ffdd.sys.ddmesh_registerkey)"
+ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
+ddmesh_key="$(uci -qX get ffdd.sys.ddmesh_registerkey)"
+
+[ "$ddmesh_node" = '-' ] && ddmesh_node=''
+if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ]; then
+	ddmesh_key="$(ip link | sha256sum | sed 's#\(..\)#\1:#g;s#[ :-]*$##')"
+	uci set ffdd.sys.ddmesh_registerkey="$ddmesh_key"
+	uci commit
+fi
 
 #vserver
 #if node was changed to valid range 0->100 than a change back is not possible
 #node=1
 #key="_dummy_reserved:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
 
-printf 'local node: [%s]\n' "$node"
-printf 'local key: [%s]\n\n' "$key"
+printf 'local node: [%s]\n' "$ddmesh_node"
+printf 'local key: [%s]\n\n' "$ddmesh_key"
 
-printf 'Try to register node [%s], key [%s]\n\n' "$node" "$key"
-node_info="$(wget -O - "http://register.freifunk-dresden.de/bot.php?node=$node&registerkey=$key" 2>/dev/null)"
+printf 'Try to register node [%s], key [%s]\n\n' "$ddmesh_node" "$ddmesh_key"
+node_info="$(wget -O - "http://register.freifunk-dresden.de/bot.php?node=$ddmesh_node&registerkey=$ddmesh_key" 2>/dev/null)"
 
 
 cmd="$(echo "$node_info" | sed -n '/^OK/p;/^ERROR/p;/^INFO/p')"

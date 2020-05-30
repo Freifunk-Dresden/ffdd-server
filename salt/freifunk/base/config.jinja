@@ -29,8 +29,12 @@
 
 {% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_disable_gateway') %}
 
-{# used for crontab minutes #}
+{# ctime - used for crontab minutes #}
+{% if nodeid != '' or nodeid != '-' %}
 {%- set ctime = salt['cmd.shell']('expr '~ nodeid ~' % 60 || true') %}
+{% else %}
+{% set ctime = '1' %}
+{% endif %}
 
 {# check kernel-header package is available #}
 {% set kernel_release = salt['cmd.shell']("uname -r") %}

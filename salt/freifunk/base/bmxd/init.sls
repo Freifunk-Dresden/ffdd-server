@@ -45,7 +45,7 @@ rc.d_S52batmand:
       - file: /etc/init.d/S52batmand
 
 {# only then fastd2 is configured and the service is enabled #}
-{% if nodeid != '' or ddmesh_registerkey != '' %}
+{% if nodeid != '' or nodeid != '-' or ddmesh_registerkey != '' or ddmesh_registerkey != '-' %}
 S52batmand:
   service:
     - running
@@ -65,6 +65,8 @@ S52batmand:
       - file: /etc/init.d/S52batmand
       - file: /etc/init.d/S40network
       - file: /usr/local/bin/ddmesh-ipcalc.sh
+      - sls: ddmesh
+      - sls: ddmesh.autoconfig
       - sls: uci
       - file: /etc/config/ffdd
 {% endif %}

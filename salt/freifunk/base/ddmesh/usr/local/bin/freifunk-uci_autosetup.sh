@@ -13,29 +13,31 @@ ddmesh_key="$(uci -qX get dffdd.sys.ddmesh_registerkey)"
 fastd_secret="$(uci -qX get ffdd.sys.fastd_secret)"
 
 
-if [ -z "$ddmesh_key" ] || [ -z "$fastd_secret" ]; then
+if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ] || \
+	[ -z "$fastd_secret" ] || [ "$fastd_secret" = '-' ]; then
 
-	# set ddmesh_registerkey
-	nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"
-	genkey="$(ip link | sha256sum | sed 's#\(..\)#\1:#g;s#[ :-]*$##')"
-	uci set ffdd.sys.ddmesh_registerkey="$genkey"
+		# set ddmesh_registerkey
+		ddmesh_key="$(ip link | sha256sum | sed 's#\(..\)#\1:#g;s#[ :-]*$##')"
+		uci set ffdd.sys.ddmesh_registerkey="$ddmesh_key"
+		uci commit
 
-	# set ddmesh_node
-	[ -z "$ddmesh_node" ] && uci set ffdd.sys.ddmesh_node="$nodeid"
+		# set ddmesh_node
+		ddmesh_nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')"
+		[ -n "$ddmesh_nodeid" ] && uci set ffdd.sys.ddmesh_node="$ddmesh_nodeid" || exit 1
 
-	# generate fastd secret & public key
-	fastd --generate-key > /tmp/.ffdd_h.txt
+		# generate fastd secret & public key
+		fastd --generate-key > /tmp/.ffdd_h.txt
 
 		fastd_secret_key="$(sed -n '/^Secret:/{s#^.*: ##;p}' /tmp/.ffdd_h.txt)"
 		fastd_public_key="$(sed -n '/^Public:/{s#^.*: ##;p}' /tmp/.ffdd_h.txt)"
 
-	rm -f /tmp/.ffdd_h.txt
+		rm -f /tmp/.ffdd_h.txt
 
-	# set fastd-key
-	uci set ffdd.sys.fastd_secret="$fastd_secret_key"
-	uci set ffdd.sys.fastd_public="$fastd_public_key"
+		# set fastd-key
+		uci set ffdd.sys.fastd_secret="$fastd_secret_key"
+		uci set ffdd.sys.fastd_public="$fastd_public_key"
 
-	uci commit
+		uci commit
 fi
 
 #

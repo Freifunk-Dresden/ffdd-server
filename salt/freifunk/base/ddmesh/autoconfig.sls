@@ -8,24 +8,12 @@
     - group: root
     - mode: 755
 
-{% if ddmesh_registerkey == '' or fastd_secret == '' %}
+{% if ddmesh_registerkey == '' or ddmesh_registerkey == '-' or fastd_secret == '' or fastd_secret == '-' %}
 ddmesh_autosetup:
   cmd.run:
     - name: /usr/local/bin/freifunk-uci_autosetup.sh
     - require:
-      - file: /etc/config/ffdd
-      - sls: uci
       - file: /usr/local/bin/freifunk-uci_autosetup.sh
-
-{% endif %}
-
-{# check nodeid is set #}
-{% if nodeid == '' %}
-ddmesh_autosetup_fix:
-  cmd.run:
-    - name: nodeid="$(freifunk-register-local-node.sh | sed -n '/^node=/{s#^.*=##;p}')" && uci set ffdd.sys.ddmesh_node="$nodeid" ; uci commit
-    - require:
-      - sls: uci
       - file: /etc/config/ffdd
-
+      - sls: uci
 {% endif %}

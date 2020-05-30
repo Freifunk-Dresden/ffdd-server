@@ -14,6 +14,8 @@
 # sources: https://projects.universe-factory.net/projects/fastd/wiki
 # docs: https://fastd.readthedocs.org/en/v18/
 
+export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
 DAEMON='/usr/local/bin/fastd'
 CONF_DIR='/etc/fastd'
 FASTD_CONF="$CONF_DIR"/fastd2.conf
@@ -32,7 +34,7 @@ generate_fastd_conf()
 {
 	MTU=1200
 	secret="$(uci -qX get ffdd.sys.fastd_secret)"
-	if [ -z "$secret" ]; then
+	if [ -z "$secret" ] || [ "$secret" = '-' ]; then
 		logger -t fastd "no secret key - abort"
 		exit 1
  	fi

@@ -40,8 +40,12 @@ GATEWAY_CLASS="${GATEWAY_CLASS:-8mbit/8mbit}"
 GATEWAY_CLASS="-g $GATEWAY_CLASS"
 
 PREFERED_GATEWAY="$(uci -qX get ffdd.sys.bmxd_prefered_gateway)"
-test -n "$PREFERED_GATEWAY" && PREFERED_GATEWAY="-p $PREFERED_GATEWAY" \
-&& printf '%s\n' "$PREFERED_GATEWAY"
+if [ -n "$PREFERED_GATEWAY" ] || [ "$PREFERED_GATEWAY" != '-' ]; then
+	PREFERED_GATEWAY="-p $PREFERED_GATEWAY"
+	printf '%s\n' "$PREFERED_GATEWAY"
+else
+	PREFERED_GATEWAY=''
+fi
 
 # create a virtual interface for primary interface. loopback has
 # 127er IP would be broadcasted

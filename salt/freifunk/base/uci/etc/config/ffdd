@@ -13,8 +13,8 @@ config 'ffdd' 'sys'
 	option 'autoupdate' '1'
 
 	# Register key must be uniq. See http://wiki.freifunk-dresden.de/index.php/Technische_Information#Berechnung_IP_Adressen
-	option 'ddmesh_node' ''
-	option 'ddmesh_registerkey' ''
+	option 'ddmesh_node' '-'
+	option 'ddmesh_registerkey' '-'
 
 	# If set to 1, vserver will not announce itself as gateway. normally you do not need to change this.
 	option 'ddmesh_disable_gateway' '0'
@@ -28,8 +28,8 @@ config 'ffdd' 'sys'
 	# this is the secret key which is used to decrypt secured backbone connection
 	# the corresponding public key should be given to the peers, so those can encrpyt/connect to this server
 	# To generate the keys: /etc/init.d/S53backbone-fastd genkey
-	option 'fastd_secret' ''
-	option 'fastd_public' ''
+	option 'fastd_secret' '-'
+	option 'fastd_public' '-'
 
 	# to accept all in comming connection, set this to 0 or remove this line.
 	# When set to 1, only already known connections are accepted. this may be used
@@ -45,7 +45,7 @@ config 'ffdd' 'sys'
 	list 'default_dns' '46.182.19.48'
 
 	# BMXD
-	option 'bmxd_prefered_gateway' ''
+	option 'bmxd_prefered_gateway' '-'
 
 	# gps coordinates. see /var/www/sysinfo.json
 	# this functionality is not part of Basic Vserver installation, as this service should only run on one or an backup server.
@@ -54,7 +54,7 @@ config 'ffdd' 'sys'
 	option 'gps_altitude' '0'
 	option 'city' 'Dresden'
 
-	option 'contact_name' ''
-	option 'contact_location' 'your Hosting Provider'
-	option 'contact_email' ''
+	option 'contact_name' 'name'
+	option 'contact_location' 'Hosting Provider'
+	option 'contact_email' 'email'
 	option 'contact_note' 'VPN X'

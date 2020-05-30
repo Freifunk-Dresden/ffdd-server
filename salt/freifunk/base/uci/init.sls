@@ -55,12 +55,6 @@ uci:
 
 {% endif %}
 
-uci_ldconfig:
-  cmd.wait:
-    - name: /sbin/ldconfig
-    - watch:
-      - pkg: uci
-
 
 {# config #}
 /etc/config/ffdd:
