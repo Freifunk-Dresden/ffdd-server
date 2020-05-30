@@ -16,7 +16,7 @@ if [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
 fi
 
 cd /srv || exit 1
-[ -n "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
+[ -d "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"
 
