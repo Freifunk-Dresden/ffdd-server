@@ -2,7 +2,13 @@
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
 ## version 1.2.5
+**Notice:**<br />
+This update is not carried out automatically and must be done manually be performed.
+
 	- fix freifunk-manuell_update.sh
+	- turn autoupdate off. the next release needs a reboot after update.
+	  here it is better if the admin carries out the update manually and then restarts the server.
+	  ( after the update, the auto-update becomes active again if it is enabled in /etc/config/ffdd. )
 
 ## version 1.2.4
 	- add fallback dns for tunnel provider and make it configurable
