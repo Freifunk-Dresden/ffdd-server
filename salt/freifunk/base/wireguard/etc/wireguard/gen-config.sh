@@ -97,7 +97,7 @@ TABLE = off
 
 PreUp = echo "forwarders { ${WG_IF_DNS//,/;}; $DEFAULT_DNS; };" > /etc/bind/vpn.forwarder.$vpn
 PostUp = ip route add default dev $vpn table gateway_pool metric $metric ; iptables -w -t nat -A POSTROUTING -o $vpn -j SNAT --to-source $ipv4 ; /usr/local/bin/freifunk-gateway-check.sh &
-PreDown = ip route del default dev $vpn table gateway_pool metric $metric ; iptables -t nat -D POSTROUTING -o $vpn -j SNAT --to-source $ipv4 ; ip link delete $vpn ; /usr/local/bin/freifunk-gateway-check.sh &
+PreDown = ip route del default dev $vpn table gateway_pool metric $metric ; iptables -t nat -D POSTROUTING -o $vpn -j SNAT --to-source $ipv4 ; ip addr flush dev $vpn ; ip link delete $vpn ; /usr/local/bin/freifunk-gateway-check.sh &
 
 [Peer]
 PublicKey = $WG_PEER_PUBLIC_KEY
