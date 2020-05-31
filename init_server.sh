@@ -47,6 +47,7 @@ install_uci() {
 				rm -f "$TEMP_DEB"
 		fi
 	done
+	ldconfig
 }
 
 
