@@ -15,7 +15,7 @@ openvpn:
 {% if ddmesh_disable_gateway == '0' %}
 
 {# VPN 0 #}
-{% if salt['file.directory_exists' ]('/etc/openvpn/openvpn-vpn0.conf') %}
+{% if salt['file.file_exists' ]('/etc/openvpn/openvpn-vpn0.conf') %}
 ovpn0_service:
   service.running:
     - name: openvpn@openvpn-vpn0.service
@@ -51,7 +51,7 @@ ovpn0_service_dead:
 {% endif %}
 
 {# VPN 1 #}
-{% if salt['file.directory_exists' ]('/etc/openvpn/openvpn-vpn1.conf') %}
+{% if salt['file.file_exists' ]('/etc/openvpn/openvpn-vpn1.conf') %}
 ovpn1_service:
   service.running:
     - name: openvpn@openvpn-vpn1.service
@@ -91,7 +91,7 @@ ovpn1_service_dead:
 {% elif ddmesh_disable_gateway == '1' %}
 
 {# VPN 0 #}
-{% if salt['file.directory_exists' ]('/etc/openvpn/openvpn-vpn0.conf') %}
+{% if salt['file.file_exists' ]('/etc/openvpn/openvpn-vpn0.conf') %}
 ovpn0_service_dead:
   service.dead:
     - name: openvpn@openvpn-vpn0.service
@@ -99,7 +99,7 @@ ovpn0_service_dead:
 {% endif %}
 
 {# VPN 1 #}
-{% if salt['file.directory_exists' ]('/etc/openvpn/openvpn-vpn1.conf') %}
+{% if salt['file.file_exists' ]('/etc/openvpn/openvpn-vpn1.conf') %}
 ovpn1_service_dead:
   service.dead:
     - name: openvpn@openvpn-vpn1.service
