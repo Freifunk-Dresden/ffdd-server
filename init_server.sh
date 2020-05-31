@@ -213,15 +213,19 @@ systemctl disable salt-minion ; systemctl stop salt-minion &
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
 
-if [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
+if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
+	CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
+	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
+
+	CUSTOM_REV="$(nvram get branch)"
+	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
+
+elif [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
 	CUSTOM_REPO_URL="$(uci -qX get ffdd.sys.freifunk_repo)"
 	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
 
 	CUSTOM_REV="$(uci -qX get ffdd.sys.branch)"
 	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
-
-	# notice: we do not need to replace the REPO in the next step.
-	# salt_call will do that for us later.
 fi
 
 if [ -d "$INSTALL_DIR" ]; then
@@ -244,6 +248,7 @@ if [ "$OPT_UPDATE" != '0' ]; then
 	fi
 fi
 
+
 printf '\n### Backup old User configs ..\n'
 
 cp -vf /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
@@ -255,7 +260,7 @@ mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
 printf '\n### Check uci Setup ..\n'
 # uci config
 if [ ! -f /etc/config/ffdd ]; then
-	printf '\n### Create New /etc/config/ffdd ..\n'
+	printf '\n# Create New /etc/config/ffdd ..\n'
 	[ ! -d /etc/config ] && mkdir /etc/config
 	cp -fv "$INSTALL_DIR"/salt/freifunk/base/uci/etc/config/ffdd /etc/config/ffdd
 fi
