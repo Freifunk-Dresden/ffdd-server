@@ -113,21 +113,21 @@ EOM
 			do
 				if [ "$iface" = "$wan_ifname" ]; then
 					iface_alias="wan"
-					echo "		\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+					echo "			\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
 
 				if [ "$iface" = "$tbb_fastd_ifname" ]; then
 					iface_alias="tbb_fastd"
-					echo "		\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+					echo "			\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
 			done
 
 			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
 			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
-			echo "				\"traffic_ovpn\" : \"$rx,$tx\","
+			echo "			\"traffic_ovpn\" : \"$rx,$tx\","
 
 cat<<EOM
-			$(sed -n '/^MemTotal\|^MemFree\|^Buffers\|^Cached/{s#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#p}' /proc/meminfo)
+$(sed -n '/^MemTotal\|^MemFree\|^Buffers\|^Cached/{s#\(.*\):[ 	]\+\([0-9]\+\)[ 	]*\(.*\)#\t\t\t\"meminfo_\1\" : \"\2\ \3\",#p}' /proc/meminfo)
 			"cpu_load" : "$(cat /proc/loadavg)",
 			"cpu_stat" : "$(sed -n '/^cpu[ 	]\+/{s# \+# #;p}' /proc/stat)",
 			"gateway_usage" : [ ]
@@ -163,13 +163,17 @@ cat<<EOM
 				"selected":"$(sed -n 's#^[	 ]*=>[	 ]\+\([0-9.]\+\).*$#\1#p' "$BMXD_DB_PATH"/gateways)",
 				"preferred":"$(sed -n '1,1s#^.*preferred gateway:[	 ]\+\([0-9.]\+\).*$#\1#p' "$BMXD_DB_PATH"/gateways)",
 				"gateways":[
-					$(sed -n '
+$(sed -n '
 					/^[	 ]*$/d
 					1,1d
-					s#^[	 =>]*\([0-9.]\+\).*$#\t\t\t\t{"ip":"\1"},#p
-				' "$BMXD_DB_PATH"/gateways | sed '$s#,[	 ]*$##') ]
+					s#^[	 =>]*\([0-9.]\+\).*$#\t\t\t\t\t{"ip":"\1"},#p
+				' "$BMXD_DB_PATH"/gateways | sed '$s#,[	 ]*$##')
+				]
 			},
-			"info":[ $(sed 's#^[ 	]*\(.*\)$#\t\t\t\t"\1",#; $s#,[ 	]*$##' "$BMXD_DB_PATH"/info) ]
+			"info":[
+$(sed '
+					s#^[ 	]*\(.*\)$#\t\t\t\t"\1",#; $s#,[ 	]*$##' "$BMXD_DB_PATH"/info)
+			]
 		},
 		"connections":[
 EOM
