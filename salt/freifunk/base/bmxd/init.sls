@@ -45,7 +45,7 @@ rc.d_S52batmand:
       - file: /etc/init.d/S52batmand
 
 {# only then fastd2 is configured and the service is enabled #}
-{% if nodeid != '' or nodeid != '-' or ddmesh_registerkey != '' or ddmesh_registerkey != '-' %}
+{% if nodeid != '' and nodeid != '-' or ddmesh_registerkey != '' and ddmesh_registerkey != '-' %}
 S52batmand:
   service:
     - running

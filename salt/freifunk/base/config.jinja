@@ -25,12 +25,12 @@
 {% set hostname = salt['cmd.shell']('cat /etc/hostname') %}
 {% set ifname = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ifname') %}
 {% set nodeid = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_node') %}
-{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | sed 's/\/.*//'") %}
+{% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | head -1 | sed 's/\/.*//'") %}
 
 {% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_disable_gateway') %}
 
 {# ctime - used for crontab minutes #}
-{% if nodeid != '' or nodeid != '-' %}
+{% if nodeid != '' and nodeid != '-' %}
 {%- set ctime = salt['cmd.shell']('expr '~ nodeid ~' % 60 || true') %}
 {% else %}
 {% set ctime = '1' %}
