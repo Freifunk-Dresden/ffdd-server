@@ -261,7 +261,7 @@ if [ ! -f /etc/config/ffdd ]; then
 fi
 
 # nvram migration
-if [ -f /etc/nvram.conf ]; then
+if [ -f /etc/nvram.conf ] && ! [ -L /etc/nvram.conf ]; then
 	printf '\n# migrate old nvram to uci ..\n'
 	"$INSTALL_DIR"/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
 

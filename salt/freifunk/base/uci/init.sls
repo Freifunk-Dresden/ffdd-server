@@ -89,15 +89,23 @@ migrate_nvram:
         /srv/ffdd-server/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
         mv /etc/nvram.conf /etc/nvram.backup
         rm -f /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
-    - onlyif: test -f /etc/nvram.conf
+    - onlyif: test -f /etc/nvram.conf -a ! -L /etc/nvram.conf
     - require:
       - pkg: uci
       - file: /etc/config/ffdd
 
-{# symlink for old nvram cmd #}
+
+{# symlink for old nvram #}
 /usr/local/bin/nvram:
   file.symlink:
     - target: /usr/local/sbin/uci
+    - force: True
+    - require:
+      - pkg: uci
+
+/etc/nvram.conf:
+  file.symlink:
+    - target: /etc/config/ffdd
     - force: True
     - require:
       - pkg: uci
