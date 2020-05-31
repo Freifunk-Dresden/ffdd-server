@@ -2,9 +2,12 @@
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
 ## version 1.3.0
-**Notice:**<br />
-In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!<br />
+**Notice:**
+In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!
 *You can find a complete example configuration in [/etc/config/ffdd_sample](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd).*
+
+This update is not carried out automatically and must be done manually be performed.
+use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `freifunk-manuell_update.sh`
 
 The current nvram.conf will be migrated automatically.
 
@@ -21,6 +24,11 @@ The current nvram.conf will be migrated automatically.
 	- fix ntp.service to wait for bat0 interface
 	- fix pb requirement
 	- some small code optimizations
+
+## version 1.2.5
+	- fix freifunk-manuell_update.sh
+	- turn autoupdate off. here it is better if the admin carries out the update manually.
+	  ( after the update, the auto-update becomes active again if it is enabled in /etc/config/ffdd. )
 
 ## version 1.2.4
 	- add fallback dns for tunnel provider and make it configurable
@@ -51,7 +59,7 @@ The current nvram.conf will be migrated automatically.
 		- add `init_server` alias (OS and Firmware Update)
 
 ## version 1.1.0
-**Notice:**<br />
+**Notice:**
 This update is not carried out automatically and must be done manually be performed.
 
 ***Please reboot the Server after upgrade.***
