@@ -213,7 +213,7 @@ systemctl disable salt-minion ; systemctl stop salt-minion &
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
 
-if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ]; then
+if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ] && ! [ -L /etc/nvram.conf ]; then
 	CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
 	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
 
