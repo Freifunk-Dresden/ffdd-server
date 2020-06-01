@@ -11,6 +11,8 @@ use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `frei
 
 The current nvram.conf will be migrated automatically.
 
+we also update devel commands in the `init_server.sh` - please see [readme.md](https://github.com/Freifunk-Dresden/ffdd-server#development) part.
+
 	- add uci config management
 		- change nvram to uci
 	- change bmxd from manuell build to package installation

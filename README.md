@@ -208,13 +208,18 @@ salt-call state.highstate --local -l error
 Um eine andere Release-Version zu benutzen ist ein notwendig in der `/etc/config/ffdd` die Option "branch" anzupassen.
 
 Default (Stable):
-```
-uci set ffdd.sys.branch='T_RELEASE_latest'
+```bash
+uci set ffdd.sys.branch='T_RELEASE_latest' ; uci commit
 ```
 
 Development:
+```bash
+uci set ffdd.sys.branch='master' ; uci commit
 ```
-uci set ffdd.sys.branch='master'
+
+Zudem ist es auch möglich seine eigene Repository URL zu nutzen.
+```bash
+uci set ffdd.sys.freifunk_repo='https://your_repo_url/' ; uci commit
 ```
 
 ### DEV init_server.sh - Installation
