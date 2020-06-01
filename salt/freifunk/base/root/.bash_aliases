@@ -12,6 +12,9 @@ fi
 # Freifunk Aliases
 #
 
+alias freifunk-bmxd='/etc/init.d/S52batmand'
+alias freifunk-fastd='/etc/init.d/S53backbone-fastd2'
+
 alias freifunk-version='cat /etc/freifunk-server-version'
 alias freifunk-gw-status='/usr/local/bin/freifunk-gateway-status.sh'
 
