@@ -88,7 +88,7 @@ Beispiel: `hostnamectl set-hostname vpnxy.freifunk-dresden.de`
 
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
 
-- ***execute in screen*** > Es wird empfohlen bei der Erstinstallation das Script in einem screen auszuführen! Sollte es zu Verbindungsabbrüchen während der Installations kommen so kann man nach dem erneuten Verbinden sich einfach den screen wieder öffnen (attch). `man screen` für weitere Informationen.
+- ***execute in screen or use mosh*** > Es wird empfohlen bei der Erstinstallation sowie bei manuellen Updates das Script in einem screen auszuführen! Sollte es zu Verbindungsabbrüchen während der Installations oder den Updates kommen so kann man nach dem erneuten Verbinden sich einfach den screen wieder öffnen (attch). `man screen` für weitere Informationen. Alternativ kann man auch `mosh` anstelle von `ssh` nutzen.
 <br/>
 
 **Folgendes cloned und Installiert das Repository.**<br/>
