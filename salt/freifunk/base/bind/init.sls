@@ -26,22 +26,16 @@ bind:
 {% if nodeid == '3' %}
       - file: /etc/bind/zones
 {% endif %}
+{# ALL DNS server #}
     - require:
-      - pkg: bind
-      - service: S40network
-      - service: S41firewall
-      - file: /lib/systemd/system/bind9.service
-      - file: /etc/bind/named.conf
-      - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.local
-      - file: /etc/bind/named.conf.default-zones
-      - file: /var/log/named
-      - /etc/bind/db.root
-      - bind_reload_daemon
-{# Default GW Server #}
 {% else %}
+{# Default GW Server #}
       - file: /etc/bind/vpn.forwarder
     - require:
+      - file: /etc/bind/vpn.forwarder
+{% endif %}
+{# ALL #}
       - pkg: bind
       - service: S40network
       - service: S41firewall
@@ -49,11 +43,10 @@ bind:
       - file: /etc/bind/named.conf
       - file: /etc/bind/named.conf.options
       - file: /etc/bind/named.conf.default-zones
-      - file: /etc/bind/vpn.forwarder
       - file: /var/log/named
       - /etc/bind/db.root
       - bind_reload_daemon
-{% endif %}
+      - sls: ddmesh.autoconfig
 
 
 /lib/systemd/system/bind9.service:

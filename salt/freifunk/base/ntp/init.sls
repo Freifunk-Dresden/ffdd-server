@@ -18,6 +18,8 @@ ntp:
 {% else %}
       - file: /lib/systemd/system/ntp.service
 {% endif %}
+      - service: S52batmand
+      - service: S53backbone-fastd2
 
 
 {# Configuration #}
