@@ -19,6 +19,7 @@ we also update devel commands in the `init_server.sh` - please see [readme.md](h
 		- change from manuell build to package installation
 		- allow to define a list of mesh interfaces (ffdd.sys.bmxd_mesh_if)
 	- fastd:
+		- update to v19
 		- add white/blacklists for better connection control
 		- fix `add_connect`
 	- add wan-traffic stat to sysinfo.json
