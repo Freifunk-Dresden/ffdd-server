@@ -51,14 +51,21 @@ fi
 # 127er IP would be broadcasted
 PRIMARY_IF="bmx_prime"
 FASTD_IF="tbb_fastd2"
+MESH_IF=("$(uci -qX get ffdd.sys.bmxd_mesh_if)")
 if [ "$1" = "start" ]; then
 	#ip link add link lo name "$PRIMARY_IF" type bridge
 	ip tuntap add dev "$PRIMARY_IF" mod tun
 	ip addr add "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
 	ip link set dev "$PRIMARY_IF" up
 fi
-
 _IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
+
+if [ -n "$MESH_IF" ] && [ "$MESH_IF" != '-' ]; then
+	for M_IF in "${MESH_IF[@]}"; do
+		_IF="$_IF dev=$M_IF /linklayer 1"
+	done
+fi
+
 
 # default start with no gatway.will be updated by gateway_check.sh
 SPECIAL_OPTS='--throw-rules 0 --prio-rules 0'

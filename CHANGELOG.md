@@ -6,16 +6,18 @@
 In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!
 *You can find a complete example configuration in [/etc/config/ffdd_sample](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd).*
 
+The current nvram.conf will be migrated automatically to uci.
+
 This update is not carried out automatically and must be done manually be performed.
 use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `freifunk-manuell_update.sh`
-
-The current nvram.conf will be migrated automatically.
 
 we also update devel commands in the `init_server.sh` - please see [readme.md](https://github.com/Freifunk-Dresden/ffdd-server#development) part.
 
 	- add uci config management
 		- change nvram to uci
-	- change bmxd from manuell build to package installation
+	- bmxd:
+		- change from manuell build to package installation
+		- allow to define a list of mesh interfaces (ffdd.sys.bmxd_mesh_if)
 	- fastd:
 		- add white/blacklists for better connection control
 		- fix `add_connect`

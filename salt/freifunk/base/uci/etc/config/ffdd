@@ -46,6 +46,7 @@ config 'ffdd' 'sys'
 
 	# BMXD
 	option 'bmxd_prefered_gateway' '-'
+	list 'bmxd_mesh_if' '-'
 
 	# gps coordinates. see /var/www/sysinfo.json
 	# this functionality is not part of Basic Vserver installation, as this service should only run on one or an backup server.
