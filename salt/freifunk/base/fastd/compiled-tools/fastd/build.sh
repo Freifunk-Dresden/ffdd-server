@@ -1,25 +1,14 @@
 #!/usr/bin/env bash
 ### This file managed by Salt, do not edit by hand! ###
 #
-# fastd + libuecc
-# https://projects.universe-factory.net/projects/fastd/wiki/Building
-# https://projects.universe-factory.net/projects/fastd/files
-#
-# git: fastd
-# http://git.universe-factory.net/fastd/
-# git: libuecc
-# http://git.universe-factory.net/libuecc/
+# https://fastd.readthedocs.io/en/stable/index.html
 #
 
 LIBUECC_REPO_URL='https://github.com/NeoRaider/libuecc.git'
 FASTD_REPO_URL='https://github.com/NeoRaider/fastd.git'
 
-# fastd v17
-#fastd_rev='0358cbf937ee73447970546290a01f82c450dab9'
-#libuecc_rev='bb4fcb93282ca2c3440294683c88e8d54a1278e0'
-
-# fastd v18+ (devel)
-#fastd_rev='3995adf7882a43d4c7c206a1c5335e3fdbc9c529'
+# fastd master
+#fastd_rev='8dc1ed3a1ee9af731205a7a4e167c1c2d1b3d819'
 #libuecc_rev='7c9a6f6af088d0764e792cf849e553d7f55ff99e'
 
 # fastd v19
@@ -61,7 +50,6 @@ build_fastd()
 		-DENABLE_LIBSODIUM:BOOL=FALSE \
 		-DENABLE_LTO:BOOL=FALSE \
 		-DWITH_CAPABILITIES:BOOL=FALSE \
-		-DWITH_VERIFY:BOOL=FALSE \
 		-DWITH_MAC_GHASH:BOOL=FALSE \
 		-DWITH_CMDLINE_USER:BOOL=FALSE \
 		-DWITH_CMDLINE_LOGGING:BOOL=FALSE \
@@ -72,7 +60,6 @@ build_fastd()
 		-DWITH_METHOD_GENERIC_GMAC:BOOL=FALSE \
 		-DWITH_METHOD_GENERIC_POLY1305:BOOL=FALSE \
 		-DWITH_METHOD_NULL:BOOL=TRUE \
-		-DWITH_METHOD_XSALSA20_POLY1305:BOOL=FALSE \
 		-DWITH_CIPHER_AES128_CTR:BOOL=FALSE \
 		-DWITH_CIPHER_NULL:BOOL=TRUE \
 		-DWITH_CIPHER_SALSA20:BOOL=FALSE \
