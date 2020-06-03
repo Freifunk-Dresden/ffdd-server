@@ -48,7 +48,6 @@ interface "tbb_fastd2";
 method "null";
 method "null+salsa2012+umac";
 method "salsa2012+umac";
-secure handshakes yes;
 bind any:$backbone_server_port;
 secret "$secret";
 mtu $MTU;
