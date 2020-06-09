@@ -26,6 +26,7 @@ we also update devel commands in the `init_server.sh` - please see [readme.md](h
 	- optimize freifunk-manuell_update.sh to use init_server.sh
 	- reduced process priority for salt
 	- increase fail2ban maxretry
+	- add option to disable apache ddos prevention
 	- fix ntp.service to wait for bat0 interface
 	- fix pb requirement
 	- some small code optimizations
