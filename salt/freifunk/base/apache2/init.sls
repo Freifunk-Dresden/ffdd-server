@@ -1,3 +1,5 @@
+{%- set apache_ddos_prevent = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.apache_ddos_prevent') %}
+
 {# Apache2 Webserver #}
 apache2:
   pkg.installed:
@@ -5,7 +7,6 @@ apache2:
     - names:
       - apache2
       - apache2-utils
-      - libapache2-mod-evasive
       - libapache2-mod-fcgid
       - libapache2-mod-auth-plain
       - libapache2-mod-authnz-pam
@@ -33,6 +34,7 @@ apache2:
       - apache2_mod_disable
       - apache2_mod_enable
       - apache2_mod_php
+      - libapache2-mod-evasive
     - require:
       - pkg: apache2
       - service: S40network
@@ -41,6 +43,16 @@ apache2:
       - file: /etc/apache2/conf-available/letsencrypt.conf
       - file: /var/www_freifunk
       - apache2_site_enable_freifunk
+
+
+{% if apache_ddos_prevent == '1' %}
+libapache2-mod-evasive:
+  pkg.installed:
+    - refresh: True
+{% else %}
+libapache2-mod-evasive:
+  pkg.removed
+{% endif %}
 
 
 {# disable default page #}
