@@ -37,9 +37,12 @@ if [ "$1" = "start" ]; then
 #----- setup NAT rules -----
 	printf 'setting up SNAT/MASQUERADE rules ...\n'
 
-	#dont SNAT locally generated packets target for local
+	# don't SNAT locally generated packets target for local
 	$IPT -w -t nat -A POSTROUTING -o lo -j ACCEPT
 
+    # don't SNAT icmp through backbone, to allow run ping on those links
+    $IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p icmp -j ACCEPT
+    
 	#SNAT all traffic to backbone which comes from tbb only (set source=node-ip)
 	#DON'T SNAT OGMs
 	$IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p udp --dport 4305:4307 -j ACCEPT
