@@ -1,4 +1,6 @@
 {# Network Time Protocol #}
+{% from 'config.jinja' import nodeid, ddmesh_registerkey %}
+
 ntp:
   pkg.installed:
     - refresh: true
@@ -9,6 +11,10 @@ ntp:
     - restart: true
     - watch:
       - file: /etc/ntp.conf
+{% if nodeid != '' and nodeid != '-' or ddmesh_registerkey != '' and ddmesh_registerkey != '-' %}
+      - service: S52batmand
+      - service: S53backbone-fastd2
+{% endif %}
     - require:
       - pkg: ntp
       - file: /etc/ntp.conf
@@ -18,8 +24,8 @@ ntp:
 {% else %}
       - file: /lib/systemd/system/ntp.service
 {% endif %}
-      - service: S52batmand
-      - service: S53backbone-fastd2
+      - service: S40network
+      - service: S41firewall
 
 
 {# Configuration #}

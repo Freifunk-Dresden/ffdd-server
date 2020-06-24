@@ -22,7 +22,6 @@ base:
 
     - locales
     - timezone
-    - ntp
 
     - kernel
     - kernel.sysctl
@@ -57,6 +56,7 @@ base:
     {# services #}
     - ssh
     - bind
+    - ntp
     - openvpn
     - wireguard
 
