@@ -7,13 +7,14 @@
 LIBUECC_REPO_URL='https://github.com/NeoRaider/libuecc.git'
 FASTD_REPO_URL='https://github.com/NeoRaider/fastd.git'
 
-# fastd master
+
+libuecc_rev='7c9a6f6af088d0764e792cf849e553d7f55ff99e'
+
+# fastd v18 (master)
 #fastd_rev='8dc1ed3a1ee9af731205a7a4e167c1c2d1b3d819'
-#libuecc_rev='7c9a6f6af088d0764e792cf849e553d7f55ff99e'
 
 # fastd v19
 fastd_rev='92bc1c105119c08e340045a157e9bace9a04bb6a'
-libuecc_rev='7c9a6f6af088d0764e792cf849e553d7f55ff99e'
 
 
 build_libuecc()
@@ -24,14 +25,13 @@ build_libuecc()
 		if [ -f libuecc-$libuecc_rev.tgz ]; then
 			tar xzf libuecc-"$libuecc_rev".tgz
 		else
-			git clone "$LIBUECC_REPO_URL"
-			git checkout "$libuecc_rev"
+			git clone "$LIBUECC_REPO_URL" ; cd libuecc
+			git checkout "$libuecc_rev" ; cd ..
 			rev="$(git -C libuecc log -1 | sed -n '/^commit/s#commit ##p')"
 			tar czf libuecc-"$rev".tgz libuecc
 		fi
 		cd libuecc || exit 1
-		mkdir build
-		cd build || exit 1
+		mkdir build ; cd build
 		cmake ..
 		make
 		make install
@@ -70,8 +70,8 @@ build_fastd()
 		if [ -f fastd-$fastd_rev.tgz ]; then
 			tar xzf fastd-"$fastd_rev".tgz
 		else
-			git clone "$FASTD_REPO_URL"
-			git checkout "$fastd_rev"
+			git clone "$FASTD_REPO_URL" ; cd fastd
+			git checkout "$fastd_rev" ; cd ..
 			rev="$(git -C fastd log -1 | sed -n '/^commit/s#commit ##p')"
 			tar czf fastd-"$rev".tgz fastd
 		fi
@@ -79,8 +79,7 @@ build_fastd()
 		patch --directory=fastd -p0 < urandom.patch
 
 		cd fastd || exit 1
-		mkdir build
-		cd build || exit 1
+		mkdir build ; cd build
 		# shellcheck disable=SC2086
 		cmake ../ $CMAKE_OPTIONS
 		#cmake ../ -DCMAKE_BUILD_TYPE=RELEASE -DENABLE_LIBSODIUM:BOOL=FALSE -DENABLE_LTO:BOOL=FALSE -DWITH_CAPABILITIES:BOOL=FALSE
