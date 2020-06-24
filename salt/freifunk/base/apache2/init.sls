@@ -1,6 +1,6 @@
-{%- set apache_ddos_prevent = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.apache_ddos_prevent') %}
-
 {# Apache2 Webserver #}
+{% from 'config.jinja' import apache_ddos_prevent %}
+
 apache2:
   pkg.installed:
     - refresh: True

@@ -7,13 +7,14 @@
 
 {% set install_dir = '/srv/ffdd-server' %}
 
+{% set freifunk_dl_url = 'https://download.freifunk-dresden.de/server/packages' %}
+
 {% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server' %}
 {% set custom_freifunk_repo = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.freifunk_repo') %}
 
 {% set branch = 'T_RELEASE_latest' %}
 {% set custom_branch = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.branch') %}
 
-{% set freifunk_dl_url = 'https://download.freifunk-dresden.de/server/packages' %}
 
 {% set autoupdate = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.autoupdate') %}
 {% set freifunk_version = salt['cmd.shell']('test -f /usr/local/bin/freifunk-version && /usr/local/bin/freifunk-version || printf "n.a\n"') %}
@@ -28,6 +29,8 @@
 {% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | head -1 | sed 's/\/.*//'") %}
 
 {% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_disable_gateway') %}
+{% set apache_ddos_prevent = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.apache_ddos_prevent || true') %}
+
 
 {# ctime - used for crontab minutes #}
 {% if nodeid != '' and nodeid != '-' %}
