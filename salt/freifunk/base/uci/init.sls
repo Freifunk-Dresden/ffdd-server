@@ -109,3 +109,4 @@ migrate_nvram:
     - force: True
     - require:
       - pkg: uci
+      - file: /etc/config/ffdd
