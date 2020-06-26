@@ -32,6 +32,9 @@ we also update devel commands in the `init_server.sh` - please see [readme.md](h
 	- fix pb requirement
 	- some small code optimizations
 
+## version 1.2.6
+	- fix fastd build script
+
 ## version 1.2.5
 	- fix freifunk-manuell_update.sh
 	- turn autoupdate off. here it is better if the admin carries out the update manually.
