@@ -107,8 +107,8 @@ accept_peer()
 	bmxd -c dev="$sub_ifname" /linklayer 1
 
 	if [ "$store" = "1" ]; then
-		echo "node $node" > "$peers_dir"/accept_$node
-		echo "key $key" >> "$peers_dir"/accept_$node
+		echo "node $node" > "$peers_dir"/accept_"$node"
+		echo "key $key" >> "$peers_dir"/accept_"$node"
 	fi
 }
 
