@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.2.6
+	- fix fastd build script
+
 ## version 1.2.5
 	- fix freifunk-manuell_update.sh
 	- turn autoupdate off. here it is better if the admin carries out the update manually.
