@@ -50,6 +50,7 @@ wgvpn0_service:
       - service: S40network
       - service: S41firewall
     - require:
+      - pkg: wireguard
       - service: S40network
       - service: S41firewall
       - file: /etc/wireguard/vpn0.conf
@@ -78,6 +79,7 @@ wgvpn1_service:
       - service: S40network
       - service: S41firewall
     - require:
+      - pkg: wireguard
       - service: S40network
       - service: S41firewall
       - file: /etc/wireguard/vpn1.conf

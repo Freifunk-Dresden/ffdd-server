@@ -59,6 +59,7 @@ base:
     - ntp
     - openvpn
     - wireguard
+    - wireguard.backbone
 
     - iperf3
     - vnstat

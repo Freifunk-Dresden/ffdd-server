@@ -31,10 +31,11 @@ config 'ffdd' 'sys'
 	option 'fastd_secret' '-'
 	option 'fastd_public' '-'
 
-	# to accept all in comming connection, set this to 0 or remove this line.
+	# to accept all in comming backbone connection, set this to 0.
 	# When set to 1, only already known connections are accepted. this may be used
 	# to prevent overloading a server.
 	option 'fastd_restrict' '0'
+	option 'wireguard_restrict' '0'
 
 	# SSH Password-Authentification (0=off 1=on)
 	# To disable tunneled clear text passwords and allow only pub-key auth.
