@@ -42,7 +42,7 @@ if [ "$1" = "start" ]; then
 
     # don't SNAT icmp through backbone, to allow run ping on those links
     $IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p icmp -j ACCEPT
-    
+
 	#SNAT all traffic to backbone which comes from tbb only (set source=node-ip)
 	#DON'T SNAT OGMs
 	$IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p udp --dport 4305:4307 -j ACCEPT
