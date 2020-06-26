@@ -5,7 +5,7 @@
 ;;
 $TTL 28800
 @       IN  SOA ns1.ffdd. root.ffdd. (
-                1591704193 ; Serial
+                1593086755 ; Serial
                 10800 ; Refresh
                 3600 ; Retry
                 604800 ; Expire
@@ -23,30 +23,71 @@ ntp1    IN  A       10.200.0.4
 ntp2    IN  A       10.200.0.16
 ;
 ;; Gateways
-vpn1    IN  CNAME   255.ffdd.
-vpn2    IN  CNAME   111.ffdd.
-vpn3    IN  CNAME   2.ffdd.
-vpn4    IN  CNAME   51067.ffdd.
-;vpn5    IN  CNAME   X.ffdd.
-vpn6    IN  CNAME   51017.ffdd.
-vpn7    IN  CNAME   4.ffdd.
-;vpn8    IN  CNAME   X.ffdd.
-;vpn9    IN  CNAME   X.ffdd.
-;vpn10   IN  CNAME   X.ffdd.
-vpn11   IN  CNAME   200.ffdd.
-vpn12   IN  CNAME   256.ffdd.
-vpn13   IN  CNAME   13.ffdd.
-vpn14   IN  CNAME   14.ffdd.
-;vpn15   IN  CNAME   X.ffdd.
-vpn16   IN  CNAME   201.ffdd.
-vpn17   IN  CNAME   51007.ffdd.
-vpn-zh  IN  CNAME   51064.ffdd.
-vpn-offloader IN CNAME 51051.ffdd.
+$ORIGIN vpn1.ffdd.
+*        IN  CNAME   255.ffdd.
+;
+$ORIGIN vpn2.ffdd.
+*        IN  CNAME   111.ffdd.
+;
+$ORIGIN vpn3.ffdd.
+*        IN  CNAME   2.ffdd.
+;
+$ORIGIN vpn4.ffdd.
+*        IN  CNAME   51067.ffdd.
+;
+;$ORIGIN vpn5.ffdd.
+;*        IN  CNAME   X.ffdd.
+;
+$ORIGIN vpn6.ffdd.
+*        IN  CNAME   51017.ffdd.
+;
+$ORIGIN vpn7.ffdd.
+*        IN  CNAME   4.ffdd.
+;
+;$ORIGIN vpn8.ffdd.
+;*        IN  CNAME   X.ffdd.
+;
+;$ORIGIN vpn9.ffdd.
+;*        IN  CNAME   X.ffdd.
+;
+;$ORIGIN vpn10.ffdd.
+;*        IN  CNAME   X.ffdd.
+;
+$ORIGIN vpn11.ffdd.
+*        IN  CNAME   200.ffdd.
+;
+$ORIGIN vpn12.ffdd.
+*        IN  CNAME   256.ffdd.
+;
+$ORIGIN vpn13.ffdd.
+*        IN  CNAME   13.ffdd.
+;
+$ORIGIN vpn14.ffdd.
+*        IN  CNAME   14.ffdd.
+;
+;$ORIGIN vpn15.ffdd.
+;*        IN  CNAME   X.ffdd.
+;
+$ORIGIN vpn16.ffdd.
+*        IN  CNAME   201.ffdd.
+;
+$ORIGIN vpn17.ffdd.
+*        IN  CNAME   51007.ffdd.
+;
+$ORIGIN vpn-zh.ffdd.
+*        IN  CNAME   51064.ffdd.
+;
+$ORIGIN vpn-offloader.ffdd.
+*        IN  CNAME   51051.ffdd.
+;
+; reset ORIGIN
+$ORIGIN ffdd.
 ;
 ;; Dienste
 hotspot IN  A       100.64.0.1
 geoloc  IN  A       10.200.0.1
 speedtest IN A      10.200.200.26
+talk    IN  CNAME   talk.freifunk-dresden.de
 ;
 api     IN  CNAME   api.freifunk-dresden.de.
 blog    IN  CNAME   blog.freifunk-dresden.de.
