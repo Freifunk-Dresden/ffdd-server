@@ -4,9 +4,9 @@
 {# install only than Kernel Package available #}
 {% if kernel_pkg_check == '1' %}
 
-/etc/wireguard/wg-backbone.sh:
+/etc/wireguard-backbone/wg-backbone.sh:
   file.managed:
-    - source: salt://wireguard/etc/wireguard/wg-backbone.sh
+    - source: salt://wireguard/etc/wireguard-backbone/wg-backbone.sh
     - user: root
     - group: root
     - mode: 755
@@ -15,9 +15,9 @@
 
 /usr/local/bin/wg-backbone.sh:
   file.symlink:
-    - target: /etc/wireguard/wg-backbone.sh
+    - target: /etc/wireguard-backbone/wg-backbone.sh
     - force: True
     - require:
-      - file: /etc/wireguard/wg-backbone.sh
+      - file: /etc/wireguard-backbone/wg-backbone.sh
 
 {% endif %}
