@@ -15,12 +15,12 @@ check_salt_repo() {
 	# repos needs also a check in salt/freifunk/base/salt-minion/init.sls
 	case "$1" in
 		debian9 )
-			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
-			echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/2018.3 stretch main' | tee /etc/apt/sources.list.d/saltstack.list
+			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2019.2/SALTSTACK-GPG-KEY.pub | apt-key add -
+			echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/2019.2 stretch main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 		ubuntu16 )
-			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub | apt-key add -
-			echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
+			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2/SALTSTACK-GPG-KEY.pub | apt-key add -
+			echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 	esac
 }

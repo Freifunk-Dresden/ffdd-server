@@ -7,24 +7,24 @@ salt-minion:
   {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
   pkgrepo.managed:
     - humanname: SaltStack
-    - name: deb http://repo.saltstack.com/apt/debian/9/amd64/2018.3 stretch main
+    - name: deb http://repo.saltstack.com/apt/debian/9/amd64/2019.2 stretch main
     - dist: stretch
     - file: /etc/apt/sources.list.d/saltstack.list
     - require_in:
       - pkg: salt-minion
     - gpgcheck: 1
-    - key_url: https://repo.saltstack.com/apt/debian/9/amd64/2018.3/SALTSTACK-GPG-KEY.pub
+    - key_url: https://repo.saltstack.com/apt/debian/9/amd64/2019.2/SALTSTACK-GPG-KEY.pub
 
   {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
   pkgrepo.managed:
     - humanname: SaltStack
-    - name: deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3 xenial main
+    - name: deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2 xenial main
     - dist: xenial
     - file: /etc/apt/sources.list.d/saltstack.list
     - require_in:
       - pkg: salt-minion
     - gpgcheck: 1
-    - key_url: https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2018.3/SALTSTACK-GPG-KEY.pub
+    - key_url: https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2/SALTSTACK-GPG-KEY.pub
 
   {% else %}
   file.absent:
