@@ -2,7 +2,7 @@
 {% from 'config.jinja' import kernel_pkg_check, ddmesh_disable_gateway %}
 
 {# install only than Kernel Package available #}
-{% if kernel_pkg_check == '1' %}
+{% if kernel_pkg_check >= '1' %}
 
 {# Package #}
 wireguard:
@@ -130,5 +130,5 @@ wgvpn1_service_dead:
       - file: /etc/config/ffdd
       - file: /etc/config/ffdd_sample
 
-{# end if kernel_pkg_check == '1' #}
+{# end if kernel_pkg_check >= '1' #}
 {% endif %}

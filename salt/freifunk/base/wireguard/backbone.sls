@@ -2,7 +2,7 @@
 {% from 'config.jinja' import kernel_pkg_check %}
 
 {# install only than Kernel Package available #}
-{% if kernel_pkg_check == '1' %}
+{% if kernel_pkg_check >= '1' %}
 
 /etc/wireguard-backbone/wg-backbone.sh:
   file.managed:
