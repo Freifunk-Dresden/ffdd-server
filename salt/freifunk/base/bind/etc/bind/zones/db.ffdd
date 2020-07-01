@@ -5,7 +5,7 @@
 ;;
 $TTL 28800
 @       IN  SOA ns1.ffdd. root.ffdd. (
-                1593086755 ; Serial
+                1593604715 ; Serial
                 10800 ; Refresh
                 3600 ; Retry
                 604800 ; Expire
@@ -24,61 +24,61 @@ ntp2    IN  A       10.200.0.16
 ;
 ;; Gateways
 $ORIGIN vpn1.ffdd.
-*        IN  CNAME   255.ffdd.
+*        IN  A       10.200.1.1
 ;
 $ORIGIN vpn2.ffdd.
-*        IN  CNAME   111.ffdd.
+*        IN  A       10.200.0.112
 ;
 $ORIGIN vpn3.ffdd.
-*        IN  CNAME   2.ffdd.
+*        IN  A       10.200.0.3
 ;
 $ORIGIN vpn4.ffdd.
-*        IN  CNAME   51067.ffdd.
+*        IN  A       10.200.200.68
 ;
 ;$ORIGIN vpn5.ffdd.
-;*        IN  CNAME   X.ffdd.
+;*        IN  A       X
 ;
 $ORIGIN vpn6.ffdd.
-*        IN  CNAME   51017.ffdd.
+*        IN  A       10.200.200.18
 ;
 $ORIGIN vpn7.ffdd.
-*        IN  CNAME   4.ffdd.
+*        IN  A       10.200.0.5
 ;
 ;$ORIGIN vpn8.ffdd.
-;*        IN  CNAME   X.ffdd.
+;*        IN  A       X
 ;
 ;$ORIGIN vpn9.ffdd.
-;*        IN  CNAME   X.ffdd.
+;*        IN  A       X
 ;
 ;$ORIGIN vpn10.ffdd.
-;*        IN  CNAME   X.ffdd.
+;*        IN  A       X
 ;
 $ORIGIN vpn11.ffdd.
-*        IN  CNAME   200.ffdd.
+*        IN  A       10.200.0.201
 ;
 $ORIGIN vpn12.ffdd.
-*        IN  CNAME   256.ffdd.
+*        IN  A       10.200.1.2
 ;
 $ORIGIN vpn13.ffdd.
-*        IN  CNAME   13.ffdd.
+*        IN  A       10.200.0.14
 ;
 $ORIGIN vpn14.ffdd.
-*        IN  CNAME   14.ffdd.
+*        IN  A       10.200.0.15
 ;
 ;$ORIGIN vpn15.ffdd.
-;*        IN  CNAME   X.ffdd.
+;*        IN  A       X.ffdd.
 ;
 $ORIGIN vpn16.ffdd.
-*        IN  CNAME   201.ffdd.
+*        IN  A       10.200.0.202
 ;
 $ORIGIN vpn17.ffdd.
-*        IN  CNAME   51007.ffdd.
+*        IN  A       10.200.200.8
 ;
 $ORIGIN vpn-zh.ffdd.
-*        IN  CNAME   51064.ffdd.
+*        IN  A       10.200.200.65
 ;
 $ORIGIN vpn-offloader.ffdd.
-*        IN  CNAME   51051.ffdd.
+*        IN  A       10.200.200.52
 ;
 ; reset ORIGIN
 $ORIGIN ffdd.
