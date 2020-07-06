@@ -11,7 +11,7 @@ The current nvram.conf will be migrated automatically to uci.
 This update is not carried out automatically and must be done manually be performed.
 use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `freifunk-manuell_update.sh`
 
-we also update devel commands in the `init_server.sh` - please see [readme.md](https://github.com/Freifunk-Dresden/ffdd-server#development) part.
+we also update development commands in the `init_server.sh` - please see [readme.md](https://github.com/Freifunk-Dresden/ffdd-server#development) part.
 
 	- add uci config management
 		- change nvram to uci
@@ -24,7 +24,9 @@ we also update devel commands in the `init_server.sh` - please see [readme.md](h
 		- fix `add_connect`
 	- add wan-traffic stat to sysinfo.json
 	- add option to disable apache ddos prevention
-	- update internal dns zone (.ffdd)
+	- internal dns:
+		- update zone .ffdd
+		- add wildcard entries for gateway subdomains
 	- optimize freifunk-manuell_update.sh to use init_server.sh
 	- reduced process priority for salt
 	- increase fail2ban maxretry
