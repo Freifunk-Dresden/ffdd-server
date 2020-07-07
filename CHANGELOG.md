@@ -13,6 +13,8 @@ use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `frei
 
 we also update development commands in the `init_server.sh` - please see [readme.md](https://github.com/Freifunk-Dresden/ffdd-server#development) part.
 
+***Please reboot the Server after upgrade.***
+
 	- add uci config management
 		- change nvram to uci
 	- bmxd:
