@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION='uci V1.0'
+VERSION='uci V1.1'
 
 wg_ifname='tbb_wg'
 port='5003'
@@ -48,25 +48,20 @@ start_wg()
 	# create interface
 	printf 'create wireguard interface [%s]\n' "$wg_ifname"
 
-echo	ip link add "$wg_ifname" type wireguard
 	ip link add "$wg_ifname" type wireguard
-echo	ip addr add "$local_wireguard_ip/32" dev "$wg_ifname"
 	ip addr add "$local_wireguard_ip/32" dev "$wg_ifname"
-echo	wg set "$wg_ifname" private-key "$secret_file"
 	wg set "$wg_ifname" private-key "$secret_file"
-echo	wg set "$wg_ifname" listen-port "$port"
 	wg set "$wg_ifname" listen-port "$port"
-echo	ip link set "$wg_ifname" up
 	ip link set "$wg_ifname" up
 	rm "$secret_file"
 
 	ip rule add to 10.203.0.0/16 table main prio 304
-	ip route add 10.203.0.0/16 dev tbb_wg src "$local_wireguard_ip"
+	ip route add 10.203.0.0/16 dev "$wg_ifname" src "$local_wireguard_ip"
 	WAN_DEV="$(uci get ffdd.sys.ifname)"
 	iptables -w -D INPUT -i "$WAN_DEV" -p udp --dport "$port" -j ACCEPT
 	iptables -w -I INPUT -i "$WAN_DEV" -p udp --dport "$port" -j ACCEPT
-	iptables -w -D INPUT -i tbb_wg+ -j ACCEPT
-	iptables -w -I INPUT -i tbb_wg+ -j ACCEPT
+	iptables -w -D INPUT -i "$wg_ifname+" -j ACCEPT
+	iptables -w -I INPUT -i "$wg_ifname+" -j ACCEPT
 }
 
 
@@ -107,8 +102,8 @@ accept_peer()
 	bmxd -c dev="$sub_ifname" /linklayer 1
 
 	if [ "$store" = "1" ]; then
-		echo "node $node" > "$peers_dir"/accept_"$node"
-		echo "key $key" >> "$peers_dir"/accept_"$node"
+		echo "node $node" > "$peers_dir/accept_$node"
+		echo "key $key" >> "$peers_dir/accept_$node"
 	fi
 }
 
@@ -116,8 +111,8 @@ remove_peer()
 {
 	node="$1"
 	key="$2"
-	wg set tbb_wg peer "$key" remove
-	rm "$peers_dir"/accept_"$node"
+	wg set "$wg_ifname" peer "$key" remove
+	rm "$peers_dir/accept_$node"
 }
 
 load_accept_peers()
