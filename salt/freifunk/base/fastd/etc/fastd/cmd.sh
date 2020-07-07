@@ -74,7 +74,7 @@ case $1 in
 		_PEER_ADDRESS=${PEER_ADDRESS//\./\\.}
 
 		# check whitelist
-		if [ -n "$(grep ^$_PEER_ADDRESS$ /etc/fastd/whitelist)" ]; then
+		if [ -n "$(grep "^$_PEER_ADDRESS$\|$PEER_KEY" /etc/fastd/whitelist)" ]; then
 			logger -t fastd "whitelisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
 		else
 
@@ -85,7 +85,7 @@ case $1 in
 			fi
 
 			# check blacklist
-			if [ -n "$(grep ^$_PEER_ADDRESS$ /etc/fastd/blacklist)" ]; then
+			if [ -n "$(grep "^$_PEER_ADDRESS$\|$PEER_KEY" /etc/fastd/blacklist)" ]; then
 				logger -t fastd "blacklisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
 				exit 1;
 			fi
