@@ -7,6 +7,14 @@
 {% set wgvpn1 = salt['cmd.shell']('/usr/bin/test -f /etc/wireguard/vpn1.conf && echo "1" || true') %}
 
 {# Package #}
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
+/etc/apt/sources.list.d/wireguard-ubuntu-wireguard-xenial.list:
+  file.absent
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
+/etc/apt/sources.list.d/wireguard-ubuntu-wireguard-bionic.list:
+  file.absent
+{% endif %}
+
 wireguard:
   {% if grains['os'] == 'Debian' %}
   pkgrepo.managed:
@@ -14,11 +22,6 @@ wireguard:
     - name: deb http://deb.debian.org/debian/ unstable main
     - dist: unstable
     - file: /etc/apt/sources.list.d/wireguard.list
-
-  {% elif grains['os'] == 'Ubuntu' %}
-  pkgrepo.managed:
-    - ppa: wireguard/wireguard
-
   {% endif %}
 
   pkg.installed:
