@@ -13,9 +13,13 @@ wireguard:
     - dist: unstable
     - file: /etc/apt/sources.list.d/wireguard.list
 
-  {% elif grains['os'] == 'Ubuntu' %}
+  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
   pkgrepo.managed:
     - ppa: wireguard/wireguard
+
+  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
+  /etc/apt/sources.list.d/wireguard-ubuntu-wireguard-bionic.list:
+    file.absent
 
   {% endif %}
 
