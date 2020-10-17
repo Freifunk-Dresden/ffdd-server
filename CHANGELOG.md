@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.2.7
+	- fix wireguard for ubuntu
+
 ## version 1.2.6
 	- fix fastd build script
 
