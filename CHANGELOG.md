@@ -36,6 +36,9 @@ we also update development commands in the `init_server.sh` - please see [readme
 	- fix pb requirement
 	- some small code optimizations
 
+## version 1.2.7
+	- fix wireguard for ubuntu
+
 ## version 1.2.6
 	- fix fastd build script
 
