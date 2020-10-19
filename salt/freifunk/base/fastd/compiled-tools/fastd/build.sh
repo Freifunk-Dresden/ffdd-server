@@ -7,14 +7,11 @@
 LIBUECC_REPO_URL='https://github.com/NeoRaider/libuecc.git'
 FASTD_REPO_URL='https://github.com/NeoRaider/fastd.git'
 
-
+# libuecc v7
 libuecc_rev='7c9a6f6af088d0764e792cf849e553d7f55ff99e'
 
-# fastd v18 (master)
-#fastd_rev='8dc1ed3a1ee9af731205a7a4e167c1c2d1b3d819'
-
-# fastd v19
-fastd_rev='92bc1c105119c08e340045a157e9bace9a04bb6a'
+# fastd v21
+fastd_rev='2ce6095b2795052e34110599c484205468fb9fa6'
 
 
 build_libuecc()
