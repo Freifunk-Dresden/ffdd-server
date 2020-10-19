@@ -144,9 +144,12 @@ if [ ! -f "$INIT_DATE_FILE" ]; then
 	esac ; done
 fi
 
-printf '\n# Check github is reachable ..\n'
-if ! ping -c1 -W5 github.com >/dev/null ; then
+printf '\n# Check network and name resolution is working ..\n'
+if ! ping -c1 -W5 github.com >/dev/null; then
 	printf 'network not reachable or name resolution not working!\n'; exit 1
+	if ! ping -c1 -W5 download.freifunk-dresden.de >/dev/null; then
+		printf 'download.freifunk-dresden.de is not reachable. please try again later!\n'; exit 1
+	fi
 else
 	printf '\nOK.\n'
 fi
@@ -174,13 +177,13 @@ printf '\n# Check System Distribution ..\n'
 
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		9*)     PKGMNGR='apt-get' ; check_salt_repo debian9
+		9*)		PKGMNGR='apt-get' ; check_salt_repo debian9
 				install_uci debian9
 		;;
-		10*)    PKGMNGR='apt-get'
+		10*)	PKGMNGR='apt-get'
 				install_uci debian10
 		;;
-		*)      print_not_supported_os ;;
+		*)		print_not_supported_os ;;
 	esac
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
@@ -190,7 +193,7 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		18.04*) PKGMNGR='apt-get'
 				install_uci ubuntu18
 		;;
-		*)      print_not_supported_os ;;
+		*)		print_not_supported_os ;;
 	esac
 
 	printf '\nOK.\n'
