@@ -12,7 +12,10 @@
 /etc/apache2/additional_80.conf:
   file.managed:
     - contents:
-      - # additional config for virtualhost on port 80
+      - '# additional config for virtualhost on port 80'
+    - replace: false
+    - require:
+      - pkg: apache2
 
 apache2_site_enable_freifunk:
   apache_site.enabled:
