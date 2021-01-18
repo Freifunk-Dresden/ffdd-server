@@ -56,7 +56,7 @@ setup_routing() {
 	#ip rule "$1" iif lo ipproto icmp table public_gateway prio 410
 	#
 	# so I try to use a different rule, because I assume that the icmp-fragmented packet is
-	# generated for a specific interface by kernel. 
+	# generated for a specific interface by kernel.
 	# we must ensure, that no such package goes out on wrong interface.
 	ip rule "$1" oif vpn0 ipproto icmp table public_gateway prio 410
 	ip rule "$1" oif vpn1 ipproto icmp table public_gateway prio 411
