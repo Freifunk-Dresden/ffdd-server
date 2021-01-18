@@ -42,12 +42,18 @@ apache2_conf_enable_ssl:
     - require:
       - pkg: apache2
 
+/etc/apache2/additional_443.conf:
+  file.append:
+    - text:
+      - # additional config for virtualhost on port 443
+
 apache2_site_enable_freifunk-ssl:
   apache_site.enabled:
     - name: 001-freifunk-ssl
     - require:
       - pkg: apache2
       - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
+      - file: /etc/apache2/additional_443.conf
       - file: /etc/apache2/conf-available/ssl-params.conf
 
 apache2_ssl:
@@ -59,10 +65,12 @@ apache2_ssl:
     - watch:
       - file: /etc/apache2/conf-available/ssl-params.conf
       - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
+      - file: /etc/apache2/additional_443.conf
       - apache2_mod_ssl
     - require:
       - file: /etc/apache2/conf-available/ssl-params.conf
       - file: /etc/apache2/sites-available/001-freifunk-ssl.conf
+      - file: /etc/apache2/additional_443.conf
       - apache2_site_enable_freifunk-ssl
       - apache2_conf_enable_ssl
     - unless: "[ ! -f /etc/letsencrypt/live/{{ hostname }}/cert.pem ]"

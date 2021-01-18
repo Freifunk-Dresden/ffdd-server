@@ -7,6 +7,8 @@
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /
 
+	IncludeOptional additional_80.conf
+
 	DocumentRoot /var/www_freifunk
 	<Directory /var/www_freifunk>
 		AllowOverride None

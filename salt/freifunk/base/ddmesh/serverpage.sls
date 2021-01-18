@@ -9,12 +9,18 @@
     - require:
       - pkg: apache2
 
+/etc/apache2/additional_80.conf:
+  file.append:
+    - text:
+      - # additional config for virtualhost on port 80
+
 apache2_site_enable_freifunk:
   apache_site.enabled:
     - name: 001-freifunk
     - require:
       - pkg: apache2
       - file: /etc/apache2/sites-available/001-freifunk.conf
+      - file: /etc/apache2/additional_80.conf
       - file: /var/www_freifunk
 
 /var/www_freifunk:

@@ -6,10 +6,10 @@
 In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!
 *You can find a complete example configuration in [/etc/config/ffdd_sample](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd).*
 
-The current nvram.conf will be migrated automatically to uci.
+The current nvram.conf will be migrated automatically to uci!
 
-This update is not carried out automatically and must be done manually be performed.
-use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `freifunk-manuell_update.sh`
+***This update is not carried out automatically and must be done manually be performed.
+use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `freifunk-manuell_update.sh`***
 
 we also update development commands in the `init_server.sh` - please see [readme.md](https://github.com/Freifunk-Dresden/ffdd-server#development) part.
 
@@ -21,19 +21,22 @@ we also update development commands in the `init_server.sh` - please see [readme
 		- change from manuell build to package installation
 		- allow to define a list of mesh interfaces (ffdd.sys.bmxd_mesh_if)
 	- fastd:
-		- update to v19
+		- update to v21
 		- add white/blacklists for better connection control
 		- fix `add_connect`
-	- add wan-traffic stat to sysinfo.json
-	- add option to disable apache ddos prevention
 	- internal dns:
 		- update zone .ffdd
 		- add wildcard entries for gateway subdomains
+	- apache:
+		- add option to disable apache ddos prevention
+		- allow additional config for virtualhost on port 80 and 443
+	- add wan-traffic stat to sysinfo.json
 	- optimize freifunk-manuell_update.sh to use init_server.sh
 	- reduced process priority for salt
 	- increase fail2ban maxretry
 	- fix ntp.service to wait for bat0 interface
 	- fix pb requirement
+	- fix some bugs in network and firewall scripts
 	- some small code optimizations
 
 ## version 1.2.7
