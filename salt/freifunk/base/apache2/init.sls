@@ -22,6 +22,7 @@ apache2:
       - pkg: monitorix
       - pkg: vnstat
       - file: /etc/apache2/sites-available/001-freifunk.conf
+      - file: /etc/apache2/additional_80.conf
       - file: /etc/apache2/conf-available/letsencrypt.conf
       - file: /etc/apache2/conf-available/bind_stats.conf
       - file: /etc/apache2/conf-available/bind_stats_access.incl
@@ -40,6 +41,7 @@ apache2:
       - service: S40network
       - service: S41firewall
       - file: /etc/apache2/sites-available/001-freifunk.conf
+      - file: /etc/apache2/additional_80.conf
       - file: /etc/apache2/conf-available/letsencrypt.conf
       - file: /var/www_freifunk
       - apache2_site_enable_freifunk
