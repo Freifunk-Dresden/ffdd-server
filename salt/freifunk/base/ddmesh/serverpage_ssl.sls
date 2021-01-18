@@ -43,8 +43,8 @@ apache2_conf_enable_ssl:
       - pkg: apache2
 
 /etc/apache2/additional_443.conf:
-  file.append:
-    - text:
+  file.managed:
+    - contents:
       - # additional config for virtualhost on port 443
 
 apache2_site_enable_freifunk-ssl:

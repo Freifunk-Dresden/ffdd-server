@@ -10,8 +10,8 @@
       - pkg: apache2
 
 /etc/apache2/additional_80.conf:
-  file.append:
-    - text:
+  file.managed:
+    - contents:
       - # additional config for virtualhost on port 80
 
 apache2_site_enable_freifunk:
