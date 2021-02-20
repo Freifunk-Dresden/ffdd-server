@@ -6,7 +6,7 @@
 
 /etc/wireguard-backbone/wg-backbone.sh:
   file.managed:
-    - source: salt://wireguard/usr/local/bin/wireguard-backbone/wg-backbone.sh
+    - source: salt://wireguard/usr/local/bin/wg-backbone.sh
     - makedirs: true
     - user: root
     - group: root
