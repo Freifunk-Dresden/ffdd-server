@@ -58,7 +58,7 @@ test -z "$dns_list" && dns_list="$DEFAULT_DNS"';'
 cat<<EOM >"$BIND_FORWARDER_FILE"
 //updated at $(date) by $0
 forwarders {
-	$dns_list $DEFAULT_DNS ;
+	$dns_list $DEFAULT_DNS
 };
 EOM
 
