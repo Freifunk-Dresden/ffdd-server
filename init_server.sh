@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version="1.3.1"
+#version="1.3.0"
 REV="T_RELEASE_latest" # means git rev/branch/tag
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 #
