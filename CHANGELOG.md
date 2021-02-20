@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.3.1
+	- fix openvpn bind configuration
+
 ## version 1.3.0
 **Notice:**
 In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!
