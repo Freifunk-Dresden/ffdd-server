@@ -1,6 +1,10 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.3.0rc2
+	- fix openvpn bind configuration
+	- fix wireguard-backbone script source and cronjob
+
 ## version 1.3.0
 **Notice:**
 In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!
@@ -37,8 +41,6 @@ we also update development commands in the `init_server.sh` - please see [readme
 	- fix ntp.service to wait for bat0 interface
 	- fix pb requirement
 	- fix some bugs in network and firewall scripts
-	- fix openvpn bind configuration
-	- fix wireguard-backbone script source and cronjob
 	- some small code optimizations
 
 ## version 1.2.7
