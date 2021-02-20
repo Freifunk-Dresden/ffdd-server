@@ -53,7 +53,7 @@ PS1="${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[0
 
 cat <<EOM
 -----------------------------------------------------------------
-tools:
+# tools:
     init_server             ( update OS and Firmware )
     freifunk-manuell-update ( reset and Update Repo )
     freifunk-call           ( salt-call state.highstate --local )
@@ -72,7 +72,8 @@ tools:
     showip
     speedtest / speedtest-ovh / speedtest-belwue
 
-    # Server Logs:
-    journalctl -efx / journalctl -ef -u <service>
+# server logs:
+    journalctl -efx
+    journalctl -efu <service>
 -----------------------------------------------------------------
 EOM
