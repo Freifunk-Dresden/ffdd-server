@@ -6,7 +6,7 @@
 
 /etc/wireguard-backbone/wg-backbone.sh:
   file.managed:
-    - source: salt://wireguard/etc/wireguard-backbone/wg-backbone.sh
+    - source: salt://wireguard/usr/local/bin/wireguard-backbone/wg-backbone.sh
     - makedirs: true
     - user: root
     - group: root
@@ -23,12 +23,24 @@
 
 /etc/cron.d/wireguard-backbone:
   file.managed:
-    - source: salt://wireguard/etc/wireguard-backbone/wireguard-backbone.cron
-    - makedirs: true
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        # NOTE: * To disable email notifications use:
+        #         - for single cronjobs: `>/dev/null 2>&1` after the cmd
+        #         - ' MAILTO="" ' disables all email alerts in the crontab
+        #       * any tools used in those scripts must be also in search path
+        #
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        MAILTO=""
+        #
+        # reload peers and re-add interfaces to bmxd
+        * * * * * root  /usr/local/bin/wg-backbone.sh reload
     - user: root
     - group: root
-    - mode: 644
+    - mode: 600
     - require:
+      - pkg: cron
       - pkg: wireguard
 
 {% endif %}

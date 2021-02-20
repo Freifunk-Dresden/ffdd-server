@@ -1,8 +1,0 @@
-SHELL=/bin/sh
-MAILTO=""
-
-# to find "uci"
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
-# reload peers and re-add interfaces to bmxd
-* * * * *	root	/root/wg.sh reload
