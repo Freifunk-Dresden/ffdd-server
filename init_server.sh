@@ -28,7 +28,7 @@ check_salt_repo() {
 install_uci() {
 	DL_URL='https://download.freifunk-dresden.de/server/packages'
 
-	# # the pkg version must also be changed in uci/init.sls
+	## the pkg version must also be changed in uci/init.sls
 	libubox='libubox_20200227_amd64.deb'
 	libuci='libuci_20200427_amd64.deb'
 	uci='uci_20200427_amd64.deb'
@@ -49,7 +49,6 @@ install_uci() {
 	done
 	ldconfig
 }
-
 
 print_usage() {
 	printf '\nUsage:\n'
@@ -108,23 +107,12 @@ printf '### FFDD-Server - Initial Setup ###\n'
 
 while getopts ":hbd" opt "${@}"; do
 	case $opt in
-	  b)
-		OPT_BRANCH="$OPTARG"
-		[ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
-		;;
-
-	  d)
-		OPT_UPDATE="0"
-		;;
-
-	  \?)
-		printf 'Invalid option: -%s\n' "$OPTARG"
-		print_usage
-		;;
-
-	  h | *)
-		print_usage
-		;;
+	  b)   OPT_BRANCH="$OPTARG"
+		   [ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
+		   ;;
+	  d)   OPT_UPDATE="0" ;;
+	  \?)  printf 'Invalid option: -%s\n' "$OPTARG" ; print_usage ;;
+	  h|*) print_usage ;;
 	esac
 done
 
