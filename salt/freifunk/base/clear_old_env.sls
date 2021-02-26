@@ -128,6 +128,9 @@
 /usr/local/src/bmxd_revision:
   file.absent
 
+/usr/local/src/freifunk-get_bmxd_revision.sh:
+  file.absent
+
 
 /var/statistic:
   file.absent
