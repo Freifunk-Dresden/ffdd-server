@@ -173,6 +173,7 @@ if [ "$os_id" = 'debian' ]; then
 		;;
 		*)		print_not_supported_os ;;
 	esac
+	printf '\nOK.\n'
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
 		16.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu16
@@ -183,7 +184,6 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		;;
 		*)		print_not_supported_os ;;
 	esac
-
 	printf '\nOK.\n'
 else
 	print_not_supported_os

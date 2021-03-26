@@ -11,8 +11,9 @@ FASTD_REPO_URL='https://github.com/NeoRaider/fastd.git'
 libuecc_rev='7c9a6f6af088d0764e792cf849e553d7f55ff99e'
 
 # fastd v21
-fastd_rev='2ce6095b2795052e34110599c484205468fb9fa6'
-
+#fastd_rev='2ce6095b2795052e34110599c484205468fb9fa6'
+# fastd v20
+fastd_rev='a9bacad749e5369b8d748809fcea380d77a5fa35'
 
 build_libuecc()
 {
