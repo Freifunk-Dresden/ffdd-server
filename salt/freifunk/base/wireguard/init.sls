@@ -13,6 +13,14 @@
   file.absent
 {% endif %}
 
+{# Debian Pin-Prio for unstable Repo #}
+{% if grains['os'] == 'Debian' %}
+unstable_pkg_prio:
+  cmd.run:
+    - name: "printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable"
+    - unless: "[ -f /etc/apt/preferences.d/limit-unstable ]"
+{% endif %}
+
 wireguard:
   {% if grains['os'] == 'Debian' %}
   pkgrepo.managed:
@@ -28,14 +36,6 @@ wireguard:
       - wireguard
       - wireguard-dkms
       - wireguard-tools
-
-{# Debian Pin-Prio for unstable Repo #}
-{% if grains['os'] == 'Debian' %}
-unstable_pkg_prio:
-  cmd.run:
-    - name: "printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable"
-    - unless: "[ -f /etc/apt/preferences.d/limit-unstable ]"
-{% endif %}
 
 
 {# Service Start then Gateway Option Enabled #}
