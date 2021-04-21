@@ -1,6 +1,6 @@
 ;; ### This file managed by Salt, do not edit by hand? ###
 ;;
-;; db.4.200.10
+;; db.7.200.10
 ;; Reverselookupzone für ffdd
 ;;
 $TTL 28800
@@ -14,5 +14,6 @@ $TTL 28800
 @       IN  NS      ns1.ffdd.
 @       IN  NS      ns2.ffdd.
 ;
-80      IN  PTR     turm-d-ost.zentralwerk.ffdd.
-120     IN  PTR     turm-c-ost.zentralwerk.ffdd.
+80      IN  PTR     turm-c-nord.zentralwerk.ffdd.
+100     IN  PTR     turm-c-west.zentralwerk.ffdd.
+107     IN  PTR     turm-c-sued.zentralwerk.ffdd.
