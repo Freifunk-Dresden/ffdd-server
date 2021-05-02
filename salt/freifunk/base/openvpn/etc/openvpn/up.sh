@@ -41,7 +41,8 @@ do
 	logger -t "ovpn up.sh" "$opt=${!opt}"
 
 	x="${!opt}"
-	if [ -n "$(echo "$x" | sed -n '/^dhcp-option DNS/p')" ]; then
+	# only consider IPv4 DNS
+	if [ -n "$(echo "$x" | sed -n '/^dhcp-option DNS[ ]/p')" ]; then
 		dns="${x#*dhcp-option DNS}"
 		dns_list+="$dns;"
 
