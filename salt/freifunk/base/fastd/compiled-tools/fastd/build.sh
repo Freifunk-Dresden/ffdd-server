@@ -78,8 +78,8 @@ build_fastd()
 
 		cd fastd || exit 1
 		cd ..
-		mkdir build ; cd build
 		meson setup fastd fastd-build $CONFIG_OPTIONS
+		cd fastd-build
 		ninja
 		ninja install
 
