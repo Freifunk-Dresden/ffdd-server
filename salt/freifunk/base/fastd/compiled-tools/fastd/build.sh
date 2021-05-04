@@ -90,6 +90,8 @@ build_fastd()
 # nacl: crypt lib wird dazugelinkt (keine shared lib)
 apt-get -y install libnacl-dev
 apt-get -y install libjson-c-dev
+apt-get -y install meson
+apt-get -y install pkg-config
 
 build_libuecc
 build_fastd
