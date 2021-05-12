@@ -15,12 +15,12 @@ check_salt_repo() {
 	# repos needs also a check in salt/freifunk/base/salt-minion/init.sls
 	case "$1" in
 		debian9 )
-			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/2019.2/SALTSTACK-GPG-KEY.pub | apt-key add -
-			echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/2019.2 stretch main' | tee /etc/apt/sources.list.d/saltstack.list
+			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
+			echo 'deb https://repo.saltstack.com/apt/debian/9/amd64/latest stretch main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 		ubuntu16 )
-			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2/SALTSTACK-GPG-KEY.pub | apt-key add -
-			echo 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2 xenial main' | tee /etc/apt/sources.list.d/saltstack.list
+			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
+			echo 'deb https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 	esac
 }
@@ -173,6 +173,7 @@ if [ "$os_id" = 'debian' ]; then
 		;;
 		*)		print_not_supported_os ;;
 	esac
+	printf '\nOK.\n'
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
 		16.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu16
@@ -183,7 +184,6 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		;;
 		*)		print_not_supported_os ;;
 	esac
-
 	printf '\nOK.\n'
 else
 	print_not_supported_os

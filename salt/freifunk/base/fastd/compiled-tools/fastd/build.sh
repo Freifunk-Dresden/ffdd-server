@@ -40,30 +40,30 @@ build_libuecc()
 build_fastd()
 {
 	(
-		#-DCMAKE_BUILD_TYPE:STRING=MINSIZEREL
 
-		CMAKE_OPTIONS=" \
-		-DCMAKE_BUILD_TYPE=RELEASE \
-		-DENABLE_LIBSODIUM:BOOL=FALSE \
-		-DENABLE_LTO:BOOL=FALSE \
-		-DWITH_CAPABILITIES:BOOL=FALSE \
-		-DWITH_MAC_GHASH:BOOL=FALSE \
-		-DWITH_CMDLINE_USER:BOOL=FALSE \
-		-DWITH_CMDLINE_LOGGING:BOOL=FALSE \
-		-DWITH_CMDLINE_OPERATION:BOOL=FALSE \
-		-DWITH_CMDLINE_COMMANDS:BOOL=FALSE \
-		-DWITH_METHOD_CIPHER_TEST:BOOL=FALSE \
-		-DWITH_METHOD_COMPOSED_GMAC:BOOL=FALSE \
-		-DWITH_METHOD_GENERIC_GMAC:BOOL=FALSE \
-		-DWITH_METHOD_GENERIC_POLY1305:BOOL=FALSE \
-		-DWITH_METHOD_NULL:BOOL=TRUE \
-		-DWITH_CIPHER_AES128_CTR:BOOL=FALSE \
-		-DWITH_CIPHER_NULL:BOOL=TRUE \
-		-DWITH_CIPHER_SALSA20:BOOL=FALSE \
-		-DWITH_CIPHER_SALSA2012:BOOL=TRUE \
+		CONFIG_OPTIONS=" \
+		-Dbuildtype=release \
+		-Duse_nacl=true \
+		-Db_lto=false \
+		-Dcapabilities=disabled \
+		-Dmac_ghash=disabled \
+		-Dcmdline_user=disabled \
+		-Dcmdline_logging=disabled \
+		-Dcmdline_operation=disabled \
+		-Dcmdline_commands=disabled \
+		-Dmethod_cipher-test=disabled \
+		-Dmethod_composed-gmac=disabled \
+		-Dmethod_generic-gmac=disabled \
+		-Dmethod_generic-poly1305=disabled \
+		-Dmethod_null=enabled \
+		-Dcipher_aes128-ctr=disabled \
+		-Dcipher_null=enabled \
+		-Dcipher_salsa20=disabled \
+		-Dcipher_salsa2012=enabled \
 		"
 
 		rm -rf fastd
+		rm -rf fastd-build
 		if [ -f fastd-$fastd_rev.tgz ]; then
 			tar xzf fastd-"$fastd_rev".tgz
 		else
@@ -76,14 +76,12 @@ build_fastd()
 		patch --directory=fastd -p0 < urandom.patch
 
 		cd fastd || exit 1
-		mkdir build ; cd build
-		# shellcheck disable=SC2086
-		cmake ../ $CMAKE_OPTIONS
-		#cmake ../ -DCMAKE_BUILD_TYPE=RELEASE -DENABLE_LIBSODIUM:BOOL=FALSE -DENABLE_LTO:BOOL=FALSE -DWITH_CAPABILITIES:BOOL=FALSE
-		make
-		strip src/fastd
-		ls -l src/fastd
-		make install
+		cd ..
+		meson setup fastd fastd-build $CONFIG_OPTIONS
+		cd fastd-build
+		ninja
+		ninja install
+
 	)
 }
 
@@ -91,6 +89,8 @@ build_fastd()
 # nacl: crypt lib wird dazugelinkt (keine shared lib)
 apt-get -y install libnacl-dev
 apt-get -y install libjson-c-dev
+apt-get -y install meson
+apt-get -y install pkg-config
 
 build_libuecc
 build_fastd
