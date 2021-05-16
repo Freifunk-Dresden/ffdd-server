@@ -6,7 +6,7 @@ m="${dev#vpn}"
 ip route del default dev "$dev" via "$route_vpn_gateway" table gateway_pool metric "$m"
 
 iptables -w -t nat -D POSTROUTING -o "$dev" -j SNAT --to-source "$ifconfig_local"
-iptables -w -t mangle -D OUTPUT -s "$ifconfig_local" -p icmp --icmp-type fragmentation-needed -j MARK --set-mark 3333
+iptables -w -t mangle -D OUTPUT -p icmp --icmp-type fragmentation-needed -j MARK --set-mark 3333
 
 
 #update gateway infos and routing tables, fast after openvpn closes connection
