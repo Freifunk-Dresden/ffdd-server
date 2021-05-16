@@ -49,11 +49,11 @@ setup_routing() {
 	# Sending packages with internet destinations and locale
 	# source ip (from vpn tunnel provider) lead to blocking
 	# server public ip by Hetzner.
-	# ERROR: This rule also would send local generated icmp (pings)
-	# only through vpn tunnel if we have an public_gateway selected.
-	# Which means that a ping request to freifunk server would be sent
-	# replies as intented via local interface (ens18)
-	#ip rule "$1" iif lo ipproto icmp table public_gateway prio 410
+	# only send marked packages through vpn.
+	# packages are marked with /etc/openvpn/up.sh:
+	#   iptables -t mangle -A OUTPUT -p icmp --icmp-type fragmentation-needed -j MARK --set-mark 3333
+	ip rule add fwmark 3333 table public_gateway prio 410
+
 	#
 	# so I try to use a different rule, because I assume that the icmp-fragmented packet is
 	# generated for a specific interface by kernel.
