@@ -1,6 +1,22 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.3.0rc5
+This release adds an extra rule to redirect local generated icmp "fragmentation needed" to vpn tunnel instead of server network interface.
+The problem is that Hetzner "disconnects" the host from network when it detects traffic that does not belong to any traffic it knows.
+
+When a freifunk client makes a request to external web servers, this request goes out through a VPN tunnel. Answers that are too big to fit into tbb_fastd2 network interface because of the lower MTU 1200, will cause the kernel to generate icmp "fragmentation needed". Normally those packets travel through the gateway. But those answers must go back through the VPN tunnel.
+
+## version 1.3.0rc4
+fix:
+
+	- fastd build process
+	- wireguard repo Ausschluss (unstable)
+	- salt repo for Debian 9 und Ubuntu 16.04 (update)
+
+## version 1.3.0rc3
+
+
 ## version 1.3.0rc2
 	- fix openvpn bind configuration
 	- fix wireguard-backbone script source and cronjob
