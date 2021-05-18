@@ -14,10 +14,13 @@ $TTL 28800
 @       IN  NS      ns1.ffdd.
 @       IN  NS      ns2.ffdd.
 ;
+8       IN  PTR     vpn17.ffdd.
+9       IN  PTR     vpn5.ffdd.
+16      IN  PTR     vpn8.ffdd.
 18      IN  PTR     vpn6.ffdd.
-34      IN  PTR     vpn15.ffdd.
-52      IN  PTR     vpn-zh.ffdd.
-65      IN  PTR     vpn-offloader.ffdd.
+52      IN  PTR     vpn-offloader.ffdd.
+65      IN  PTR     vpn-zh.ffdd.
+68      IN  PTR     vpn4.ffdd.
 ;
 26      IN  PTR     speedtest.ffdd.
 74      IN  PTR     c3d2.ffdd.

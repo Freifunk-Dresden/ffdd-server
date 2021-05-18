@@ -27,10 +27,10 @@ vpn1    IN  CNAME   255.ffdd.
 vpn2    IN  CNAME   111.ffdd.
 vpn3    IN  CNAME   2.ffdd.
 vpn4    IN  CNAME   51067.ffdd.
-;vpn5    IN  CNAME   X.ffdd.
+vpn5    IN  CNAME   51008.ffdd.
 vpn6    IN  CNAME   51017.ffdd.
 vpn7    IN  CNAME   4.ffdd.
-;vpn8    IN  CNAME   X.ffdd.
+vpn8    IN  CNAME   51015.ffdd.
 ;vpn9    IN  CNAME   X.ffdd.
 ;vpn10   IN  CNAME   X.ffdd.
 vpn11   IN  CNAME   200.ffdd.
@@ -56,8 +56,8 @@ $ORIGIN vpn3.ffdd.
 $ORIGIN vpn4.ffdd.
 *        IN  CNAME   51067.ffdd.
 ;
-;$ORIGIN vpn5.ffdd.
-;*        IN  CNAME   X.ffdd.
+$ORIGIN vpn5.ffdd.
+*        IN  CNAME   51008.ffdd.
 ;
 $ORIGIN vpn6.ffdd.
 *        IN  CNAME   51017.ffdd.
@@ -65,8 +65,8 @@ $ORIGIN vpn6.ffdd.
 $ORIGIN vpn7.ffdd.
 *        IN  CNAME   4.ffdd.
 ;
-;$ORIGIN vpn8.ffdd.
-;*        IN  CNAME   X.ffdd.
+$ORIGIN vpn8.ffdd.
+*        IN  CNAME   51015.ffdd.
 ;
 ;$ORIGIN vpn9.ffdd.
 ;*        IN  CNAME   X.ffdd.
