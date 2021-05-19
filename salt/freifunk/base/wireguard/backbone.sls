@@ -41,6 +41,7 @@
 /var/www_freifunk/wg.cgi:
   file.managed:
     - source: https://github.com/Freifunk-Dresden/wg_accept_cgi/releases/download/{{ wg_accept_cgi_version }}/wg_accept_cgi
+    - source_hash: sha1=72849D97F297B55C90116B67BADE2343B1E14403
     - makedirs: true
     - user: www-data
     - group: www-data
