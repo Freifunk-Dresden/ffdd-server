@@ -45,3 +45,6 @@
 
 {# check hostnamectl #}
 {% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
+
+{# wg_accept_cgi Version #}
+{% set wg_accept_cgi_version = 'v1.0.0' %}
