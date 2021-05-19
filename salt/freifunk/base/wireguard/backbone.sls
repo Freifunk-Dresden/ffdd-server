@@ -48,6 +48,7 @@
     - mode: 755
     - require:
       - pkg: apache2
+      - file: /var/www_freifunk
 
 /etc/cron.d/wireguard-backbone:
   file.managed:
