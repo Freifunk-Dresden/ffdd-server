@@ -46,7 +46,7 @@
     - group: www-data
     - mode: 755
     - require:
-      - pkg: ddmesh
+      - pkg: apache2
 
 /etc/cron.d/wireguard-backbone:
   file.managed:
