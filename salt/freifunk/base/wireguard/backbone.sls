@@ -1,5 +1,5 @@
 {# Wireguard Backbone #}
-{% from 'config.jinja' import kernel_pkg_check, ctime, wg_accept_cgi_version %}
+{% from 'config.jinja' import kernel_pkg_check, ctime, wg_accept_cgi_version, wg_accept_cgi_sha1_hash %}
 
 {# install only if Kernel Package available #}
 {% if kernel_pkg_check >= '1' %}
@@ -41,7 +41,7 @@
 /var/www_freifunk/wg.cgi:
   file.managed:
     - source: https://github.com/Freifunk-Dresden/wg_accept_cgi/releases/download/{{ wg_accept_cgi_version }}/wg_accept_cgi
-    - source_hash: sha1=72849D97F297B55C90116B67BADE2343B1E14403
+    - source_hash: sha1={{ wg_accept_cgi_sha1_hash }}
     - makedirs: true
     - user: www-data
     - group: www-data
