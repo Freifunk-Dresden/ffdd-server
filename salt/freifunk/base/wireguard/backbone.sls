@@ -77,11 +77,11 @@
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
-        SHELL=/bin/sh
+        SHELL=/bin/bash
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         MAILTO=""
         #
-        # Execute a local salt-call every hour
+        # Check lastseen of peers to delete not used peers every hour
         {{ ctime }} */12 * * *  root  /usr/local/bin/wg-check-peers.sh
     - user: root
     - group: root
