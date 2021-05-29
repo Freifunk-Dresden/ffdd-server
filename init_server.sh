@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #version="1.3.0"
+
+# check if user has set the environment variable REV, then use this
 REV="T_RELEASE_latest" # means git rev/branch/tag
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 #
@@ -22,11 +24,15 @@ check_salt_repo() {
 			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
 			echo 'deb https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
+		ubuntu20 )
+			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
+			echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | tee /etc/apt/sources.list.d/salt.list
+			;;
 	esac
 }
 
 install_uci() {
-	DL_URL='https://download.freifunk-dresden.de/server/packages'
+	DL_URL='http://download.m3.freifunk-dresden.de/server/packages'
 
 	## the pkg version must also be changed in uci/init.sls
 	libubox='libubox_20200227_amd64.deb'
@@ -52,16 +58,21 @@ install_uci() {
 
 print_usage() {
 	printf '\nUsage:\n'
-	printf '  # print this help:\n'
-	printf '    ./init_server.sh -h\n\n'
+	printf ' init_server.sh [-i] [-b [rev/branch/tag] | -d]\n'
+	printf ' -i                    runs the installation\n'
+	printf ' -b [rev/branch/tag]   installs specified version\n'
+	printf ' -d                    do not download repository. This is helpful\n'
+	printf '                       when repository was downloaded (git clone) already\n'
+	printf ' -h      print this help\n\n'
+	printf ' Examples: \n\n'
 	printf '  # install latest stable Release:\n'
-	printf '    ./init_server.sh\n\n'
+	printf '    ./init_server.sh -i\n\n'
 	printf '  DEVELOPMENT:\n'
 	printf '  # install master (devel) branch\n'
-	printf '    ./init_server.sh -b\n'
-	printf '    ./init_server.sh -b <rev/branch/tag>\n\n'
+	printf '    ./init_server.sh -i -b\n'
+	printf '    ./init_server.sh -i -b <rev/branch/tag>\n\n'
 	printf '  # disable git update to use local changes\n'
-	printf '    ./init_server.sh -d\n'
+	printf '    ./init_server.sh -i -d\n\n'
 	exit 0
 }
 
@@ -104,9 +115,11 @@ version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
 #
 printf '### FFDD-Server - Initial Setup ###\n'
-
-while getopts ":hbd" opt "${@}"; do
+DO_INSTALL=0
+while getopts ":ihbd" opt "${@}"; do
 	case $opt in
+	  i)   DO_INSTALL=1 ;;
+
 	  b)   OPT_BRANCH="$OPTARG"
 		   [ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
 		   ;;
@@ -115,6 +128,14 @@ while getopts ":hbd" opt "${@}"; do
 	  h|*) print_usage ;;
 	esac
 done
+
+# only install when option "-i" is given. If this option is not used, than user
+# will get the usage-info. This adds a little protection when installing on wrong systems
+# in addition to question that is displayed later
+if [ $DO_INSTALL != 1 ]; then
+	print_usage
+	exit 1
+fi
 
 #
 # -- Check & Setup System --
@@ -181,6 +202,9 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		;;
 		18.04*) PKGMNGR='apt-get'
 				install_uci ubuntu18
+		;;
+		20.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu20
+				install_uci ubuntu20
 		;;
 		*)		print_not_supported_os ;;
 	esac
