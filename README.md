@@ -100,20 +100,20 @@ installiert, Files kopiert und noch einige Tools compiliert werden müssen.
 apt-get -y install git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server && git checkout T_RELEASE_latest
-./init_server.sh
+./init_server.sh -i -d
 ```
 Alternative Installations Möglichkeiten:
 
 **curl**:
 ```bash
 apt-get -y install curl
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -i)"
 ```
 
 **wget**:
 ```bash
 apt-get -y install wget
-bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -)"
+bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T_RELEASE_latest/init_server.sh -O -) -i"
 ```
 <br/>
 
@@ -229,12 +229,12 @@ git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server
 
 # install master (devel) branch
-./init_server.sh -b
+./init_server.sh -i -b
 # or
-./init_server.sh -b <rev/branch/tag>
+./init_server.sh -i -b <rev/branch/tag>
 
 # do not overwrite local changes (disable git update)
-./init_server.sh -d
+./init_server.sh -i -d
 ```
 
 ## Wichig für Communitiy Forks
