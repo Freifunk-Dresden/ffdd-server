@@ -7,7 +7,7 @@
 
 {% set install_dir = '/srv/ffdd-server' %}
 
-{% set freifunk_dl_url = 'https://download.freifunk-dresden.de/server/packages' %}
+{% set freifunk_dl_url = 'http://download.m3.freifunk-dresden.de/server/packages' %}
 
 {% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server' %}
 {% set custom_freifunk_repo = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.freifunk_repo') %}

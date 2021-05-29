@@ -80,7 +80,7 @@ print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
 	printf ' - Debian (9/10)\n'
-	printf ' - Ubuntu Server LTS (16.04/18.04)\n'
+	printf ' - Ubuntu Server LTS (16.04/18.04/20.04)\n'
 	exit 1
 }
 
@@ -156,7 +156,7 @@ fi
 printf '\n# Check network and name resolution is working ..\n'
 if ! ping -c1 -W5 github.com >/dev/null; then
 	printf 'network not reachable or name resolution not working!\n'; exit 1
-	if ! ping -c1 -W5 download.freifunk-dresden.de >/dev/null; then
+	if ! ping -c1 -W5 download.m3.freifunk-dresden.de >/dev/null; then
 		printf 'download.freifunk-dresden.de is not reachable. please try again later!\n'; exit 1
 	fi
 else

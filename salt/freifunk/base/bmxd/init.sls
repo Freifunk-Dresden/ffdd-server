@@ -25,6 +25,10 @@ bmxd:
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
       - bmxd: {{ freifunk_dl_url }}/ubuntu18/bmxd-{{ bmxd_version }}_amd64.deb
+
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+      - bmxd: {{ freifunk_dl_url }}/ubuntu20/bmxd-{{ bmxd_version }}_amd64.deb
+
 {% endif %}
 
 
