@@ -58,10 +58,10 @@ install_uci() {
 
 print_usage() {
 	printf '\nUsage:\n'
-	printf ' init_server.sh [-i] [-b [rev/branch/tag] | -d]\n'
+	printf ' init_server.sh [-i] [-b [rev/branch/tag] | -u] [-d error|info|debug]\n'
 	printf ' -i                    runs the installation\n'
 	printf ' -b [rev/branch/tag]   installs specified version\n'
-	printf ' -d                    do not download repository. This is helpful\n'
+	printf ' -u                    do not download repository. This is helpful\n'
 	printf '                       when repository was downloaded (git clone) already\n'
 	printf ' -h      print this help\n\n'
 	printf ' Examples: \n\n'
@@ -72,7 +72,7 @@ print_usage() {
 	printf '    ./init_server.sh -i -b\n'
 	printf '    ./init_server.sh -i -b <rev/branch/tag>\n\n'
 	printf '  # disable git update to use local changes\n'
-	printf '    ./init_server.sh -i -d\n\n'
+	printf '    ./init_server.sh -i -u\n\n'
 	exit 0
 }
 
@@ -114,16 +114,26 @@ version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
 
 #
-printf '### FFDD-Server - Initial Setup ###\n'
 DO_INSTALL=0
-while getopts ":ihbd" opt "${@}"; do
+OPT_DEBUG='error'
+while getopts ":ihbud:" opt "${@}"; do
 	case $opt in
-	  i)   DO_INSTALL=1 ;;
+	  i)	DO_INSTALL=1 ;;
 
-	  b)   OPT_BRANCH="$OPTARG"
-		   [ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
-		   ;;
-	  d)   OPT_UPDATE="0" ;;
+	  b)	OPT_BRANCH="$OPTARG"
+		[ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
+		;;
+
+	  u)	OPT_UPDATE="0" ;;
+
+	  d)	OPT_DEBUG="${OPTARG}"
+		case ${OPT_DEBUG} in
+			debug)  ;;
+			info)  ;;
+			error)  ;;
+			*) printf 'Invalid debug level: %s\n' "$OPTARG"; exit 1  ;;
+		esac
+		;;
 	  \?)  printf 'Invalid option: -%s\n' "$OPTARG" ; print_usage ;;
 	  h|*) print_usage ;;
 	esac
@@ -136,6 +146,8 @@ if [ $DO_INSTALL != 1 ]; then
 	print_usage
 	exit 1
 fi
+
+printf '### FFDD-Server - Initial Setup ###\n'
 
 #
 # -- Check & Setup System --
@@ -346,7 +358,7 @@ printf '\nOK.\n'
 #
 # -- Initial System --
 
-salt_call() { salt-call state.highstate --local -l error ; }
+salt_call() { salt-call state.highstate --local -l ${OPT_DEBUG} ; }
 
 _scriptfail='0'
 _init_run='0'

@@ -100,7 +100,7 @@ installiert, Files kopiert und noch einige Tools compiliert werden müssen.
 apt-get -y install git
 git clone https://github.com/Freifunk-Dresden/ffdd-server.git /srv/ffdd-server
 cd /srv/ffdd-server && git checkout T_RELEASE_latest
-./init_server.sh -i -d
+./init_server.sh -i -u
 ```
 Alternative Installations Möglichkeiten:
 
@@ -234,7 +234,7 @@ cd /srv/ffdd-server
 ./init_server.sh -i -b <rev/branch/tag>
 
 # do not overwrite local changes (disable git update)
-./init_server.sh -i -d
+./init_server.sh -i -u
 ```
 
 ## Wichig für Communitiy Forks
