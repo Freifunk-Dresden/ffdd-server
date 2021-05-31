@@ -117,7 +117,7 @@ case "$1" in
 	generate_fastd_conf
 	# if fastd failes, return error to systemd, else salt always gets an active working status
 	# and would not restart fastd.
-	proc_fastd="$(ps x | grep -v grep | grep -c /usr/local/bin/fastd)"
+	proc_fastd="$(ps x | grep -v grep | grep -c $DAEMON)"
 	if [ "$proc_fastd" -eq '0' ]; then
 		# return error code to systemd to reflect correct status
 		"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon || exit 1
@@ -142,7 +142,8 @@ case "$1" in
   ;;
 
   genkey)
-	fastd --generate-key
+	test -x "$DAEMON" || printf "$DAEMON not found\n" 1>&2 && exit 1
+	$DAEMON --generate-key
   ;;
 
   get_public_key)
