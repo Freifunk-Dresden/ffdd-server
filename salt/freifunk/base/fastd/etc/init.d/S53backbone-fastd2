@@ -142,8 +142,13 @@ case "$1" in
   ;;
 
   genkey)
-	test -x "$DAEMON" || printf "$DAEMON not found\n" 1>&2 && exit 1
-	$DAEMON --generate-key
+	if [ -x "$DAEMON" ]; then 
+		$DAEMON --generate-key
+		exit 0
+	else
+		printf "$DAEMON not found\n" 1>&2
+		exit 1
+	fi
   ;;
 
   get_public_key)

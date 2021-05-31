@@ -16,13 +16,18 @@
 {# needs devel.sls (compiling tools) #}
 compile_fastd:
   cmd.run:
-    - name: "cd /usr/local/src/fastd/ && bash build.sh"
+    - name: ./build.sh
+    - cwd: /usr/local/src/fastd
     - require:
       - pkg: devel
       - file: /usr/local/src/fastd
+{% if salt['file.file_exists' ]('/usr/local/bin/fastd') %}
     - onchanges:
       - file: /usr/local/src/fastd
-
+{% else %}
+    - creates:
+       - /usr/local/bin/fastd
+{% endif %}
 
 {# Configuration #}
 /etc/fastd:
@@ -60,6 +65,12 @@ rc.d_S53backbone-fastd2:
     - onchanges:
       - file: /etc/init.d/S53backbone-fastd2
 
+genkey_S53backbone-fastd2:
+  cmd.run:
+    - name: /etc/init.d/S53backbone-fastd2 genkey
+    - require:
+      - cmd: compile_fastd
+      - file: /etc/init.d/S53backbone-fastd2
 
 {% if nodeid != '' and nodeid != '-' or ddmesh_registerkey != '' and ddmesh_registerkey != '-' %}
 S53backbone-fastd2:
@@ -77,6 +88,7 @@ S53backbone-fastd2:
       - service: S40network
       - cmd: compile_fastd
       - cmd: rc.d_S53backbone-fastd2
+      - cmd: genkey_S53backbone-fastd2
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S53backbone-fastd2
       - file: /etc/fastd/cmd.sh
