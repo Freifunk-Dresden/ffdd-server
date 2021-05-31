@@ -87,6 +87,7 @@ print_not_supported_os() {
 print_init_notice() {
 	printf '%s#\n# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
 	printf ' * Please check your config options in /etc/config/ffdd\n'
+	printf '   - autoupdate should be set to 1, it is disabled per default'
 	printf ' * /etc/fastd/peers2/\n'
 	printf '   # add your first Fastd2 Connection:\n'
 	printf '   /etc/init.d/S53backbone-fastd2 add_connect <host> 5002\n'
@@ -318,7 +319,7 @@ else
 fi
 
 # check autoupdate
-[ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='1'
+[ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='0'
 if [ "$OPT_UPDATE" = '0' ]; then
 	# disable temporary autoupdate
 	tmp_au="$(uci -qX get ffdd.sys.autoupdate)"
