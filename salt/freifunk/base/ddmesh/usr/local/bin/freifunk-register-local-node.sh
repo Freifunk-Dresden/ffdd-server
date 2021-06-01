@@ -22,7 +22,7 @@ printf 'local node: [%s]\n' "$ddmesh_node"
 printf 'local key: [%s]\n\n' "$ddmesh_key"
 
 printf 'Try to register node [%s], key [%s]\n\n' "$ddmesh_node" "$ddmesh_key"
-node_info="$(wget -O - --no-check-certificate "https://selfsigned.register.freifunk-dresden.de/bot.php?node=$ddmesh_node&registerkey=$ddmesh_key" 2>/dev/null)"
+node_info="$(wget -O - --ca-certificate=/etc/ssl/certs/ca-root-ffdd.pem "https://selfsigned.register.freifunk-dresden.de/bot.php?node=$ddmesh_node&registerkey=$ddmesh_key" 2>/dev/null)"
 
 
 cmd="$(echo "$node_info" | sed -n '/^OK/p;/^ERROR/p;/^INFO/p')"

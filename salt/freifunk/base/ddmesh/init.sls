@@ -96,7 +96,7 @@
     - group: root
     - mode: 755
 
-/etc/ssl/certs/ca-root-ffdd.crt:
+/etc/ssl/certs/ca-root-ffdd.pem:
   file.managed:
     - source: salt://ddmesh/etc/ssl/certs/ca-root-ffdd.crt
     - user: root
