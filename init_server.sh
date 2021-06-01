@@ -32,7 +32,7 @@ check_salt_repo() {
 }
 
 install_uci() {
-	DL_URL='http://download.m3.freifunk-dresden.de/server/packages'
+	DL_URL='http://download.freifunk-dresden.de/server/packages'
 
 	## the pkg version must also be changed in uci/init.sls
 	libubox='libubox_20200227_amd64.deb'
@@ -169,7 +169,7 @@ fi
 printf '\n# Check network and name resolution is working ..\n'
 if ! ping -c1 -W5 github.com >/dev/null; then
 	printf 'network not reachable or name resolution not working!\n'; exit 1
-	if ! ping -c1 -W5 download.m3.freifunk-dresden.de >/dev/null; then
+	if ! ping -c1 -W5 download.freifunk-dresden.de >/dev/null; then
 		printf 'download.freifunk-dresden.de is not reachable. please try again later!\n'; exit 1
 	fi
 else

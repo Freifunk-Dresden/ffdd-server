@@ -96,6 +96,12 @@
     - group: root
     - mode: 755
 
+/etc/ssl/certs/ca-root-ffdd.crt:
+  file.managed:
+    - source: salt://ddmesh/etc/ssl/certs/ca-root-ffdd.crt
+    - user: root
+    - group: root
+    - mode: 644
 
 {# Directories #}
 /var/lib/freifunk:
