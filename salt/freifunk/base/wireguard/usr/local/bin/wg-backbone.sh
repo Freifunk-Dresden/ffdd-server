@@ -194,7 +194,7 @@ case $1 in
 		# It prevents accidential overwriting working configs
 		if [ -f "$peers_dir/accept_$node" ]; then
 			printf 'Error: node already accepted\n'
-			exit 1
+			exit 2
 		fi
 		accept_peer "$node" "$key" 1
 		;;

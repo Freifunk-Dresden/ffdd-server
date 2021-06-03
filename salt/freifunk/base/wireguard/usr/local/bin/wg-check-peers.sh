@@ -26,9 +26,16 @@ update_peer()
         lastseenFile=$(grep lastseen $peerfile)
         if [ -z "$lastseenFile" ];
         then
+            if [ $lastseen -eq 0 ];
+            then
+                lastseen=$current_date
+            fi
             echo "lastseen $lastseen" >> $peerfile
         else
-            sed -i "s#lastseen .*#lastseen $lastseen#" $peerfile
+            if [ ! $lastseen -eq 0 ];
+            then
+                sed -i "s#lastseen .*#lastseen $lastseen#" $peerfile
+            fi
         fi
     fi
 }
@@ -57,10 +64,7 @@ clean_peers()
 for i in $(wg show $wg_ifname latest-handshakes 2>/dev/null | sed 's#\t#_#')
 do
     entry=($(echo $i | sed 's#_#\t#'))
-    if [ ! ${entry[1]} -eq 0 ];
-    then
-        update_peer ${entry[0]} ${entry[1]}
-    fi
+    update_peer ${entry[0]} ${entry[1]}
 done
 
 clean_peers
