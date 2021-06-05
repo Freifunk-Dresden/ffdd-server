@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION='uci V1.1'
+VERSION='V2.0'
 
 wg_ifname='tbb_wg'
 port='5003'
@@ -109,10 +109,11 @@ accept_peer()
 
 remove_peer()
 {
-	node="$1"
-	key="$2"
+	peertype="$1"
+	node="$2"
+	key="$3"
 	wg set "$wg_ifname" peer "$key" remove
-	rm "$peers_dir/accept_$node"
+	rm "$peers_dir/${peertype}_${node}"
 }
 
 load_accept_peers()
@@ -124,11 +125,53 @@ load_accept_peers()
 	done
 }
 
+connect_peer()
+{
+	host="$1"
+	port="$2"
+	node="$3"
+	key="$4"
+	store="$5" # if 1, then config is saved to "peers" directory
+
+	eval $(ddmesh-ipcalc.sh -n $node)
+	echo "DEVEL: manuall calculation of _ddmesh_wireguard_ip"
+	remote_wireguard_ip="${_ddmesh_ip/10\.200\./10.203.}"
+
+	wg set "$wg_ifname" peer "$key" persistent-keepalive 25 allowed-ips "$remote_wireguard_ip"/32 endpoint $host:$port
+
+	# add ipip tunnel
+	sub_ifname="$wg_ifname$node"
+	ip link add "$sub_ifname" type ipip remote "$remote_wireguard_ip" local "$local_wireguard_ip"
+	ip addr add "$local_wgX_ip" broadcast "$_ddmesh_broadcast" dev "$sub_ifname"
+	ip link set "$sub_ifname" up
+
+	bmxd -c dev="$sub_ifname" /linklayer 1
+
+	if [ "$store" = "1" ]; then
+		filename="$peers_dir/connect_$node"
+		echo "host $host" > "$filename"
+		echo "port $port" >> "$filename"
+		echo "node $node" >> "$filename"
+		echo "key $key" >> "$filename"
+	fi
+
+}
+
+load_connect_peers()
+{
+	for peer in $(ls $peers_dir/connect_* 2>/dev/null)
+	do
+		eval "$(awk '/^host/{printf("host=%s\n",$2)} /^port/{printf("port=%s\n",$2)} /^node/{printf("node=%s\n",$2)} /^key/{printf("key=%s\n",$2)}' $peer)"
+		connect_peer "$host" "$port" "$node" "$key" 0
+	done
+}
+
 case $1 in
 	start)
 		test ! -d "$peers_dir" && mkdir -p "$peers_dir"
 		start_wg
 		load_accept_peers
+		load_connect_peers
 		;;
 
 	stop)
@@ -137,6 +180,7 @@ case $1 in
 
 	reload)
 		load_accept_peers
+		load_connect_peers
 		;;
 
 	accept)
@@ -155,7 +199,7 @@ case $1 in
 		accept_peer "$node" "$key" 1
 		;;
 
-	delete)
+	delete-accepted)
 		node=$2
 		if [ -z "$2" ]; then
 			printf 'missing parameters\n'
@@ -166,19 +210,54 @@ case $1 in
 
 		read -s -p "delete $node [y/N]: " -n 1 -a input && echo ${input[0]}
 		if [ "${input[0]}" = "y" ]; then
-			remove_peer $node $key
+			remove_peer "accept" $node $key
 			printf 'peer %s deleted\n' "$node"
 		else
 			printf 'keep peer %s\n' "$node"
 		fi
 		;;
 
+	connect)
+		host="$2"
+		port="$3"
+		node="$4"
+		key="$5"
+		if [ -z "$5" ]; then
+			printf 'missing parameters\n'
+			exit 1
+		fi
+		# check if we have already accepted for this node
+		# It prevents accidential overwriting working configs
+		if [ -f "$peers_dir/connect_$node" ]; then
+			printf 'Error: config for node already stored\n'
+			exit 1
+		fi
+		connect_peer "$host" "$port" "$node" "$key" 1
+		;;
+
+	delete-connect)
+		node=$2
+		if [ -z "$2" ]; then
+			printf 'missing parameters\n'
+			exit 1
+		fi
+
+		eval "$(awk '/^node/{printf("node=%s\n",$2)} /^key/{printf("key=%s\n",$2)}' $peers_dir/connect_$node )"
+
+		read -s -p "delete $node [y/N]: " -n 1 -a input && echo ${input[0]}
+		if [ "${input[0]}" = "y" ]; then
+			remove_peer "connect" $node $key
+			printf 'peer %s deleted\n' "$node"
+		else
+			printf 'keep peer %s\n' "$node"
+		fi
+		;;
 	status)
 		wg show "$wg_ifname"
 		;;
 
 	*)
 		printf '%s Version %s\n' "$(basename $0)" "$VERSION"
-		printf '%s [start | stop | reload | status | accept <node> <pubkey> | delete <node> ]\n\n' "$(basename $0)"
+		printf '%s [start | stop | reload | status | accept <node> <pubkey> | delete-accepted <node> | connect <host> <port> <node> <key>] | delete-connect <node>\n\n' "$(basename $0)"
 		;;
 esac
