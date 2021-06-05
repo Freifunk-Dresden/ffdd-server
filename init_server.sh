@@ -178,7 +178,7 @@ fi
 
 printf '\n# Check tun device is available ..\n'
 if [ ! -e /dev/net/tun ]; then
-	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'
+	printf '\tThe TUN device is not available!\nYou need an enabled TUN device (/dev/net/tun) before running this script!\n'
 	exit 1
 else
 	printf '\nOK.\n'
