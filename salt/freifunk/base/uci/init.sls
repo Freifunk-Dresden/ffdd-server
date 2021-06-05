@@ -53,6 +53,11 @@ uci:
       - libuci: {{ freifunk_dl_url }}/ubuntu18/libuci_{{ libuci_version }}_amd64.deb
       - uci: {{ freifunk_dl_url }}/ubuntu18/uci_{{ uci_version }}_amd64.deb
 
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+      - libubox: {{ freifunk_dl_url }}/ubuntu20/libubox_{{ libubox_version }}_amd64.deb
+      - libuci: {{ freifunk_dl_url }}/ubuntu20/libuci_{{ libuci_version }}_amd64.deb
+      - uci: {{ freifunk_dl_url }}/ubuntu20/uci_{{ uci_version }}_amd64.deb
+
 {% endif %}
 
 uci_ldconfig:

@@ -70,3 +70,5 @@ if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-no
 fi
 
 export LC_ALL=en_US.UTF-8
+export EDITOR=vim
+

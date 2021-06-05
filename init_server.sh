@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #version="1.3.0"
+
+# check if user has set the environment variable REV, then use this
 REV="T_RELEASE_latest" # means git rev/branch/tag
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 #
@@ -22,11 +24,15 @@ check_salt_repo() {
 			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
 			echo 'deb https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
+		ubuntu20 )
+			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
+			echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | tee /etc/apt/sources.list.d/salt.list
+			;;
 	esac
 }
 
 install_uci() {
-	DL_URL='https://download.freifunk-dresden.de/server/packages'
+	DL_URL='http://download.freifunk-dresden.de/server/packages'
 
 	## the pkg version must also be changed in uci/init.sls
 	libubox='libubox_20200227_amd64.deb'
@@ -52,16 +58,21 @@ install_uci() {
 
 print_usage() {
 	printf '\nUsage:\n'
-	printf '  # print this help:\n'
-	printf '    ./init_server.sh -h\n\n'
+	printf ' init_server.sh [-i] [-b [rev/branch/tag] | -u] [-d error|info|debug]\n'
+	printf ' -i                    runs the installation\n'
+	printf ' -b [rev/branch/tag]   installs specified version\n'
+	printf ' -u                    do not download repository. This is helpful\n'
+	printf '                       when repository was downloaded (git clone) already\n'
+	printf ' -h      print this help\n\n'
+	printf ' Examples: \n\n'
 	printf '  # install latest stable Release:\n'
-	printf '    ./init_server.sh\n\n'
+	printf '    ./init_server.sh -i\n\n'
 	printf '  DEVELOPMENT:\n'
 	printf '  # install master (devel) branch\n'
-	printf '    ./init_server.sh -b\n'
-	printf '    ./init_server.sh -b <rev/branch/tag>\n\n'
+	printf '    ./init_server.sh -i -b\n'
+	printf '    ./init_server.sh -i -b <rev/branch/tag>\n\n'
 	printf '  # disable git update to use local changes\n'
-	printf '    ./init_server.sh -d\n'
+	printf '    ./init_server.sh -i -u\n\n'
 	exit 0
 }
 
@@ -69,13 +80,14 @@ print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
 	printf ' - Debian (9/10)\n'
-	printf ' - Ubuntu Server LTS (16.04/18.04)\n'
+	printf ' - Ubuntu Server LTS (16.04/18.04/20.04)\n'
 	exit 1
 }
 
 print_init_notice() {
 	printf '%s#\n# Notice:%s\n' "$(tput bold)" "$(tput sgr0)"
 	printf ' * Please check your config options in /etc/config/ffdd\n'
+	printf '   - autoupdate should be set to 1, it is disabled per default'
 	printf ' * /etc/fastd/peers2/\n'
 	printf '   # add your first Fastd2 Connection:\n'
 	printf '   /etc/init.d/S53backbone-fastd2 add_connect <host> 5002\n'
@@ -103,18 +115,40 @@ version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
 
 
 #
-printf '### FFDD-Server - Initial Setup ###\n'
-
-while getopts ":hbd" opt "${@}"; do
+DO_INSTALL=0
+OPT_DEBUG='error'
+while getopts ":ihbud:" opt "${@}"; do
 	case $opt in
-	  b)   OPT_BRANCH="$OPTARG"
-		   [ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
-		   ;;
-	  d)   OPT_UPDATE="0" ;;
+	  i)	DO_INSTALL=1 ;;
+
+	  b)	OPT_BRANCH="$OPTARG"
+		[ -z "$OPT_BRANCH" ] && OPT_BRANCH='master'
+		;;
+
+	  u)	OPT_UPDATE="0" ;;
+
+	  d)	OPT_DEBUG="${OPTARG}"
+		case ${OPT_DEBUG} in
+			debug)  ;;
+			info)  ;;
+			error)  ;;
+			*) printf 'Invalid debug level: %s\n' "$OPTARG"; exit 1  ;;
+		esac
+		;;
 	  \?)  printf 'Invalid option: -%s\n' "$OPTARG" ; print_usage ;;
 	  h|*) print_usage ;;
 	esac
 done
+
+# only install when option "-i" is given. If this option is not used, than user
+# will get the usage-info. This adds a little protection when installing on wrong systems
+# in addition to question that is displayed later
+if [ $DO_INSTALL != 1 ]; then
+	print_usage
+	exit 1
+fi
+
+printf '### FFDD-Server - Initial Setup ###\n'
 
 #
 # -- Check & Setup System --
@@ -144,7 +178,7 @@ fi
 
 printf '\n# Check tun device is available ..\n'
 if [ ! -e /dev/net/tun ]; then
-	printf '\tThe TUN device is not available!\nYou need a enabled TUN device (/dev/net/tun) before running this script!\n'
+	printf '\tThe TUN device is not available!\nYou need an enabled TUN device (/dev/net/tun) before running this script!\n'
 	exit 1
 else
 	printf '\nOK.\n'
@@ -181,6 +215,9 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		;;
 		18.04*) PKGMNGR='apt-get'
 				install_uci ubuntu18
+		;;
+		20.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu20
+				install_uci ubuntu20
 		;;
 		*)		print_not_supported_os ;;
 	esac
@@ -282,7 +319,7 @@ else
 fi
 
 # check autoupdate
-[ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='1'
+[ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='0'
 if [ "$OPT_UPDATE" = '0' ]; then
 	# disable temporary autoupdate
 	tmp_au="$(uci -qX get ffdd.sys.autoupdate)"
@@ -322,7 +359,7 @@ printf '\nOK.\n'
 #
 # -- Initial System --
 
-salt_call() { salt-call state.highstate --local -l error ; }
+salt_call() { salt-call state.highstate --local -l ${OPT_DEBUG} ; }
 
 _scriptfail='0'
 _init_run='0'

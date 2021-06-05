@@ -25,27 +25,47 @@ vnstat:
 {# initialize interface #}
 vnstat_{{ ifname }}:
   cmd.run:
+    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    - name: /usr/bin/vnstat -i {{ ifname }}
+    {% else %}
     - name: /usr/bin/vnstat -u -i {{ ifname }}
+    {% endif %}
     - onlyif: test ! -f /var/lib/vnstat/{{ ifname }}
 
 vnstat_bat0:
   cmd.run:
+    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    - name: /usr/bin/vnstat -i bat0
+    {% else %}
     - name: /usr/bin/vnstat -u -i bat0
+    {% endif %}
     - onlyif: test ! -f /var/lib/vnstat/bat0 && test "$(cat /proc/net/dev | grep -cw 'bat0')" -eq '1'
 
 vnstat_tbb_fastd2:
   cmd.run:
+    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    - name: /usr/bin/vnstat -i tbb_fastd2
+    {% else %}
     - name: /usr/bin/vnstat -u -i tbb_fastd2
+    {% endif %}
     - onlyif: test ! -f /var/lib/vnstat/tbb_fastd2 && test "$(cat /proc/net/dev | grep -cw 'tbb_fastd2')" -eq '1'
 
 vnstat_vpn0:
   cmd.run:
+    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    - name: /usr/bin/vnstat -i vpn0 && systemctl restart vnstat
+    {% else %}
     - name: /usr/bin/vnstat -u -i vpn0 && systemctl restart vnstat
+    {% endif %}
     - onlyif: test ! -f /var/lib/vnstat/vpn0 && test -f /etc/openvpn/openvpn-vpn0.conf -o -f /etc/wireguard/vpn0.conf
 
 vnstat_vpn1:
   cmd.run:
+    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    - name: /usr/bin/vnstat -i vpn1 && systemctl restart vnstat
+    {% else %}
     - name: /usr/bin/vnstat -u -i vpn1 && systemctl restart vnstat
+    {% endif %}
     - onlyif: test ! -f /var/lib/vnstat/vpn1 && test -f /etc/openvpn/openvpn-vpn1.conf -o -f /etc/wireguard/vpn1.conf
 
 {# set correct file permissions #}
@@ -65,5 +85,9 @@ vnstat_vpn1:
 {# check needed vnstat restart #}
 vnstat_restart:
   cmd.run:
+    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    - name: /usr/bin/vnstat ; systemctl restart vnstat
+    {% else %}
     - name: /usr/bin/vnstat -u ; systemctl restart vnstat
+    {% endif %}
     - onlyif: test ! -f /var/lib/vnstat/.{{ ifname }} || test ! -f /var/lib/vnstat/.tbb_fastd2 || "${test ! -f /var/lib/vnstat/.bat0 && test $(cat /proc/net/dev | grep -cw 'bat0') -eq '1'}"

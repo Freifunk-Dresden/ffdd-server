@@ -17,6 +17,9 @@ devel:
 {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
       - libcurl4
 
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+      - libcurl4
+
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
       - libcurl4
 
