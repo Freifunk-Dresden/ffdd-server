@@ -9,7 +9,7 @@ Type=oneshot
 RemainAfterExit=true
 # Debian uses a shell wrapper to process /etc/default/ntp
 # and select DHCP-provided NTP servers if available
-ExecStartPre=/bin/sleep 120
+#ExecStartPre=/bin/sleep 120
 ExecStart=/usr/lib/ntp/ntp-systemd-wrapper
 PrivateTmp=true
 
