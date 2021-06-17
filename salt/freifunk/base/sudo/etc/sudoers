@@ -20,6 +20,7 @@ Cmnd_Alias	BMXD=/usr/sbin/bmxd *
 Cmnd_Alias	INET_TUNNEL=/usr/local/bin/freifunk-gateway-info.sh *
 Cmnd_Alias	STAT_A=/sbin/iptables -w -xvn -L stat_from_ovpn
 Cmnd_Alias	STAT_B=/sbin/iptables -w -xvn -L stat_to_ovpn
+Cmnd_Alias	WG_BACKBONE=/usr/local/bin/wg-backbone.sh accept *
 
 # User privilege specification
 root		ALL=(ALL:ALL) ALL
@@ -27,6 +28,7 @@ www-data	ALL=NOPASSWD: BMXD
 www-data	ALL=NOPASSWD: INET_TUNNEL
 www-data	ALL=NOPASSWD: STAT_A
 www-data	ALL=NOPASSWD: STAT_B
+www-data	ALL=NOPASSWD: WG_BACKBONE
 
 # Allow members of group sudo to execute any command
 %sudo		ALL=(ALL:ALL) ALL
