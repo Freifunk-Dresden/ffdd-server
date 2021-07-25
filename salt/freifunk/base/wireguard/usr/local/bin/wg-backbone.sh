@@ -49,6 +49,7 @@ start_wg()
 	printf 'create wireguard interface [%s]\n' "$wg_ifname"
 
 	ip link add "$wg_ifname" type wireguard
+	ip link set "$wg_ifname" mtu 1320
 	ip addr add "$local_wireguard_ip/32" dev "$wg_ifname"
 	wg set "$wg_ifname" private-key "$secret_file"
 	wg set "$wg_ifname" listen-port "$port"
@@ -194,7 +195,7 @@ case $1 in
 		# It prevents accidential overwriting working configs
 		if [ -f "$peers_dir/accept_$node" ]; then
 			printf 'Error: node already accepted\n'
-			exit 1
+			exit 2
 		fi
 		accept_peer "$node" "$key" 1
 		;;

@@ -1,5 +1,5 @@
 {# Wireguard Backbone #}
-{% from 'config.jinja' import kernel_pkg_check %}
+{% from 'config.jinja' import kernel_pkg_check, ctime, wg_accept_cgi_version, wg_accept_cgi_sha1_hash %}
 
 {# install only if Kernel Package available #}
 {% if kernel_pkg_check >= '1' %}
@@ -20,6 +20,35 @@
     - force: true
     - require:
       - file: /etc/wireguard-backbone/wg-backbone.sh
+
+/etc/wireguard-backbone/wg-check-peers.sh:
+  file.managed:
+    - source: salt://wireguard/usr/local/bin/wg-check-peers.sh
+    - makedirs: true
+    - user: root
+    - group: root
+    - mode: 755
+    - require:
+      - pkg: wireguard
+
+/usr/local/bin/wg-check-peers.sh:
+  file.symlink:
+    - target: /etc/wireguard-backbone/wg-check-peers.sh
+    - force: true
+    - require:
+      - file: /etc/wireguard-backbone/wg-check-peers.sh
+
+/var/www_freifunk/wg.cgi:
+  file.managed:
+    - source: https://github.com/Freifunk-Dresden/wg_accept_cgi/releases/download/{{ wg_accept_cgi_version }}/wg_accept_cgi
+    - source_hash: sha1={{ wg_accept_cgi_sha1_hash }}
+    - makedirs: true
+    - user: www-data
+    - group: www-data
+    - mode: 755
+    - require:
+      - pkg: apache2
+      - file: /var/www_freifunk
 
 /etc/cron.d/wireguard-backbone:
   file.managed:
@@ -42,5 +71,23 @@
     - require:
       - pkg: cron
       - pkg: wireguard
+
+{# cron #}
+/etc/cron.d/wg-backbone-check-peers:
+  file.managed:
+    - contents: |
+        ### This file managed by Salt, do not edit by hand! ###
+        SHELL=/bin/bash
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        MAILTO=""
+        #
+        # Check lastseen of peers to delete not used peers every hour
+        {{ ctime }} */12 * * *  root  /usr/local/bin/wg-check-peers.sh
+    - user: root
+    - group: root
+    - mode: 600
+    - require:
+      - pkg: cron
+
 
 {% endif %}
