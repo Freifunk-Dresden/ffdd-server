@@ -49,6 +49,7 @@ start_wg()
 	printf 'create wireguard interface [%s]\n' "$wg_ifname"
 
 	ip link add "$wg_ifname" type wireguard
+	ip link set "$wg_ifname" mtu 1320
 	ip addr add "$local_wireguard_ip/32" dev "$wg_ifname"
 	wg set "$wg_ifname" private-key "$secret_file"
 	wg set "$wg_ifname" listen-port "$port"
