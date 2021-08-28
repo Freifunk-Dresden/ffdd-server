@@ -59,13 +59,13 @@ install_uci() {
 print_usage() {
 	printf '\nUsage:\n'
 	printf ' init_server.sh [-i] [-b [rev/branch/tag] | -u] [-d error|info|debug]\n'
-	printf ' -i                    runs the installation\n'
+	printf ' -i                    runs the installation for version: %s\n' ${REV}
 	printf ' -b [rev/branch/tag]   installs specified version\n'
 	printf ' -u                    do not download repository. This is helpful\n'
 	printf '                       when repository was downloaded (git clone) already\n'
 	printf ' -h      print this help\n\n'
 	printf ' Examples: \n\n'
-	printf '  # install latest stable Release:\n'
+	printf '  # install Release: %s\n' ${REV}
 	printf '    ./init_server.sh -i\n\n'
 	printf '  DEVELOPMENT:\n'
 	printf '  # install master (devel) branch\n'
@@ -112,6 +112,22 @@ def_ip="${def_addr//\/*/}"
 
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
+
+# move this code to here, to be able to display REV in usage information
+if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ] && ! [ -L /etc/nvram.conf ]; then
+	CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
+	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
+
+	CUSTOM_REV="$(nvram get branch)"
+	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
+
+elif [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
+	CUSTOM_REPO_URL="$(uci -qX get ffdd.sys.freifunk_repo)"
+	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
+
+	CUSTOM_REV="$(uci -qX get ffdd.sys.branch)"
+	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
+fi
 
 
 #
@@ -240,21 +256,6 @@ systemctl disable salt-minion ; systemctl stop salt-minion &
 
 
 printf '\n### Install/Update ffdd-server Git-Repository ..\n'
-
-if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ] && ! [ -L /etc/nvram.conf ]; then
-	CUSTOM_REPO_URL="$(nvram get freifunk_repo)"
-	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
-
-	CUSTOM_REV="$(nvram get branch)"
-	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
-
-elif [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
-	CUSTOM_REPO_URL="$(uci -qX get ffdd.sys.freifunk_repo)"
-	[ -n "$CUSTOM_REPO_URL" ] && [ "$CUSTOM_REPO_URL" != "$REPO_URL" ] && REPO_URL="$CUSTOM_REPO_URL"
-
-	CUSTOM_REV="$(uci -qX get ffdd.sys.branch)"
-	[ -n "$CUSTOM_REV" ] && [ "$CUSTOM_REV" != "$REV" ] && REV="$CUSTOM_REV"
-fi
 
 if [ -d "$INSTALL_DIR" ]; then
 	cd "$INSTALL_DIR" || exit 1
