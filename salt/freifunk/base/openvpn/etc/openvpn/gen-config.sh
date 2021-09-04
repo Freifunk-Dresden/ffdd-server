@@ -65,6 +65,7 @@ dev-type tun
 resolv-retry infinite
 keepalive 10 30
 script-security 2
+mute-replay-warnings
 auth-nocache
 float
 route-noexec
