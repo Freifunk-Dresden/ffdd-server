@@ -40,8 +40,8 @@ generate_fastd_conf()
  	fi
 
 	cat << EOM > "$FASTD_CONF"
-log level warn;
-log to syslog level debug;
+#log level warn;
+log to syslog level error;
 mode tap;
 interface "tbb_fastd2";
 #prefer "null"
