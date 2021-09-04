@@ -19,7 +19,7 @@ fi
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"
 
-"$INSTALL_DIR"/init_server.sh
+"$INSTALL_DIR"/init_server.sh -i
 
 printf '\nPlease check the changelog for the case there are config deprecations, special update steps.\n'
 printf '%s/blob/master/CHANGELOG.md\n' "$REPO_URL"
