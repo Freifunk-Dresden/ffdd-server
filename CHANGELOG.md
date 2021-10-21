@@ -78,6 +78,9 @@ no significant changes
 	- fix openvpn bind configuration
 	- fix wireguard-backbone script source and cronjob
 
+## version 1.3.0rc1
+no significant changes
+
 ## version 1.2.7
 	- fix wireguard for ubuntu
 
