@@ -18,6 +18,13 @@
 		Require all granted
 	</Directory>
 
+	Alias /wg.cgi /var/www_freifunk_additional/wg.cgi
+	<Directory /var/www_freifunk_additional/wg.cgi>
+		AddHandler cgi-script .cgi
+		Options +ExecCGI
+		Require all granted
+	</Directory>
+
 	CustomLog /var/log/apache2/freifunk_access.log combined
 	ErrorLog /var/log/apache2/freifunk_error.log
 
