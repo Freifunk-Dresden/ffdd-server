@@ -44,6 +44,7 @@ we also update development commands in the `init_server.sh` - please see [readme
 	- optimize fastd.sls
 	- optimize wg-backbone / wg.cgi apache directory solution
 	- add /usr/local/bin/wg-backbone.sh start after boot
+	- sysinfo: display wg_pubkey
 
 ## version 1.3.0rc9
 	- reduce amount of looging to /var/log/* for openvpn and fastd (disk-full)
