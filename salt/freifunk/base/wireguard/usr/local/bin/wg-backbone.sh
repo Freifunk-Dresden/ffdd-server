@@ -257,8 +257,12 @@ case $1 in
 		wg show "$wg_ifname"
 		;;
 
+	show-pubkey)
+		wg show "$wg_ifname" public-key
+		;;
+
 	*)
 		printf '%s Version %s\n' "$(basename $0)" "$VERSION"
-		printf '%s [start | stop | reload | status | accept <node> <pubkey> | delete-accepted <node> | connect <host> <port> <node> <key>] | delete-connect <node>\n\n' "$(basename $0)"
+		printf '%s [start | stop | reload | status | show-pubkey | accept <node> <pubkey> | delete-accepted <node> | connect <host> <port> <node> <key>] | delete-connect <node>\n\n' "$(basename $0)"
 		;;
 esac
