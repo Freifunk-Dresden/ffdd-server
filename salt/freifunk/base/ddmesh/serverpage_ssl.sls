@@ -9,7 +9,8 @@
 generate_dhparam:
   cmd.run:
     - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 2048
-    - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem || -n /etc/ssl/certs/freifunk_dhparam.pem ]"
+    - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
+    - unless: "[ -n /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 generate_certificate:
   cmd.run:
