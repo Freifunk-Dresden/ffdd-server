@@ -84,7 +84,7 @@ cat << EOM
 			"domain":"$_ddmesh_domain",
 			"ip":"$_ddmesh_ip",
 			"fastd_pubkey":"$(/etc/init.d/S53backbone-fastd2 get_public_key)",
-			"wg_pubkey":"$(/usr/bin/wg show tbb_wg public-key)",
+			"wg_pubkey":"$(/usr/local/bin/wg-backbone.sh show-pubkey)",
 			"network_id":"1206"
 		},
 		"gps":{
