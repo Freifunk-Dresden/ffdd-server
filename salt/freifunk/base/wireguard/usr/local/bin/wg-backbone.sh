@@ -15,9 +15,9 @@ fi
 local_node="$(uci get ffdd.sys.ddmesh_node)"
 eval $(ddmesh-ipcalc.sh -n $local_node)
 
-printf 'DEVEL: manuall calculation of _ddmesh_wireguard_ip\n'
 local_wireguard_ip="${_ddmesh_ip/10\.200\./10.203.}"
 local_wgX_ip="$_ddmesh_nonprimary_ip/$_ddmesh_netpre"
+
 
 start_wg()
 {
