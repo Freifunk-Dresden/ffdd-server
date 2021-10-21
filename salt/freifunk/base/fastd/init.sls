@@ -82,7 +82,6 @@ S53backbone-fastd2:
       - service: S40network
       - cmd: compile_fastd
       - cmd: rc.d_S53backbone-fastd2
-      - cmd: genkey_S53backbone-fastd2
       - file: /etc/init.d/S40network
       - file: /etc/init.d/S53backbone-fastd2
       - file: /etc/fastd/cmd.sh
