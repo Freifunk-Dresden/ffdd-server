@@ -65,6 +65,9 @@
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         MAILTO=""
         #
+        #
+        # start wg-backbone after boot
+        @reboot   root  /usr/local/bin/wg-backbone.sh start
         # reload peers and re-add interfaces to bmxd
         * * * * * root  /usr/local/bin/wg-backbone.sh reload
     - user: root
@@ -73,6 +76,7 @@
     - require:
       - pkg: cron
       - pkg: wireguard
+      - file: /usr/local/bin/wg-backbone.sh
 
 /etc/cron.d/wg-backbone-check-peers:
   file.managed:
@@ -89,5 +93,6 @@
     - mode: 600
     - require:
       - pkg: cron
+      - file: /usr/local/bin/wg-check-peers.sh
 
 {% endif %}
