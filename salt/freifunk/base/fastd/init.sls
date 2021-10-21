@@ -65,12 +65,6 @@ rc.d_S53backbone-fastd2:
     - onchanges:
       - file: /etc/init.d/S53backbone-fastd2
 
-genkey_S53backbone-fastd2:
-  cmd.run:
-    - name: /etc/init.d/S53backbone-fastd2 genkey
-    - require:
-      - cmd: compile_fastd
-      - file: /etc/init.d/S53backbone-fastd2
 
 {% if nodeid != '' and nodeid != '-' or ddmesh_registerkey != '' and ddmesh_registerkey != '-' %}
 S53backbone-fastd2:
