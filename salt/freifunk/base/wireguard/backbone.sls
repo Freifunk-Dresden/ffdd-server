@@ -21,6 +21,7 @@
     - require:
       - file: /etc/wireguard-backbone/wg-backbone.sh
 
+
 /etc/wireguard-backbone/wg-check-peers.sh:
   file.managed:
     - source: salt://wireguard/usr/local/bin/wg-check-peers.sh
@@ -38,6 +39,7 @@
     - require:
       - file: /etc/wireguard-backbone/wg-check-peers.sh
 
+
 /var/www_freifunk_additional/wg.cgi:
   file.managed:
     - source: https://github.com/Freifunk-Dresden/wg_accept_cgi/releases/download/{{ wg_accept_cgi_version }}/wg_accept_cgi
@@ -49,6 +51,7 @@
     - require:
       - pkg: apache2
 
+{# cron #}
 /etc/cron.d/wireguard-backbone:
   file.managed:
     - contents: |
@@ -71,7 +74,6 @@
       - pkg: cron
       - pkg: wireguard
 
-{# cron #}
 /etc/cron.d/wg-backbone-check-peers:
   file.managed:
     - contents: |
@@ -87,6 +89,5 @@
     - mode: 600
     - require:
       - pkg: cron
-
 
 {% endif %}
