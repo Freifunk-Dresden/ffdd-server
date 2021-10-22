@@ -23,7 +23,6 @@ base:
     - locales
     - timezone
 
-    - kernel
     - kernel.sysctl
 
     - systemd
