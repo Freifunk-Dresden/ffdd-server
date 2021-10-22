@@ -1,8 +1,6 @@
 {# Wireguard VPN Gateway Tunnel #}
-{% from 'config.jinja' import kernel_pkg_check, ddmesh_disable_gateway %}
+{% from 'config.jinja' import ddmesh_disable_gateway %}
 
-{# install only than Kernel Package available #}
-{% if kernel_pkg_check >= '1' %}
 
 {# Package #}
 {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
@@ -37,7 +35,6 @@ wireguard:
     - refresh: True
     - names:
       - wireguard
-      - wireguard-dkms
       - wireguard-tools
 
 
@@ -72,6 +69,7 @@ wgvpn0_service_dead:
     - name: wg-quick@vpn0.service
     - enable: false
 {% endif %}
+
 
 {# VPN 1 #}
 {% if salt['file.file_exists' ]('/etc/wireguard/vpn1.conf') %}
@@ -135,6 +133,3 @@ wgvpn1_service_dead:
       - pkg: wireguard
       - file: /etc/config/ffdd
       - file: /etc/config/ffdd_sample
-
-{# end if kernel_pkg_check >= '1' #}
-{% endif %}

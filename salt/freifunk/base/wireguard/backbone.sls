@@ -1,8 +1,5 @@
 {# Wireguard Backbone #}
-{% from 'config.jinja' import kernel_pkg_check, ctime, wg_accept_cgi_version, wg_accept_cgi_sha1_hash %}
-
-{# install only if Kernel Package available #}
-{% if kernel_pkg_check >= '1' %}
+{% from 'config.jinja' import ctime, wg_accept_cgi_version, wg_accept_cgi_sha1_hash %}
 
 /etc/wireguard-backbone/wg-backbone.sh:
   file.managed:
@@ -51,6 +48,7 @@
     - require:
       - pkg: apache2
 
+
 {# cron #}
 /etc/cron.d/wireguard-backbone:
   file.managed:
@@ -94,5 +92,3 @@
     - require:
       - pkg: cron
       - file: /usr/local/bin/wg-check-peers.sh
-
-{% endif %}

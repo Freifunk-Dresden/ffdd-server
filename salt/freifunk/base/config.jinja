@@ -39,9 +39,6 @@
 {% set ctime = '1' %}
 {% endif %}
 
-{# check kernel-header package is available #}
-{% set kernel_release = salt['cmd.shell']("uname -r") %}
-{%- set kernel_pkg_check = salt['cmd.shell']("apt-cache show linux-headers-"~ kernel_release ~" 2>&1 | awk '/Version:/ {print substr($0, index($0,$3))}' | wc -l") %}
 
 {# check hostnamectl #}
 {% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
