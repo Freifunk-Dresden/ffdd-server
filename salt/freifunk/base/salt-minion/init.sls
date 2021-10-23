@@ -58,7 +58,7 @@ salt-minion:
 
 {# cron #}
 /etc/cron.d/freifunk-masterless:
-  {% if devmode == '0' or devmode = '' %}
+  {% if devmode == '0' or devmode == '' %}
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
