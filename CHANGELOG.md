@@ -42,9 +42,11 @@ we also update development commands in the `init_server.sh` - please see [readme
 ## version 1.3.0rc10
 	- typo fix in README.md
 	- optimize fastd.sls
-	- sysinfo: display wg_pubkey
 	- apache: ssl dhparm creation fix
 	- uci: add develop mode option to disable automatic salt runs and autoupdates.
+	- sysinfo:
+		- update to v17
+		- display wg_pubkey
 	- wireguard:
 		- optimize wg-backbone / wg.cgi apache directory solution
 		- add /usr/local/bin/wg-backbone.sh start after boot
