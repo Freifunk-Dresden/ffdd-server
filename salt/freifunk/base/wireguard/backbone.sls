@@ -54,7 +54,7 @@
     - makedirs: true
     - user: root
     - group: root
-    - mode: 755
+    - mode: 644
     - require:
       - pkg: wireguard
 
