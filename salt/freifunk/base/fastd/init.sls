@@ -46,6 +46,26 @@ compile_fastd:
     - require:
       - file: /etc/fastd
 
+{# additional files #}
+/etc/fastd/blacklist:
+  file.managed:
+    - source: salt://fastd/etc/fastd/blacklist
+    - replace: false
+    - user: root
+    - group: root
+    - mode: 755
+    - require:
+      - file: /etc/fastd
+
+/etc/fastd/whitelist:
+  file.managed:
+    - source: salt://fastd/etc/fastd/whitelist
+    - replace: false
+    - user: root
+    - group: root
+    - mode: 755
+    - require:
+      - file: /etc/fastd
 
 {# Service #}
 /etc/init.d/S53backbone-fastd2:
