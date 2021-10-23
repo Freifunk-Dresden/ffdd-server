@@ -44,6 +44,7 @@ we also update development commands in the `init_server.sh` - please see [readme
 	- optimize fastd.sls
 	- sysinfo: display wg_pubkey
 	- apache: ssl dhparm creation fix
+	- uci: add develop mode option to disable automatic salt runs and autoupdates.
 	- wireguard:
 		- optimize wg-backbone / wg.cgi apache directory solution
 		- add /usr/local/bin/wg-backbone.sh start after boot
@@ -76,7 +77,7 @@ When a freifunk client makes a request to external web servers, this request goe
 	- salt repo for Debian 9 und Ubuntu 16.04 (update)
 
 ## version 1.3.0rc3
-no significant changes
+	- fix openvpn dns
 
 ## version 1.3.0rc2
 	- fix openvpn bind configuration

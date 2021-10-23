@@ -15,9 +15,11 @@
 {% set branch = 'T_RELEASE_latest' %}
 {% set custom_branch = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.branch') %}
 
-
 {% set autoupdate = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.autoupdate') %}
 {% set freifunk_version = salt['cmd.shell']('test -f /usr/local/bin/freifunk-version && /usr/local/bin/freifunk-version || printf "n.a\n"') %}
+
+{% set devmode = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.devmode') %}
+
 
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_registerkey') %}
 {% set fastd_secret = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.fastd_secret') %}

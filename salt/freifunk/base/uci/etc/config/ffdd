@@ -12,6 +12,9 @@ config 'ffdd' 'sys'
 	# set autoupdate (0=off 1=on)
 	option 'autoupdate' '1'
 
+	# set develop mode (0=off 1=on) to disable automatic salt runs and autoupdates.
+	option 'devmode' '0'
+
 	# Register key must be uniq. See http://wiki.freifunk-dresden.de/index.php/Technische_Information#Berechnung_IP_Adressen
 	option 'ddmesh_node' '-'
 	option 'ddmesh_registerkey' '-'
@@ -41,6 +44,7 @@ config 'ffdd' 'sys'
 	# To disable tunneled clear text passwords and allow only pub-key auth.
 	option 'ssh_pwauth' '1'
 
+	# To disable ddos protection in apache2
 	option 'apache_ddos_prevent' '1'
 
 	# DNS-Server
@@ -58,6 +62,7 @@ config 'ffdd' 'sys'
 	option 'gps_altitude' '0'
 	option 'city' 'Dresden'
 
+	# contact information for gateway sysinfo.json
 	option 'contact_name' 'name'
 	option 'contact_location' 'Hosting Provider'
 	option 'contact_email' 'email'

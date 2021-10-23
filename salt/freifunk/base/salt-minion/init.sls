@@ -1,5 +1,5 @@
 {# FFDD Salt-Minion (masterless) #}
-{% from 'config.jinja' import ctime, install_dir %}
+{% from 'config.jinja' import devmode, ctime, install_dir %}
 
 {# Package #}
 {# repos needs also a check in init_server.sh #}
@@ -58,6 +58,7 @@ salt-minion:
 
 {# cron #}
 /etc/cron.d/freifunk-masterless:
+  {% if devmode == '0' or devmode = '' %}
   file.managed:
     - contents: |
         ### This file managed by Salt, do not edit by hand! ###
@@ -74,3 +75,9 @@ salt-minion:
     - mode: 600
     - require:
       - pkg: cron
+
+  {% else %}
+  file.absent:
+    - name: /etc/cron.d/freifunk-masterless
+
+  {% endif %}
