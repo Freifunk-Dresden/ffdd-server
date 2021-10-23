@@ -46,7 +46,7 @@ fi
 
 cat << EOM
 {
- "version":"15",
+ "version":"17",
  "timestamp":"$(date +'%s')",
  "data":{
 
