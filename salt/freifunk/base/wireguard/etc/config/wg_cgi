@@ -1,0 +1,7 @@
+config uci 'uci'
+        option node_id 'ffdd.sys.ddmesh_node'
+        option wg_public_key 'ffdd.wireguard.public'
+        option wg_restrict 'ffdd.sys.wireguard_restrict'
+
+config sh 'sh'
+        option wg_backbone_path '/usr/local/bin/wg-backbone.sh'

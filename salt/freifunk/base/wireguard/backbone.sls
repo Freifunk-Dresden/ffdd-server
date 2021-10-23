@@ -48,6 +48,15 @@
     - require:
       - pkg: apache2
 
+/etc/config/wg_cgi:
+  file.managed:
+    - source: salt://wireguard/etc/config/wg_cgi
+    - makedirs: true
+    - user: root
+    - group: root
+    - mode: 755
+    - require:
+      - pkg: wireguard
 
 {# cron #}
 /etc/cron.d/wireguard-backbone:
