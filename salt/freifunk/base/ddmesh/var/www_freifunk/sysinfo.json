@@ -83,9 +83,11 @@ cat << EOM
 			"node":"$_ddmesh_node",
 			"domain":"$_ddmesh_domain",
 			"ip":"$_ddmesh_ip",
-			"fastd_pubkey":"$(/etc/init.d/S53backbone-fastd2 get_public_key)",
-			"wg_pubkey":"$(uci -qX get ffdd.wireguard.public)",
 			"network_id":"1206"
+		},
+		"backbone":{
+			"fastd_pubkey":"$(/etc/init.d/S53backbone-fastd2 get_public_key)",
+			"wg_pubkey":"$(uci -qX get ffdd.wireguard.public)"
 		},
 		"gps":{
 			"latitude":$(gps_la="$(uci -qX get ffdd.sys.gps_latitude)"; [ "$gps_la" != '' ] && echo "$gps_la" || echo '0'),
@@ -102,7 +104,7 @@ EOM
 
 #statistic info
 cat<<EOM
-		"statistic" : {
+		"statistic":{
 			"clients" : "",
 			"accepted_user_count":0,
 			"dhcp_count":0,
