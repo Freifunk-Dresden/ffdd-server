@@ -48,6 +48,7 @@ we also update development commands in the `init_server.sh` - please see [readme
 	- wireguard:
 		- optimize wg-backbone / wg.cgi apache directory solution
 		- add /usr/local/bin/wg-backbone.sh start after boot
+		- update wg.cgi and add config file
 
 ## version 1.3.0rc9
 	- reduce amount of looging to /var/log/* for openvpn and fastd (disk-full)
