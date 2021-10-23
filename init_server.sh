@@ -320,7 +320,7 @@ else
 fi
 
 # check autoupdate
-[ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='0'
+[ "$(uci -qX get ffdd.sys.autoupdate)" == '' ] && uci set ffdd.sys.autoupdate='1'
 if [ "$OPT_UPDATE" = '0' ]; then
 	# disable temporary autoupdate
 	tmp_au="$(uci -qX get ffdd.sys.autoupdate)"
