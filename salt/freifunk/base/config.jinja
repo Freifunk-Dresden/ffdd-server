@@ -18,7 +18,7 @@
 {% set autoupdate = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.autoupdate') %}
 {% set freifunk_version = salt['cmd.shell']('test -f /usr/local/bin/freifunk-version && /usr/local/bin/freifunk-version || printf "n.a\n"') %}
 
-{% set devmode = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.devmode') %}
+{% set devmode = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.devmode || true') %}
 
 
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_registerkey') %}
