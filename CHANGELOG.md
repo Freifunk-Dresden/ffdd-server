@@ -44,6 +44,7 @@ we also update development commands in the `init_server.sh` - please see [readme
 	- optimize fastd.sls
 	- apache: ssl dhparm creation fix
 	- uci: add develop mode option to disable automatic salt runs and autoupdates.
+	- monitorix/vnstat: add tbb_wg backbone interface
 	- sysinfo:
 		- update to v17
 		- display wg_pubkey
