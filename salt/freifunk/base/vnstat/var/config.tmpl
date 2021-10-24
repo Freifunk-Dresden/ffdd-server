@@ -31,11 +31,12 @@ $vnstat_bin_dir = '/usr/bin/vnstat';
 $use_predefined_interfaces = true;
 
 if ($use_predefined_interfaces == true) {
-	$interface_list = ["{{ ifname }}", "bat0", "tbb_fastd2", "vpn0", "vpn1"];
+	$interface_list = ["{{ ifname }}", "bat0", "tbb_fastd2", "tbb_wg", "vpn0", "vpn1"];
 
     $interface_name['{{ ifname }}'] = "WAN - {{ ifname }}";
     $interface_name['bat0'] = "Batmand - bat0";
     $interface_name['tbb_fastd2'] = "Backbone - fastd2";
+    $interface_name['tbb_wg'] = "Backbone - wireguard";
     $interface_name['vpn0'] = "Openvpn - vpn0";
     $interface_name['vpn1'] = "Openvpn - vpn1";
 } else {
