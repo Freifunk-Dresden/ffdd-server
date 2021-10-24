@@ -50,6 +50,15 @@ vnstat_tbb_fastd2:
     {% endif %}
     - onlyif: test ! -f /var/lib/vnstat/tbb_fastd2 && test "$(cat /proc/net/dev | grep -cw 'tbb_fastd2')" -eq '1'
 
+vnstat_tbb_wg:
+  cmd.run:
+    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    - name: /usr/bin/vnstat -i tbb_wg
+    {% else %}
+    - name: /usr/bin/vnstat -u -i tbb_wg
+    {% endif %}
+    - onlyif: test ! -f /var/lib/vnstat/tbb_wg && test "$(cat /proc/net/dev | grep -cw 'tbb_wg')" -eq '1'
+
 vnstat_vpn0:
   cmd.run:
     {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
