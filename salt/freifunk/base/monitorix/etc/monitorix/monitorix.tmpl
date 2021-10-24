@@ -388,11 +388,12 @@ secure_log_date_format = %b %e
 # NET graph
 # -----------------------------------------------------------------------------
 <net>
-    list = {{ ifname }}, bat0, tbb_fastd2, vpn0, vpn1
+    list = {{ ifname }}, bat0, tbb_fastd2, tbb_wg vpn0, vpn1
     <desc>
         {{ ifname }} = FastEthernet LAN, 0, 10000000
         bat0 = bmxd Gateway, 0, 10000000
-        tbb_fastd2 = fastd Gateway, 0, 10000000
+        tbb_fastd2 = fastd Backbone, 0, 10000000
+        tbb_wg = wireguard Backbone, 0, 10000000
         vpn0 = Openvpn-Tunnel, 0, 10000000
         vpn1 = Openvpn-Tunnel, 0, 10000000
     </desc>
