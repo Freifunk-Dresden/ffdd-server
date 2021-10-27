@@ -5,7 +5,8 @@ wg_ifname='tbb_wg'
 peers_dir='/etc/wireguard-backbone/peers'
 
 current_date=$(date +%s)
-days30=60*60*24*30
+unused_days=$(uci -qX get ffdd.wireguard.unused_days || echo 30)
+unused_days_sec=60*60*24*$unused_days
 
 get_peer_file()
 {
@@ -49,8 +50,8 @@ clean_peers()
         lastseen=$(grep lastseen $file | sed 's#lastseen\s*##')
         if [ ! -z $lastseen ];
         then
-            current_days30=$(($(($current_date))-$(($days30))))
-            if [ $(($lastseen)) -lt $(($current_days30)) ];
+            current_unused_date=$(($(($current_date))-$(($unused_days_sec))))
+            if [ $(($lastseen)) -lt $(($current_unused_date)) ];
             then
                 wg set "$wg_ifname" peer "$key" remove
                 rm "$file"
