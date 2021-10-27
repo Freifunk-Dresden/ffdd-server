@@ -5,7 +5,7 @@ wg_ifname='tbb_wg'
 peers_dir='/etc/wireguard-backbone/peers'
 
 current_date=$(date +%s)
-unused_days=$(uci -qX get ffdd.wireguard.unused_days | echo 30)
+unused_days=$(uci -qX get ffdd.wireguard.unused_days || echo 30)
 unused_days_sec=60*60*24*$unused_days
 
 get_peer_file()
