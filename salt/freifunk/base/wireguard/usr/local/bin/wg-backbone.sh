@@ -39,6 +39,11 @@ start_wg()
 	public=$(echo "$secret" | wg pubkey)
 	uci -q set ffdd.wireguard.public="$public"
 
+	# set unused days delete timeout
+	if [ -z "$(uci -q get ffdd.wireguard.unused_days)" ]; then
+		uci -q set ffdd.wireguard.unused_days=30
+	fi
+
 	# save config
 	uci commit
 
