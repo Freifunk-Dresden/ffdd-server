@@ -159,8 +159,9 @@ if [ "$1" = "start" ]; then
 	#allow forward to openvpn tunnel
 	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
 	$IPT -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
-	$IPT -w -A FORWARD -i ${FFGW_IF} -o vpn+ -j ACCEPT
+	# ensure valid return ip, to avoid illegal firewall bypass
 	$IPT -w -A FORWARD -i ${FFGW_IF} ! -s ${_ddmesh_meshnet} -j DROP
+	$IPT -w -A FORWARD -i ${FFGW_IF} -o vpn+ -j ACCEPT
 
 	#block any other
 	$IPT -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
