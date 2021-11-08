@@ -52,11 +52,25 @@ fi
 PRIMARY_IF="bmx_prime"
 FASTD_IF="tbb_fastd2"
 MESH_IF=("$(uci -qX get ffdd.sys.bmxd_mesh_if)")
+FFGW_IF="ffgw"
 if [ "$1" = "start" ]; then
 	#ip link add link lo name "$PRIMARY_IF" type bridge
 	ip tuntap add dev "$PRIMARY_IF" mod tun
 	ip addr add "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
 	ip link set dev "$PRIMARY_IF" up
+
+	# add ipip tunnel interface that can be used by clients to route internet traffic. 
+	# - improves upload speed and download speed (ack) (bmxd normally creates a tunnel where data
+	#	are put in to forward it to gateway. this copies data between kernel/user buffer two times
+	#	and increase the bmxd processor load extremly
+	# This interface is currently only created but not inserted into routing rules or gateway check,
+	# because a server does not need internet via freifunk and mostly acts as gateway for other clients
+	ip tunnel add ${FFGW_IF} mode ipip local ${_ddmesh_ip}
+	ip addr add ${_ddmesh_ip}/32 dev ${FFGW_IF}
+	# wireguard MTU is 1300, ipip tunnel needs 20 byte header
+	ip link set ${FFGW_IF} mtu 1280
+	ip link set ${FFGW_IF} up
+
 fi
 _IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
 

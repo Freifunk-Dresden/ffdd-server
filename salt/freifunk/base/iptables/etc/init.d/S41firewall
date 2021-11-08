@@ -21,6 +21,13 @@ WAN_DEV="$(uci -qX get ffdd.sys.ifname)"
 BAT_DEV='bat0'
 BAT_IP='169.254.0.0'
 
+# a new ipip tunnel is used as an alternative to bat0 to speed up traffic
+# and avoid upload tunnel breakdown
+# see S53batman for more info.
+FFGW_IF='ffgw'
+
+
+
 eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
 
 # iptables command
@@ -133,6 +140,7 @@ if [ "$1" = "start" ]; then
 	$IPT -w -A stat_from_ovpn -j RETURN
 	$IPT -w -A statistic_forward -i "$BACKBONE_DEV" -o vpn+ -j stat_to_ovpn
 	$IPT -w -A statistic_forward -i bat+ -o vpn+ -j stat_to_ovpn
+	$IPT -w -A statistic_forward -i ${FFGW_IF} -o vpn+ -j stat_to_ovpn
 	$IPT -w -A statistic_forward -i vpn+ -o "$BACKBONE_DEV" -j stat_from_ovpn
 
 	$IPT -w -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
@@ -146,10 +154,13 @@ if [ "$1" = "start" ]; then
 	#erlaube dns anfragen via localem server
 	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
 	$IPT -w -A FORWARD -i bat+ -p udp --dport 53 -j ACCEPT
+	$IPT -w -A FORWARD -i ${FFGW_IF} -p udp --dport 53 -j ACCEPT
 
 	#allow forward to openvpn tunnel
 	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
 	$IPT -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
+	$IPT -w -A FORWARD -i ${FFGW_IF} -o vpn+ -j ACCEPT
+	$IPT -w -A FORWARD -i ${FFGW_IF} ! -s ${_ddmesh_meshnet} -j DROP
 
 	#block any other
 	$IPT -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
