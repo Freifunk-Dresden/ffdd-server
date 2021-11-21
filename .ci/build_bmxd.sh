@@ -14,7 +14,8 @@ make
 
 ARCH='amd64'
 VERSION="$(awk '/SOURCE_VERSION/ {print $3}' batman.h | head -1 | sed -e 's/^"//' -e 's/"$//' -e 's/-freifunk-dresden//')"
-REVISION="$(test -f /tmp/bmxd_revision && cat /tmp/bmxd_revision || echo 0)"
+SOURCE_MD5="$(md5sum *.[ch] linux/*.[cp] posix/*.[cp] Makefile | md5sum | cut -d' ' -f1)"
+REVISION="${SOURCE_MD5}"
 
 mkdir -p OUT/usr/sbin/
 cp bmxd OUT/usr/sbin/
