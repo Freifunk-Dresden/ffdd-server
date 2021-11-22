@@ -34,7 +34,7 @@ test -z "${MESH_NETWORK_ID}" && MESH_NETWORK_ID="0"
 
 # check if community is a community server that forwards any traffic from one 
 # sub-community to any other (via bgb protocoll or similar)
-COMMUNITY_SERVER="$(uci -qX get ffdd.sys.commmunity_server)"
+COMMUNITY_SERVER="$(uci -qX get ffdd.sys.community_server)"
 test -z "${COMMUNITY_SERVER}" && COMMUNITY_SERVER=0
 
 #NUMBER_OF_CLIENTS="$(uci -qX get ffdd.sys.backbone_max_tunnel)"
