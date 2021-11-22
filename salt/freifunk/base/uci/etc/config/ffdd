@@ -40,7 +40,7 @@ config 'ffdd' 'sys'
 	# If a server sets this to '1' the server/bmxd announce the server/gateway as a community gateway.
 	# This gateway is then RESPONSIBLE and MUST ENSURE that there are working connections to 
 	# ALL sub-communities. This enables clients on a sub-communitiy to communitcate with other sub-communities.
-	option 'commmunity_server' '1'
+	option 'commmunity_server' '0'
 
 	# this is the secret key which is used to decrypt secured backbone connection
 	# the corresponding public key should be given to the peers, so those can encrpyt/connect to this server

@@ -35,6 +35,7 @@ test -z "${MESH_NETWORK_ID}" && MESH_NETWORK_ID="0"
 # check if community is a community server that forwards any traffic from one 
 # sub-community to any other (via bgb protocoll or similar)
 COMMUNITY_SERVER="$(uci -qX get ffdd.sys.commmunity_server)"
+test -z "${COMMUNITY_SERVER}" && COMMUNITY_SERVER=0
 
 #NUMBER_OF_CLIENTS="$(uci -qX get ffdd.sys.backbone_max_tunnel)"
 
@@ -79,11 +80,17 @@ if [ "$1" = "start" ]; then
 	ip link set ${FFGW_IF} up
 
 fi
-_IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
+
+# add interfaces that are already present at boot time.
+# Those are tbb_fastd2 and mesh interface (mesh on lan bridge).
+# Wireguard interfaces are added dynamically by calling this script with command 'addif'
+# by wireguard script.
+
+_IF="--dev=$PRIMARY_IF /linklayer 0 --dev=$FASTD_IF /linklayer 1"
 
 if [ -n "$MESH_IF" ] && [ "$MESH_IF" != '-' ]; then
 	for M_IF in "${MESH_IF[@]}"; do
-		_IF="$_IF dev=$M_IF /linklayer 1"
+		_IF="$_IF --dev=$M_IF /linklayer 1"
 	done
 fi
 
@@ -93,12 +100,13 @@ fi
 # devel info: --fast_path_hysteresis has not changed frequency of root setting in bat_route
 # devel info: --path_hysteresis should be less than 5, else dead routes are hold to long
 #
-NETWORK_OPTS="--network $_ddmesh_meshnet --netid $MESH_NETWORK_ID --community ${COMMUNITY_SERVER}"
-SPECIAL_OPTS="--throw-rules 0 --prio-rules 0"
-TUNNEL_OPTS="--gateway_tunnel_network $_ddmesh_meshnet"
-TWEAK_OPTS="--hop_penalty 5 --lateness_penalty 10 --ogm_broadcasts 100 --udp_data_size 512 --ogm_interval 10000 --purge_timeout 60"
-TUNING_OPTS="--gateway_hysteresis $GATEWAY_HYSTERESIS --path_hysteresis 3"
-DAEMON_OPTS="$NETWORK_OPTS $SPECIAL_OPTS $TUNNEL_OPTS $TUNING_OPTS $ROUTING_CLASS $PREFERRED_GATEWAY $TWEAK_OPTS $_IF"
+OPTS="--network $_ddmesh_meshnet --netid $MESH_NETWORK_ID"
+OPTS="${OPTS} --gateway_tunnel_network $_ddmesh_meshnet"
+OPTS="${OPTS} --throw-rules 0 --prio-rules 0"
+OPTS="${OPTS} --community ${COMMUNITY_SERVER}"
+OPTS="${OPTS} --hop_penalty 5 --lateness_penalty 10 --ogm_broadcasts 100 --udp_data_size 512 --ogm_interval 10000 --purge_timeout 60"
+OPTS="${OPTS} --path_hysteresis 3"
+DAEMON_OPTS="${OPTS} $_IF"
 
 test -x "$DAEMON_PATH"/"$DAEMON" || exit 0
 
