@@ -28,6 +28,14 @@ test ! -d "$DB_PATH" && mkdir -p "$DB_PATH"
 #eval $(/usr/bin/netparam)
 eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
 
+# default network ID
+MESH_NETWORK_ID="$(uci -qX get ffdd.sys.network_id)"
+test -z "${MESH_NETWORK_ID}" && MESH_NETWORK_ID="0"
+
+# check if community is a community server that forwards any traffic from one 
+# sub-community to any other (via bgb protocoll or similar)
+COMMUNITY_SERVER="$(uci -qX get ffdd.sys.community_server)"
+test -z "${COMMUNITY_SERVER}" && COMMUNITY_SERVER=0
 
 #NUMBER_OF_CLIENTS="$(uci -qX get ffdd.sys.backbone_max_tunnel)"
 
@@ -52,27 +60,53 @@ fi
 PRIMARY_IF="bmx_prime"
 FASTD_IF="tbb_fastd2"
 MESH_IF=("$(uci -qX get ffdd.sys.bmxd_mesh_if)")
+FFGW_IF="ffgw"
 if [ "$1" = "start" ]; then
 	#ip link add link lo name "$PRIMARY_IF" type bridge
 	ip tuntap add dev "$PRIMARY_IF" mod tun
 	ip addr add "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
 	ip link set dev "$PRIMARY_IF" up
+
+	# add ipip tunnel interface that can be used by clients to route internet traffic. 
+	# - improves upload speed and download speed (ack) (bmxd normally creates a tunnel where data
+	#	are put in to forward it to gateway. this copies data between kernel/user buffer two times
+	#	and increase the bmxd processor load extremly
+	# This interface is currently only created but not inserted into routing rules or gateway check,
+	# because a server does not need internet via freifunk and mostly acts as gateway for other clients
+	ip tunnel add ${FFGW_IF} mode ipip local ${_ddmesh_ip}
+	ip addr add ${_ddmesh_ip}/32 dev ${FFGW_IF}
+	# wireguard MTU is 1300, ipip tunnel needs 20 byte header
+	ip link set ${FFGW_IF} mtu 1280
+	ip link set ${FFGW_IF} up
+
 fi
-_IF="dev=$PRIMARY_IF /linklayer 0 dev=$FASTD_IF /linklayer 1"
+
+# add interfaces that are already present at boot time.
+# Those are tbb_fastd2 and mesh interface (mesh on lan bridge).
+# Wireguard interfaces are added dynamically by calling this script with command 'addif'
+# by wireguard script.
+
+_IF="--dev=$PRIMARY_IF /linklayer 0 --dev=$FASTD_IF /linklayer 1"
 
 if [ -n "$MESH_IF" ] && [ "$MESH_IF" != '-' ]; then
 	for M_IF in "${MESH_IF[@]}"; do
-		_IF="$_IF dev=$M_IF /linklayer 1"
+		_IF="$_IF --dev=$M_IF /linklayer 1"
 	done
 fi
 
 
 # default start with no gatway.will be updated by gateway_check.sh
-SPECIAL_OPTS='--throw-rules 0 --prio-rules 0'
-#TUNNEL_OPTS='--one-way-tunnel 1 --two-way-tunnel 2'
-TUNNEL_OPTS='--one-way-tunnel 1'
-DAEMON_OPTS="$SPECIAL_OPTS $TUNNEL_OPTS $ROUTING_CLASS $PREFERED_GATEWAY $_IF"
-
+#
+# devel info: --fast_path_hysteresis has not changed frequency of root setting in bat_route
+# devel info: --path_hysteresis should be less than 5, else dead routes are hold to long
+#
+OPTS="--network $_ddmesh_meshnet --netid $MESH_NETWORK_ID"
+OPTS="${OPTS} --gateway_tunnel_network $_ddmesh_meshnet"
+OPTS="${OPTS} --throw-rules 0 --prio-rules 0"
+OPTS="${OPTS} --community ${COMMUNITY_SERVER}"
+OPTS="${OPTS} --hop_penalty 5 --lateness_penalty 10 --ogm_broadcasts 100 --udp_data_size 512 --ogm_interval 10000 --purge_timeout 60"
+OPTS="${OPTS} --path_hysteresis 3"
+DAEMON_OPTS="${OPTS} $_IF"
 
 test -x "$DAEMON_PATH"/"$DAEMON" || exit 0
 
