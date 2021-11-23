@@ -99,6 +99,14 @@ migrate_nvram:
       - pkg: uci
       - file: /etc/config/ffdd
 
+{# set new uci config options #}
+check_uci_config:
+  cmd.run: /srv/ffdd-server/salt/freifunk/base/uci/usr/local/bin/uci_check_config_options.sh
+  - require:
+    - pkg: uci
+    - file: /etc/config/ffdd
+    - migrate_nvram
+
 
 {# symlink for old nvram #}
 /usr/local/bin/nvram:
