@@ -20,10 +20,6 @@ check_salt_repo() {
 			wget -O - https://repo.saltstack.com/apt/debian/9/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
 			echo 'deb https://repo.saltstack.com/apt/debian/9/amd64/latest stretch main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
-		ubuntu16 )
-			wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add -
-			echo 'deb https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main' | tee /etc/apt/sources.list.d/saltstack.list
-			;;
 		ubuntu20 )
 			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
 			echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | tee /etc/apt/sources.list.d/salt.list
@@ -80,7 +76,7 @@ print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
 	printf ' - Debian (9/10)\n'
-	printf ' - Ubuntu Server LTS (16.04/18.04/20.04)\n'
+	printf ' - Ubuntu Server LTS (18.04/20.04)\n'
 	exit 1
 }
 
@@ -226,9 +222,6 @@ if [ "$os_id" = 'debian' ]; then
 	printf '\nOK.\n'
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		16.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu16
-				install_uci ubuntu16
-		;;
 		18.04*) PKGMNGR='apt-get'
 				install_uci ubuntu18
 		;;
