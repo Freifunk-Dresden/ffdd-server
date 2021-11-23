@@ -1,5 +1,5 @@
 {# uci - config management helper #}
-{% from 'config.jinja' import freifunk_dl_url %}
+{% from 'config.jinja' import install_dir, freifunk_dl_url %}
 
 # the pkg version must also be changed in init_server.sh
 {% set libubox_version = '20200227' %}
@@ -86,7 +86,7 @@ uci_ldconfig:
 migrate_nvram:
   cmd.run:
     - name: |
-        /srv/ffdd-server/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
+        {{ install_dir }}/salt/freifunk/base/uci/usr/local/bin/nvram-migration.sh
         mv /etc/nvram.conf /etc/nvram.backup
         rm -f /etc/nvram.conf* /etc/nvram_sample.conf /usr/local/bin/nvram
     - onlyif: test -f /etc/nvram.conf -a ! -L /etc/nvram.conf
@@ -96,7 +96,8 @@ migrate_nvram:
 
 {# set new uci config options #}
 check_uci_config:
-  cmd.run: /srv/ffdd-server/salt/freifunk/base/uci/usr/local/bin/uci_check_config_options.sh
+  cmd.run:
+  - name: {{ install_dir }}/salt/freifunk/base/uci/usr/local/bin/uci_check_config_options.sh
   - require:
     - pkg: uci
     - file: /etc/config/ffdd
