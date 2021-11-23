@@ -19,8 +19,8 @@ apache2_mod_php:
 {% endif %}
 
 
-{% if salt['file.directory_exists' ]('/etc/apache2/mods-available/') %}
-{%- set old_php_version = salt['cmd.shell']("cd /etc/apache2/mods-available/ ; find . -name 'php*.load' ! -name " ~ php_version ~ ".load | sed -e 's/.\///g' -e 's/.load//g'") -%}
+{% if salt['file.directory_exists' ]('/etc/apache2/mods-enabled/') %}
+{%- set old_php_version = salt['cmd.shell']("cd /etc/apache2/mods-enabled/ ; find . -name 'php*.load' ! -name " ~ php_version ~ ".load | sed -e 's/.\///g' -e 's/.load//g'") -%}
 
 {% if old_php_version != '' %}
 apache2_mod_php_disable_old:
