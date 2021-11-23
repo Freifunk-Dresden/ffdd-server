@@ -1,7 +1,7 @@
 {# FFDD Batmand Network #}
 {% from 'config.jinja' import freifunk_dl_url, nodeid, ddmesh_registerkey %}
 
-{% set bmxd_version = '0.6-da39a3ee5e' %}
+{% set bmxd_version = '1.0-716c87209ca556850ce4dbaa97d0fa10' %}
 
 {% if salt['cmd.shell']("dpkg-query -W -f='${Version}' bmxd || true") != bmxd_version %}
 bmxd_pkg_removed:
@@ -15,19 +15,19 @@ bmxd:
   pkg.installed:
     - sources:
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
-      - bmxd: {{ freifunk_dl_url }}/debian9/bmxd-{{ bmxd_version }}_amd64.deb
+      - bmxd: {{ freifunk_dl_url }}/debian9/bmxd-{{ bmxd_version }}-debian-stretch-amd64.deb
 
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
-      - bmxd: {{ freifunk_dl_url }}/debian10/bmxd-{{ bmxd_version }}_amd64.deb
+      - bmxd: {{ freifunk_dl_url }}/debian10/bmxd-{{ bmxd_version }}-debian-buster-amd64.deb
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
       - bmxd: {{ freifunk_dl_url }}/ubuntu16/bmxd-{{ bmxd_version }}_amd64.deb
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
-      - bmxd: {{ freifunk_dl_url }}/ubuntu18/bmxd-{{ bmxd_version }}_amd64.deb
+      - bmxd: {{ freifunk_dl_url }}/ubuntu18/bmxd-{{ bmxd_version }}-ubuntu-bionic-amd64.deb
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
-      - bmxd: {{ freifunk_dl_url }}/ubuntu20/bmxd-{{ bmxd_version }}_amd64.deb
+      - bmxd: {{ freifunk_dl_url }}/ubuntu20/bmxd-{{ bmxd_version }}-ubuntu-focal-amd64.deb
 
 {% endif %}
 

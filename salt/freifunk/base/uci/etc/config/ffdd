@@ -25,8 +25,22 @@ config 'ffdd' 'sys'
 	# used by webpage and /etc/issue.net
 	option 'servername' 'VPN Server X'
 
-	#vserver network interface; this depends on vserver provider (hoster)
+	# vserver network interface; this depends on vserver provider (hoster)
 	option 'ifname' 'eth0'
+
+	# Server/bmxd is connected to specfic sub-community. Value 0 means no sub community and accepts 
+	# all old bmxd packages from old firmware versions.
+	# If server sets this to a valud different from zero, new firmware version (from 7.1.0) only accept
+	# messages for this sub community network.
+	# A sub-community is a group of routers that are connected directly, but do not have a direct connection
+	# to other routers from other groups (differewnt network_id). This is used to split up a large network
+	# into small pieces to reduce the load of routers in the whole network
+	option 'network_id' '0'
+
+	# If a server sets this to '1' the server/bmxd announce the server/gateway as a community gateway.
+	# This gateway is then RESPONSIBLE and MUST ENSURE that there are working connections to 
+	# ALL sub-communities. This enables clients on a sub-communitiy to communitcate with other sub-communities.
+	option 'community_server' '0'
 
 	# this is the secret key which is used to decrypt secured backbone connection
 	# the corresponding public key should be given to the peers, so those can encrpyt/connect to this server
