@@ -2,10 +2,9 @@
 
 test ! -d build && mkdir build ; cd build
 
-git clone https://github.com/ddmesh/ffdd-bmxd.git bmxd
+git clone https://github.com/Freifunk-Dresden/ffdd-bmxd.git bmxd
 cd bmxd || exit 1
-#git checkout latest_server
-git checkout master
+git checkout latest_server
 
 chmod 755 DEBIAN
 chmod 555 DEBIAN/*
