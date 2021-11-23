@@ -7,6 +7,7 @@
 
 	test -z "$(uci -qX get ffdd.sys.devmode)" && uci -q set ffdd.sys.devmode=0
 	test -z "$(uci -qX get ffdd.sys.apache_ddos_prevent)" && uci -q set ffdd.sys.apache_ddos_prevent=1
+	test -z "$(uci -qX get ffdd.sys.wireguard_restrict)" && uci -q set ffdd.sys.wireguard_restrict=0
 
 	test -z "$(uci -qX get ffdd.sys.network_id)" && uci -q set ffdd.sys.network_id=0
 	test -z "$(uci -qX get ffdd.sys.community_server)" && uci -q set ffdd.sys.community_server=0
