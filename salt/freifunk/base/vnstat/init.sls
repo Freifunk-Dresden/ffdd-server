@@ -25,7 +25,9 @@ vnstat:
 {# initialize interface #}
 vnstat_{{ ifname }}:
   cmd.run:
-    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+    - name: /usr/bin/vnstat -i {{ ifname }}
+    {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
     - name: /usr/bin/vnstat -i {{ ifname }}
     {% else %}
     - name: /usr/bin/vnstat -u -i {{ ifname }}
@@ -34,7 +36,9 @@ vnstat_{{ ifname }}:
 
 vnstat_bat0:
   cmd.run:
-    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+    - name: /usr/bin/vnstat -i bat0
+    {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
     - name: /usr/bin/vnstat -i bat0
     {% else %}
     - name: /usr/bin/vnstat -u -i bat0
@@ -43,7 +47,9 @@ vnstat_bat0:
 
 vnstat_tbb_fastd2:
   cmd.run:
-    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+    - name: /usr/bin/vnstat -i tbb_fastd2
+    {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
     - name: /usr/bin/vnstat -i tbb_fastd2
     {% else %}
     - name: /usr/bin/vnstat -u -i tbb_fastd2
@@ -52,7 +58,9 @@ vnstat_tbb_fastd2:
 
 vnstat_tbb_wg:
   cmd.run:
-    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+    - name: /usr/bin/vnstat -i tbb_wg
+    {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
     - name: /usr/bin/vnstat -i tbb_wg
     {% else %}
     - name: /usr/bin/vnstat -u -i tbb_wg
@@ -61,7 +69,9 @@ vnstat_tbb_wg:
 
 vnstat_vpn0:
   cmd.run:
-    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+    - name: /usr/bin/vnstat -i vpn0 && systemctl restart vnstat
+    {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
     - name: /usr/bin/vnstat -i vpn0 && systemctl restart vnstat
     {% else %}
     - name: /usr/bin/vnstat -u -i vpn0 && systemctl restart vnstat
@@ -70,7 +80,9 @@ vnstat_vpn0:
 
 vnstat_vpn1:
   cmd.run:
-    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+    - name: /usr/bin/vnstat -i vpn1 && systemctl restart vnstat
+    {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
     - name: /usr/bin/vnstat -i vpn1 && systemctl restart vnstat
     {% else %}
     - name: /usr/bin/vnstat -u -i vpn1 && systemctl restart vnstat
@@ -94,7 +106,9 @@ vnstat_vpn1:
 {# check needed vnstat restart #}
 vnstat_restart:
   cmd.run:
-    {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+    {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+    - name: /usr/bin/vnstat ; systemctl restart vnstat
+    {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
     - name: /usr/bin/vnstat ; systemctl restart vnstat
     {% else %}
     - name: /usr/bin/vnstat -u ; systemctl restart vnstat
