@@ -2,6 +2,18 @@
 
 {# backend server for speedtest.ffdd #}
 {% if apache_ddos_prevent == '1' %}
+apache2_speedtest_disable:
+  service:
+    - running
+    - name: apache2
+    - enable: True
+    - restart: True
+    - watch:
+      - apache2_site_disable_speedtest-backend
+    - require:
+      - pkg: apache2
+      - apache2_site_disable_speedtest-backend
+
 apache2_site_disable_speedtest-backend:
   apache_site.disabled:
     - name: speedtest-backend
@@ -9,7 +21,7 @@ apache2_site_disable_speedtest-backend:
       - pkg: apache2
 
 {% else %}
-apache2_speedtest:
+apache2_speedtest_enable:
   service:
     - running
     - name: apache2
