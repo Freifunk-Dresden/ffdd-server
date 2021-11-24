@@ -43,6 +43,11 @@ uci:
       - libuci: {{ freifunk_dl_url }}/debian10/libuci_{{ libuci_version }}_amd64.deb
       - uci: {{ freifunk_dl_url }}/debian10/uci_{{ uci_version }}_amd64.deb
 
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+      - libubox: {{ freifunk_dl_url }}/debian11/libubox_{{ libubox_version }}_amd64.deb
+      - libuci: {{ freifunk_dl_url }}/debian11/libuci_{{ libuci_version }}_amd64.deb
+      - uci: {{ freifunk_dl_url }}/debian11/uci_{{ uci_version }}_amd64.deb
+
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
       - libubox: {{ freifunk_dl_url }}/ubuntu18/libubox_{{ libubox_version }}_amd64.deb
       - libuci: {{ freifunk_dl_url }}/ubuntu18/libuci_{{ libuci_version }}_amd64.deb

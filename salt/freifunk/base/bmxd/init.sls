@@ -20,6 +20,9 @@ bmxd:
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
       - bmxd: {{ freifunk_dl_url }}/debian10/bmxd-{{ bmxd_version }}-debian-buster-amd64.deb
 
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+      - bmxd: {{ freifunk_dl_url }}/debian11/bmxd-{{ bmxd_version }}-debian-buster-amd64.deb
+
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
       - bmxd: {{ freifunk_dl_url }}/ubuntu18/bmxd-{{ bmxd_version }}-ubuntu-bionic-amd64.deb
 
