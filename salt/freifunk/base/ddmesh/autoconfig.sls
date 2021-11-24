@@ -16,4 +16,5 @@ ddmesh_autosetup:
       - file: /usr/local/bin/freifunk-uci_autosetup.sh
       - file: /etc/config/ffdd
       - sls: uci
+      - sls: fastd
 {% endif %}
