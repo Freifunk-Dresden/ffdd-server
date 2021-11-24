@@ -10,7 +10,7 @@ generate_dhparam:
   cmd.run:
     - name: /usr/bin/openssl dhparam -out /etc/ssl/certs/freifunk_dhparam.pem 2048
     - unless: "[ -f /etc/ssl/certs/freifunk_dhparam.pem ]"
-    - unless: "[ -n /etc/ssl/certs/freifunk_dhparam.pem ]"
+    - unless: "[ -s /etc/ssl/certs/freifunk_dhparam.pem ]"
 
 generate_certificate:
   cmd.run:
@@ -31,6 +31,7 @@ apache2_conf_enable_ssl:
     - name: ssl-params
     - require:
       - pkg: apache2
+
 
 /etc/apache2/sites-available/001-freifunk-ssl.conf:
   file.managed:
@@ -118,6 +119,12 @@ force-renew-ssl:
 apache2_site_disable_freifunk-ssl:
   apache_site.disabled:
     - name: 001-freifunk-ssl
+    - require:
+      - pkg: apache2
+
+apache2_conf_disable_ssl:
+  apache_conf.disabled:
+    - name: ssl-params
     - require:
       - pkg: apache2
 
