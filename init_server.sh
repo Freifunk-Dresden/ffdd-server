@@ -216,6 +216,7 @@ if [ "$os_id" = 'debian' ]; then
 		;;
 		10*)	PKGMNGR='apt-get'
 				install_uci debian10
+		;;
 		11*)	PKGMNGR='apt-get'
 				install_uci debian11
 		;;
