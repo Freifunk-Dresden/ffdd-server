@@ -7,7 +7,6 @@ devel:
       - cmake
       - pkg-config
       - bison
-      - zlibc
       - zlib1g-dev
       - liblzo2-dev
       - libssl-dev
@@ -19,7 +18,7 @@ devel:
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - libcurl4
-      {# pkg to build fastd2 #}
+      {# dep. to build fastd2 #}
       - libmnl-dev
 
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
@@ -27,6 +26,8 @@ devel:
 
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
       - libcurl4
+      {# dep. to build fastd2 #}
+      - libmnl-dev
 
 {# workaround for fastd libjson-c-dev #}
 /usr/lib/x86_64-linux-gnu/libjson-c.so.3:

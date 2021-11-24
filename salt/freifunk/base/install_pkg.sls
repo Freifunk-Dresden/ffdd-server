@@ -47,14 +47,15 @@ install_pkg:
       - strace
       - mtr-tiny
       - bwm-ng
-      - iptraf
 
       - jq
 
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
       - python-apt-common
+      - iptraf-ng
 {% else %}
       - python-apt
+      - iptraf
 {% endif %}
 
 
