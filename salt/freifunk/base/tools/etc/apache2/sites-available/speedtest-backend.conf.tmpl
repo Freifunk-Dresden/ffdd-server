@@ -1,8 +1,7 @@
 ### This file managed by Salt, do not edit by hand! ###
-{% from 'config.jinja' import hostname, nodeid, nodeip %}
+{% from 'config.jinja' import hostname_short %}
 <VirtualHost *:80>
-	ServerName speedtest.{{ hostname }}
-	ServerAlias speedtest.{{ nodeid }}.ffdd speedtest.{{ nodeid }}.freifunk-dresden.de speedtest.{{ nodeip }} speedtest.{{ nodeip }}.freifunk-dresden.de
+	ServerName speedtest.{{ hostname_short }}.ffdd
 
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /

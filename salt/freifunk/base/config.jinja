@@ -26,6 +26,7 @@
 
 {% set servername = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.servername') %}
 {% set hostname = salt['cmd.shell']('cat /etc/hostname') %}
+{% set hostname_short = salt['cmd.shell']("cat /etc/hostname | awk -F'.' '{print $1}'") %}
 {% set ifname = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ifname') %}
 {% set nodeid = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_node') %}
 {% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | head -1 | sed 's/\/.*//'") %}

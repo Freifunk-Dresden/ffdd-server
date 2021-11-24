@@ -9,6 +9,20 @@ apache2_site_disable_speedtest-backend:
       - pkg: apache2
 
 {% else %}
+apache2_speedtest:
+  service:
+    - running
+    - name: apache2
+    - enable: True
+    - restart: True
+    - watch:
+      - file: /etc/apache2/sites-available/speedtest-backend.conf
+      - apache2_site_enable_speedtest-backend
+    - require:
+      - pkg: apache2
+      - file: /etc/apache2/sites-available/speedtest-backend.conf
+      - apache2_site_enable_speedtest-backend
+
 speedtest-backend_repo:
   git.latest:
     - name: https://github.com/Freifunk-Dresden/speedtest-backend.git

@@ -32,6 +32,7 @@ apache2:
       - apache2_conf_enable_bind_stats
       - apache2_conf_enable_monitorix
       - apache2_conf_enable_vnstat
+      - apache2_site_disable_speedtest-backend
       - apache2_mod_disable
       - apache2_mod_enable
       - apache2_mod_php
