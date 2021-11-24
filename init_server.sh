@@ -75,7 +75,7 @@ print_usage() {
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
-	printf ' - Debian (9/10)\n'
+	printf ' - Debian (9/10/11)\n'
 	printf ' - Ubuntu Server LTS (18.04/20.04)\n'
 	exit 1
 }
@@ -216,6 +216,8 @@ if [ "$os_id" = 'debian' ]; then
 		;;
 		10*)	PKGMNGR='apt-get'
 				install_uci debian10
+		11*)	PKGMNGR='apt-get'
+				install_uci debian11
 		;;
 		*)		print_not_supported_os ;;
 	esac
