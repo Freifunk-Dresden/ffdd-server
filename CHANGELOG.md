@@ -10,6 +10,7 @@
 		- move bmxd build script to [ffdd-bmxd repo](https://github.com/Freifunk-Dresden/ffdd-bmxd)
 	- add ipip tunnel as alternative to bat0
 	- add check-script for new uci config options
+	- add speedtest-backend for speedtest.ffdd
 	- some small bug fixes
 
 ## version 1.3.0
