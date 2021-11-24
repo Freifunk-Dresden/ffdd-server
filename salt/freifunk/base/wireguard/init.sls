@@ -3,10 +3,7 @@
 
 
 {# Package #}
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
-/etc/apt/sources.list.d/wireguard-ubuntu-wireguard-xenial.list:
-  file.absent
-{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
 /etc/apt/sources.list.d/wireguard-ubuntu-wireguard-bionic.list:
   file.absent
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
@@ -29,6 +26,7 @@ wireguard:
     - name: deb http://deb.debian.org/debian/ unstable main
     - dist: unstable
     - file: /etc/apt/sources.list.d/wireguard.list
+    - unless: "[ -f /etc/apt/sources.list.d/wireguard.list ]"
   {% endif %}
 
   pkg.installed:
