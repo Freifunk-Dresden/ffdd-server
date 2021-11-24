@@ -90,9 +90,9 @@ add_outgoing()
 	[ -z "$port" ] && local port='5002'
 
 	if [ -z "$key" ]; then
-		local key="$(wget -q -O - http://"$host"/sysinfo-json.cgi | jq -r '.data.common.fastd_pubkey')"
+		local key="$(wget -q -O - http://"$host"/sysinfo-json.cgi | jq -r '.data.backbone.fastd_pubkey')"
 
-		if [ -z "$key" ]; then
+		if [ -z "$key" ] || [ "$key" == 'null' ]; then
 			printf 'can not fetch fastd_pubkey from http://%s/sysinfo-json.cgi!\n' "$host"
 			printf 'Please use: %s add_connect <host> <port> <fastd_pubkey>\n' "$(basename "$0")"
 			exit 0
@@ -142,7 +142,7 @@ case "$1" in
   ;;
 
   genkey)
-	if [ -x "$DAEMON" ]; then 
+	if [ -x "$DAEMON" ]; then
 		$DAEMON --generate-key
 		exit 0
 	else
