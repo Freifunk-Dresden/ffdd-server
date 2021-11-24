@@ -7,24 +7,24 @@ salt-minion:
   {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
   pkgrepo.managed:
     - humanname: SaltStack
-    - name: deb http://repo.saltstack.com/apt/debian/9/amd64/2019.2 stretch main
+    - name: deb https://repo.saltproject.io/py3/debian/9/amd64/latest stretch main
     - dist: stretch
     - file: /etc/apt/sources.list.d/saltstack.list
     - require_in:
       - pkg: salt-minion
     - gpgcheck: 1
-    - key_url: https://repo.saltstack.com/apt/debian/9/amd64/2019.2/SALTSTACK-GPG-KEY.pub
+    - key_url: https://repo.saltproject.io/py3/debian/9/amd64/latest/salt-archive-keyring.gpg
 
-  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'xenial' %}
+  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
   pkgrepo.managed:
     - humanname: SaltStack
-    - name: deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2 xenial main
+    - name: deb https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main
     - dist: xenial
     - file: /etc/apt/sources.list.d/saltstack.list
     - require_in:
       - pkg: salt-minion
     - gpgcheck: 1
-    - key_url: https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2019.2/SALTSTACK-GPG-KEY.pub
+    - key_url: https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
 
   {% else %}
   file.absent:
