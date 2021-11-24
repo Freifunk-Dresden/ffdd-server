@@ -7,8 +7,8 @@
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /
 
-	DocumentRoot /var/www_speedtest
-	<Directory /var/www_speedtest>
+	DocumentRoot /var/www_speedtest/backend
+	<Directory /var/www_speedtest/backend>
 		AllowOverride None
 		Options -Indexes +MultiViews +FollowSymLinks +Includes
 		Require all granted
