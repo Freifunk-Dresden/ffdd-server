@@ -1,3 +1,5 @@
+{% from 'config.jinja' import apache_ddos_prevent %}
+
 {# backend server for speedtest.ffdd #}
 {% if apache_ddos_prevent == '1' %}
 apache2_site_disable_speedtest-backend:
