@@ -17,12 +17,12 @@ check_salt_repo() {
 	# repos needs also a check in salt/freifunk/base/salt-minion/init.sls
 	case "$1" in
 		debian9 )
-			wget -O - https://repo.saltproject.io/py3/debian/9/amd64/latest/salt-archive-keyring.gpg | apt-key add -
+			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/debian/9/amd64/latest/salt-archive-keyring.gpg
 			echo 'deb https://repo.saltproject.io/py3/debian/9/amd64/latest stretch main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 		ubuntu20 )
 			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
-			echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | tee /etc/apt/sources.list.d/salt.list
+			echo 'deb https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 	esac
 }
