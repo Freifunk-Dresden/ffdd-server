@@ -1,6 +1,17 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc1
+	- remove ubuntu 16.04 support
+	- add support for debian 11
+	- update missing deps for ubuntu 20.04 support
+	- update fastd2 to v22
+	- update bmxd to version 1.0
+		- move bmxd build script to [ffdd-bmxd repo](https://github.com/Freifunk-Dresden/ffdd-bmxd)
+	- add ipip tunnel as alternative to bat0
+	- add check-script for new uci config options
+	- some small bug fixes
+
 ## version 1.3.0
 **Notice:**
 In the current version the configuration management changes from `nvram` (*/etc/nvram.conf*) to `uci` (*/etc/config/ffdd*)!
@@ -14,30 +25,6 @@ use: `bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"` or `frei
 we also update development commands in the `init_server.sh` - please see [readme.md](https://github.com/Freifunk-Dresden/ffdd-server#development) part.
 
 ***Please reboot the Server after upgrade.***
-
-	- add uci config management
-		- change nvram to uci
-	- bmxd:
-		- change from manuell build to package installation
-		- allow to define a list of mesh interfaces (ffdd.sys.bmxd_mesh_if)
-	- fastd:
-		- update to v21
-		- add white/blacklists for better connection control
-		- fix `add_connect`
-	- internal dns:
-		- update zone .ffdd
-		- add wildcard entries for gateway subdomains
-	- apache:
-		- add option to disable apache ddos prevention
-		- allow additional config for virtualhost on port 80 and 443
-	- add wan-traffic stat to sysinfo.json
-	- optimize freifunk-manuell_update.sh to use init_server.sh
-	- reduced process priority for salt
-	- increase fail2ban maxretry
-	- fix ntp.service to wait for bat0 interface
-	- fix pb requirement
-	- fix some bugs in network and firewall scripts
-	- some small code optimizations
 
 ## version 1.3.0rc10
 	- typo fix in README.md
@@ -88,7 +75,29 @@ When a freifunk client makes a request to external web servers, this request goe
 	- fix wireguard-backbone script source and cronjob
 
 ## version 1.3.0rc1
-no significant changes
+	- add uci config management
+		- change nvram to uci
+	- bmxd:
+		- change from manuell build to package installation
+		- allow to define a list of mesh interfaces (ffdd.sys.bmxd_mesh_if)
+	- fastd:
+		- update to v21
+		- add white/blacklists for better connection control
+		- fix `add_connect`
+	- internal dns:
+		- update zone .ffdd
+		- add wildcard entries for gateway subdomains
+	- apache:
+		- add option to disable apache ddos prevention
+		- allow additional config for virtualhost on port 80 and 443
+	- add wan-traffic stat to sysinfo.json
+	- optimize freifunk-manuell_update.sh to use init_server.sh
+	- reduced process priority for salt
+	- increase fail2ban maxretry
+	- fix ntp.service to wait for bat0 interface
+	- fix pb requirement
+	- fix some bugs in network and firewall scripts
+	- some small code optimizations
 
 ## version 1.2.7
 	- fix wireguard for ubuntu

@@ -1,5 +1,5 @@
-# Freifunk Dresden: ffdd-server - ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
-Configures an Debian (9/10) or Ubuntu-Server LTS (18.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
+# Freifunk Dresden: ffdd-server - ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
+Configures an Debian (9/10/11) or Ubuntu-Server LTS (18.04/20.04) as Freifunk-Dresden Server, that could be used as internet gateway an as basis to add further services.
 
 **[Releases](https://github.com/Freifunk-Dresden/ffdd-server/releases)** - **[latest Stable Release](https://github.com/Freifunk-Dresden/ffdd-server/tree/T_RELEASE_latest)** - **[CHANGELOG](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/CHANGELOG.md)**
 
@@ -59,7 +59,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - mindestens Grundkenntnisse über Linux Server und Kenntnisse im Bereich Netzwerke / Routing.
 
-- Notwendig ist eine Debian (9/10) oder Ubuntu-Server LTS (18.04) Installation.<br/>
+- Notwendig ist eine Debian (9/10/11) oder Ubuntu-Server LTS (18.04/20.04) Installation.<br/>
   Wähle dafür aber die "Server-⁠Variante" **nicht** Desktop! (Empfehlung: Debian)
 
 - Speicher: min. 1GByte RAM, 2GByte Swap
