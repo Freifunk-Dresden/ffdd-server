@@ -23,6 +23,17 @@ devel:
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
       - libcurl4
 
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+      - libcurl4
+
+{# workaround for fastd libjson-c-dev #}
+/usr/lib/x86_64-linux-gnu/libjson-c.so.3:
+  file.symlink:
+    - target: /usr/lib/x86_64-linux-gnu/libjson-c.so.5
+    - force: true
+    - require:
+      - pkg: libjson-c-dev
+
 {% else %}
       - libcurl3
 

@@ -111,4 +111,7 @@ S53backbone-fastd2:
       - sls: ddmesh.autoconfig
       - sls: uci
       - file: /etc/config/ffdd
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+      - /usr/lib/x86_64-linux-gnu/libjson-c.so.3
+{% endif %}
 {% endif %}

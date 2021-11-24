@@ -49,8 +49,14 @@ install_pkg:
       - bwm-ng
       - iptraf
 
-      - python-apt
       - jq
+
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+      - python-apt-common
+{% else %}
+      - python-apt
+{% endif %}
+
 
 {% if grains['os'] == 'Debian' %}
       - firmware-linux
