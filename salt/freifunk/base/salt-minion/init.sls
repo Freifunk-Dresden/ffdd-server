@@ -19,7 +19,7 @@ salt-minion:
   pkgrepo.managed:
     - humanname: SaltStack
     - name: deb https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main
-    - dist: xenial
+    - dist: focal
     - file: /etc/apt/sources.list.d/saltstack.list
     - require_in:
       - pkg: salt-minion
