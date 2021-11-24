@@ -19,6 +19,8 @@ devel:
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - libcurl4
+      {# pkg to build fastd2 #}
+      - libmnl-dev
 
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
       - libcurl4
