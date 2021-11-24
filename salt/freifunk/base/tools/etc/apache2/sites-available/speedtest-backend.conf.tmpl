@@ -1,0 +1,23 @@
+### This file managed by Salt, do not edit by hand! ###
+{% from 'config.jinja' import hostname, nodeid, nodeip %}
+<VirtualHost *:80>
+	ServerName speedtest.{{ hostname }}
+	ServerAlias speedtest.{{ nodeid }}.ffdd speedtest.{{ nodeid }}.freifunk-dresden.de speedtest.{{ nodeip }} speedtest.{{ nodeip }}.freifunk-dresden.de
+
+	# redirect if not found, to avoid displaying other internal stuff
+	ErrorDocument 404 /
+
+	DocumentRoot /var/www_speedtest
+	<Directory /var/www_speedtest>
+		AllowOverride None
+		Options -Indexes +MultiViews +FollowSymLinks +Includes
+		Require all granted
+	</Directory>
+
+	CustomLog /var/log/apache2/freifunk-speedtest_access.log combined
+	ErrorLog /var/log/apache2/freifunk-speedtest_error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+	LogLevel warn
+
+</VirtualHost>

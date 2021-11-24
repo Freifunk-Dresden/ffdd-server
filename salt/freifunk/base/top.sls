@@ -8,10 +8,9 @@ base:
     {# clear old obsolete states from old versions #}
     - clear_old_env
 
-    {# basic software and tools #}
+    {# basic packages #}
     - install_pkg
     - devel
-    - tools
 
     {# system defaults #}
     - root
@@ -48,7 +47,6 @@ base:
     - iptables
     - conntrack
 
-    {# f2b with ipset #}
     - fail2ban
     - fail2ban.ipset
 
@@ -72,3 +70,8 @@ base:
     - monitorix
     - bind.stats
     - vnstat.dashboard
+
+    {# tools #}
+    - tools
+    - tools.pastebin
+    - tools.speedtest
