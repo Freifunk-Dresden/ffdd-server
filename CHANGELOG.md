@@ -1,12 +1,16 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc2
+	- update bmxd to version 1.1 (fixes community gw selection)
+	- sysinfo: prevent synatax error then we use sh/dash
+
 ## version 1.4.0rc1
 	- remove ubuntu 16.04 support
 	- add support for debian 11
 	- update missing deps for ubuntu 20.04 support
 	- update fastd2 to v22
-	- update bmxd to version 1.1
+	- update bmxd to version 1.0
 		- move bmxd build script to [ffdd-bmxd repo](https://github.com/Freifunk-Dresden/ffdd-bmxd)
 	- add ipip tunnel as alternative to bat0
 	- add check-script for new uci config options
