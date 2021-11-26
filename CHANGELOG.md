@@ -6,7 +6,7 @@
 	- add support for debian 11
 	- update missing deps for ubuntu 20.04 support
 	- update fastd2 to v22
-	- update bmxd to version 1.0
+	- update bmxd to version 1.1
 		- move bmxd build script to [ffdd-bmxd repo](https://github.com/Freifunk-Dresden/ffdd-bmxd)
 	- add ipip tunnel as alternative to bat0
 	- add check-script for new uci config options
