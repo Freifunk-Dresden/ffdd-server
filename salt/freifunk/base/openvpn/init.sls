@@ -42,12 +42,23 @@ ovpn0_service:
 /etc/openvpn/openvpn-vpn0.conf:
   file.exists
 
+# workaround enabled status
+/etc/systemd/system/multi-user.target.wants/openvpn@openvpn-vpn0.service:
+  file.symlink:
+    - target: /lib/systemd/system/openvpn@.service
+    - force: true
+    - require:
+      - file: /etc/openvpn/openvpn-vpn0.conf
+
 {% else %}
 {# no config file was found #}
 ovpn0_service_dead:
   service.dead:
     - name: openvpn@openvpn-vpn0.service
     - enable: false
+
+/etc/systemd/system/multi-user.target.wants/openvpn@openvpn-vpn0.service:
+  file.absent
 {% endif %}
 
 {# VPN 1 #}
@@ -78,12 +89,23 @@ ovpn1_service:
 /etc/openvpn/openvpn-vpn1.conf:
   file.exists
 
+# workaround enabled status
+/etc/systemd/system/multi-user.target.wants/openvpn@openvpn-vpn1.service:
+  file.symlink:
+    - target: /lib/systemd/system/openvpn@.service
+    - force: true
+    - require:
+      - file: /etc/openvpn/openvpn-vpn1.conf
+
 {% else %}
 {# no config file was found #}
 ovpn1_service_dead:
   service.dead:
     - name: openvpn@openvpn-vpn1.service
     - enable: false
+
+/etc/systemd/system/multi-user.target.wants/openvpn@openvpn-vpn1.service:
+  file.absent
 {% endif %}
 
 
