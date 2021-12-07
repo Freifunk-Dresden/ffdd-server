@@ -1,13 +1,16 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc3
+	- fix openvpn service
+
 ## version 1.4.0rc2
 	- update bmxd to version 1.1
-    	- parameter changed/added
-    	- retrigger gw selection
-    	- fix community gw selection
-    	- disable bmxd debug traces (syslog)
-    	- change script to keep created container to regenerate deb-packages
+		- parameter changed/added
+		- retrigger gw selection
+		- fix community gw selection
+		- disable bmxd debug traces (syslog)
+		- change script to keep created container to regenerate deb-packages
 	- sysinfo: prevent synatax error then we use sh/dash
 
 ## version 1.4.0rc1
