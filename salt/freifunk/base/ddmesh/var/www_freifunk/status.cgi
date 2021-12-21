@@ -51,6 +51,8 @@ cat<<EOF
 )
 <tr><th width="250">Auto-Update:</th><td colspan="7">$(if [ "$(uci -qX get ffdd.sys.autoupdate)" -eq '1' ]; then printf '<img src="/images/yes.png" alt="yes">'; else printf '<img src="/images/no.gif" alt="no">'; fi)</td></tr>
 <tr><th>Knoten-IP-Adresse:</th><td colspan="7">$_ddmesh_ip ($_ddmesh_node)</td></tr>
+<tr><th>Network ID:</th><td colspan="7">$(uci -qX get ffdd.sys.network_id)</td></tr>
+<tr><th >Community Server:</th><td colspan="7">$(if [ "$(uci -qX get ffdd.sys.community_server)" -eq '1' ]; then printf '<img src="/images/yes.png" alt="yes">'; else printf '<img src="/images/no.gif" alt="no">'; fi)</td></tr>
 <tr><th>Nameserver:</th><td colspan="7">$(grep nameserver /etc/resolv.conf | sed 's#nameserver##g')</td></tr>
 <tr><th>Ger&auml;telaufzeit:</th><td colspan="7">$(uptime)</td></tr>
 <tr><th>Prozesse:</th><td colspan="7">$(ps --no-headers xa | wc -l)</td></tr>
