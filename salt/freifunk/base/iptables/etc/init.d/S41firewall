@@ -88,6 +88,9 @@ if [ "$1" = "start" ]; then
 	$IPT -w -A INPUT -p udp -i lo --dport 4306 -j ACCEPT
 	$IPT -w -A INPUT -p udp -i lo --dport 4307 -j ACCEPT
 
+	# allow incomming ipip packets for ffgw
+	$IPT -w -A INPUT -p 4 -i "$BACKBONE_DEV" -j ACCEPT
+
 	#iperf3
 	$IPT -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p tcp --dport 5201 -j ACCEPT
 	$IPT -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p udp --dport 5201 -j ACCEPT
