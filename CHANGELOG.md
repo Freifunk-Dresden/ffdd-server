@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc5
+	- add firewall rule to accept ipip gateway packets
+
 ## version 1.4.0rc4
 	- add network_id and community_server info to status page
 	- show network_id in sysinfo.json
