@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc6
+	- apt: add source.list for debian bullseye
+
 ## version 1.4.0rc5
 	- add firewall rule to accept ipip gateway packets
 
