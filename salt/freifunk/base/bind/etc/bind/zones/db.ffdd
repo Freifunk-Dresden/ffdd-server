@@ -5,7 +5,7 @@
 ;;
 $TTL 28800
 @       IN  SOA ns1.ffdd. root.ffdd. (
-                1621348301 ; Serial
+                1642369927 ; Serial
                 10800 ; Refresh
                 3600 ; Retry
                 604800 ; Expire
@@ -31,7 +31,7 @@ vpn5    IN  CNAME   51008.ffdd.
 vpn6    IN  CNAME   51017.ffdd.
 vpn7    IN  CNAME   4.ffdd.
 vpn8    IN  CNAME   51015.ffdd.
-;vpn9    IN  CNAME   X.ffdd.
+vpn9    IN  CNAME   51039.ffdd.
 ;vpn10   IN  CNAME   X.ffdd.
 vpn11   IN  CNAME   200.ffdd.
 vpn12   IN  CNAME   256.ffdd.
@@ -68,8 +68,8 @@ $ORIGIN vpn7.ffdd.
 $ORIGIN vpn8.ffdd.
 *        IN  CNAME   51015.ffdd.
 ;
-;$ORIGIN vpn9.ffdd.
-;*        IN  CNAME   X.ffdd.
+$ORIGIN vpn9.ffdd.
+*        IN  CNAME   51039.ffdd.
 ;
 ;$ORIGIN vpn10.ffdd.
 ;*        IN  CNAME   X.ffdd.

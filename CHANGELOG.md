@@ -3,6 +3,7 @@
 
 ## version 1.4.0rc6
 	- apt: add source.list for debian bullseye
+	- dns: add vpn9
 
 ## version 1.4.0rc5
 	- add firewall rule to accept ipip gateway packets
