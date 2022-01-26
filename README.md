@@ -84,7 +84,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 
 - ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br />
-Beispiel: `hostnamectl set-hostname vpnxy.freifunk-dresden.de`
+Beispiel: `hostnamectl set-hostname <vpnX>.freifunk-dresden.de`
 
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
 
@@ -125,14 +125,17 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
 
 - `/etc/hostname` (FQDN)
-- [`/etc/config/ffdd`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd)
+- `/etc/config/ffdd`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd)
   - servername
   - ifname
   - contact informations
-- `/etc/fastd/peers2/`<br />
-  *# To Create a Fastd2 Connection use:*<br />
+- Create a Backbone Connection*<br />
+  - fastd `/etc/fastd/peers2/`<br />
     `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`<br />
     or: `/etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
+  - wireguard `/etc/wireguard/`<br />
+    `/usr/local/bin/wg-backbone.sh connect <host> <port> <node> <key>`
+    
 - VPN-Gateway Service
   - `/etc/openvpn/`<br />
     *# creates openvpn-vpn0.conf with:*<br />
