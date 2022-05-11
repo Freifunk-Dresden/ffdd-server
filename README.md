@@ -137,6 +137,7 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
     `/usr/local/bin/wg-backbone.sh connect <host> <port> <node> <key>`
     
 - VPN-Gateway Service
+  - ***Notice: OVPN/WG supports interface `vpn0` and `vpn1`***
   - `/etc/openvpn/`<br />
     *# creates openvpn-vpn0.conf with:*<br />
       `/etc/openvpn/gen-config.sh vpn0 <original-provider-config-file>`<br />
@@ -144,8 +145,6 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
   - `/etc/wireguard/`<br />
     *# creates vpn0.conf with:*<br />
       `/etc/wireguard/gen-config.sh vpn0 <original-provider-config-file>`
-
-*# Notice: OVPN/WG supports interface `vpn0` and `vpn1`*
 
 ### Apply
 
