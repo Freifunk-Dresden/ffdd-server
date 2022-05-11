@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc7
+	- dns: add vpn15
+
 ## version 1.4.0rc6
 	- apt: add source.list for debian bullseye
 	- dns: add vpn9 & vpn10
