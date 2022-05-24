@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc8
+	- update wg_cgi to version 1.2.0
+
 ## version 1.4.0rc7
 	- dns: add vpn15
 
