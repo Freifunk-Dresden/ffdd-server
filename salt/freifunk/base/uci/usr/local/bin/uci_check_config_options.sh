@@ -21,6 +21,7 @@
 	fi
 
 	test -z "$(uci -qX get ffdd.wireguard.unused_days)" && uci -q set ffdd.wireguard.unused_days=30
+	test -z "$(uci -qX get ffdd.wireguard.ext_port)" && uci -q set ffdd.wireguard.ext_port=5003
 
 
 ## finish / save uci config
