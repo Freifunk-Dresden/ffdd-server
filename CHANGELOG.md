@@ -2,7 +2,11 @@
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
 ## version 1.4.0rc8
-	- update wg_cgi to version 1.2.0
+	- update wg_cgi to version 1.2.1
+	- fix wg_cgi, Version 1.2.0 only supported glibc >= 2.29
+		ubuntu 18.04 only has glibc 2.27
+		debian 10 only has 2.28
+		newer versions have >= 2.29
 
 ## version 1.4.0rc7
 	- dns: add vpn15
