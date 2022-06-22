@@ -7,6 +7,7 @@
 		ubuntu 18.04 only has glibc 2.27
 		debian 10 only has 2.28
 		newer versions have >= 2.29
+	- update communities and fix checkup script
 
 ## version 1.4.0rc7
 	- dns: add vpn15
