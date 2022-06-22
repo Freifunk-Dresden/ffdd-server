@@ -22,23 +22,20 @@ virtualization="$(hostnamectl status | awk '/Virtualization/ {print $2}')"
 
 # check contact community
 communities=('Dresden'
-	'Freiberg'
-	'Freital'
-	'Meissen'
 	'OL'
 	'Pirna'
-	'Radebeul'
-	'Tharandt'
-	'Waldheim')
+	'NO'
+	'SO'
+	'NW'
+	'SW'
+	'Leipzig')
 
 gu_c="$(uci -qX get ffdd.sys.city)"
 
-if [ "${communities#*$gu_c}" != "$communities" ]; then
+if [ "${communities#*$gu_c}" != "${communities[*]}" ]; then
 	contact_city="$gu_c"
 elif [ "$gu_c" = 'OL' ] || [ "$gu_c" = 'O.L.' ]; then
 	contact_city='Oberlausitz'
-elif [ "$gu_c" = 'Meißen' ]; then
-	contact_city='Meissen'
 else
 	contact_city='Dresden'
 fi
