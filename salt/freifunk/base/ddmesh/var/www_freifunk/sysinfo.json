@@ -32,7 +32,7 @@ communities=('Dresden'
 
 gu_c="$(uci -qX get ffdd.sys.city)"
 
-if [ "${communities#*$gu_c}" != "${communities[*]}" ]; then
+if [[ "${communities[*]}" =~ ${gu_c} ]]; then
 	contact_city="$gu_c"
 elif [ "$gu_c" = 'OL' ] || [ "$gu_c" = 'O.L.' ]; then
 	contact_city='Oberlausitz'
