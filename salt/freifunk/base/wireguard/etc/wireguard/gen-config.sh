@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2006 - present, Freifunk Dresden
+#
 ### This file managed by Salt, do not edit by hand! ###
 # modifies wireguard config to match firmware requirements
 
@@ -59,7 +61,7 @@ read_config()
 			Address) WG_IF_ADDRESS="$value" ; continue ;;
 			#MTU) WG_IF_MTU="$value"; continue ;;
 			DNS) WG_IF_DNS+="$value"; continue ;;
-			PrivateKey) WG_IF_PRIVATE_KEY+="$value"; continue ;;
+			PrivateKey) WG_IF_PRIVATE_KEY="$value"; continue ;;
 			esac
 		fi
 
@@ -68,7 +70,8 @@ read_config()
 			case "$key" in
 			AllowedIPs) WG_PEER_ALLOWED_IPS+="$value" ; continue ;;
 			Endpoint) WG_PEER_ENDPOINT="$value"; continue ;;
-			PublicKey) WG_PEER_PUBLIC_KEY+="$value"; continue ;;
+			PublicKey) WG_PEER_PUBLIC_KEY="$value"; continue ;;
+			PresharedKey) WG_PEER_PRE_SHARED_KEY="PresharedKey=$value"; continue ;;
 			esac
 		fi
 	done < "$input"
@@ -103,7 +106,7 @@ PreDown = ip route del default dev $vpn table gateway_pool metric $metric ; ipta
 PublicKey = $WG_PEER_PUBLIC_KEY
 AllowedIPs = $WG_PEER_ALLOWED_IPS
 Endpoint = $WG_PEER_ENDPOINT
-PersistentKeepalive = 21
+$WG_PEER_PRE_SHARED_KEY
 
 EOM
 
