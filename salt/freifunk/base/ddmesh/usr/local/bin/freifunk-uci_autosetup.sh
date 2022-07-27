@@ -34,6 +34,10 @@ if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ] || \
 		rm -f /tmp/.ffdd_h.txt
 
 		# set fastd-key
+		if [ -z "$(uci -qX get ffdd.fastd)" ]; then
+			uci add ffdd fastd
+			uci rename ffdd.@fastd[-1]='fastd'
+		fi
 		uci set ffdd.fastd.secret="$fastd_secret_key"
 		uci set ffdd.fastd.public="$fastd_public_key"
 
