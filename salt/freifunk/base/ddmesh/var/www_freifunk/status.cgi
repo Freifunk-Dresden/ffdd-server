@@ -6,7 +6,7 @@ export TITLE="Allgemein &gt; Status"
 ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
 eval "$(ddmesh-ipcalc.sh -n "$ddmesh_node")"
 
-fastd_restrict="$(uci -qX get ffdd.sys.fastd_restrict)"
+fastd_restrict="$(uci -qX get ffdd.fastd.restrict)"
 
 . ./cgi-bin-pre.cgi
 

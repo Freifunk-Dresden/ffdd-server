@@ -10,7 +10,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
 ddmesh_key="$(uci -qX get dffdd.sys.ddmesh_registerkey)"
 
-fastd_secret="$(uci -qX get ffdd.sys.fastd_secret)"
+fastd_secret="$(uci -qX get ffdd.fastd.secret)"
 
 
 if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ] || \
@@ -34,8 +34,8 @@ if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ] || \
 		rm -f /tmp/.ffdd_h.txt
 
 		# set fastd-key
-		uci set ffdd.sys.fastd_secret="$fastd_secret_key"
-		uci set ffdd.sys.fastd_public="$fastd_public_key"
+		uci set ffdd.fastd.secret="$fastd_secret_key"
+		uci set ffdd.fastd.public="$fastd_public_key"
 
 		uci commit
 fi

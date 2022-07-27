@@ -7,7 +7,6 @@
 
 	test -z "$(uci -qX get ffdd.sys.devmode)" && uci -q set ffdd.sys.devmode=0
 	test -z "$(uci -qX get ffdd.sys.apache_ddos_prevent)" && uci -q set ffdd.sys.apache_ddos_prevent=1
-	test -z "$(uci -qX get ffdd.sys.wireguard_restrict)" && uci -q set ffdd.sys.wireguard_restrict=0
 
 	test -z "$(uci -qX get ffdd.sys.network_id)" && uci -q set ffdd.sys.network_id=0
 	test -z "$(uci -qX get ffdd.sys.community_server)" && uci -q set ffdd.sys.community_server=0
@@ -22,6 +21,7 @@
 
 	test -z "$(uci -qX get ffdd.wireguard.unused_days)" && uci -q set ffdd.wireguard.unused_days=30
 	test -z "$(uci -qX get ffdd.wireguard.ext_port)" && uci -q set ffdd.wireguard.ext_port=5003
+	test -z "$(uci -qX get ffdd.wireguard.restrict)" && uci -q set ffdd.wireguard.restrict=0
 
 
 ## finish / save uci config

@@ -1,7 +1,7 @@
 config uci 'uci'
         option node_id 'ffdd.sys.ddmesh_node'
         option wg_public_key 'ffdd.wireguard.public'
-        option wg_restrict 'ffdd.sys.wireguard_restrict'
+        option wg_restrict 'ffdd.wireguard.restrict'
         option wg_ext_port 'ffdd.wireguard.ext_port'
 
 config sh 'sh'
