@@ -28,10 +28,8 @@ start_wg()
 	fi
 
 	# upgrade: move config option 'restrict'
-	if [ -z "$(uci -q get ffdd.wireguard.restrict)" ]; then
-		restrict="$(uci -q get ffdd.sys.wireguard_restrict)"
-		test -z "$restrict" && restrict='0'
-		uci set ffdd.wireguard.restrict="$restrict"
+	if [ -n "$(uci -q get ffdd.sys.wireguard_restrict)" ]; then
+		uci set ffdd.wireguard.restrict="$(uci -q get ffdd.sys.wireguard_restrict)"
 		uci -q delete ffdd.sys.wireguard_restrict
 		uci commit
 	fi
