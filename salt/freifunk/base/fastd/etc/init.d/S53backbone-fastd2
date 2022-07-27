@@ -30,6 +30,30 @@ if [ ! -d "$CONF_DIR"/"$CONF_PEERS" ]; then
 	mkdir -p "$CONF_DIR"/"$CONF_PEERS"
 fi
 
+generate_keys()
+{
+	if [ -z "$(uci -q ffdd.fastd.secret)" -o -z "$(uci -q ffdd.fastd.public)" ]; then
+		# generate fastd secret & public key
+		fastd --generate-key > /tmp/.ffdd_h.txt
+
+		fastd_secret_key="$(sed -n '/^Secret:/{s#^.*: ##;p}' /tmp/.ffdd_h.txt)"
+		fastd_public_key="$(sed -n '/^Public:/{s#^.*: ##;p}' /tmp/.ffdd_h.txt)"
+
+		rm -f /tmp/.ffdd_h.txt
+
+		# set fastd-key
+		if [ -z "$(uci -qX get ffdd.fastd)" ]; then
+			uci add ffdd fastd
+			uci rename ffdd.@fastd[-1]='fastd'
+		fi
+		uci set ffdd.fastd.secret="$fastd_secret_key"
+		uci set ffdd.fastd.public="$fastd_public_key"
+		uci set ffdd.fastd.restrict="0"
+		uci set ffdd.fastd.ext_port="${backbone_server_port}"
+		uci commit
+	fi
+}
+
 generate_fastd_conf()
 {
 	MTU=1200
@@ -114,17 +138,17 @@ case "$1" in
   start)
 	printf 'Starting backbone...\n'
 
-	# move fastd configs in extra section
-	if [ -z "$(uci -qX get ffdd.fastd)" ]; then
-		uci add ffdd fastd
-		uci rename ffdd.@fastd[-1]="fastd"
+	# generate keys if not present
+	generate_keys
+
+	# overwrite values if we have "old" config
+	if [ -n "$(uci -q get ffdd.sys.fastd_secret)" -a -n "$(uci -q get ffdd.sys.fastd_public)" ]; then
 		uci set ffdd.fastd.restrict="$(uci -qX get ffdd.sys.fastd_restrict)"
 		uci delete ffdd.sys.fastd_restrict
 		uci set ffdd.fastd.secret="$(uci -qX get ffdd.sys.fastd_secret)"
 		uci delete ffdd.sys.fastd_secret
 		uci set ffdd.fastd.public="$(uci -qX get ffdd.sys.fastd_public)"
 		uci delete ffdd.sys.fastd_public
-		uci set ffdd.fastd.ext_port="5002"
 		uci commit
 	fi
 

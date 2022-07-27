@@ -22,7 +22,6 @@
 
 
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_registerkey') %}
-{% set fastd_secret = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.fastd.secret') %}
 
 {% set servername = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.servername') %}
 {% set hostname = salt['cmd.shell']('cat /etc/hostname') %}

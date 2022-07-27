@@ -1,5 +1,5 @@
 {# autoconfigure a new server #}
-{% from 'config.jinja' import ddmesh_registerkey, fastd_secret, nodeid %}
+{% from 'config.jinja' import ddmesh_registerkey, nodeid %}
 
 /usr/local/bin/freifunk-uci_autosetup.sh:
   file.managed:
@@ -8,7 +8,7 @@
     - group: root
     - mode: 755
 
-{% if ddmesh_registerkey == '' or ddmesh_registerkey == '-' or fastd_secret == '' or fastd_secret == '-' %}
+{% if ddmesh_registerkey == '' or ddmesh_registerkey == '-' %}
 ddmesh_autosetup:
   cmd.run:
     - name: /usr/local/bin/freifunk-uci_autosetup.sh
@@ -16,5 +16,4 @@ ddmesh_autosetup:
       - file: /usr/local/bin/freifunk-uci_autosetup.sh
       - file: /etc/config/ffdd
       - sls: uci
-      - sls: fastd
 {% endif %}
