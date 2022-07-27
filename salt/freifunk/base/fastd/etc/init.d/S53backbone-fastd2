@@ -32,7 +32,7 @@ fi
 
 generate_keys()
 {
-	if [ -z "$(uci -q ffdd.fastd.secret)" -o -z "$(uci -q ffdd.fastd.public)" ]; then
+	if [ -z "$(uci -q get ffdd.fastd.secret)" -o -z "$(uci -q get ffdd.fastd.public)" ]; then
 		# generate fastd secret & public key
 		fastd --generate-key > /tmp/.ffdd_h.txt
 
@@ -139,6 +139,7 @@ case "$1" in
 	printf 'Starting backbone...\n'
 
 	# generate keys if not present
+	
 	generate_keys
 
 	# overwrite values if we have "old" config
