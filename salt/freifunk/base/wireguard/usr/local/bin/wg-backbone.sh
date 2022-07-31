@@ -27,6 +27,13 @@ start_wg()
 		uci -q rename ffdd.@wireguard[-1]='wireguard'
 	fi
 
+	# upgrade: move config option 'restrict'
+	if [ -n "$(uci -q get ffdd.sys.wireguard_restrict)" ]; then
+		uci set ffdd.wireguard.restrict="$(uci -q get ffdd.sys.wireguard_restrict)"
+		uci -q delete ffdd.sys.wireguard_restrict
+		uci commit
+	fi
+
 	# create key
 	secret="$(uci -q get ffdd.wireguard.secret)"
 	if [ -z "$secret" ]; then

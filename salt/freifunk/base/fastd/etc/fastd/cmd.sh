@@ -43,7 +43,7 @@ EOM
 }
 
 eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
-fastd_restrict="$(uci -qX get ffdd.sys.fastd_restrict)"
+fastd_restrict="$(uci -qX get ffdd.fastd.restrict)"
 
 case $1 in
 

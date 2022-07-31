@@ -21,11 +21,11 @@ if [ -f /etc/nvram.conf ]; then
 
 	uci set ffdd.sys.ifname="$(nvram_get ifname)"
 
-	uci set ffdd.sys.fastd_secret="$(nvram_get fastd_secret)"
-	uci set ffdd.sys.fastd_public="$(nvram_get fastd_public)"
-	uci set ffdd.sys.fastd_restrict="$(nvram_get fastd_restrict)"
+	#uci set ffdd.sys.fastd_secret="$(nvram_get fastd_secret)"
+	#uci set ffdd.sys.fastd_public="$(nvram_get fastd_public)"
+	#uci set ffdd.sys.fastd_restrict="$(nvram_get fastd_restrict)"
 
-	uci set ffdd.sys.wireguard_secret="$(nvram_get wireguard_secret)"
+	#uci set ffdd.sys.wireguard_secret="$(nvram_get wireguard_secret)"
 
 	uci set ffdd.sys.ssh_pwauth="$(nvram_get ssh_pwauth)"
 
