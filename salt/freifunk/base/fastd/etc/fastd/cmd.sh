@@ -18,11 +18,16 @@
 # PEER_KEY: the peer’s public key
 
 # cmd: verify
-# on verifiy is called when an unknown connection attempt was made
+# verifiy is called when a connection attempt was made
 # when command returns 0 then this connection is accepted (default not)
 # evt kann ich dadurch jede verbindung zum testen erlauben
 
-false && {
+STATUS_DIR="/var/backbone_status"
+PEERS_DIR="/etc/fastd/peers2"
+WHITELIST_FILE="/etc/fastd/whitelist"
+BLACKLIST_FILE="/etc/fastd/blacklist"
+
+true && {
 cat <<EOM >>/tmp/fastd-cmd-env.log
 ---------------------------------------
 command: $1
@@ -61,12 +66,12 @@ case $1 in
 	;;
 
 	establish)
-		mkdir -p /var/backbone_status
-		touch /var/backbone_status/"$PEER_KEY"
+		mkdir -p "${STATUS_DIR}"
+		touch "${STATUS_DIR}/${PEER_KEY}"
 	;;
 
 	disestablish)
-		rm -f /var/backbone_status/"$PEER_KEY"
+		rm -f "${STATUS_DIR}/${PEER_KEY}"
  	;;
 
 	verify)
@@ -74,19 +79,25 @@ case $1 in
 		_PEER_ADDRESS=${PEER_ADDRESS//\./\\.}
 
 		# check whitelist
-		if [ -n "$(grep "^$_PEER_ADDRESS$\|$PEER_KEY" /etc/fastd/whitelist)" ]; then
+		if [ -n "$(grep "^$_PEER_ADDRESS$\|$PEER_KEY" ${WHITELIST_FILE})" ]; then
 			logger -t fastd "whitelisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
 		else
+
+			# check blacklist
+			if [ -n "$(grep "^$_PEER_ADDRESS$\|$PEER_KEY" ${BLACKLIST_FILE})" ]; then
+				logger -t fastd "blacklisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+				exit 1;
+			fi
+
+			# check if we have already "lerned" a node
+			if [ -f "${PEERS_DIR}/accept_${PEER_KEY}.conf" ]; then
+				logger -t fastd "connection already kown -> allowed. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+				exit 0;
+			fi
 
 			# check if further new connections are accepted
 			if [ "$fastd_restrict" = "1" ]; then
 				logger -t fastd "no more connection allowed. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
-				exit 1;
-			fi
-
-			# check blacklist
-			if [ -n "$(grep "^$_PEER_ADDRESS$\|$PEER_KEY" /etc/fastd/blacklist)" ]; then
-				logger -t fastd "blacklisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
 				exit 1;
 			fi
 
