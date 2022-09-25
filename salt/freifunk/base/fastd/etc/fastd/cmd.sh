@@ -81,6 +81,7 @@ case $1 in
 		# check whitelist
 		if [ -n "$(grep "^$_PEER_ADDRESS$\|$PEER_KEY" ${WHITELIST_FILE})" ]; then
 			logger -t fastd "whitelisted. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
+			# fall through, so new unknown whitelisted gets lerned too
 		else
 
 			# check blacklist
@@ -108,6 +109,7 @@ case $1 in
 
 		# "learn" client. add config to peer directory
 		/etc/init.d/S53backbone-fastd2 add_accept "$PEER_KEY" "$(date) - client learned: peer_address [$PEER_ADDRESS:$PEER_PORT]"
+		logger -t fastd "unkown new connection -> learned. ($PEER_ADDRESS:$PEER_PORT key $PEER_KEY)"
 		exit 0;
 	;;
 esac
