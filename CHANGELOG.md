@@ -11,6 +11,7 @@
 		- fix peers check for fastd22 which seems to always use "verify". when server was restricted known peers were also rejected
 	- openvpn: set service to restart on failue. openvpn sometimes stoppes running
 	- fix extraction of ipv4 adresses for dns server
+	- init_server.sh: update system before we check the system
 
 ## version 1.4.0rc8
 	- update wg_cgi to version 1.2.1
