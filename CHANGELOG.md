@@ -1,6 +1,17 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc9
+	- airvpn: add preshared key and remove "+" from variable assignment where only one value is allowed
+	- move fastd and wireguard config (/etc/config/ffdd) to its own section
+	- fastd:
+		- fix uci command
+		- add logger info for "lerned" new unkown connections
+		- remove fastd key generation from "autoconfig" to remove circular dependency
+		- fix peers check for fastd22 which seems to always use "verify". when server was restricted known peers were also rejected
+	- openvpn: set service to restart on failue. openvpn sometimes stoppes running
+	- fix extraction of ipv4 adresses for dns server
+
 ## version 1.4.0rc8
 	- update wg_cgi to version 1.2.1
 	- fix wg_cgi, Version 1.2.0 only supported glibc >= 2.29
