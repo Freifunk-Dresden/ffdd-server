@@ -172,7 +172,7 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 			# add routes to DNS through tunnel (mullvad DNS is only accessible through tunnel)
 			# - extract all dns from BIND_FORWARDER_FILE and create dns rules
 			# openvpn:up.sh and wireguard:configs create the forwarder file but with different layout.
-			tunnel_dns_servers="$(cat < "$BIND_FORWARDER_FILE" | sed -n 's#\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)[ 	]*;#\1\n#gp' | sed 's#forwarders##;s#[ 	{};]##g;/^$/d')"
+			tunnel_dns_servers="$(cat < "$BIND_FORWARDER_FILE" | sed -n 's#[  ]*[;{}][        ]*#\n#gp' | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')"
 			IFS='
 '
 			for dns_ip in $tunnel_dns_servers
