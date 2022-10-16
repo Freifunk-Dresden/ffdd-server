@@ -63,13 +63,15 @@ steps:
   settings:
     hosts:
       from_secret: HOST
+    port:
+      from_secret: PORT
     key:
       from_secret: SSH_PRIVATE_KEY
-    source: .ci/build/*
-    target: /home/deploy-server/html/packages/debian9/
-    recursive: true
     user:
       from_secret: USER
+    source: .ci/build/*
+    target: /home/deploy-server/html/packages/debian9/
+    recursive: false
     delete: false
 
 - name: ffdd-debian10-staging
