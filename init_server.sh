@@ -246,6 +246,7 @@ else
 fi
 
 printf '\n### Install Basic Software ..\n'
+"$PKGMNGR" -y update
 "$PKGMNGR" -y install git salt-minion
 
 # run salt-minion only as masterless. disable the service:
