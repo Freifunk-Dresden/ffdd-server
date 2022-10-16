@@ -1,0 +1,138 @@
+---
+kind: pipeline
+name: init
+
+platform:
+  os: linux
+  arch: amd64
+
+
+---
+kind: pipeline
+name: build
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: docker:ffdd-debian9
+  image: debian:9
+  commands:
+    - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
+    - cd .ci
+    - cp limit-unstable /etc/apt/preferences.d/limit-unstable
+    - bash install_deps.sh
+    - bash build_uci.sh
+
+- name: docker:ffdd-debian10
+  image: debian:10
+  commands:
+    - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
+    - cd .ci
+    - cp limit-unstable /etc/apt/preferences.d/limit-unstable
+    - bash install_deps.sh
+    - bash build_uci.sh
+
+- name: docker:ffdd-debian11
+  image: debian:11
+  commands:
+    - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
+    - cd .ci
+    - cp limit-unstable /etc/apt/preferences.d/limit-unstable
+    - bash install_deps.sh
+    - bash build_uci.sh
+
+- name: docker:ffdd-ubuntu1804
+  image: ubuntu:18.04
+  commands:
+    - cd .ci
+    - bash install_deps.sh
+    - bash build_uci.sh
+
+- name: docker:ffdd-ubuntu2004
+  image: ubuntu:20.04
+  commands:
+    - cd .ci
+    - bash install_deps.sh
+    - bash build_uci.sh
+
+depends_on:
+- init
+
+
+---
+kind: pipeline
+name: test
+
+platform:
+  os: linux
+  arch: amd64
+
+depends_on:
+- build
+
+
+---
+kind: pipeline
+name: deploy
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: ffdd-debian9-staging
+  image: debian:11
+  commands:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian9/
+
+- name: ffdd-debian10-staging
+  image: debian:11
+  commands:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian10/
+
+- name: ffdd-debian11-staging
+  image: debian:11
+  commands:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian11/
+
+- name: ffdd-ubuntu1804-staging
+  image: debian:11
+  commands:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu18/
+
+- name: ffdd-ubuntu2004-staging
+  image: debian:11
+  commands:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu20/
+
+depends_on:
+- test
+
+...
