@@ -1,14 +1,5 @@
 ---
 kind: pipeline
-name: init
-
-platform:
-  os: linux
-  arch: amd64
-
-
----
-kind: pipeline
 name: build
 
 platform:
@@ -57,9 +48,6 @@ steps:
     - bash install_deps.sh
     - bash build_uci.sh
 
-depends_on:
-- init
-
 
 ---
 kind: pipeline
@@ -71,14 +59,18 @@ platform:
 
 steps:
 - name: ffdd-debian9-staging
-  image: debian:11
-  commands:
-    - apt-get update -y && apt-get install -y openssh-client rsync
-    - eval $(ssh-agent -s)
-    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
-    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian9/
+  image: drillster/drone-rsync
+  settings:
+    hosts:
+      from_secret: HOST
+    key:
+      from_secret: SSH_PRIVATE_KEY
+    source: .ci/build/*
+    target: /home/deploy-server/html/packages/debian9/
+    recursive: true
+    user:
+      from_secret: USER
+    delete: false
 
 - name: ffdd-debian10-staging
   image: debian:11
