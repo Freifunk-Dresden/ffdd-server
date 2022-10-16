@@ -63,18 +63,6 @@ depends_on:
 
 ---
 kind: pipeline
-name: test
-
-platform:
-  os: linux
-  arch: amd64
-
-depends_on:
-- build
-
-
----
-kind: pipeline
 name: deploy
 
 platform:
@@ -94,6 +82,17 @@ steps:
 
 - name: ffdd-debian10-staging
   image: debian:11
+  environment:
+    HOST:
+      from_secret: HOST
+    PORT:
+      from_secret: PORT
+    RPATH:
+      from_secret: RPTAH
+    SSH_PRIVATE_KEY:
+      from_secret: SSH_PRIVATE_KEY
+    USER:
+      from_secret: USER
   commands:
     - apt-get update -y && apt-get install -y openssh-client rsync
     - eval $(ssh-agent -s)
@@ -104,6 +103,17 @@ steps:
 
 - name: ffdd-debian11-staging
   image: debian:11
+  environment:
+    HOST:
+      from_secret: HOST
+    PORT:
+      from_secret: PORT
+    RPATH:
+      from_secret: RPTAH
+    SSH_PRIVATE_KEY:
+      from_secret: SSH_PRIVATE_KEY
+    USER:
+      from_secret: USER
   commands:
     - apt-get update -y && apt-get install -y openssh-client rsync
     - eval $(ssh-agent -s)
@@ -114,6 +124,17 @@ steps:
 
 - name: ffdd-ubuntu1804-staging
   image: debian:11
+  environment:
+    HOST:
+      from_secret: HOST
+    PORT:
+      from_secret: PORT
+    RPATH:
+      from_secret: RPTAH
+    SSH_PRIVATE_KEY:
+      from_secret: SSH_PRIVATE_KEY
+    USER:
+      from_secret: USER
   commands:
     - apt-get update -y && apt-get install -y openssh-client rsync
     - eval $(ssh-agent -s)
@@ -124,6 +145,17 @@ steps:
 
 - name: ffdd-ubuntu2004-staging
   image: debian:11
+  environment:
+    HOST:
+      from_secret: HOST
+    PORT:
+      from_secret: PORT
+    RPATH:
+      from_secret: RPTAH
+    SSH_PRIVATE_KEY:
+      from_secret: SSH_PRIVATE_KEY
+    USER:
+      from_secret: USER
   commands:
     - apt-get update -y && apt-get install -y openssh-client rsync
     - eval $(ssh-agent -s)
@@ -133,6 +165,6 @@ steps:
     - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu20/
 
 depends_on:
-- test
+- build
 
 ...
