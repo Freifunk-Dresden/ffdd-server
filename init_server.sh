@@ -206,7 +206,14 @@ done
 printf '\nOK.\n'
 
 
+printf '\n### Update System ..\n'
+"$PKGMNGR" -y update
+printf '\n'
+"$PKGMNGR" -y dist-upgrade
+
+
 printf '\n# Check System Distribution ..\n'
+[ -z "$(command -v curl)" ] && "$PKGMNGR" -y install curl
 [ -z "$(command -v wget)" ] && "$PKGMNGR" -y install wget
 
 if [ "$os_id" = 'debian' ]; then
@@ -237,12 +244,6 @@ elif [ "$os_id" = 'ubuntu' ]; then
 else
 	print_not_supported_os
 fi
-
-
-printf '\n### Update System ..\n'
-"$PKGMNGR" -y update
-printf '\n'
-"$PKGMNGR" -y dist-upgrade
 
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
