@@ -1,9 +1,5 @@
 {# HTTPS-Cert from Let's Encrypt #}
 letsencrypt:
-  {% if grains['os'] == 'Ubuntu' and grains['oscodename'] != 'focal' %}
-  pkgrepo.managed:
-    - ppa: certbot/certbot
-  {% endif %}
   pkg.installed:
     - name: certbot
     - refresh: True
