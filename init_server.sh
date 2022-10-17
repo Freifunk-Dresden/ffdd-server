@@ -55,13 +55,13 @@ install_uci() {
 print_usage() {
 	printf '\nUsage:\n'
 	printf ' init_server.sh [-i] [-b [rev/branch/tag] | -u] [-d error|info|debug]\n'
-	printf ' -i                    runs the installation for version: %s\n' ${REV}
+	printf ' -i                    runs the installation for version: %s\n' "${REV}"
 	printf ' -b [rev/branch/tag]   installs specified version\n'
 	printf ' -u                    do not download repository. This is helpful\n'
 	printf '                       when repository was downloaded (git clone) already\n'
 	printf ' -h      print this help\n\n'
 	printf ' Examples: \n\n'
-	printf '  # install Release: %s\n' ${REV}
+	printf '  # install Release: %s\n' "${REV}"
 	printf '    ./init_server.sh -i\n\n'
 	printf '  DEVELOPMENT:\n'
 	printf '  # install master (devel) branch\n'
@@ -69,7 +69,6 @@ print_usage() {
 	printf '    ./init_server.sh -i -b <rev/branch/tag>\n\n'
 	printf '  # disable git update to use local changes\n'
 	printf '    ./init_server.sh -i -u\n\n'
-	exit 0
 }
 
 print_not_supported_os() {
@@ -126,7 +125,6 @@ elif [ -f /usr/local/sbin/uci ] && [ -f /etc/config/ffdd ]; then
 fi
 
 
-#
 DO_INSTALL=0
 OPT_DEBUG='error'
 while getopts ":ihbud:" opt "${@}"; do
@@ -147,8 +145,8 @@ while getopts ":ihbud:" opt "${@}"; do
 			*) printf 'Invalid debug level: %s\n' "$OPTARG"; exit 1  ;;
 		esac
 		;;
-	  \?)  printf 'Invalid option: -%s\n' "$OPTARG" ; print_usage ;;
-	  h|*) print_usage ;;
+	  \?)  printf 'Invalid option: -%s\n' "$OPTARG" ; print_usage; exit 1 ;;
+	  h|*) print_usage; exit 0 ;;
 	esac
 done
 
@@ -159,6 +157,7 @@ if [ $DO_INSTALL != 1 ]; then
 	print_usage
 	exit 1
 fi
+
 
 printf '### FFDD-Server - Initial Setup ###\n'
 
@@ -174,16 +173,16 @@ if [ ! -f "$INIT_DATE_FILE" ]; then
 	select yn in "Yes" "No"; do
 	case $yn in
 		Yes) break ;;
-		No)  exit 1 ; break ;;
+		No)  exit 1 ;;
 	esac ; done
 fi
 
 printf '\n# Check network and name resolution is working ..\n'
 if ! ping -c1 -W5 github.com >/dev/null; then
 	printf 'network not reachable or name resolution not working!\n'; exit 1
-	if ! ping -c1 -W5 download.freifunk-dresden.de >/dev/null; then
-		printf 'download.freifunk-dresden.de is not reachable. please try again later!\n'; exit 1
-	fi
+fi
+if ! ping -c1 -W5 download.freifunk-dresden.de >/dev/null; then
+	printf 'download.freifunk-dresden.de is not reachable. please try again later!\n'; exit 1
 else
 	printf '\nOK.\n'
 fi
@@ -204,12 +203,6 @@ do
 	fi
 done
 printf '\nOK.\n'
-
-
-printf '\n### Update System ..\n'
-"$PKGMNGR" -y update
-printf '\n'
-"$PKGMNGR" -y dist-upgrade
 
 
 printf '\n# Check System Distribution ..\n'
@@ -245,8 +238,13 @@ else
 	print_not_supported_os
 fi
 
-printf '\n### Install Basic Software ..\n'
+
+printf '\n### Update System ..\n'
 "$PKGMNGR" -y update
+printf '\n'
+"$PKGMNGR" -y dist-upgrade
+
+printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
 
 # run salt-minion only as masterless. disable the service:
@@ -358,7 +356,7 @@ printf '\nOK.\n'
 #
 # -- Initial System --
 
-salt_call() { salt-call state.highstate --local -l ${OPT_DEBUG} ; }
+salt_call() { salt-call state.highstate --local -l "${OPT_DEBUG}" ; }
 
 _scriptfail='0'
 _init_run='0'
