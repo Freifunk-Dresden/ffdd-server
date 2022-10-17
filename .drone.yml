@@ -83,3 +83,27 @@ steps:
     target: /var/www/files/server/packages/ubuntu20/
     recursive: false
     delete: false
+
+
+- name: ffdd-ubuntu2204-build
+  image: ubuntu:22.04
+  commands:
+    - cd .ci
+    - bash install_deps.sh
+    - bash build_uci.sh
+
+- name: ffdd-ubuntu2204-deploy
+  image: drillster/drone-rsync
+  settings:
+    hosts:
+      from_secret: HOST
+    port:
+      from_secret: PORT
+    key:
+      from_secret: SSH_PRIVATE_KEY
+    user:
+      from_secret: USER
+    source: .ci/build/*.deb
+    target: /var/www/files/server/packages/ubuntu22/
+    recursive: false
+    delete: false

@@ -18,6 +18,11 @@ devel:
       {# dep. to build fastd2 #}
       - libmnl-dev
 
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
+      - libcurl4
+      {# dep. to build fastd2 #}
+      - libmnl-dev
+
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
       - libcurl4
 

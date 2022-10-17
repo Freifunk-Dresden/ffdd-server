@@ -23,6 +23,9 @@ bmxd:
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - bmxd: {{ freifunk_dl_url }}/ubuntu20/bmxd-{{ bmxd_version }}-ubuntu-focal-amd64.deb
 
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
+      - bmxd: {{ freifunk_dl_url }}/ubuntu22/bmxd-{{ bmxd_version }}-ubuntu-jammy-amd64.deb
+
 {% endif %}
 
 

@@ -71,7 +71,7 @@ print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
 	printf ' - Debian (10/11)\n'
-	printf ' - Ubuntu Server LTS (20.04)\n'
+	printf ' - Ubuntu Server LTS (20.04/22.04)\n'
 	exit 1
 }
 
@@ -220,6 +220,9 @@ elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
 		20.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu20
 				install_uci ubuntu20
+		;;
+		22.04*) PKGMNGR='apt-get' ;
+				install_uci ubuntu22
 		;;
 		*)		print_not_supported_os ;;
 	esac

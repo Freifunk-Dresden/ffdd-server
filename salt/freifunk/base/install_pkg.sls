@@ -53,6 +53,10 @@ install_pkg:
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
       - python-apt-common
       - iptraf-ng
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
+      - python3-apt
+      - python3-pycurl
+      - iptraf-ng
 {% else %}
       - python-apt
       - iptraf
@@ -61,10 +65,12 @@ install_pkg:
 
 {% if grains['os'] == 'Debian' %}
       - firmware-linux
-
 {% elif grains['os'] == 'Ubuntu' %}
       - linux-firmware
-
       - software-properties-common
+{% endif %}
+
+
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - python-pycurl
 {% endif %}
