@@ -18,7 +18,7 @@ check_salt_repo() {
 	case "$1" in
 		ubuntu20 )
 			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
-			echo 'deb https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main' | tee /etc/apt/sources.list.d/saltstack.list
+			echo 'echo 'deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main' | tee /etc/apt/sources.list.d/saltstack.list
 			;;
 	esac
 }
