@@ -1,6 +1,12 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc10
+	- drop support for debian 9 and ubuntu 16.04/18.04
+	- add support for ubuntu 22.04
+	- salt: fix for ubuntu 20.04
+	- fastd: fix check in generate_keys
+
 ## version 1.4.0rc9
 	- airvpn: add preshared key and remove "+" from variable assignment where only one value is allowed
 	- move fastd and wireguard config (/etc/config/ffdd) to its own section
