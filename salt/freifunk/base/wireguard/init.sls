@@ -3,10 +3,7 @@
 
 
 {# Package #}
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
-/etc/apt/sources.list.d/wireguard-ubuntu-wireguard-bionic.list:
-  file.absent
-{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
 /etc/apt/sources.list.d/wireguard-ubuntu-wireguard-focal.list:
   file.absent
 {% endif %}

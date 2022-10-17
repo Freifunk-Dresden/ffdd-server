@@ -33,12 +33,8 @@ uci_pkg_removed:
 uci:
   pkg.installed:
     - sources:
-{% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
-      - libubox: {{ freifunk_dl_url }}/debian9/libubox_{{ libubox_version }}_amd64.deb
-      - libuci: {{ freifunk_dl_url }}/debian9/libuci_{{ libuci_version }}_amd64.deb
-      - uci: {{ freifunk_dl_url }}/debian9/uci_{{ uci_version }}_amd64.deb
 
-{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
       - libubox: {{ freifunk_dl_url }}/debian10/libubox_{{ libubox_version }}_amd64.deb
       - libuci: {{ freifunk_dl_url }}/debian10/libuci_{{ libuci_version }}_amd64.deb
       - uci: {{ freifunk_dl_url }}/debian10/uci_{{ uci_version }}_amd64.deb
@@ -47,11 +43,6 @@ uci:
       - libubox: {{ freifunk_dl_url }}/debian11/libubox_{{ libubox_version }}_amd64.deb
       - libuci: {{ freifunk_dl_url }}/debian11/libuci_{{ libuci_version }}_amd64.deb
       - uci: {{ freifunk_dl_url }}/debian11/uci_{{ uci_version }}_amd64.deb
-
-{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
-      - libubox: {{ freifunk_dl_url }}/ubuntu18/libubox_{{ libubox_version }}_amd64.deb
-      - libuci: {{ freifunk_dl_url }}/ubuntu18/libuci_{{ libuci_version }}_amd64.deb
-      - uci: {{ freifunk_dl_url }}/ubuntu18/uci_{{ uci_version }}_amd64.deb
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - libubox: {{ freifunk_dl_url }}/ubuntu20/libubox_{{ libubox_version }}_amd64.deb

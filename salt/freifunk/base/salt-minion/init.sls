@@ -4,18 +4,7 @@
 {# Package #}
 {# repos needs also a check in init_server.sh #}
 salt-minion:
-  {% if grains['os'] == 'Debian' and grains['oscodename'] == 'stretch' %}
-  pkgrepo.managed:
-    - humanname: SaltStack
-    - name: deb https://repo.saltproject.io/py3/debian/9/amd64/latest stretch main
-    - dist: stretch
-    - file: /etc/apt/sources.list.d/saltstack.list
-    - require_in:
-      - pkg: salt-minion
-    - gpgcheck: 1
-    - key_url: https://repo.saltproject.io/py3/debian/9/amd64/latest/salt-archive-keyring.gpg
-
-  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+  {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
   pkgrepo.managed:
     - humanname: SaltStack
     - name: deb https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main

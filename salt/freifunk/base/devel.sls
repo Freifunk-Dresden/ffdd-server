@@ -13,10 +13,7 @@ devel:
       - libnacl-dev
       - libjson-c-dev
 
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'bionic' %}
-      - libcurl4
-
-{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - libcurl4
       {# dep. to build fastd2 #}
       - libmnl-dev

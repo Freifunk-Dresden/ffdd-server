@@ -16,10 +16,6 @@ INIT_DATE_FILE='/etc/freifunk-server-initdate'
 check_salt_repo() {
 	# repos needs also a check in salt/freifunk/base/salt-minion/init.sls
 	case "$1" in
-		debian9 )
-			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/debian/9/amd64/latest/salt-archive-keyring.gpg
-			echo 'deb https://repo.saltproject.io/py3/debian/9/amd64/latest stretch main' | tee /etc/apt/sources.list.d/saltstack.list
-			;;
 		ubuntu20 )
 			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
 			echo 'deb https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main' | tee /etc/apt/sources.list.d/saltstack.list
@@ -74,8 +70,8 @@ print_usage() {
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
-	printf ' - Debian (9/10/11)\n'
-	printf ' - Ubuntu Server LTS (18.04/20.04)\n'
+	printf ' - Debian (10/11)\n'
+	printf ' - Ubuntu Server LTS (20.04)\n'
 	exit 1
 }
 
@@ -211,9 +207,6 @@ printf '\n# Check System Distribution ..\n'
 
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		9*)		PKGMNGR='apt-get' ; check_salt_repo debian9
-				install_uci debian9
-		;;
 		10*)	PKGMNGR='apt-get'
 				install_uci debian10
 		;;
@@ -225,9 +218,6 @@ if [ "$os_id" = 'debian' ]; then
 	printf '\nOK.\n'
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		18.04*) PKGMNGR='apt-get'
-				install_uci ubuntu18
-		;;
 		20.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu20
 				install_uci ubuntu20
 		;;
