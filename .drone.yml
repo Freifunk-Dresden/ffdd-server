@@ -8,31 +8,6 @@ platform:
 
 
 steps:
-- name: ffdd-debian9-build
-  image: debian:9
-  commands:
-    - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
-    - cd .ci
-    - cp limit-unstable /etc/apt/preferences.d/limit-unstable
-    - bash install_deps.sh
-    - bash build_uci.sh
-
-- name: ffdd-debian9-deploy
-  image: drillster/drone-rsync
-  settings:
-    hosts:
-      from_secret: HOST
-    port:
-      from_secret: PORT
-    key:
-      from_secret: SSH_PRIVATE_KEY
-    user:
-      from_secret: USER
-    source: .ci/build/*.deb
-    target: /var/www/files/server/packages/debian9/
-    recursive: false
-    delete: false
-
 
 - name: ffdd-debian10-build
   image: debian:10
@@ -82,30 +57,6 @@ steps:
       from_secret: USER
     source: .ci/build/*.deb
     target: /var/www/files/server/packages/debian11/
-    recursive: false
-    delete: false
-
-
-- name: ffdd-ubuntu1804-build
-  image: ubuntu:18.04
-  commands:
-    - cd .ci
-    - bash install_deps.sh
-    - bash build_uci.sh
-
-- name: ffdd-ubuntu1804-deploy
-  image: drillster/drone-rsync
-  settings:
-    hosts:
-      from_secret: HOST
-    port:
-      from_secret: PORT
-    key:
-      from_secret: SSH_PRIVATE_KEY
-    user:
-      from_secret: USER
-    source: .ci/build/*.deb
-    target: /var/www/files/server/packages/ubuntu18/
     recursive: false
     delete: false
 
