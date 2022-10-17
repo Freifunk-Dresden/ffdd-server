@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: build
+name: ffdd-server-ci
 
 platform:
   os: linux
@@ -28,7 +28,7 @@ steps:
       from_secret: SSH_PRIVATE_KEY
     user:
       from_secret: USER
-    source: .ci/build/*
+    source: .ci/build/*.deb
     target: /var/www/files/server/packages/debian9/
     recursive: false
     delete: false
@@ -54,7 +54,7 @@ steps:
       from_secret: SSH_PRIVATE_KEY
     user:
       from_secret: USER
-    source: .ci/build/*
+    source: .ci/build/*.deb
     target: /var/www/files/server/packages/debian10/
     recursive: false
     delete: false
@@ -80,7 +80,7 @@ steps:
       from_secret: SSH_PRIVATE_KEY
     user:
       from_secret: USER
-    source: .ci/build/*
+    source: .ci/build/*.deb
     target: /var/www/files/server/packages/debian11/
     recursive: false
     delete: false
@@ -104,7 +104,7 @@ steps:
       from_secret: SSH_PRIVATE_KEY
     user:
       from_secret: USER
-    source: .ci/build/*
+    source: .ci/build/*.deb
     target: /var/www/files/server/packages/ubuntu18/
     recursive: false
     delete: false
@@ -128,7 +128,7 @@ steps:
       from_secret: SSH_PRIVATE_KEY
     user:
       from_secret: USER
-    source: .ci/build/*
+    source: .ci/build/*.deb
     target: /var/www/files/server/packages/ubuntu20/
     recursive: false
     delete: false
