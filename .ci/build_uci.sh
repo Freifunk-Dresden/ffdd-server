@@ -5,13 +5,15 @@ test ! -d build && mkdir build ; cd build
 # LIBUBOX
 git clone https://git.openwrt.org/project/libubox.git
 cd libubox || exit 1
-git checkout 7da66430de3fc235bfc6ebb0b85fb90ea246138d
+#git checkout 7da66430de3fc235bfc6ebb0b85fb90ea246138d
+git checkout f49a2fdc4fb4a3bc95c228ade38332685197210f
 cd ..
 
 # LIBUCI und UCI
 git clone https://git.openwrt.org/project/uci.git
 cd uci || exit 1
-git checkout ec8d3233948603485e1b97384113fac9f1bab5d6
+#git checkout ec8d3233948603485e1b97384113fac9f1bab5d6
+git checkout ea56013409d5823001b47a9bba6f74055a6d76a5
 cd ..
 
 
