@@ -32,7 +32,7 @@ fi
 
 generate_keys()
 {
-	if [ -z "$(uci -q get ffdd.fastd.secret)" ] || [ -z "$(uci -q get ffdd.fastd.public)" ] &&
+	if [ -z "$(uci -q get ffdd.fastd.secret)" ] || [ -z "$(uci -q get ffdd.fastd.public)" ] ||
 	[ "$(uci -q get ffdd.fastd.secret)" = '-' ] || [ "$(uci -q get ffdd.fastd.public)" = '-' ]; then
 		# generate fastd secret & public key
 		fastd --generate-key > /tmp/.ffdd_h.txt

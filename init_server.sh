@@ -48,6 +48,7 @@ install_uci() {
 	ldconfig
 }
 
+
 print_usage() {
 	printf '\nUsage:\n'
 	printf ' init_server.sh [-i] [-b [rev/branch/tag] | -u] [-d error|info|debug]\n'
@@ -103,6 +104,7 @@ def_ip="${def_addr//\/*/}"
 
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
+
 
 # move this code to here, to be able to display REV in usage information
 if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ] && ! [ -L /etc/nvram.conf ]; then
