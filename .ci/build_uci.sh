@@ -13,7 +13,7 @@ cd ..
 git clone https://git.openwrt.org/project/uci.git
 cd uci || exit 1
 #git checkout ec8d3233948603485e1b97384113fac9f1bab5d6
-git checkout f49a2fdc4fb4a3bc95c228ade38332685197210f
+git checkout f84f49f00fb70364f58b4cce72f1796a7190d370
 cd ..
 
 
