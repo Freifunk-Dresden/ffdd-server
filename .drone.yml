@@ -37,7 +37,7 @@ steps:
 - name: ffdd-debian10-clear
   image: debian:10
   commands:
-    - rm -r .ci/build
+    - test -d .ci/build && rm -r .ci/build
 
 
 - name: ffdd-debian11-build
@@ -68,7 +68,7 @@ steps:
 - name: ffdd-debian11-clear
   image: debian:11
   commands:
-    - rm -r .ci/build
+    - test -d .ci/build && rm -r .ci/build
 
 
 - name: ffdd-ubuntu2004-build
@@ -97,7 +97,7 @@ steps:
 - name: ffdd-ubuntu2004-clear
   image: ubuntu:20.04
   commands:
-    - rm -r .ci/build
+    - test -d .ci/build && rm -r .ci/build
 
 
 - name: ffdd-ubuntu2204-build
@@ -126,4 +126,4 @@ steps:
 - name: ffdd-ubuntu2204-clear
   image: ubuntu:22.04
   commands:
-    - rm -r .ci/build
+    - test -d .ci/build && rm -r .ci/build
