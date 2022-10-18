@@ -55,5 +55,3 @@ cmake ../ubox; make; make install
 
 ldconfig
 uci
-
-exit 0
