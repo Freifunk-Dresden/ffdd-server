@@ -89,7 +89,7 @@ steps:
   image: ubuntu:22.04
   commands:
     - cd .ci
-    - bash install_deps.sh
+    - bash install_deps_u22.sh
     - bash build_uci.sh
 
 - name: ffdd-ubuntu2204-deploy
