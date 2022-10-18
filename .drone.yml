@@ -12,7 +12,9 @@ steps:
 - name: ffdd-debian10-build
   image: debian:10
   commands:
+    - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
     - cd .ci
+    - cp limit-unstable /etc/apt/preferences.d/limit-unstable
     - bash install_deps.sh
     - bash build_uci.sh
 
@@ -32,11 +34,18 @@ steps:
     recursive: false
     delete: false
 
+- name: ffdd-debian10-clear
+  image: debian:10
+  commands:
+    - rm -r .ci/build
+
 
 - name: ffdd-debian11-build
   image: debian:11
   commands:
+    - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
     - cd .ci
+    - cp limit-unstable /etc/apt/preferences.d/limit-unstable
     - bash install_deps.sh
     - bash build_uci.sh
 
@@ -55,6 +64,11 @@ steps:
     target: /var/www/files/server/packages/debian11/
     recursive: false
     delete: false
+
+- name: ffdd-debian11-clear
+  image: debian:11
+  commands:
+    - rm -r .ci/build
 
 
 - name: ffdd-ubuntu2004-build
@@ -80,12 +94,17 @@ steps:
     recursive: false
     delete: false
 
+- name: ffdd-ubuntu2004-clear
+  image: ubuntu:20.04
+  commands:
+    - rm -r .ci/build
+
 
 - name: ffdd-ubuntu2204-build
   image: ubuntu:22.04
   commands:
     - cd .ci
-    - bash install_deps.sh
+    - bash install_deps_u22.sh
     - bash build_uci.sh
 
 - name: ffdd-ubuntu2204-deploy
@@ -103,3 +122,8 @@ steps:
     target: /var/www/files/server/packages/ubuntu22/
     recursive: false
     delete: false
+
+- name: ffdd-ubuntu2204-clear
+  image: ubuntu:22.04
+  commands:
+    - rm -r .ci/build
