@@ -94,18 +94,23 @@ steps:
     recursive: false
     delete: false
 
-- name: ffdd-ubuntu2004-clear
-  image: ubuntu:20.04
-  commands:
-    - test -d .ci/build && rm -r .ci/build
+#
+# u22.04 can't build uci (no dh-systemd available)
+# use u20.04 build for u22.04
+#
+
+#- name: ffdd-ubuntu2004-clear
+#  image: ubuntu:20.04
+#  commands:
+#    - test -d .ci/build && rm -r .ci/build
 
 
-- name: ffdd-ubuntu2204-build
-  image: ubuntu:22.04
-  commands:
-    - cd .ci
-    - bash install_deps_u22.sh
-    - bash build_uci.sh
+#- name: ffdd-ubuntu2204-build
+#  image: ubuntu:22.04
+#  commands:
+#    - cd .ci
+#    - bash install_deps_u22.sh
+#    - bash build_uci.sh
 
 - name: ffdd-ubuntu2204-deploy
   image: drillster/drone-rsync
