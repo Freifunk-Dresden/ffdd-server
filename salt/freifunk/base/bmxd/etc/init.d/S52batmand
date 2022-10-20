@@ -63,7 +63,7 @@ MESH_IF=("$(uci -qX get ffdd.sys.bmxd_mesh_if)")
 FFGW_IF="ffgw"
 if [ "$1" = "start" ]; then
 	#ip link add link lo name "$PRIMARY_IF" type bridge
-	ip tuntap add dev "$PRIMARY_IF" mod tun
+	ip tuntap add dev "$PRIMARY_IF" mod tun 2>/dev/null
 	ip addr add "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
 	ip link set dev "$PRIMARY_IF" up
 
@@ -73,8 +73,8 @@ if [ "$1" = "start" ]; then
 	#	and increase the bmxd processor load extremly
 	# This interface is currently only created but not inserted into routing rules or gateway check,
 	# because a server does not need internet via freifunk and mostly acts as gateway for other clients
-	ip tunnel add ${FFGW_IF} mode ipip local ${_ddmesh_ip}
-	ip addr add ${_ddmesh_ip}/32 dev ${FFGW_IF}
+	ip tunnel add ${FFGW_IF} mode ipip local ${_ddmesh_ip} 2>/dev/null
+	ip addr add ${_ddmesh_ip}/32 dev ${FFGW_IF} 2>/dev/null
 	# wireguard MTU is 1300, ipip tunnel needs 20 byte header
 	ip link set ${FFGW_IF} mtu 1280
 	ip link set ${FFGW_IF} up
@@ -102,11 +102,12 @@ fi
 #
 OPTS="--throw-rules 0 --prio-rules 0"
 OPTS="${OPTS} --network $_ddmesh_meshnet --netid $MESH_NETWORK_ID --community_gateway ${COMMUNITY_SERVER}"
-OPTS="${OPTS} --gateway_tunnel_network $_ddmesh_meshnet"
-OPTS="${OPTS} --hop_penalty 5 --lateness_penalty 10 --ogm_broadcasts 100 --udp_data_size 512 --ogm_interval 10000 --purge_timeout 60"
+# 10s OGM interval, purge timeout 35 -> 3 OGM
+# 5s OGM interval, purge timeout 35 -> 7 OGM
+OPTS="${OPTS} --hop_penalty 5 --lateness_penalty 10 --ogm_broadcasts 100 --udp_data_size 512 --ogm_interval 5000 --purge_timeout 35"
 OPTS="${OPTS} --path_hysteresis 3"
 DAEMON_OPTS="${OPTS} $_IF"
-
+ 
 test -x "$DAEMON_PATH"/"$DAEMON" || exit 0
 
 case "$ARG1" in
