@@ -11,6 +11,13 @@ zone "ffdd" {
 	masters { 10.200.0.4; };
 };
 
+zone "ffl" {
+	type slave;
+	file "/var/cache/bind/db.ffl";
+	masters { 10.200.0.4; };
+};
+
+
 zone "0.200.10.in-addr.arpa" {
 	type slave;
 	file "/var/cache/bind/db.0.200.10";

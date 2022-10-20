@@ -12,6 +12,13 @@ zone "ffdd" {
 	allow-transfer { 10.200.0.16; };
 };
 
+zone "ffl" {
+	type master;
+	file "/etc/bind/zones/db.ffl";
+	also-notify { 10.200.0.16; };
+	allow-transfer { 10.200.0.16; };
+};
+
 
 zone "0.200.10.in-addr.arpa" {
 	type master;

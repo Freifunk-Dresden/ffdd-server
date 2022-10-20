@@ -1,19 +1,18 @@
 ;; ### This file managed by Salt, do not edit by hand! ###
 ;;
-;; db.ffdd
-;; Forwardlookupzone für ffdd
+;; db.ffl
+;; Forwardlookupzone für ffl
 ;;
 $TTL 28800
-@       IN  SOA ns1.ffdd. root.ffdd. (
+@       IN  SOA ns1.ffl. root.ffl. (
                 1666215598 ; Serial
                 10800 ; Refresh
                 3600 ; Retry
                 604800 ; Expire
                 28800 ) ; Negative Cache TTL
 ;
-@       IN  NS      ns1.ffdd.
-@       IN  NS      ns2.ffdd.
-@       IN  MX  10  mail.freifunk-dresden.de.
+@       IN  NS      ns1.ffl.
+@       IN  NS      ns2.ffl.
 ;
 ns1     IN  A       10.200.0.4
 ns2     IN  A       10.200.0.16
@@ -23,125 +22,29 @@ ntp1    IN  A       10.200.0.4
 ntp2    IN  A       10.200.0.16
 ;
 ;; Gateways
-vpn1    IN  CNAME   255.ffdd.
-vpn2    IN  CNAME   111.ffdd.
-vpn3    IN  CNAME   2.ffdd.
-vpn4    IN  CNAME   51067.ffdd.
-vpn5    IN  CNAME   51008.ffdd.
-vpn6    IN  CNAME   51017.ffdd.
-vpn7    IN  CNAME   4.ffdd.
-vpn8    IN  CNAME   51015.ffdd.
-vpn9    IN  CNAME   51039.ffdd.
-vpn10   IN  CNAME   51040.ffdd.
-vpn11   IN  CNAME   200.ffdd.
-vpn12   IN  CNAME   256.ffdd.
-vpn13   IN  CNAME   13.ffdd.
-vpn14   IN  CNAME   14.ffdd.
-vpn15   IN  CNAME   51041.ffdd.
-vpn16   IN  CNAME   201.ffdd.
-vpn17   IN  CNAME   51007.ffdd.
-vpn-zh  IN  CNAME   51064.ffdd.
-vpn-offloader IN CNAME 51051.ffdd.
-vpn-it4r IN CNAME   51001.ffdd.
-vpn1le  IN  CNAME   51020.ffl.
-vpn2le  IN  CNAME   51026.ffl.
+vpn1    IN  CNAME   51020.ffl.
+vpn2    IN  CNAME   51026.ffl.
 ;
 ;; Gateway Subdomains
-$ORIGIN vpn1.ffdd.
-*        IN  CNAME   255.ffdd.
-;
-$ORIGIN vpn2.ffdd.
-*        IN  CNAME   111.ffdd.
-;
-$ORIGIN vpn3.ffdd.
-*        IN  CNAME   2.ffdd.
-;
-$ORIGIN vpn4.ffdd.
-*        IN  CNAME   51067.ffdd.
-;
-$ORIGIN vpn5.ffdd.
-*        IN  CNAME   51008.ffdd.
-;
-$ORIGIN vpn6.ffdd.
-*        IN  CNAME   51017.ffdd.
-;
-$ORIGIN vpn7.ffdd.
-*        IN  CNAME   4.ffdd.
-;
-$ORIGIN vpn8.ffdd.
-*        IN  CNAME   51015.ffdd.
-;
-$ORIGIN vpn9.ffdd.
-*        IN  CNAME   51039.ffdd.
-;
-$ORIGIN vpn10.ffdd.
-*        IN  CNAME   51040.ffdd.
-;
-$ORIGIN vpn11.ffdd.
-*        IN  CNAME   200.ffdd.
-;
-$ORIGIN vpn12.ffdd.
-*        IN  CNAME   256.ffdd.
-;
-$ORIGIN vpn13.ffdd.
-*        IN  CNAME   13.ffdd.
-;
-$ORIGIN vpn14.ffdd.
-*        IN  CNAME   14.ffdd.
-;
-$ORIGIN vpn15.ffdd.
-*        IN  CNAME   51041.ffdd.
-;
-$ORIGIN vpn16.ffdd.
-*        IN  CNAME   201.ffdd.
-;
-$ORIGIN vpn17.ffdd.
-*        IN  CNAME   51007.ffdd.
-;
-$ORIGIN vpn-zh.ffdd.
-*        IN  CNAME   51064.ffdd.
-;
-$ORIGIN vpn-offloader.ffdd.
-*        IN  CNAME   51051.ffdd.
-;
-$ORIGIN vpn-it4r.ffdd.
-*        IN  CNAME   51001.ffdd.
-;
-$ORIGIN vpn1le.ffdd.
+$ORIGIN vpn1.ffl.
 *        IN  CNAME   51020.ffl.
 ;
-$ORIGIN vpn2le.ffdd.
+$ORIGIN vpn2.ffl.
 *        IN  CNAME   51026.ffl.
 ;
 ; reset ORIGIN
-$ORIGIN ffdd.
+$ORIGIN ffl.
 ;
 ;; Dienste
 hotspot IN  A       100.64.0.1
 geoloc  IN  A       10.200.0.1
 speedtest IN A      10.200.200.26
-talk    IN  CNAME   talk.freifunk-dresden.de
 ;
-api     IN  CNAME   api.freifunk-dresden.de.
-blog    IN  CNAME   blog.freifunk-dresden.de.
-cloud   IN  CNAME   cloud.freifunk-dresden.de.
-download IN CNAME   download.freifunk-dresden.de.
-forum   IN  CNAME   forum.freifunk-dresden.de.
-git     IN  CNAME   gitlab.freifunk-dresden.de.
-gitlab  IN  CNAME   gitlab.freifunk-dresden.de.
-grafana IN  CNAME   grafana.freifunk-dresden.de.
-netgraph IN CNAME   netgraph.freifunk-dresden.de.
-mail    IN  CNAME   mail.freifunk-dresden.de.
-maps    IN  CNAME   maps.freifunk-dresden.de.
 meshviewer IN CNAME meshviewer.freifunk-dresden.de.
-mumble  IN  CNAME   mumble.freifunk.net.
-stats   IN  CNAME   stats.freifunk-dresden.de.
-wiki    IN  CNAME   wiki.freifunk-dresden.de.
-www     IN  CNAME   www.freifunk-dresden.de.
+www     IN  CNAME   www.freifunk-leipzig.de.
 ;
 ;; Teilnehmer-Zonen
-c3d2    IN NS       ns.c3d2.de.
-zentralwerk IN NS   ns.c3d2.de.
+;
 ;
 ;; Nodes
 0 IN  A 10.200.0.1
