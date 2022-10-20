@@ -1,6 +1,11 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
 
+## version 1.4.0rc11
+    - update bmxd to version 1.2
+	- update apache serveralias for ffl
+	- add dns zone for .ffl
+
 ## version 1.4.0rc10
 	- drop support for debian 9 and ubuntu 16.04/18.04
 	- add support for ubuntu 22.04
