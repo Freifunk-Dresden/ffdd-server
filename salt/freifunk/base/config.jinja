@@ -2,13 +2,11 @@
 {# Salt - Jinja Configuration File #}
 
 {# ffip for Hotspot-NAT #}
-{% set ffip = '89.163.140.199' %}
-{% set ffdom = 'freifunk-dresden.de' %}
+{% set ffddip = '157.90.5.163' %}
 
 {% set install_dir = '/srv/ffdd-server' %}
 
 {% set freifunk_dl_url = 'http://download.freifunk-dresden.de/server/packages' %}
-
 {% set freifunk_repo = 'https://github.com/Freifunk-Dresden/ffdd-server' %}
 {% set custom_freifunk_repo = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.freifunk_repo') %}
 
@@ -24,7 +22,7 @@
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_registerkey') %}
 
 {% set servername = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.servername') %}
-{% set hostname = salt['cmd.shell']('cat /etc/hostname') %}
+{% set hostname = salt['cmd.shell']("sed -e '/^#/d' /etc/hostname") %}
 {% set hostname_short = salt['cmd.shell']("cat /etc/hostname | awk -F'.' '{print $1}'") %}
 {% set ifname = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ifname') %}
 {% set nodeid = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_node') %}
@@ -48,3 +46,7 @@
 {# wg_accept_cgi Version #}
 {% set wg_accept_cgi_version = 'v1.2.1' %}
 {% set wg_accept_cgi_sha1_hash = 'E711E9D7BBC6733F6F8907E3929D71D89E1A625A' %}
+
+
+{# set ffl_nodeid_list (vpn gateways) for apache serveralias #}
+{% set ffl_nodeid_list = ['51020', '51026'] %}

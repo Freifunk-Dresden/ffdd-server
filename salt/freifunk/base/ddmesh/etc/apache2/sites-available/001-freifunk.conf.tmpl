@@ -1,8 +1,12 @@
 ### This file managed by Salt, do not edit by hand! ###
-{% from 'config.jinja' import hostname, nodeid, nodeip %}
+{% from 'config.jinja' import hostname, nodeid, nodeip, ffl_nodeid_list %}
 <VirtualHost *:80>
 	ServerName {{ hostname }}
+	{% if nodeid not in ffl_nodeid_list %}
 	ServerAlias localhost 127.0.0.1 {{ nodeid }}.ffdd {{ nodeid }}.freifunk-dresden.de {{ nodeip }} {{ nodeip }}.freifunk-dresden.de
+	{% else %}
+	ServerAlias localhost 127.0.0.1 {{ nodeid }}.ffl {{ nodeid }}.freifunk-leipzig.de {{ nodeip }} {{ nodeip }}.freifunk-leipzig.de
+	{% endif %}
 
 	# redirect if not found, to avoid displaying other internal stuff
 	ErrorDocument 404 /

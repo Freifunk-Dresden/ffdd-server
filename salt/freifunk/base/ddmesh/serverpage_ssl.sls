@@ -1,8 +1,8 @@
 {# FFDD - HTTPS Server Page #}
-{% from 'config.jinja' import ffip, hostname %}
+{% from 'config.jinja' import ffddip, hostname %}
 
 {# check hostname has the correct format and is not NAT'd over freifunk-dresden.de or use internal domain 'ffdd' #}
-{%- set check_fqdn = salt['cmd.shell']("h=" ~ hostname ~ " ; [[ ${h//[^.]} != '' ]] && [[ $(echo $h | awk -F'.' '{print $2}') != 'ffdd' ]] && host $h | grep -v " ~ ffip ~ " > /dev/null ; if [ $? -eq 0 ]; then echo $h ; fi || true") -%}
+{%- set check_fqdn = salt['cmd.shell']("h=" ~ hostname ~ " ; [[ ${h//[^.]} != '' ]] && [[ $(echo $h | awk -F'.' '{print $2}') != 'ffdd' ]] && host $h | grep -v " ~ ffddip ~ " > /dev/null ; if [ $? -eq 0 ]; then echo $h ; fi || true") -%}
 
 {% if check_fqdn != '' %}
 
