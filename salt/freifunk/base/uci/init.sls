@@ -83,6 +83,25 @@ uci_ldconfig:
     - mode: 644
 
 
+{# set new uci config options #}
+/usr/local/bin/uci_check_config_options.sh:
+  file.managed:
+    - source: salt://uci/usr/local/bin/uci_check_config_options.sh
+    - user: root
+    - group: root
+    - mode: 644
+
+check_uci_config:
+  cmd.run:
+  - name: {{ install_dir }}/salt/freifunk/base/uci/usr/local/bin/uci_check_config_options.sh
+  - require:
+    - pkg: uci
+    - file: /etc/config/ffdd
+    - migrate_nvram
+  - onchanges:
+    - file: /usr/local/bin/uci_check_config_options.sh
+
+
 {# migrate old /etc/nvram.conf #}
 migrate_nvram:
   cmd.run:
@@ -94,16 +113,6 @@ migrate_nvram:
     - require:
       - pkg: uci
       - file: /etc/config/ffdd
-
-{# set new uci config options #}
-check_uci_config:
-  cmd.run:
-  - name: {{ install_dir }}/salt/freifunk/base/uci/usr/local/bin/uci_check_config_options.sh
-  - require:
-    - pkg: uci
-    - file: /etc/config/ffdd
-    - migrate_nvram
-
 
 {# symlink for old nvram #}
 /usr/local/bin/nvram:
