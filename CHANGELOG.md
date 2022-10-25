@@ -1,13 +1,17 @@
 # Freifunk Dresden: ffdd-server - Changelog
-`current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?sort=semver)
+`current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
+
+## version 1.4.0
+
+No significant changes since version 1.4.0rc11.
 
 ## version 1.4.0rc11
-    - update bmxd to version 1.2
+	- update bmxd to version 1.2
 	- update apache serveralias for ffl
 	- add dns zone for .ffl
 
 ## version 1.4.0rc10
-	- drop support for debian 9 and ubuntu 16.04/18.04
+	- remove support for debian 9 and ubuntu 16.04/18.04
 	- add support for ubuntu 22.04
 	- salt: fix for ubuntu 20.04
 	- fastd: fix check in generate_keys
@@ -284,7 +288,7 @@ This update is not carried out automatically and must be done manually be perfor
 	- add CHANGELOG.md
 	- update fastd2 source
 	- update nvram.conf
-	    - add 'ssh_pwauth' option to enable/disable password-authentification
+		- add 'ssh_pwauth' option to enable/disable password-authentification
 	- some more small improvements
 
 ## version 1.0.10
