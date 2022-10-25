@@ -5,7 +5,7 @@
 ;;
 $TTL 28800
 @       IN  SOA ns1.ffdd. root.ffdd. (
-                1666708715 ; Serial
+                1666709798 ; Serial
                 10800 ; Refresh
                 3600 ; Retry
                 604800 ; Expire
@@ -50,7 +50,7 @@ vpn2le  IN  CNAME   51026.ffl.
 ;
 ;; Gateway Subdomains
 $ORIGIN vpn0.ffdd.
-*        IN  CNAME   255.ffdd.
+*        IN  CNAME   0.ffdd.
 ;
 $ORIGIN vpn1.ffdd.
 *        IN  CNAME   255.ffdd.
@@ -104,7 +104,7 @@ $ORIGIN vpn17.ffdd.
 *        IN  CNAME   51007.ffdd.
 ;
 $ORIGIN vpn18.ffdd.
-*        IN  CNAME   51007.ffdd.
+*        IN  CNAME   51042.ffdd.
 ;
 $ORIGIN vpn-zh.ffdd.
 *        IN  CNAME   51064.ffdd.
