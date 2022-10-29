@@ -44,8 +44,8 @@
 {% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
 
 {# wg_accept_cgi Version #}
-{% set wg_accept_cgi_version = 'v1.2.1' %}
-{% set wg_accept_cgi_sha1_hash = 'E711E9D7BBC6733F6F8907E3929D71D89E1A625A' %}
+{% set wg_accept_cgi_version = 'v1.2.3' %}
+{% set wg_accept_cgi_sha1_hash = 'A7D33B3785BD6DE81E939F3C6967246356ACF13F' %}
 
 
 {# set ffl_nodeid_list (vpn gateways) for apache serveralias #}
