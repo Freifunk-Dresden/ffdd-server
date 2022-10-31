@@ -70,7 +70,7 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 
 - Virtualisierung: Wird der Freifunk Server auf einem virtuellen Server oder Container aufgesetzt, so funktionieren als Umgebungen QEMU(KVM), XEN, LXC / LXD und OPENVZ sehr gut.
 
-- Firewall: Bitte stelle sicher dass der Server über Port: 80/tcp , 443/tcp und 5002/udp aus dem Internet erreichbar ist.
+- Firewall: Bitte stelle sicher dass der Server über Port: 80/tcp , 443/tcp, 5002/udp und 5003/udp aus dem Internet erreichbar ist.
 
 ## Installation
 
