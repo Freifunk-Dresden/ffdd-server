@@ -28,7 +28,7 @@
 {% set nodeid = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_node') %}
 {% set nodeip = salt['cmd.shell']("ip addr show bmx_prime | awk '/inet/ {print $2}' | head -1 | sed 's/\/.*//'") %}
 
-{% set ddmesh_disable_gateway = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_disable_gateway') %}
+{% set announce_gateway = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.announce_gateway') %}
 {% set apache_ddos_prevent = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.apache_ddos_prevent || true') %}
 
 

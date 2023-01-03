@@ -27,7 +27,7 @@ cat<<EOF
 <legend>Allgemeines</legend>
 <table>
 <tr><th width="250">Internet-Gateway:</th><td colspan="7">$(
-	if [ "$(uci -qX get ffdd.sys.ddmesh_disable_gateway)" -eq '0' ]; then
+	if [ "$(uci -qX get ffdd.sys.announce_gateway)" -eq '0' ]; then
 		vpnservice='openvpn@openvpn-vpn0 openvpn@openvpn-vpn1 wg-quick@vpn0 wg-quick@vpn1'
 		vs='0'
 		for s in $vpnservice

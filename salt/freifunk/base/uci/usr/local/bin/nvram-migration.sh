@@ -15,7 +15,7 @@ if [ -f /etc/nvram.conf ]; then
 	uci set ffdd.sys.ddmesh_node="$(nvram_get ddmesh_node)"
 	uci set ffdd.sys.ddmesh_registerkey="$(nvram_get ddmesh_registerkey)"
 
-	uci set ffdd.sys.ddmesh_disable_gateway="$(nvram_get ddmesh_disable_gateway)"
+	uci set ffdd.sys.announce_gateway="$(nvram_get ddmesh_disable_gateway)"
 
 	uci set ffdd.sys.servername="$(nvram_get servername)"
 

@@ -1,5 +1,5 @@
 {# Wireguard VPN Gateway Tunnel #}
-{% from 'config.jinja' import ddmesh_disable_gateway %}
+{% from 'config.jinja' import announce_gateway %}
 
 
 {# Package #}
@@ -34,7 +34,7 @@ wireguard:
 
 
 {# Service Start then Gateway Option Enabled #}
-{% if ddmesh_disable_gateway == '0' %}
+{% if announce_gateway == '0' %}
 
 {# VPN 0 #}
 {% if salt['file.file_exists' ]('/etc/wireguard/vpn0.conf') %}
@@ -97,7 +97,7 @@ wgvpn1_service_dead:
 
 
 {# Service Dead then Gateway Option Disabled #}
-{% elif ddmesh_disable_gateway == '1' %}
+{% elif announce_gateway == '1' %}
 {# VPN 0 #}
 {% if salt['file.file_exists' ]('/etc/wireguard/vpn0.conf') %}
 wgvpn0_service_dead:

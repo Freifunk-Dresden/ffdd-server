@@ -1,5 +1,5 @@
 {# OpenVPN Gateway Tunnel #}
-{% from 'config.jinja' import ddmesh_disable_gateway %}
+{% from 'config.jinja' import announce_gateway %}
 
 openvpn:
   pkg.installed:
@@ -12,7 +12,7 @@ openvpn:
     - enable: false
 
 {# Service Start then Gateway Option Enabled #}
-{% if ddmesh_disable_gateway == '0' %}
+{% if announce_gateway == '0' %}
 
 {# VPN 0 #}
 {% if salt['file.file_exists' ]('/etc/openvpn/openvpn-vpn0.conf') %}
@@ -110,7 +110,7 @@ ovpn1_service_dead:
 
 
 {# Service Dead then Gateway Option Disabled #}
-{% elif ddmesh_disable_gateway == '1' %}
+{% elif announce_gateway == '1' %}
 
 {# VPN 0 #}
 {% if salt['file.file_exists' ]('/etc/openvpn/openvpn-vpn0.conf') %}
