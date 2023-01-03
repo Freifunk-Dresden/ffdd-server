@@ -105,8 +105,8 @@ IFS=' '
 #(there is no forwarding to lan allowed by firewall)
 for g in $default_vpn_route_list $lan_default_route
 do
-logger -s -t "$LOGGER_TAG" "try: $g"
 	printf '===========\n'
+#	logger -s -t "$LOGGER_TAG" "try: $g"
 	printf 'try: %s\n' "$g"
 	dev="${g#*:}"
 	via="${g%:*}"
@@ -157,22 +157,26 @@ logger -s -t "$LOGGER_TAG" "try: $g"
 		# If internet is disabled, add only vpn if detected.
 		# When lan/wan gateway gets lost, also vpn get lost
 		# If only vpn get lost, remove public gateway
-		if [ "$(uci -qX get ffdd.sys.ddmesh_disable_gateway)" = "0" ] && [ "$dev_is_vpn" = "1" ]; then
+		if [ "$(uci -qX get ffdd.sys.announce_gateway)" = "1" -o "$dev_is_vpn" = "1" ]; then
 			logger -s -t "$LOGGER_TAG" "Set public gateway: dev:$dev, ip:$via"
 			setup_gateway_table "$dev" "$via" public_gateway
 
 			/etc/init.d/S52batmand gateway
 
-			# select correct dns
-			rm -f "$BIND_FORWARDER_FILE"
-			ln -s "$BIND_FORWARDER_FILE"."$dev" "$BIND_FORWARDER_FILE"
-			systemctl reload bind9
-			printf 'DNS:\n%s\n' "$(cat $BIND_FORWARDER_FILE)"
+			# select correct dns if gateway is via vpn. 
+			# when server provides internet directly. dns will be the local host
+			if [ "$dev_is_vpn" = "1" ]; then
+				rm -f "$BIND_FORWARDER_FILE"
+				ln -s "$BIND_FORWARDER_FILE"."$dev" "$BIND_FORWARDER_FILE"
+				systemctl reload bind9
+				printf 'DNS:\n%s\n' "$(cat $BIND_FORWARDER_FILE)"
 
-			# add routes to DNS through tunnel (mullvad DNS is only accessible through tunnel)
-			# - extract all dns from BIND_FORWARDER_FILE and create dns rules
-			# openvpn:up.sh and wireguard:configs create the forwarder file but with different layout.
-			tunnel_dns_servers="$(cat < "$BIND_FORWARDER_FILE" | sed -n 's#[  ]*[;{}][        ]*#\n#gp' | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')"
+				# add routes to DNS through tunnel (mullvad DNS is only accessible through tunnel)
+				# - extract all dns from BIND_FORWARDER_FILE and create dns rules
+				# openvpn:up.sh and wireguard:configs create the forwarder file but with different layout.
+				tunnel_dns_servers="$(cat < "$BIND_FORWARDER_FILE" | sed -n 's#[  ]*[;{}][        ]*#\n#gp' | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')"
+			fi
+
 			IFS='
 '
 			for dns_ip in $tunnel_dns_servers

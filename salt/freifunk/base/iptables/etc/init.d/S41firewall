@@ -14,13 +14,6 @@
 BACKBONE_DEV='tbb+'
 WAN_DEV="$(uci -qX get ffdd.sys.ifname)"
 
-# needed to speedtest through gateway tunnel.
-# BAT_IP is for bmxd server currently fixed (defined by bmxd internally)
-# BUT future releases of bmxd may replace .0.0 with the lower values of
-# _ddmesh_ip
-BAT_DEV='bat0'
-BAT_IP='169.254.0.0'
-
 # a new ipip tunnel is used as an alternative to bat0 to speed up traffic
 # and avoid upload tunnel breakdown
 # see S53batman for more info.
@@ -55,8 +48,12 @@ if [ "$1" = "start" ]; then
 	$IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -p udp --dport 4305:4307 -j ACCEPT
 	$IPT -w -t nat -A POSTROUTING -o "$BACKBONE_DEV" -s "$_ddmesh_nonprimary_ip" -j SNAT --to-source "$_ddmesh_ip"
 
-	#masquerade all to vpn tunnel
-	#$IPT -w -t nat -A POSTROUTING -o vpn+ -j MASQUERADE
+	#masquerade all to vpn tunnel: rules are set by openvpn/wireguard scripts
+
+	# allow local internet 
+	if [ "$(uci -qX get ffdd.sys.announce_gateway)" = "1" ]; then
+		$IPT -w -t nat -A POSTROUTING -o ${WAN_DEV} -j MASQUERADE
+	fi
 
 #----- setup INPUT rules -----
 	printf 'setting up INPUT rules ...\n'
@@ -94,8 +91,6 @@ if [ "$1" = "start" ]; then
 	#iperf3
 	$IPT -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p tcp --dport 5201 -j ACCEPT
 	$IPT -w -A INPUT -i "$BACKBONE_DEV" -d "$_ddmesh_ip" -p udp --dport 5201 -j ACCEPT
-	$IPT -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p tcp --dport 5201 -j ACCEPT
-	$IPT -w -A INPUT -i "$BAT_DEV" -d  "$BAT_IP" -p udp --dport 5201 -j ACCEPT
 
 	#dns
 	$IPT -w -A INPUT -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
@@ -142,7 +137,6 @@ if [ "$1" = "start" ]; then
 	$IPT -w -N stat_from_ovpn 2>/dev/null
 	$IPT -w -A stat_from_ovpn -j RETURN
 	$IPT -w -A statistic_forward -i "$BACKBONE_DEV" -o vpn+ -j stat_to_ovpn
-	$IPT -w -A statistic_forward -i bat+ -o vpn+ -j stat_to_ovpn
 	$IPT -w -A statistic_forward -i ${FFGW_IF} -o vpn+ -j stat_to_ovpn
 	$IPT -w -A statistic_forward -i vpn+ -o "$BACKBONE_DEV" -j stat_from_ovpn
 
@@ -156,15 +150,17 @@ if [ "$1" = "start" ]; then
 	#via gleichem dns server (wie in resolv.conf) kommen. diese werden von firewall geblockt.
 	#erlaube dns anfragen via localem server
 	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -p udp --dport 53 -j ACCEPT
-	$IPT -w -A FORWARD -i bat+ -p udp --dport 53 -j ACCEPT
 	$IPT -w -A FORWARD -i ${FFGW_IF} -p udp --dport 53 -j ACCEPT
 
 	#allow forward to openvpn tunnel
-	$IPT -w -A FORWARD -i "$BACKBONE_DEV" -o vpn+ -j ACCEPT
-	$IPT -w -A FORWARD -i bat+ -o vpn+ -j ACCEPT
 	# ensure valid return ip, to avoid illegal firewall bypass
 	$IPT -w -A FORWARD -i ${FFGW_IF} ! -s ${_ddmesh_meshnet} -j DROP
 	$IPT -w -A FORWARD -i ${FFGW_IF} -o vpn+ -j ACCEPT
+
+	# allow local internet 
+	if [ "$(uci -qX get ffdd.sys.announce_gateway)" = "1" ]; then
+		$IPT -w -A FORWARD -i ${FFGW_IF} -o ${WAN_DEV} -j ACCEPT
+	fi
 
 	#block any other
 	$IPT -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
