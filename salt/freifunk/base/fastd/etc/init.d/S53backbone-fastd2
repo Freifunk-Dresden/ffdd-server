@@ -160,7 +160,7 @@ case "$1" in
 	# and would not restart fastd.
 
 	proc_fastd="$(ps x | grep -v grep | grep -c $DAEMON)"
-	disable="$(uci -q ffdd.fastd.disable)"
+	disable="$(uci -q get ffdd.fastd.disable)"
 	if [ "$proc_fastd" -eq '0' -a "$disable" != "1" ]; then
 		# return error code to systemd to reflect correct status
 		"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon || exit 1
@@ -195,7 +195,7 @@ case "$1" in
   ;;
 
   get_public_key)
-	disable="$(uci -q ffdd.fastd.disable)"
+	disable="$(uci -q get ffdd.fastd.disable)"
 	if [ "$disable" != "1" ]; then
 		uci -qX get ffdd.fastd.public
 	else
