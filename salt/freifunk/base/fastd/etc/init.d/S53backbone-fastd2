@@ -155,10 +155,13 @@ case "$1" in
 	fi
 
 	generate_fastd_conf
+
 	# if fastd failes, return error to systemd, else salt always gets an active working status
 	# and would not restart fastd.
+
 	proc_fastd="$(ps x | grep -v grep | grep -c $DAEMON)"
-	if [ "$proc_fastd" -eq '0' ]; then
+	disable="$(uci -q ffdd.fastd.disable)"
+	if [ "$proc_fastd" -eq '0' -a "$disable" != "1" ]; then
 		# return error code to systemd to reflect correct status
 		"$DAEMON" --config "$FASTD_CONF" --pid-file "$PID_FILE" --daemon || exit 1
 	else
@@ -192,7 +195,12 @@ case "$1" in
   ;;
 
   get_public_key)
-	uci -qX get ffdd.fastd.public
+	disable="$(uci -q ffdd.fastd.disable)"
+	if [ "$disable" != "1" ]; then
+		uci -qX get ffdd.fastd.public
+	else
+		echo "---disabled---"
+	fi
   ;;
 
   add_accept)
