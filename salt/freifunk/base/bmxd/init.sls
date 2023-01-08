@@ -1,7 +1,7 @@
 {# FFDD Batmand Network #}
 {% from 'config.jinja' import freifunk_dl_url, nodeid, ddmesh_registerkey %}
 
-{% set bmxd_version = '1.2-7e90273293649e046a67dbada9de629d' %}
+{% set bmxd_version = '1.3-69f66bcd18906597da3ca39d7c7e701e' %}
 
 {% if salt['cmd.shell']("dpkg-query -W -f='${Version}' bmxd || true") != bmxd_version %}
 bmxd_pkg_removed:
