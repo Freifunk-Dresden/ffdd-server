@@ -63,6 +63,7 @@ cat << EOM
 		},
 		"system":{
 			"uptime":"$(cat /proc/uptime)",
+			"uptime_string":"$(uptime)",
 			"uname":"$(uname -a)",
 			"nameserver": [ $(sed -n '/nameserver[ 	]\+10\.200/{s#[ 	]*nameserver[ 	]*\(.*\)#\t\t\t\t"\1",#;p}' /etc/resolv.conf | sed '$s#,##') ],
 			"date":"$(date)",
