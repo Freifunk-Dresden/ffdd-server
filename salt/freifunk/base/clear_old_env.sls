@@ -76,6 +76,9 @@
 /etc/init.d/S90nuttcp:
   file.absent
 
+/etc/nvram.conf:
+  file.absent
+
 
 /usr/bin/nvram:
   file.absent
