@@ -129,7 +129,7 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
   - servername
   - ifname
   - contact informations
-- Create a Backbone Connection*<br />
+- Create a Backbone Connection<br />
   - fastd `/etc/fastd/peers2/`<br />
     `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`<br />
     or: `/etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
@@ -139,11 +139,11 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
 - VPN-Gateway Service
   - ***Notice: OVPN/WG supports interface `vpn0` and `vpn1`***
   - `/etc/openvpn/`<br />
-    *# creates openvpn-vpn0.conf with:*<br />
+    *creates openvpn-vpn0.conf with:*<br />
       `/etc/openvpn/gen-config.sh vpn0 <original-provider-config-file>`<br />
-    *# for vpn user and password credantials use:* `/etc/openvpn/openvpn.login`
+    *for vpn user and password credantials use:* `/etc/openvpn/openvpn.login`
   - `/etc/wireguard/`<br />
-    *# creates vpn0.conf with:*<br />
+    *creates vpn0.conf with:*<br />
       `/etc/wireguard/gen-config.sh vpn0 <original-provider-config-file>`
 
 ### Apply
