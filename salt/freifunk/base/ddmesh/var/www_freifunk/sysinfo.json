@@ -123,8 +123,8 @@ EOM
 				fi
 			done
 
-			rx=$(sudo /sbin/iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
-			tx=$(sudo /sbin/iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
+			rx=$(sudo iptables -w -xvn -L stat_from_ovpn | awk '/RETURN/{print $2}')
+			tx=$(sudo iptables -w -xvn -L stat_to_ovpn | awk '/RETURN/{print $2}')
 			echo "			\"traffic_ovpn\" : \"$rx,$tx\","
 
 cat<<EOM
