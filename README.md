@@ -41,7 +41,7 @@ Wir wissen selber nicht, wie sich das Netz in Zukunft noch verhält, wenn dieses
 - Weiterhin verwendet das Freifunk Dresden Netz als Backbone-VPN Tool fastd2.
 
   fastd2 ist ein für Freifunk entwickeltes VPN, welches eine schnelle und zuverlässige Verbindung bereitstellt.<br/>
-  Bei der aktuellen Installation werden alle Verbindungen von Freifunk-Router zum Server zugelassen, welche sich mit dem korrekten Public-Key des Servers verbinden. Dieser Public-Key kann über http://ip-des-knotens/sysinfo-json.cgi ausgelesen werden.<br/>
+  Bei der aktuellen Installation werden alle Verbindungen von Freifunk-Router zum Server zugelassen, welche sich mit dem korrekten Public-Key des Servers verbinden. Dieser Public-Key kann über `http://ip-des-knotens/sysinfo-json.cgi` ausgelesen werden.<br/>
   Verbindet sich ein Router mit einem Server erfolgreich, so "lernt" der Server diese Verbindung und erzeugt ein entsprechendes Konfigurationsfile unterhalb von `/etc/fastd/peers2`.<br/>
   Später kann der Server umgestellt werden, so dass nur noch dort abgelegte Konfigurationen (Verbindungen) akzeptiert werden. Gesteuert wird dieses durch das Konfigurationsfile von fastd (`/etc/fastd/fastd2.conf`).
 
