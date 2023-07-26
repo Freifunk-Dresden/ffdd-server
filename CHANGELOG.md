@@ -1,6 +1,17 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
 
+## version 1.5.0rc1
+	- update bmxd to version 1.4
+	- update wireguard_accept_cgi to version 1.2.3
+	- update dns records for vpn gateways
+	- add locale gateway functionality
+	- fastd: allow to disable fastd via /etc/config/ffdd
+	- remove symlink of /etc/nvram.conf
+	- fix sudoers for iptables which is used by sysinfo.json to determine gw traffic (ovpn)
+	- fastd: add config to /etc/config/ffdd to disable fastd
+	- wireguard: sync wg registration (script) with the one used in firmware (to easier setting up connections between servers)
+
 ## version 1.4.0
 
 No significant changes since version 1.4.0rc11.
