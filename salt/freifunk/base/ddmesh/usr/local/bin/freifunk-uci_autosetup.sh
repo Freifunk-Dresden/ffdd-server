@@ -8,7 +8,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 #
 # Get variables from /etc/config/ffdd
 ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
-ddmesh_key="$(uci -qX get dffdd.sys.ddmesh_registerkey)"
+ddmesh_key="$(uci -qX get ffdd.sys.ddmesh_registerkey)"
 
 if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ]; then
 
