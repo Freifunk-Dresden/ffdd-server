@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION='V2.0'
+VERSION='V3.0'
 
 wg_ifname='tbb_wg'
 port='5003'
@@ -179,6 +179,12 @@ load_connect_peers()
 	done
 }
 
+returnJsonError()
+{
+ reason="$1"
+ echo "{\"status\" : \"error\", \"reason\":\"$reason\"}"
+}
+
 case $1 in
 	start)
 		test ! -d "$peers_dir" && mkdir -p "$peers_dir"
@@ -248,6 +254,25 @@ case $1 in
 		connect_peer "$host" "$port" "$node" "$key" 1
 		;;
 
+	register)
+		mynode="$(uci -q get ffdd.sys.ddmesh_node)"	
+		host="$2"
+		[ -z "$host" ] && return 1
+
+		privKey="$(uci -q get ffdd.wireguard.secret)"
+		[ -z "$privKey" ] && { returnJsonError "no private wg key";	exit 1; }
+
+		pubKey="$(echo "$privKey" | wg pubkey)"
+		[ -z "$privKey" ] && { returnJsonError "no public wg key";	exit 1; }
+
+		json="$(wget -qO - "http://${host}/wg.cgi?node=${mynode}&key=${pubKey}" 2>/dev/null)"
+		[ -z "$json" ] && { returnJsonError "connection failed";	exit 1; }
+
+		echo ${json}
+		eval $(echo "$json" | jq --raw-output -e '"node=\"\(.server.node)\"; key=\"\(.server.key)\"; port=\"\(.server.port)\""')
+		connect_peer "$host" "$port" "$node" "$key" 1
+		;;
+
 	delete-connect)
 		node=$2
 		if [ -z "$2" ]; then
@@ -275,6 +300,6 @@ case $1 in
 
 	*)
 		printf '%s Version %s\n' "$(basename $0)" "$VERSION"
-		printf '%s [start | stop | reload | status | show-pubkey | accept <node> <pubkey> | delete-accepted <node> | connect <host> <port> <node> <key>] | delete-connect <node>\n\n' "$(basename $0)"
+		printf '%s [start | stop | reload | status | show-pubkey | accept <node> <pubkey> | delete-accepted <node> | register <server> | connect <host> <port> <node> <key>] | delete-connect <node>\n\n' "$(basename $0)"
 		;;
 esac

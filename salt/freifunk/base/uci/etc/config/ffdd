@@ -77,6 +77,9 @@ config fastd 'fastd'
 	option 'secret' '-'
 	option 'public' '-'
 
+	# allows to diable fastd. sysinfo.json will return "---disabled---" as public key to show user no valid key
+	option 'disable' '0'
+
 	# to accept all in comming backbone connection, set this to 0.
 	# When set to 1, only already known connections are accepted. this may be used
 	# to prevent overloading a server.

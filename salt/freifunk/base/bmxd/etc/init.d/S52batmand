@@ -104,7 +104,7 @@ OPTS="--throw-rules 0 --prio-rules 0"
 OPTS="${OPTS} --network $_ddmesh_meshnet --netid $MESH_NETWORK_ID --community_gateway ${COMMUNITY_SERVER}"
 # 10s OGM interval, purge timeout 35 -> 3 OGM
 # 5s OGM interval, purge timeout 35 -> 7 OGM
-OPTS="${OPTS} --hop_penalty 5 --lateness_penalty 10 --ogm_broadcasts 100 --udp_data_size 512 --ogm_interval 5000 --purge_timeout 35"
+OPTS="${OPTS} --hop_penalty 5 --lateness_penalty 10 --wireless_ogm_clone 100 --udp_data_size 512 --ogm_interval 5000 --purge_timeout 35"
 OPTS="${OPTS} --path_hysteresis 3"
 DAEMON_OPTS="${OPTS} $_IF"
  

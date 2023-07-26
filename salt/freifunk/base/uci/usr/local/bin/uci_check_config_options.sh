@@ -27,6 +27,11 @@
 	test -z "$(uci -qX get ffdd.wireguard.restrict)" && uci -q set ffdd.wireguard.restrict=0
 
 
+## ffdd.fastd
+
+	test -z "$(uci -qX get ffdd.fastd.disable)" && uci -q set ffdd.fastd.disable=0
+
+
 ## finish / save uci config
 uci commit
 
