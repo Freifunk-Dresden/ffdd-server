@@ -68,7 +68,6 @@ base:
     - ddmesh.serverpage_ssl
     - monitorix
     - bind.stats
-    - vnstat.dashboard
 
     {# tools #}
     - tools
