@@ -5,76 +5,6 @@ stages:
   - deploy
 
 
-docker:ffdd-debian9:
-  except:
-    - schedules
-  image: debian:9
-  stage: build
-  script:
-    - cd .ci
-    - bash install_deps.sh
-    - bash build_uci.sh
-  artifacts:
-    paths:
-      - .ci/build/*.deb
-    expire_in: 24 hour
-  tags:
-    - docker2
-
-ffdd-debian9-staging:
-  stage: deploy
-  image: debian:10
-  only:
-    - master
-  dependencies:
-    - docker:ffdd-debian9
-  before_script:
-    - apt-get update -y && apt-get install -y openssh-client rsync
-    - eval $(ssh-agent -s)
-    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
-  script:
-    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian9/
-  tags:
-    - docker2
-
-
-docker:ffdd-debian10:
-  except:
-    - schedules
-  image: debian:10
-  stage: build
-  script:
-    - cd .ci
-    - bash install_deps.sh
-    - bash build_uci.sh
-  artifacts:
-    paths:
-      - .ci/build/*.deb
-    expire_in: 24 hour
-  tags:
-    - docker2
-
-ffdd-debian10-staging:
-  stage: deploy
-  image: debian:10
-  only:
-    - master
-  dependencies:
-    - docker:ffdd-debian10
-  before_script:
-    - apt-get update -y && apt-get install -y openssh-client rsync
-    - eval $(ssh-agent -s)
-    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
-  script:
-    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian10/
-  tags:
-    - docker2
-
-
 docker:ffdd-debian11:
   except:
     - schedules
@@ -106,6 +36,41 @@ ffdd-debian11-staging:
     - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
   script:
     - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian11/
+  tags:
+    - docker2
+
+
+docker:ffdd-debian12:
+  except:
+    - schedules
+  image: debian:12
+  stage: build
+  script:
+    - cd .ci
+    - bash install_deps.sh
+    - bash build_uci.sh
+  artifacts:
+    paths:
+      - .ci/build/*.deb
+    expire_in: 24 hour
+  tags:
+    - docker2
+
+ffdd-debian11-staging:
+  stage: deploy
+  image: debian:10
+  only:
+    - master
+  dependencies:
+    - docker:ffdd-debian12
+  before_script:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+  script:
+    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian12/
   tags:
     - docker2
 
