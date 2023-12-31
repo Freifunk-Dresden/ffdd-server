@@ -20,7 +20,6 @@ apache2:
     - watch:
       - pkg: apache2
       - pkg: monitorix
-      - pkg: vnstat
       - file: /etc/apache2/sites-available/001-freifunk.conf
       - file: /etc/apache2/additional_80.conf
       - file: /etc/apache2/conf-available/letsencrypt.conf
@@ -28,10 +27,8 @@ apache2:
       - file: /etc/apache2/conf-available/bind_stats_access.incl
       - file: /etc/apache2/conf-available/monitorix.conf
       - file: /etc/apache2/conf-available/monitorix_access.incl
-      - file: /etc/apache2/conf-available/vnstat.conf
       - apache2_conf_enable_bind_stats
       - apache2_conf_enable_monitorix
-      - apache2_conf_enable_vnstat
       - apache2_mod_disable
       - apache2_mod_enable
       - apache2_mod_php
