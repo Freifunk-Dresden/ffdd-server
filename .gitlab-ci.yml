@@ -56,7 +56,7 @@ docker:ffdd-debian12:
   tags:
     - docker2
 
-ffdd-debian11-staging:
+ffdd-debian12-staging:
   stage: deploy
   image: debian:10
   only:
