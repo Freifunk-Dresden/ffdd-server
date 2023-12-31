@@ -5,6 +5,7 @@
 	- remove support for debian 10
 	- add support for debian 12
 	- cleanup some unneeded code snippets
+	- smaller fixes
 
 ## version 1.5.0rc1
 	- update bmxd to version 1.4
