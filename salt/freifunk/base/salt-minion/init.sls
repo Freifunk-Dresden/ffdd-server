@@ -4,7 +4,18 @@
 {# Package #}
 {# repos needs also a check in init_server.sh #}
 salt-minion:
-  {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+  {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
+  pkgrepo.managed:
+    - humanname: SaltStack
+    - name: deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=amd64] https://repo.saltproject.io/salt/py3/debian/12/amd64/latest bookworm main
+    - dist: bookworm
+    - file: /etc/apt/sources.list.d/saltstack.list
+    - require_in:
+      - pkg: salt-minion
+    - gpgcheck: 1
+    - key_url: https://repo.saltproject.io/salt/py3/debian/12/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg
+
+  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
   pkgrepo.managed:
     - humanname: SaltStack
     - name: deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main

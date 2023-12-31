@@ -61,6 +61,7 @@ cat <<EOM
     uci                     ( config management helper )
     freifunk-version        ( show Server Version and Branch )
     freifunk-gw-status      ( show GW-Country )
+    showip                  ( show own public IP )
 
     f2b-list                ( show blocked IP's )
     f2b-unban <IP>          ( unban blocked IP )
@@ -69,7 +70,7 @@ cat <<EOM
     conntrack               ( show more with -n LINENUM )
     vnstat                  ( network traffic monitor )
     pb                      ( command line pastebin - man pb )
-    showip
+
     speedtest / speedtest-ovh / speedtest-belwue
 
 # server logs:
