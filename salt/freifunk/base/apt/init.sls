@@ -27,7 +27,7 @@ apt:
         deb-src http://deb.debian.org/debian-security buster/updates main contrib non-free
     - user: root
     - group: root
-    - mode: 600
+    - mode: 644
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
 /etc/apt/sources.list:
   file.managed:
@@ -45,7 +45,7 @@ apt:
         deb http://ftp.debian.org/debian bullseye-backports main contrib non-free
     - user: root
     - group: root
-    - mode: 600
+    - mode: 644
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
 /etc/apt/sources.list:
   file.managed:
@@ -63,7 +63,7 @@ apt:
         deb http://ftp.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
     - user: root
     - group: root
-    - mode: 600
+    - mode: 644
 {% endif %}
 
 {# Configuration #}
