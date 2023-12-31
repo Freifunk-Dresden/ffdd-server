@@ -46,6 +46,24 @@ apt:
     - user: root
     - group: root
     - mode: 600
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
+/etc/apt/sources.list:
+  file.managed:
+    - contents: |
+        ##### Debian Main Repos #####
+        deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
+        deb-src http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
+        # stable-updates
+        deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free non-free-firmware
+        deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free non-free-firmware
+        # security-updates
+        deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
+        deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
+        # backports
+        deb http://ftp.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+    - user: root
+    - group: root
+    - mode: 600
 {% endif %}
 
 {# Configuration #}
