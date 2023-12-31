@@ -28,24 +28,16 @@ cp -RPvf ../libubox/debian libubox/
 cp -RPvf ../uci/debian uci/
 
 
-#mkdir BUILD-libubox
-#cd BUILD-libubox
-#CXX=clang++ CC=clang cmake ../libubox; make; make install
-
-cd libubox
-debuild -uc -us
+mkdir BUILD-libubox
+cd BUILD-libubox
+CXX=clang++ CC=clang cmake ../libubox; make; make install
 cd ..
-dpkg -i ./*.deb
 
 
-#mkdir BUILD-uci
-#cd BUILD-uci
-#CXX=clang++ CC=clang cmake ../uci; make; make install
-
-cd uci
-debuild -uc -us
+mkdir BUILD-uci
+cd BUILD-uci
+CXX=clang++ CC=clang cmake ../uci; make; make install
 cd ..
-dpkg -i ./*.deb
 
 
 cd BUILD-ubus
