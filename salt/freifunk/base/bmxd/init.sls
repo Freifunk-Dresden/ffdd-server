@@ -20,6 +20,9 @@ bmxd:
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
       - bmxd: {{ freifunk_dl_url }}/debian11/bmxd-{{ bmxd_version }}-debian-bullseye-amd64.deb
 
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
+      - bmxd: {{ freifunk_dl_url }}/debian12/bmxd-{{ bmxd_version }}-debian-bookworm-amd64.deb
+
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - bmxd: {{ freifunk_dl_url }}/ubuntu20/bmxd-{{ bmxd_version }}-ubuntu-focal-amd64.deb
 

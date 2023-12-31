@@ -53,6 +53,9 @@ install_pkg:
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
       - python-apt-common
       - iptraf-ng
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
+      - python-apt-common
+      - iptraf-ng
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
       - python3-apt
       - python3-pycurl
