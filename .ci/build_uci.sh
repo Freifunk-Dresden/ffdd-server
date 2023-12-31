@@ -16,6 +16,7 @@ cd ..
 
 
 git clone https://git.openwrt.org/project/ubox.git
+# needs to be include udebug for master branch
 cd ubox ; git checkout 4c7b720b9c63b826fb9404e454ae54f2ef5649d5 ; cd ..
 mkdir BUILD-ubox
 
