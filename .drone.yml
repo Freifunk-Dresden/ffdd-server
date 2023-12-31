@@ -12,6 +12,7 @@ steps:
 - name: ffdd-debian11-build
   image: debian:11
   commands:
+    - test -d .ci/build && rm -r .ci/build
     - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
     - cd .ci
     - cp limit-unstable /etc/apt/preferences.d/limit-unstable
@@ -43,6 +44,7 @@ steps:
 - name: ffdd-debian12-build
   image: debian:12
   commands:
+    - test -d .ci/build && rm -r .ci/build
     - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
     - cd .ci
     - cp limit-unstable /etc/apt/preferences.d/limit-unstable
@@ -74,6 +76,7 @@ steps:
 - name: ffdd-ubuntu2004-build
   image: ubuntu:20.04
   commands:
+    - test -d .ci/build && rm -r .ci/build
     - cd .ci
     - bash install_deps.sh
     - bash build_uci.sh
@@ -103,6 +106,7 @@ steps:
 - name: ffdd-ubuntu2204-build
   image: ubuntu:22.04
   commands:
+    - test -d .ci/build && rm -r .ci/build
     - cd .ci
     - bash install_deps.sh
     - bash build_uci.sh
