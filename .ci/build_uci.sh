@@ -5,23 +5,22 @@ test ! -d build && mkdir build ; cd build
 # LIBUBOX
 git clone https://git.openwrt.org/project/libubox.git
 cd libubox || exit 1
-#git checkout 7da66430de3fc235bfc6ebb0b85fb90ea246138d
 git checkout ea56013409d5823001b47a9bba6f74055a6d76a5
 cd ..
 
 # LIBUCI und UCI
 git clone https://git.openwrt.org/project/uci.git
 cd uci || exit 1
-#git checkout ec8d3233948603485e1b97384113fac9f1bab5d6
 git checkout f84f49f00fb70364f58b4cce72f1796a7190d370
 cd ..
 
 
 git clone https://git.openwrt.org/project/ubox.git
-git clone https://git.openwrt.org/project/ubus.git
-
-mkdir BUILD-ubus
+cd ubox ; git checkout 4c7b720b9c63b826fb9404e454ae54f2ef5649d5 ; cd ..
 mkdir BUILD-ubox
+
+git clone https://git.openwrt.org/project/ubus.git
+mkdir BUILD-ubus
 
 
 cp -RPvf ../libubox/debian libubox/
