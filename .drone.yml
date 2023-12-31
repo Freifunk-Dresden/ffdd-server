@@ -71,6 +71,37 @@ steps:
     - test -d .ci/build && rm -r .ci/build
 
 
+- name: ffdd-debian12-build
+  image: debian:12
+  commands:
+    - echo 'deb http://deb.debian.org/debian unstable main' >> /etc/apt/sources.list
+    - cd .ci
+    - cp limit-unstable /etc/apt/preferences.d/limit-unstable
+    - bash install_deps.sh
+    - bash build_uci.sh
+
+- name: ffdd-debian12-deploy
+  image: drillster/drone-rsync
+  settings:
+    hosts:
+      from_secret: HOST
+    port:
+      from_secret: PORT
+    key:
+      from_secret: SSH_PRIVATE_KEY
+    user:
+      from_secret: USER
+    source: .ci/build/*.deb
+    target: /var/www/files/server/packages/debian12/
+    recursive: false
+    delete: false
+
+- name: ffdd-debian12-clear
+  image: debian:12
+  commands:
+    - test -d .ci/build && rm -r .ci/build
+
+
 - name: ffdd-ubuntu2004-build
   image: ubuntu:20.04
   commands:
