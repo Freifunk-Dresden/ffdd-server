@@ -33,11 +33,21 @@ cd BUILD-libubox
 CXX=clang++ CC=clang cmake ../libubox; make; make install
 cd ..
 
+cd libubox
+debuild -uc -us
+cd ..
+dpkg -i ./*.deb
+
 
 mkdir BUILD-uci
 cd BUILD-uci
 CXX=clang++ CC=clang cmake ../uci; make; make install
 cd ..
+
+cd uci
+debuild -uc -us
+cd ..
+dpkg -i ./*.deb
 
 
 cd BUILD-ubus
