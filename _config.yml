@@ -1,4 +1,1 @@
 theme: jekyll-theme-hacker
-exclude:
-  - salt
-  - salt/freifunk/base/ddmesh/var/www_freifunk/sysinfo-json.cgi
