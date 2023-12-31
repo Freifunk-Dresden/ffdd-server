@@ -59,7 +59,6 @@ base:
     - wireguard.backbone
 
     - iperf3
-    - vnstat
     - apache2
     - php
     - letsencrypt

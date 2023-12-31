@@ -1,5 +1,22 @@
 {# clear old obsolete files from old versions #}
 
+remove_old_pkg:
+  pkg.removed:
+    - names:
+      - vnstat
+      - composer
+
+clean_old_vnstat:
+  file.absent:
+    - name: /etc/vnstat.conf
+    - name: /var/lib/vnstat
+    - name: /var/lib/vnstat
+    - name: /opt/vnstat-dashboard
+    - name: /var/www_vnstat/
+    - name: /etc/apache2/conf-available/vnstat.conf
+    - name: /etc/apache2/conf-enabled/vnstat.conf
+
+
 /root/freifunk/vserver-base:
   file.absent
 
