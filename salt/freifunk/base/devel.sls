@@ -31,11 +31,6 @@ devel:
       {# dep. to build fastd2 #}
       - libmnl-dev
 
-{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
-      - libcurl4
-      {# dep. to build fastd2 #}
-      - libmnl-dev
-
 {# workaround for fastd libjson-c-dev #}
 /usr/lib/x86_64-linux-gnu/libjson-c.so.3:
   file.symlink:
@@ -43,6 +38,11 @@ devel:
     - force: true
     - require:
       - pkg: libjson-c-dev
+
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
+      - libcurl4
+      {# dep. to build fastd2 #}
+      - libmnl-dev
 
 {% else %}
       - libcurl3
