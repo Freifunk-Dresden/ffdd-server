@@ -6,29 +6,10 @@ apt:
       - apt
       - ca-certificates
       - unattended-upgrades
-{% if grains['os'] == 'Debian' and not grains['oscodename'] == 'buster' %}
-      - apt-transport-https
-{% endif %}
 
 
 {# sources.list #}
-{% if grains['os'] == 'Debian' and grains['oscodename'] == 'buster' %}
-/etc/apt/sources.list:
-  file.managed:
-    - contents: |
-        ##### Debian Main Repos #####
-        deb http://deb.debian.org/debian/ buster main contrib non-free
-        deb-src http://deb.debian.org/debian/ buster main contrib non-free
-        # stable-updates
-        deb http://deb.debian.org/debian/ buster-updates main contrib non-free
-        deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free
-        # security-updates
-        deb http://deb.debian.org/debian-security buster/updates main contrib non-free
-        deb-src http://deb.debian.org/debian-security buster/updates main contrib non-free
-    - user: root
-    - group: root
-    - mode: 644
-{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
 /etc/apt/sources.list:
   file.managed:
     - contents: |
@@ -46,6 +27,7 @@ apt:
     - user: root
     - group: root
     - mode: 644
+
 {% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
 /etc/apt/sources.list:
   file.managed:
