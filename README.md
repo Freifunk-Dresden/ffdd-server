@@ -125,11 +125,11 @@ bash -c "$(wget https://raw.githubusercontent.com/Freifunk-Dresden/ffdd-server/T
 Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
 
 - `/etc/hostname` (FQDN)
-- `/etc/config/ffdd`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd)
+- [`/etc/config/ffdd`](https://github.com/Freifunk-Dresden/ffdd-server/blob/master/salt/freifunk/base/uci/etc/config/ffdd)
   - servername
   - ifname
   - contact informations
-- Create a Backbone Connection<br />([Freifunk Netzwerk - Backbone Übersicht.](https://wiki.freifunk-dresden.de/index.php/Freifunk_Netzwerk))<br />
+- Create a Backbone Connection<br />([Freifunk Netzwerk - Backbone Übersicht](https://wiki.freifunk-dresden.de/index.php/Freifunk_Netzwerk))<br />
   - fastd `/etc/fastd/peers2/`<br />
     `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`<br />
     or: `/etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
