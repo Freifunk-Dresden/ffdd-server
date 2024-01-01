@@ -2,8 +2,8 @@ Source: libubox
 Section: comm
 Priority: optional
 Maintainer: Yaroslav Petrov <info@lank.me>
-Build-Depends: debhelper (>= 9.20160114), cmake, clang,
-               dh-systemd (>= 1.5), libjson-c-dev
+Build-Depends: debhelper (>= 9.20160709), cmake, clang,
+               libjson-c-dev
 Standards-Version: 1.0.0
 Homepage: https://openwrt.org/
 Vcs-Git: https://git.openwrt.org/project/libubox.git
