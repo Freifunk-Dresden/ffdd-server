@@ -1,8 +1,0 @@
-theme: jekyll-theme-hacker
-
-exclude:
-  - salt/
-  - CHANGELOG.md
-  - CODE_OF_CONDUCT.md
-  - LICENSE
-  - init_server.sh
