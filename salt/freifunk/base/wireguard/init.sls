@@ -12,7 +12,7 @@
 /etc/apt/sources.list.d/debian_unstable.list:
   file.absent
 
-/etc/apt/preferences.d/limit-unstable
+/etc/apt/preferences.d/limit-unstable:
   file.absent
 
 wireguard_dkms:
