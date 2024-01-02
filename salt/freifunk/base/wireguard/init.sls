@@ -8,8 +8,23 @@
   file.absent
 {% endif %}
 
-{# Debian Pin-Prio for unstable Repo #}
-{% if grains['os'] == 'Debian' %}
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
+/etc/apt/sources.list.d/debian_unstable.list:
+  file.absent
+
+/etc/apt/preferences.d/limit-unstable
+  file.absent
+
+wireguard_dkms:
+  pkg.removed:
+    - names:
+      - wireguard-dkms
+      - dkms
+{% endif %}
+
+
+{# Debian <12 Pin-Prio for unstable Repo #}
+{% if grains['os'] == 'Debian' and not grains['oscodename'] == 'bookworm' %}
 unstable_pkg_prio:
   cmd.run:
     - name: "printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable"
@@ -17,13 +32,13 @@ unstable_pkg_prio:
 {% endif %}
 
 wireguard:
-  {% if grains['os'] == 'Debian' %}
+  {% if grains['os'] == 'Debian' and not grains['oscodename'] == 'bookworm' %}
   pkgrepo.managed:
-    - humanname: Wireguard
+    - humanname: debian-unstable
     - name: deb http://deb.debian.org/debian/ unstable main
     - dist: unstable
-    - file: /etc/apt/sources.list.d/wireguard.list
-    - unless: "[ -f /etc/apt/sources.list.d/wireguard.list ]"
+    - file: /etc/apt/sources.list.d/debian_unstable.list
+    - unless: "[ -f /etc/apt/sources.list.d/debian_unstable.list ]"
   {% endif %}
 
   pkg.installed:
@@ -127,4 +142,3 @@ wgvpn1_service_dead:
     - require:
       - pkg: wireguard
       - file: /etc/config/ffdd
-      - file: /etc/config/ffdd_sample
