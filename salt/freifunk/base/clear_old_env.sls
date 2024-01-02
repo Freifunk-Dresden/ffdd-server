@@ -20,7 +20,7 @@ clean_old_vnstat:
 /root/freifunk/vserver-base:
   file.absent
 
-/etc/apt/sources.list.d/wireguard.list
+/etc/apt/sources.list.d/wireguard.list:
   file.absent
 
 
