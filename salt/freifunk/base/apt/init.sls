@@ -6,7 +6,9 @@ apt:
       - apt
       - ca-certificates
       - unattended-upgrades
-
+{% if grains['os'] == 'Debian' %}
+      - apt-transport-https
+{% endif %}
 
 {# sources.list #}
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
