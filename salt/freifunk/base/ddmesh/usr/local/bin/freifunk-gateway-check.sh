@@ -83,13 +83,13 @@ printf 'LAN:%s via %s\n' "$default_lan_ifname" "$default_lan_gateway"
 for ifname in vpn0 vpn1
 do
 	eval default_"$ifname"_ifname="$ifname"
-	eval default_"$ifname"_gateway="$(ip route list table gateway_pool | sed -n "/default via [0-9.]\+ dev $ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
+	eval default_"$ifname"_gateway="$(ip route list table gateway_pool 2>/dev/null | sed -n "/default via [0-9.]\+ dev $ifname/{s#.*via \([0-9.]\+\).*#\1#p}")"
 	eval valid_ifname=\$default_"$ifname"_ifname
 	eval valid_gateway=\$default_"$ifname"_gateway
 
 	#in case we do not have a "via", replace it with "none". this is checked later
 	if [ -z "$valid_gateway" ]; then
-		valid_gateway="$(ip route list table gateway_pool | sed -n "/default dev $ifname/{s#.*#none#p}")"
+		valid_gateway="$(ip route list table gateway_pool 2>/dev/null | sed -n "/default dev $ifname/{s#.*#none#p}")"
 	fi
 	if [ -n "$valid_ifname" ] && [ -n "$valid_gateway" ]; then
 		default_vpn_route_list="$default_vpn_route_list $valid_gateway:$valid_ifname"
