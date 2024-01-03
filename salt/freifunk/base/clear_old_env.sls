@@ -3,18 +3,7 @@
 remove_old_pkg:
   pkg.removed:
     - names:
-      - vnstat
       - composer
-
-clean_old_vnstat:
-  file.absent:
-    - name: /etc/vnstat.conf
-    - name: /var/lib/vnstat
-    - name: /var/lib/vnstat
-    - name: /opt/vnstat-dashboard
-    - name: /var/www_vnstat/
-    - name: /etc/apache2/conf-available/vnstat.conf
-    - name: /etc/apache2/conf-enabled/vnstat.conf
 
 
 /root/freifunk/vserver-base:
@@ -23,6 +12,12 @@ clean_old_vnstat:
 /etc/apt/sources.list.d/wireguard.list:
   file.absent
 
+
+/etc/apache2/conf-available/vnstat.conf:
+  file.absent
+
+/etc/apache2/conf-enabled/vnstat.conf:
+  file.absent
 
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.absent:
@@ -99,7 +94,6 @@ clean_old_vnstat:
 /etc/nvram.conf:
   file.absent
 
-
 /usr/bin/nvram:
   file.absent
 
@@ -155,9 +149,16 @@ clean_old_vnstat:
   file.absent
 
 
+/opt/vnstat-dashboard:
+  file.absent
+
+
 /var/statistic:
   file.absent
 
 /var/www_freifunk/robots.txt:
   file.absent:
     - onlyif: grep -q '# Alle Robots' /var/www_freifunk/robots.txt
+
+/var/www_vnstat:
+  file.absent
