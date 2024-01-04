@@ -134,7 +134,8 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
     `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`<br />
     or: `/etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
   - wireguard `/etc/wireguard/`<br />
-    `/usr/local/bin/wg-backbone.sh connect <host> <port> <node> <key>`
+    `/usr/local/bin/wg-backbone.sh register <vpnX>.freifunk-dresden.de`<br />
+    or: `/usr/local/bin/wg-backbone.sh connect <host> <port> <node> <key>`
     
 - VPN-Gateway Service
   - ***Notice: OVPN/WG supports interface `vpn0` and `vpn1`***
