@@ -163,7 +163,7 @@ do
 
 			/etc/init.d/S52batmand gateway
 
-			# select correct dns if gateway is via vpn. 
+			# select correct dns if gateway is via vpn.
 			# when server provides internet directly. dns will be the local host
 			if [ "$dev_is_vpn" = "1" ]; then
 				rm -f "$BIND_FORWARDER_FILE"

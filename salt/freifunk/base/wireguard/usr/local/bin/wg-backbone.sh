@@ -255,7 +255,7 @@ case $1 in
 		;;
 
 	register)
-		mynode="$(uci -q get ffdd.sys.ddmesh_node)"	
+		mynode="$(uci -q get ffdd.sys.ddmesh_node)"
 		host="$2"
 		[ -z "$host" ] && return 1
 
