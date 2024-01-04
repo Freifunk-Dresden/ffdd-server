@@ -16,9 +16,6 @@ remove_old_pkg:
 /etc/apache2/conf-available/vnstat.conf:
   file.absent
 
-/etc/apache2/conf-enabled/vnstat.conf:
-  file.absent
-
 /etc/apache2/sites-enabled/001-freifunk.conf:
   file.absent:
     - onlyif: test ! -L /etc/apache2/sites-enabled/001-freifunk.conf
@@ -26,7 +23,6 @@ remove_old_pkg:
 /etc/apache2/sites-enabled/001-freifunk-ssl.conf:
   file.absent:
     - onlyif: test ! -L /etc/apache2/sites-enabled/001-freifunk-ssl.conf
-
 
 /etc/apache2/conf-enabled/bind_stats_access.incl:
   file.absent:
