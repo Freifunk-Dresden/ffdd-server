@@ -32,7 +32,7 @@ eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
 MESH_NETWORK_ID="$(uci -qX get ffdd.sys.network_id)"
 test -z "${MESH_NETWORK_ID}" && MESH_NETWORK_ID="0"
 
-# check if community is a community server that forwards any traffic from one 
+# check if community is a community server that forwards any traffic from one
 # sub-community to any other (via bgb protocoll or similar)
 COMMUNITY_SERVER="$(uci -qX get ffdd.sys.community_server)"
 test -z "${COMMUNITY_SERVER}" && COMMUNITY_SERVER=0
@@ -67,7 +67,7 @@ if [ "$1" = "start" ]; then
 	ip addr add "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
 	ip link set dev "$PRIMARY_IF" up
 
-	# add ipip tunnel interface that can be used by clients to route internet traffic. 
+	# add ipip tunnel interface that can be used by clients to route internet traffic.
 	# - improves upload speed and download speed (ack) (bmxd normally creates a tunnel where data
 	#	are put in to forward it to gateway. this copies data between kernel/user buffer two times
 	#	and increase the bmxd processor load extremly
@@ -105,9 +105,9 @@ OPTS="${OPTS} --network $_ddmesh_meshnet --netid $MESH_NETWORK_ID --community_ga
 # 10s OGM interval, purge timeout 35 -> 3 OGM
 # 5s OGM interval, purge timeout 35 -> 7 OGM
 OPTS="${OPTS} --hop_penalty 5 --lateness_penalty 10 --wireless_ogm_clone 100 --udp_data_size 512 --ogm_interval 5000 --purge_timeout 35"
-OPTS="${OPTS} --path_hysteresis 3"
+OPTS="${OPTS} --path_hysteresis 3 ${PREFERED_GATEWAY}"
 DAEMON_OPTS="${OPTS} $_IF"
- 
+
 test -x "$DAEMON_PATH"/"$DAEMON" || exit 0
 
 case "$ARG1" in
