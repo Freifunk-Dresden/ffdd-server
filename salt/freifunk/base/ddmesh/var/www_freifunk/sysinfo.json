@@ -5,7 +5,6 @@ echo ''
 
 BMXD_DB_PATH='/var/lib/freifunk/bmxd'
 
-
 ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
 test -z "$ddmesh_node" && exit
 
@@ -122,9 +121,12 @@ EOM
 					echo "			\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
 
-				if [[ "$iface" =~ "tbb_wg"* ]]; then
-					iface_alias="$iface"
-					echo "			\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+				if [ "$iface" = "tbb_wg" ]; then
+					echo "			\"traffic_$iface\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+				fi
+
+				if [[ "$iface" =~ "vpn"* ]]; then
+					echo "			\"traffic_wg_$iface\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
 			done
 
