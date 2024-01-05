@@ -108,7 +108,7 @@ cat<<EOM
 			"dhcp_count":0,
 			"dhcp_lease":"0",
 EOM
-			# fastd kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann
+			# wan/fastd2/wireguard kann nicht via firewall rules geazhlt werden, da ich hier nicht zwischen rx/tx unterscheiden kann
 			# Also hier fuer die server, das interface befragen
 			for iface in $(sed -n '3,${s#^[	 ]*\([^:]\+\).*#\1#p}' /proc/net/dev)
 			do
@@ -119,6 +119,11 @@ EOM
 
 				if [ "$iface" = "$tbb_fastd_ifname" ]; then
 					iface_alias="tbb_fastd"
+					echo "			\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
+				fi
+
+				if [[ "$iface" =~ "tbb_wg"* ]]; then
+					iface_alias="$iface"
 					echo "			\"traffic_$iface_alias\": \"$(grep "$iface": /proc/net/dev | sed -n 's#.*:[ ]*\([0-9]\+\)\([ ]\+\([0-9]\+\)\)\{8\}.*#\1,\3#;p')\","
 				fi
 			done
