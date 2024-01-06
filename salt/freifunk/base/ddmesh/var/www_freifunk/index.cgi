@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DATE="27.11.2019"
+export VERSION="$(cat /etc/freifunk-server-version)"
 export TITLE="Allgemein &gt; Nodes"
 . ./cgi-bin-pre.cgi
 
