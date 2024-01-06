@@ -129,8 +129,8 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
   - servername
   - ifname
   - contact informations
-- Create a Backbone Connection<br />([Freifunk Netzwerk - Backbone Übersicht](https://wiki.freifunk-dresden.de/index.php/Freifunk_Netzwerk))<br />
-  - fastd `/etc/fastd/peers2/`<br />
+- Create your first Backbone Connection ([Freifunk Netzwerk - Backbone Übersicht](https://wiki.freifunk-dresden.de/index.php/Freifunk_Netzwerk))<br />
+  - fastd2 `/etc/fastd/peers2/`<br />
     `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`<br />
     or: `/etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
   - wireguard `/etc/wireguard/`<br />
