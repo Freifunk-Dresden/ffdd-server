@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export DATE="27.11.2019"
+export VERSION="$(cat /etc/freifunk-server-version)"
 export TITLE="Allgemein &gt; Status"
 
 ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
