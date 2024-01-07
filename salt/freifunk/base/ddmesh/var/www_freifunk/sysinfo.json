@@ -60,7 +60,7 @@ function combined_statistics() {
 			ifname=${entry#*=}
 			ifname=${ifname/+/}
 
-			[ -n "$ifname" ] && ifname="$(basename /sys/class/net/${ifname}*)"
+			[ -n "$ifname" ] && ifname="$(basename /sys/class/net/${ifname})"
 			ifpath="/sys/class/net/${ifname}"
 
 			if [ -n "${ifname}" -a -d ${ifpath} ]; then
