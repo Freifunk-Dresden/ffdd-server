@@ -1,6 +1,9 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
 
+## version 1.5.0rc3
+	- switch to new sysinfo.json version that combines network statistics and makes it interface independent
+
 ## version 1.5.0rc2
 	- remove support for debian 10
 	- add support for debian 12
