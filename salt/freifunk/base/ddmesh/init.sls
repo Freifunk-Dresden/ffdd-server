@@ -61,13 +61,6 @@
     - group: root
     - mode: 755
 
-/usr/local/bin/freifunk-manuell_update.sh:
-  file.managed:
-    - source: salt://ddmesh/usr/local/bin/freifunk-manuell_update.sh
-    - user: root
-    - group: root
-    - mode: 755
-
 /usr/local/bin/freifunk-gateway-check.sh:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/freifunk-gateway-check.sh
@@ -89,9 +82,23 @@
     - group: root
     - mode: 755
 
+/usr/local/bin/freifunk-manuell_update.sh:
+  file.managed:
+    - source: salt://ddmesh/usr/local/bin/freifunk-manuell_update.sh
+    - user: root
+    - group: root
+    - mode: 755
+
 /usr/local/bin/freifunk-register-local-node.sh:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/freifunk-register-local-node.sh
+    - user: root
+    - group: root
+    - mode: 755
+
+freifunk-utils-network-info.sh:
+  file.managed:
+    - source: salt://ddmesh/usr/local/bin/freifunk-utils-network-info.sh
     - user: root
     - group: root
     - mode: 755
