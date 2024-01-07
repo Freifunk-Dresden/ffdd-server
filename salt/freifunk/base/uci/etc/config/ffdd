@@ -70,6 +70,10 @@ config 'ffdd' 'sys'
 	option 'contact_email' 'email'
 	option 'contact_note' 'VPN X'
 
+	# group_id is only used by users that like to group some devices. group_id is only provided to sysinfo.json
+	# so that any other may use it in for instance in maps or hotspot lists (leipzig does uses this)
+	option 'group_id' '0'
+
 config fastd 'fastd'
 	# this is the secret key which is used to decrypt secured backbone connection
 	# the corresponding public key should be given to the peers, so those can encrpyt/connect to this server
