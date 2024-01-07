@@ -96,7 +96,7 @@
     - group: root
     - mode: 755
 
-freifunk-utils-network-info.sh:
+/usr/local/bin/freifunk-utils-network-info.sh:
   file.managed:
     - source: salt://ddmesh/usr/local/bin/freifunk-utils-network-info.sh
     - user: root
