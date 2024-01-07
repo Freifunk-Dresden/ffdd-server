@@ -119,10 +119,6 @@ function combined_statistics() {
 			"vpn_rx":"${stat_vpn_rx}",
 			"vpn_tx":"${stat_vpn_tx}",
 			"details": {
-				"wifi_mesh_2g_rx":"0",
-				"wifi_mesh_2g_tx":"0",
-				"wifi_mesh_5g_rx":"0",
-				"wifi_mesh_5g_tx":"0",
 				"backbone_mesh_wg_rx":"${stat_backbone_mesh_wg_rx}",
 				"backbone_mesh_wg_tx":"${stat_backbone_mesh_wg_tx}",
 				"backbone_mesh_fastd_rx":"${stat_backbone_mesh_fastd_rx}",
