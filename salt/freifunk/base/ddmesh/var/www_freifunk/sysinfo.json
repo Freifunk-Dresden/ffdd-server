@@ -68,6 +68,13 @@ function combined_statistics() {
 				rx="$(cat ${ifpath}/statistics/rx_bytes)"
 				tx="$(cat ${ifpath}/statistics/tx_bytes)"
 
+				# fix statistic when no connections is established
+				# fastd, ffgw.
+				if [ "$rx" = "0" -o "$tx" = "0" ]; then
+					rx="0"
+					tx="0"
+				fi
+
 				# collect data
 				case "$net" in
 					wan)
@@ -82,8 +89,6 @@ function combined_statistics() {
 					;;
 
 					backbone_fastd)
-						# fix fastd statistic when no connections is established
-						test "$rx" = "0" && tx="0"
 						stat_backbone_mesh_fastd_rx=$((stat_backbone_mesh_fastd_rx + rx))
 						stat_backbone_mesh_fastd_tx=$((stat_backbone_mesh_fastd_tx + tx))
 					;;
