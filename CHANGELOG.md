@@ -7,6 +7,8 @@
 ## version 1.5.0rc2
 	- remove support for debian 10
 	- add support for debian 12
+	- add tbb_wg and wg_vpn* traffic in sysinfo.json
+	- update build uci script
 	- cleanup some unneeded code snippets
 	- smaller fixes
 
@@ -20,6 +22,7 @@
 	- fix sudoers for iptables which is used by sysinfo.json to determine gw traffic (ovpn)
 	- fastd: add config to /etc/config/ffdd to disable fastd
 	- wireguard: sync wg registration (script) with the one used in firmware (to easier setting up connections between servers)
+		- add "wg-backbone.sh register" cmd
 
 ## version 1.4.0
 
