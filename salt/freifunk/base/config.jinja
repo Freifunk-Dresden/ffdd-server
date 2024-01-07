@@ -4,6 +4,14 @@
 {# ffip for Hotspot-NAT #}
 {% set ffddip = '157.90.5.163' %}
 
+{# define bmxd version #}
+{% set bmxd_version = '1.4-06cc61a82822f4dc98410fef1e00b81f' %}
+
+{# define wg_accept_cgi Version #}
+{% set wg_accept_cgi_version = 'v1.2.3' %}
+{% set wg_accept_cgi_sha1_hash = 'A7D33B3785BD6DE81E939F3C6967246356ACF13F' %}
+
+
 {% set install_dir = '/srv/ffdd-server' %}
 
 {% set freifunk_dl_url = 'http://download.freifunk-dresden.de/server/packages' %}
@@ -32,21 +40,15 @@
 {% set apache_ddos_prevent = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.apache_ddos_prevent || true') %}
 
 
+{# check hostnamectl #}
+{% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
+
 {# ctime - used for crontab minutes #}
 {% if nodeid != '' and nodeid != '-' %}
 {%- set ctime = salt['cmd.shell']('expr '~ nodeid ~' % 60 || true') %}
 {% else %}
 {% set ctime = '1' %}
 {% endif %}
-
-
-{# check hostnamectl #}
-{% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
-
-{# wg_accept_cgi Version #}
-{% set wg_accept_cgi_version = 'v1.2.3' %}
-{% set wg_accept_cgi_sha1_hash = 'A7D33B3785BD6DE81E939F3C6967246356ACF13F' %}
-
 
 {# set ffl_nodeid_list (vpn gateways) for apache serveralias #}
 {% set ffl_nodeid_list = ['51020', '51026'] %}
