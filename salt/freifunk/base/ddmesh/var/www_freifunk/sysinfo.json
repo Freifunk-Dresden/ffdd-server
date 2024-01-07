@@ -56,7 +56,14 @@ function combined_statistics() {
 			net=${entry%%=*}
 			net=${net#net_}
 			ifname=${entry#*=}
-			ifname=${ifname/+/}
+
+			# on router (openwrt network/firewall specific):
+			#   wg uses tbbwg+ as interface name for all single interfaces
+			#   as long as we do not support wireguard vpn exit on router
+			#   I have to keep '+' in interface name. (openvpn was removed because of huge resource demands)
+			# on server: n/a
+			#   ifname=${ifname/+/}
+
 
 			[ -n "$ifname" ] && ifname="$(basename /sys/class/net/${ifname})"
 			[ -z "$ifname" ] && continue
