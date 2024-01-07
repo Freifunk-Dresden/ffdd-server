@@ -47,8 +47,6 @@ function combined_statistics() {
 	stat_backbone_mesh_wg_tx=0
 	stat_backbone_mesh_fastd_rx=0
 	stat_backbone_mesh_fastd_tx=0
-	stat_gateway_rx=0
-	stat_gateway_tx=0
 	stat_vpn_rx=0
 	stat_vpn_tx=0
 
@@ -61,6 +59,7 @@ function combined_statistics() {
 			ifname=${ifname/+/}
 
 			[ -n "$ifname" ] && ifname="$(basename /sys/class/net/${ifname})"
+			[ -z "$ifname" ] && continue
 			ifpath="/sys/class/net/${ifname}"
 
 			if [ -n "${ifname}" -a -d ${ifpath} ]; then
@@ -69,7 +68,7 @@ function combined_statistics() {
 				tx="$(cat ${ifpath}/statistics/tx_bytes)"
 
 				# fix statistic when no connections is established
-				# fastd, ffgw.
+				# e.g. fastd
 				if [ "$rx" = "0" -o "$tx" = "0" ]; then
 					rx="0"
 					tx="0"
@@ -93,11 +92,6 @@ function combined_statistics() {
 						stat_backbone_mesh_fastd_tx=$((stat_backbone_mesh_fastd_tx + tx))
 					;;
 
-					ffgw)
-						stat_gateway_rx=$((stat_gateway_rx + rx))
-						stat_gateway_tx=$((stat_gateway_tx + tx))
-					;;
-
 					vpn1|vpn2)
 						stat_vpn_rx=$((stat_vpn_rx + rx))
 						stat_vpn_tx=$((stat_vpn_tx + tx))
@@ -115,8 +109,6 @@ function combined_statistics() {
 			"wan_tx":"${stat_wan_tx}",
 			"backbone_mesh_rx":"${stat_backbone_mesh_rx}",
 			"backbone_mesh_tx":"${stat_backbone_mesh_tx}",
-			"gateway_rx":"${stat_gateway_rx}",
-			"gateway_tx":"${stat_gateway_tx}",
 			"vpn_rx":"${stat_vpn_rx}",
 			"vpn_tx":"${stat_vpn_tx}",
 			"details": {
