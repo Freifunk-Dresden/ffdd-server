@@ -6,7 +6,6 @@
 # this file is derived from the firmware file ddmesh-utils-network-info.sh and only
 # implements the "list". Other functionalities are not used on server
 
-
 net_wan_ifname=$(uci -qX get ffdd.sys.ifname)
 net_backbone_wg_ifname=tbb_wg
 net_backbone_fastd_ifname=tbb_fastd2
