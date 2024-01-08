@@ -12,6 +12,7 @@ eval "$check_cidr"
 # exclude network != FFDD-Network and NAT'ed Rules from ipX/nodeX.freifunk-dresden.de
 if [ "$?" -eq 0 ] && [ "$IP" != '10.200.0.1' ]; then
 	cat <<-EOM
+		<TR><TD><BIG CLASS="plugin">Statistik</BIG></TD></TR>
 		<TR><TD><DIV CLASS="plugin"><A CLASS="plugin" TARGET="_blank" HREF="/bind_stats">DNS Stats</A></DIV></TD></TR>
 		<TR><TD><DIV CLASS="plugin"><A CLASS="plugin" TARGET="_blank" HREF="/monitorix">Monitorix</A></DIV></TD></TR>
 	EOM
