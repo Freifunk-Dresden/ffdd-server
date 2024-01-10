@@ -16,6 +16,8 @@ WAN_DEV="$(uci -qX get ffdd.sys.ifname)"
 
 eval "$(ddmesh-ipcalc.sh -n $(uci -qX get ffdd.sys.ddmesh_node))"
 
+LOG="$(uci -qX get ffdd.sys.firewall_log)"
+
 
 if [ "$1" = "start" ]; then
 
@@ -99,7 +101,9 @@ if [ "$1" = "start" ]; then
 	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p 4 -j ACCEPT
 	ip6tables -w -A INPUT -i "$BACKBONE_DEV" -p 41 -j ACCEPT
 
-	ip6tables -w -A INPUT -j LOG --log-prefix "DROP IPv6 INPUT: "
+	if [ "$LOG" = '1' ]; then
+		ip6tables -w -A INPUT -j LOG --log-prefix "DROP IPv6 INPUT: "
+	fi
 	ip6tables -w -A INPUT -j DROP
 
 
@@ -119,7 +123,9 @@ if [ "$1" = "start" ]; then
 	ip6tables -w -A FORWARD -i bmx+ -o vpn+ -j ACCEPT
 
 	#block any other
-	ip6tables -w -A FORWARD -j LOG --log-prefix "DROP IPv6 FORWARD: "
+	if [ "$LOG" = '1' ]; then
+		ip6tables -w -A FORWARD -j LOG --log-prefix "DROP IPv6 FORWARD: "
+	fi
 	ip6tables -w -A FORWARD -j DROP
 
 #----- setup OUTPUT rules -----

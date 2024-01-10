@@ -14,6 +14,7 @@
 	test -n "$(uci -qX get ffdd.sys.ddmesh_disable_gateway)" && uci -q delete ffdd.sys.ddmesh_disable_gateway
 	test -z "$(uci -qX get ffdd.sys.announce_gateway)" && uci -q set ffdd.sys.announce_gateway=0
 	test -z "$(uci -qX get ffdd.sys.group_id)" && uci -q set ffdd.sys.group_id=0
+	test -z "$(uci -qX get ffdd.sys.firewall_log)" && uci -q set ffdd.sys.firewall_log=0
 
 
 ## ffdd.wireguard

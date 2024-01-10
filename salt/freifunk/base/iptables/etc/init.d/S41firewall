@@ -19,9 +19,10 @@ WAN_DEV="$(uci -qX get ffdd.sys.ifname)"
 # see S53batman for more info.
 FFGW_IF='ffgw'
 
-
-
 eval "$(ddmesh-ipcalc.sh -n "$(uci -qX get ffdd.sys.ddmesh_node)")"
+
+LOG="$(uci -qX get ffdd.sys.firewall_log)"
+
 
 # iptables command
 IPT="$(command -v iptables)"
@@ -50,7 +51,7 @@ if [ "$1" = "start" ]; then
 
 	#masquerade all to vpn tunnel: rules are set by openvpn/wireguard scripts
 
-	# allow local internet 
+	# allow local internet
 	if [ "$(uci -qX get ffdd.sys.announce_gateway)" = "1" ]; then
 		$IPT -w -t nat -A POSTROUTING -o ${WAN_DEV} -j MASQUERADE
 	fi
@@ -118,7 +119,9 @@ if [ "$1" = "start" ]; then
 	#drop packages before logging
 	$IPT -w -A INPUT -i "$WAN_DEV" -p udp --dport 137 -j DROP
 
-	$IPT -w -A INPUT -j LOG --log-prefix "DROP IPv4 INPUT: "
+	if [ "$LOG" = '1' ]; then
+		$IPT -w -A INPUT -j LOG --log-prefix "DROP IPv4 INPUT: "
+	fi
 	$IPT -w -A INPUT -j DROP
 
 #----- setup FORWARD rules -----
@@ -157,13 +160,15 @@ if [ "$1" = "start" ]; then
 	$IPT -w -A FORWARD -i ${FFGW_IF} ! -s ${_ddmesh_meshnet} -j DROP
 	$IPT -w -A FORWARD -i ${FFGW_IF} -o vpn+ -j ACCEPT
 
-	# allow local internet 
+	# allow local internet
 	if [ "$(uci -qX get ffdd.sys.announce_gateway)" = "1" ]; then
 		$IPT -w -A FORWARD -i ${FFGW_IF} -o ${WAN_DEV} -j ACCEPT
 	fi
 
 	#block any other
-	$IPT -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
+	if [ "$LOG" = '1' ]; then
+		$IPT -w -A FORWARD -j LOG --log-prefix "DROP IPv4 FORWARD: "
+	fi
 	$IPT -w -A FORWARD -j DROP
 
 #----- setup OUTPUT rules -----

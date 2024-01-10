@@ -2,7 +2,8 @@
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
 
 ## version 1.5.0rc3
-	- switch to new sysinfo.json version that combines network statistics and makes it interface independent
+	- switch to new sysinfo.json version 18 that combines network statistics and makes it interface independent
+	- add config option to enable the firewall log
 
 ## version 1.5.0rc2
 	- remove support for debian 10

@@ -74,6 +74,9 @@ config 'ffdd' 'sys'
 	# so that any other may use it in for instance in maps or hotspot lists (leipzig does uses this)
 	option 'group_id' '0'
 
+	# firewall log enabled (1) or disabled (0)
+	option 'firewall_log' '0'
+
 config fastd 'fastd'
 	# this is the secret key which is used to decrypt secured backbone connection
 	# the corresponding public key should be given to the peers, so those can encrpyt/connect to this server
