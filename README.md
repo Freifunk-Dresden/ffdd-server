@@ -178,7 +178,7 @@ Dies gewährleistet dass Änderungen sowie Bugfixes aber auch Neuerungen schnell
 
 ### Manuell Update
 Das Autoupdate kann zur jeder Zeit abgeschaltet werden. Dazu muss dieses lediglich über das folgende Kommando in der `/etc/config/ffdd` deaktiviert werden:<br>
-`uci set ffdd.sys.autoupdate=0`
+`uci set ffdd.sys.autoupdate=0 ; uci commit`
 
 **Ein manuelles Update durchzuführen:**<br />
 use: `/srv/ffdd-server/init_server.sh` (incl. OS Upgrade)<br />
