@@ -28,17 +28,17 @@ config 'ffdd' 'sys'
 	# vserver network interface; this depends on vserver provider (hoster)
 	option 'ifname' 'eth0'
 
-	# Server/bmxd is connected to specfic sub-community. Value 0 means no sub community and accepts 
+	# Server/bmxd is connected to specfic sub-community. Value 0 means no sub community and accepts
 	# all old bmxd packages from old firmware versions.
 	# If server sets this to a valud different from zero, new firmware version (from 7.1.0) only accept
 	# messages for this sub community network.
 	# A sub-community is a group of routers that are connected directly, but do not have a direct connection
-	# to other routers from other groups (differewnt network_id). This is used to split up a large network
+	# to other routers from other groups (different network_id). This is used to split up a large network
 	# into small pieces to reduce the load of routers in the whole network
 	option 'network_id' '0'
 
 	# If a server sets this to '1' the server/bmxd announce the server/gateway as a community gateway.
-	# This gateway is then RESPONSIBLE and MUST ENSURE that there are working connections to 
+	# This gateway is then RESPONSIBLE and MUST ENSURE that there are working connections to
 	# ALL sub-communities. This enables clients on a sub-communitiy to communitcate with other sub-communities.
 	option 'community_server' '0'
 
@@ -46,7 +46,7 @@ config 'ffdd' 'sys'
 	# To disable tunneled clear text passwords and allow only pub-key auth.
 	option 'ssh_pwauth' '1'
 
-	# To disable ddos protection in apache2
+	# To disable ddos protection in apache2 (0=off 1=on)
 	option 'apache_ddos_prevent' '1'
 
 	# DNS-Server
@@ -84,7 +84,7 @@ config fastd 'fastd'
 	option 'secret' '-'
 	option 'public' '-'
 
-	# allows to diable fastd. sysinfo.json will return "---disabled---" as public key to show user no valid key
+	# allows to disable fastd. sysinfo.json will return "---disabled---" as public key to show user no valid key
 	option 'disable' '0'
 
 	# to accept all in comming backbone connection, set this to 0.
@@ -110,4 +110,3 @@ config wireguard 'wireguard'
 
 	# ext_port is retured when user registers with backbone
 	option 'ext_port' '5003'
-
