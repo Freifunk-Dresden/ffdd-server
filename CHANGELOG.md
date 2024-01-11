@@ -1,6 +1,36 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
 
+## version 1.5.0
+	- update bind (dns) zonefiles
+	- add vpn3le to ffl nodelist
+
+---
+
+Notes for Debian OS upgrade from 11 to 12:
+```bash
+# update the current system
+apt update -y ; apt dist-upgrade -y ; apt clean
+
+# upgrade to debian 12
+sed -i 's/bullseye/bookworm/g' /etc/apt/sources.list
+apt update -y ; apt dist-upgrade -y
+
+# do not panic! the error
+# E: Sub-process /usr/bin/dpkg returned an error code (1)
+# is not a real Problem and will be fixed in the next salt runs!
+
+apt clean
+reboot
+```
+after rebooting:
+```bash
+# install new deps.
+/usr/local/bin/freifunk-manuell_update.sh
+
+apt update -y ; apt dist-upgrade -y
+```
+
 ## version 1.5.0rc3
 	- switch to new sysinfo.json version 18 that combines network statistics and makes it interface independent
 	- add config option to enable the firewall log
