@@ -18,6 +18,7 @@
     - user: root
     - group: root
     - mode: 600
+    - attrs: i
     - replace: false
 
 {# cron #}

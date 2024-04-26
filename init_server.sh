@@ -232,7 +232,7 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		20.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu20
 				install_uci ubuntu20
 		;;
-		22.04*) PKGMNGR='apt-get' ;
+		22.04*) PKGMNGR='apt-get'
 				install_uci ubuntu22
 		;;
 		*)		print_not_supported_os ;;
@@ -369,7 +369,7 @@ if [ -f "$INIT_DATE_FILE" ]; then
 else
 	printf '\n### Start Initial System .. please wait! Coffee Time ~ 10min ..\n'
 	printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
-	chmod 600 "$INIT_DATE_FILE"
+	chmod 600 "$INIT_DATE_FILE" ; chattr +i "$INIT_DATE_FILE"
 	_init_run='1'
 fi
 
@@ -390,8 +390,7 @@ fi
 
 if [ "$OPT_UPDATE" = '0' ]; then
 	# reset temporary disabled autoupdate
-	uci set ffdd.sys.autoupdate="$tmp_au"
-	uci commit
+	uci set ffdd.sys.autoupdate="$tmp_au" ; uci commit
 fi
 
 printf '\n### Cleanup System ..\n\n'
