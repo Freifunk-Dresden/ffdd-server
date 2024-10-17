@@ -107,6 +107,7 @@ PublicKey = $WG_PEER_PUBLIC_KEY
 AllowedIPs = $WG_PEER_ALLOWED_IPS
 Endpoint = $WG_PEER_ENDPOINT
 $WG_PEER_PRE_SHARED_KEY
+PersistentKeepalive = 25
 
 EOM
 
