@@ -5,7 +5,7 @@
 ;;
 $TTL 28800
 @       IN  SOA ns1.ffdd. root.ffdd. (
-                1704960662 ; Serial
+                1729754769 ; Serial
                 10800 ; Refresh
                 3600 ; Retry
                 604800 ; Expire
@@ -19,6 +19,7 @@ $TTL 28800
 9       IN  PTR     vpn5.ffdd.
 16      IN  PTR     vpn8.ffdd.
 18      IN  PTR     vpn6.ffdd.
+19      IN  PTR     vpn21.ffdd.
 20      IN  PTR     vpn19.ffdd.
 21      IN  PTR     vpn1.ffl.
 27      IN  PTR     vpn2.ffl.
