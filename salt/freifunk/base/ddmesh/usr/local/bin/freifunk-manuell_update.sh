@@ -1,6 +1,6 @@
 #!/bin/sh
 
-REV="T_RELEASE_latest"
+REV='T_RELEASE_latest'
 REPO_URL='https://github.com/Freifunk-Dresden/ffdd-server'
 INSTALL_DIR='/srv/ffdd-server'
 

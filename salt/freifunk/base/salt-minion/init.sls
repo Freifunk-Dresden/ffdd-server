@@ -66,10 +66,10 @@ salt-minion:
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         MAILTO=""
         #
-        # Execute a local salt-call every hour
-        {{ ctime }} */1 * * *  root  nice -n19 /usr/bin/salt-call state.highstate --local
         # Execute after boot
         @reboot       root  nice -n19 /usr/bin/salt-call state.highstate --local
+        # Execute a regular salt-call
+        {{ ctime }} */1 * * *  root  nice -n19 /usr/bin/salt-call state.highstate --local
     - user: root
     - group: root
     - mode: 600

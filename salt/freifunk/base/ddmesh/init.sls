@@ -21,6 +21,23 @@
     - attrs: i
     - replace: false
 
+/etc/ssl/certs/ca-root-ffdd.pem:
+  file.managed:
+    - source: salt://ddmesh/etc/ssl/certs/ca-root-ffdd.crt
+    - user: root
+    - group: root
+    - mode: 644
+
+/var/lib/freifunk:
+  file.directory:
+    - user: freifunk
+    - group: freifunk
+    - file_mode: 775
+    - dir_mode: 755
+    - require:
+      - user: freifunk
+
+
 {# cron #}
 /etc/cron.d/freifunk:
   file.managed:
@@ -103,23 +120,6 @@
     - user: root
     - group: root
     - mode: 755
-
-/etc/ssl/certs/ca-root-ffdd.pem:
-  file.managed:
-    - source: salt://ddmesh/etc/ssl/certs/ca-root-ffdd.crt
-    - user: root
-    - group: root
-    - mode: 644
-
-{# Directories #}
-/var/lib/freifunk:
-  file.directory:
-    - user: freifunk
-    - group: freifunk
-    - file_mode: 775
-    - dir_mode: 755
-    - require:
-      - user: freifunk
 
 
 {# Logs #}
