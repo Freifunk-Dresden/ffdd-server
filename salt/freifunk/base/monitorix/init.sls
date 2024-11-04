@@ -2,11 +2,11 @@
 monitorix:
   pkgrepo.managed:
     - humanname: Monitorix
-    - name: deb http://apt.izzysoft.de/ubuntu generic universe
+    - name: deb [arch=all] https://apt.izzysoft.de/ubuntu generic universe
     - dist: generic
     - file: /etc/apt/sources.list.d/monitorix.list
     - gpgcheck: 1
-    - key_url: http://apt.izzysoft.de/izzysoft.asc
+    - key_url: https://apt.izzysoft.de/izzysoft.asc
   pkg.installed:
     - refresh: True
     - names:
