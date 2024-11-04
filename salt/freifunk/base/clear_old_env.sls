@@ -12,6 +12,15 @@ remove_old_pkg:
 /etc/apt/sources.list.d/wireguard.list:
   file.absent
 
+/etc/apt/sources.list.d/saltstack.list:
+  file.absent
+
+/etc/apt/keyrings/salt-archive-keyring-2023.gpg:
+  file.absent
+
+/usr/share/keyrings/salt-archive-keyring.gpg:
+  file.absent
+
 
 /etc/apache2/conf-available/vnstat.conf:
   file.absent

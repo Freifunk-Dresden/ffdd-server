@@ -3,38 +3,49 @@
 
 {# Package #}
 {# repos needs also a check in init_server.sh #}
+salt_keyring:
+  cmd.run:
+    - name: curl -L https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public -o /etc/apt/keyrings/salt-archive-keyring.pgp
+    - creates: /etc/apt/keyrings/salt-archive-keyring.pgp
+    - require:
+      - file: /etc/apt/keyrings
+
+/etc/apt/preferences.d/salt-pin-1001:
+  file.managed:
+    - contents: |
+        Package: salt-*
+        Pin: version 3007.*
+        Pin-Priority: 1001'
+    - user: root
+    - user: root
+    - mode: 644
+
+/etc/apt/sources.list.d/salt.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Salt Project
+        Description: Salt has many possible uses, including configuration management.
+          Built on Python, Salt is an event-driven automation tool and framework to deploy,
+          configure, and manage complex IT systems. Use Salt to automate common
+          infrastructure administration tasks and ensure that all the components of your
+          infrastructure are operating in a consistent desired state.
+          - Website: https://saltproject.io
+          - Public key: https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
+        Enabled: yes
+        Types: deb
+        URIs: https://packages.broadcom.com/artifactory/saltproject-deb
+        Signed-By: /etc/apt/keyrings/salt-archive-keyring.pgp
+        Suites: stable
+        Components: main
+
 salt-minion:
-  {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
-  pkgrepo.managed:
-    - humanname: SaltStack
-    - name: deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=amd64] https://repo.saltproject.io/salt/py3/debian/12/amd64/latest bookworm main
-    - dist: bookworm
-    - file: /etc/apt/sources.list.d/saltstack.list
-    - require_in:
-      - pkg: salt-minion
-    - gpgcheck: 1
-    - key_url: https://repo.saltproject.io/salt/py3/debian/12/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg
-
-  {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
-  pkgrepo.managed:
-    - humanname: SaltStack
-    - name: deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main
-    - dist: focal
-    - file: /etc/apt/sources.list.d/saltstack.list
-    - require_in:
-      - pkg: salt-minion
-    - gpgcheck: 1
-    - key_url: https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
-
-  {% else %}
-  file.absent:
-    - name: /etc/apt/sources.list.d/saltstack.list
-
-  {% endif %}
-
   pkg.installed:
     - refresh: True
     - name: salt-minion
+    - require:
+      - salt_keyring
+      - file: /etc/apt/sources.list.d/salt.sources
+      - file: /etc/apt/preferences.d/salt-pin-1001
   service:
     - dead
     - enable: False

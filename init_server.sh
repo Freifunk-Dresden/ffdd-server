@@ -15,18 +15,14 @@ INIT_DATE_FILE='/etc/freifunk-server-initdate'
 
 check_salt_repo() {
 	# repos needs also a check in salt/freifunk/base/salt-minion/init.sls
-	case "$1" in
-		debian12 )
-			[ ! -d /etc/apt/keyrings ] && mkdir /etc/apt/keyrings
-			curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg https://repo.saltproject.io/salt/py3/debian/12/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg
-			echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=amd64] https://repo.saltproject.io/salt/py3/debian/12/amd64/latest bookworm main" | tee /etc/apt/sources.list.d/saltstack.list
-			;;
-		ubuntu20 )
-			[ ! -d /usr/share/keyrings ] && mkdir /usr/share/keyrings
-			curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
-			echo 'deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main' | tee /etc/apt/sources.list.d/saltstack.list
-			;;
-	esac
+	[ ! -d /etc/apt/keyrings ] && mkdir /etc/apt/keyrings
+	curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.pgp https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
+	curl -fsSL -o /etc/apt/sources.list.d/salt.sources https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources
+	tee /etc/apt/preferences.d/salt-pin-1001 <<EOF
+Package: salt-*
+Pin: version 3007.*
+Pin-Priority: 1001
+EOF
 }
 
 install_uci() {
@@ -221,7 +217,7 @@ if [ "$os_id" = 'debian' ]; then
 		11*)	PKGMNGR='apt-get'
 				install_uci debian11
 		;;
-		12*)	PKGMNGR='apt-get' ; check_salt_repo debian12
+		12*)	PKGMNGR='apt-get'
 				install_uci debian12
 		;;
 		*)		print_not_supported_os ;;
@@ -229,7 +225,7 @@ if [ "$os_id" = 'debian' ]; then
 	printf '\nOK.\n'
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		20.04*) PKGMNGR='apt-get' ; check_salt_repo ubuntu20
+		20.04*) PKGMNGR='apt-get'
 				install_uci ubuntu20
 		;;
 		22.04*) PKGMNGR='apt-get'
@@ -241,6 +237,8 @@ elif [ "$os_id" = 'ubuntu' ]; then
 else
 	print_not_supported_os
 fi
+
+check_salt_repo
 
 
 printf '\n### Update System ..\n'

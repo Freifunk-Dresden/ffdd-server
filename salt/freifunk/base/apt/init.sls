@@ -10,6 +10,13 @@ apt:
       - apt-transport-https
 {% endif %}
 
+/etc/apt/keyrings:
+  file.directory:
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+
 {# sources.list #}
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
 /etc/apt/sources.list:
