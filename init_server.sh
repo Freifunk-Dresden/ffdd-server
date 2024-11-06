@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version="1.5.0"
+#version="1.5.1"
 
 # check if user has set the environment variable REV, then use this
 REV="T_RELEASE_latest" # means git rev/branch/tag
