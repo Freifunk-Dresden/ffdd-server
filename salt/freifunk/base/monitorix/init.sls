@@ -3,8 +3,8 @@ monitorix:
   pkgrepo.managed:
     - humanname: Monitorix
     - name: deb [arch=all] https://apt.izzysoft.de/ubuntu generic universe
-    - dist: generic
     - file: /etc/apt/sources.list.d/monitorix.list
+    - clean_file: true
     - gpgcheck: 1
     - key_url: https://apt.izzysoft.de/izzysoft.asc
   pkg.installed:
