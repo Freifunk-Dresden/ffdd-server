@@ -1,6 +1,10 @@
 {# Apache2 Webserver #}
 {% from 'config.jinja' import apache_ddos_prevent %}
 
+install_salt-apache_ext:
+  pip.installed:
+    - name: saltext-apache
+
 apache2:
   pkg.installed:
     - refresh: True
