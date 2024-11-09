@@ -176,7 +176,7 @@ if [ ! -f "$INIT_DATE_FILE" ]; then
 	select yn in "Yes" "No"; do
 	case $yn in
 		Yes) break ;;
-		No)  exit 1 ;;
+		No)  printf '\n.. Installation canceled!\n'; exit 1 ;;
 	esac ; done
 fi
 
@@ -238,8 +238,8 @@ else
 	print_not_supported_os
 fi
 
+printf '\n### Install current Salt Sources ..\n'
 check_salt_repo
-
 
 printf '\n### Update System ..\n'
 "$PKGMNGR" -y update
@@ -249,7 +249,7 @@ printf '\n'
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
 
-# run salt-minion only as masterless. disable the service:
+# run salt-minion only as masterless and also disable the service
 systemctl disable salt-minion ; systemctl stop salt-minion &
 
 
@@ -281,10 +281,12 @@ printf '\n### Backup old User configs ..\n'
 cp -vf /root/.bashrc /root/.bashrc_bak >/dev/null 2>&1
 test -f /root/.bash_aliases && cp -vf /root/.bash_aliases /root/.bash_aliases_bak >/dev/null 2>&1
 mv -vf /etc/inputrc /etc/inputrc_bak >/dev/null 2>&1
+printf '\nOK.\n'
 
 
 # ensure uci and /etc/config/ffdd are present
 printf '\n### Check uci Setup ..\n'
+
 # uci config
 if [ ! -f /etc/config/ffdd ]; then
 	printf '\n# Create New /etc/config/ffdd ..\n'
@@ -365,7 +367,7 @@ _init_run='0'
 if [ -f "$INIT_DATE_FILE" ]; then
 	printf '\n### run salt ..\n'
 else
-	printf '\n### Start Initial System .. please wait! Coffee Time ~ 10min ..\n'
+	printf '\n### Start Initial System .. please wait! Coffee Time ~ 5-10min ..\n'
 	printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
 	chmod 600 "$INIT_DATE_FILE" ; chattr +i "$INIT_DATE_FILE"
 	_init_run='1'
