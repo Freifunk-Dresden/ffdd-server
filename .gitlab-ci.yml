@@ -23,7 +23,7 @@ docker:ffdd-debian11:
 
 ffdd-debian11-staging:
   stage: deploy
-  image: debian:11
+  image: debian:12
   only:
     - master
   dependencies:
@@ -58,7 +58,7 @@ docker:ffdd-debian12:
 
 ffdd-debian12-staging:
   stage: deploy
-  image: debian:11
+  image: debian:12
   only:
     - master
   dependencies:
@@ -73,6 +73,7 @@ ffdd-debian12-staging:
     - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/debian12/
   tags:
     - docker2
+
 
 
 docker:ffdd-ubuntu2004:
@@ -93,7 +94,7 @@ docker:ffdd-ubuntu2004:
 
 ffdd-ubuntu2004-staging:
   stage: deploy
-  image: debian:11
+  image: debian:12
   only:
     - master
   dependencies:
@@ -126,9 +127,9 @@ docker:ffdd-ubuntu2204:
   tags:
     - docker2
 
-ffdd-ubuntu2004-staging:
+ffdd-ubuntu2204-staging:
   stage: deploy
-  image: debian:11
+  image: debian:12
   only:
     - master
   dependencies:
@@ -141,5 +142,40 @@ ffdd-ubuntu2004-staging:
     - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
   script:
     - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu22/
+  tags:
+    - docker2
+
+
+docker:ffdd-ubuntu2404:
+  except:
+    - schedules
+  image: ubuntu:24.04
+  stage: build
+  script:
+    - cd .ci
+    - bash install_deps.sh
+    - bash build_uci.sh
+  artifacts:
+    paths:
+      - .ci/build/*.deb
+    expire_in: 24 hour
+  tags:
+    - docker2
+
+ffdd-ubuntu2404-staging:
+  stage: deploy
+  image: debian:12
+  only:
+    - master
+  dependencies:
+    - docker:ffdd-ubuntu2404
+  before_script:
+    - apt-get update -y && apt-get install -y openssh-client rsync
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh ; chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+  script:
+    - rsync -avz -e "ssh -p $PORT" .ci/build/* "$USER"@"$HOST":"$RPATH"/ubuntu24/
   tags:
     - docker2

@@ -50,22 +50,6 @@ install_pkg:
 
       - jq
 
-{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
-      - python-apt-common
-      - iptraf-ng
-{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
-      - python-apt-common
-      - iptraf-ng
-{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
-      - python3-apt
-      - python3-pycurl
-      - iptraf-ng
-{% else %}
-      - python-apt
-      - iptraf
-{% endif %}
-
-
 {% if grains['os'] == 'Debian' %}
       - firmware-linux
 {% elif grains['os'] == 'Ubuntu' %}
@@ -75,5 +59,18 @@ install_pkg:
 
 
 {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+      - python-apt
       - python-pycurl
+      - iptraf
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
+      - python3-apt
+      - python3-pycurl
+      - iptraf-ng
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'noble' %}
+      - python3-apt
+      - python3-pycurl
+      - iptraf-ng
+{% if grains['os'] == 'Debian' %}
+      - python-apt-common
+      - iptraf-ng
 {% endif %}

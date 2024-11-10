@@ -12,22 +12,16 @@ devel:
       - libssl-dev
       - libnacl-dev
       - libjson-c-dev
-
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
-      - libcurl4
       {# dep. to build fastd2 #}
       - libmnl-dev
 
-{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'noble' %}
+      - libcurl4t64
+{% else %}
       - libcurl4
-      {# dep. to build fastd2 #}
-      - libmnl-dev
+{% endif %}
 
-{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
-      - libcurl4
-      {# dep. to build fastd2 #}
-      - libmnl-dev
-
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
 {# workaround for fastd libjson-c-dev #}
 /usr/lib/x86_64-linux-gnu/libjson-c.so.3:
   file.symlink:
@@ -35,13 +29,4 @@ devel:
     - force: true
     - require:
       - pkg: libjson-c-dev
-
-{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'bookworm' %}
-      - libcurl4
-      {# dep. to build fastd2 #}
-      - libmnl-dev
-
-{% else %}
-      - libcurl3
-
 {% endif %}

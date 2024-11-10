@@ -25,6 +25,9 @@ bmxd:
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
       - bmxd: {{ freifunk_dl_url }}/ubuntu22/bmxd-{{ bmxd_version }}-ubuntu-jammy-amd64.deb
 
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'noble' %}
+      - bmxd: {{ freifunk_dl_url }}/ubuntu24/bmxd-{{ bmxd_version }}-ubuntu-noble-amd64.deb
+
 {% endif %}
 
 

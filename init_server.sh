@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#version="1.5.1"
+#version="1.6.0"
 
 # check if user has set the environment variable REV, then use this
 REV="T_RELEASE_latest" # means git rev/branch/tag
@@ -33,16 +33,17 @@ install_uci() {
 	libuci='libuci_20200427_amd64.deb'
 	uci='uci_20200427_amd64.deb'
 
-	pkgs=("$libubox" "$libuci" "$uci")
+	PKGS=("$libubox" "$libuci" "$uci")
+	DIST="$1"
 
-	for PKG in "${pkgs[@]}"; do
+	for PKG in "${PKGS[@]}"; do
 		PKG_NAME="$(echo "$PKG" | cut -d'_' -f 1)"
 		PKG_VERSION="$(echo "$PKG" | cut -d'_' -f 2 | grep -o '[0-9]*')"
 		# check pkg is not installed or has another version
 		if [ "$(dpkg-query -W -f='${Status}' "$PKG_NAME" 2>/dev/null | grep -c "ok installed")" -eq 0 ] || \
 			[ "$(dpkg-query -W -f='${Version}' "$PKG_NAME")" != "$PKG_VERSION" ]; then
 				TEMP_DEB="$(mktemp)" &&
-				wget -O "$TEMP_DEB" "$DL_URL/$1/$PKG" &&
+				wget -O "$TEMP_DEB" "$DL_URL/$DIST/$PKG" &&
 				dpkg -i "$TEMP_DEB"
 				rm -f "$TEMP_DEB"
 		fi
@@ -74,7 +75,7 @@ print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
 	printf ' - Debian (11/12)\n'
-	printf ' - Ubuntu Server LTS (20.04/22.04)\n'
+	printf ' - Ubuntu Server LTS (20.04/22.04/24.04)\n'
 	exit 1
 }
 
@@ -230,6 +231,9 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		;;
 		22.04*) PKGMNGR='apt-get'
 				install_uci ubuntu22
+		;;
+		24.04*) PKGMNGR='apt-get'
+				install_uci ubuntu24
 		;;
 		*)		print_not_supported_os ;;
 	esac

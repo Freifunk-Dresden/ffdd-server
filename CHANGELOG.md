@@ -1,11 +1,14 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
 
+## version 1.6.0rc1
+	- add support for ubuntu 24.04 (LTS)
+
 ## version 1.5.1rc1
 	- fix salt installation and change to new salt repo
 	- install 'saltext-apache' extensions to replace deprecated 'apache' functionality in salt
 	- add persistent keepalive for wireguard vpn gateway connections
-	- update dns for vpn5 and vpn21
+	- update bind (dns) zonefiles
 	- fix monitorix sources
 
 ## version 1.5.0
