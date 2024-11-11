@@ -38,7 +38,7 @@ ssh_check:
         -----------------------------------------------------------------
          Freifunk {{ servername }}
 
-         ( Version: {{ freifunk_version }} )
+         Version: {{ freifunk_version }}
         -----------------------------------------------------------------
     - user: root
     - group: root
