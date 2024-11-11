@@ -12,12 +12,14 @@ install_pkg:
       - htop
       - screen
       - tmux
+      - byobu
       - rsync
       - most
       - nano
       - vim
       - less
       - at
+      - jq
 
       - gnupg
       - wget
@@ -30,8 +32,6 @@ install_pkg:
       - zip
       - unzip
       - gzip
-      {# purge old kernels #}
-      - byobu
 
       - net-tools
       - grepcidr
@@ -48,17 +48,21 @@ install_pkg:
       - mtr-tiny
       - bwm-ng
 
-      - jq
 
 {% if grains['os'] == 'Debian' %}
       - firmware-linux
+      - python-apt-common
+      - iptraf-ng
 {% elif grains['os'] == 'Ubuntu' %}
       - linux-firmware
       - software-properties-common
 {% endif %}
 
 
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+{% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
+      - python3-pip
+
+{% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - python-apt
       - python-pycurl
       - iptraf
@@ -71,10 +75,6 @@ install_pkg:
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'noble' %}
       - python3-apt
       - python3-pycurl
-      - iptraf-ng
-
-{% elif grains['os'] == 'Debian' %}
-      - python-apt-common
       - iptraf-ng
 
 {% endif %}
