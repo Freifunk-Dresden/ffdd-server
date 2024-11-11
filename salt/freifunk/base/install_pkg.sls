@@ -62,15 +62,19 @@ install_pkg:
       - python-apt
       - python-pycurl
       - iptraf
+
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'jammy' %}
       - python3-apt
       - python3-pycurl
       - iptraf-ng
+
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'noble' %}
       - python3-apt
       - python3-pycurl
       - iptraf-ng
-{% if grains['os'] == 'Debian' %}
+
+{% elif grains['os'] == 'Debian' %}
       - python-apt-common
       - iptraf-ng
+
 {% endif %}
