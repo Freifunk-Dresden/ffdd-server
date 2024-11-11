@@ -63,7 +63,7 @@ A:active {
   color: crimson;
 }
 A:hover {
-  color: darkmagenta; 
+  color: darkmagenta;
 }
 A.form:link,A.form:visited,A.form:active,
 A.color:link,A.color:visited,A.color:active,
@@ -360,4 +360,3 @@ form
  border: 0px;
  text-align: right;
 }
- 

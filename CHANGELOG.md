@@ -3,6 +3,7 @@
 
 ## version 1.6.0rc1
 	- add support for ubuntu 24.04 (LTS)
+	- add speedtest web-ui tool
 
 ## version 1.5.1rc1
 	- fix salt installation and change to new salt repo
