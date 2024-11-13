@@ -133,26 +133,6 @@
     - require:
       - pkg: rsyslog
 
-/var/log/freifunk/registrator:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - file_mode: 755
-    - dir_mode: 755
-    - require:
-      - pkg: rsyslog
-      - pkg: apache2
-
-/var/log/freifunk/register:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - file_mode: 755
-    - dir_mode: 755
-    - require:
-      - pkg: rsyslog
-      - pkg: apache2
-
 /var/log/freifunk/router:
   file.directory:
     - user: syslog

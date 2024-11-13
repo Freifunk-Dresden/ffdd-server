@@ -157,6 +157,15 @@ remove_old_pkg:
 /opt/vnstat-dashboard:
   file.absent
 
+/var/www_vnstat:
+  file.absent
+
+
+/var/log/freifunk/register:
+  file.absent
+
+/var/log/freifunk/registrator:
+  file.absent
 
 /var/statistic:
   file.absent
@@ -164,6 +173,3 @@ remove_old_pkg:
 /var/www_freifunk/robots.txt:
   file.absent:
     - onlyif: grep -q '# Alle Robots' /var/www_freifunk/robots.txt
-
-/var/www_vnstat:
-  file.absent
