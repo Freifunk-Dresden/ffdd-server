@@ -1,5 +1,4 @@
 {# clear old obsolete files from old versions #}
-{% from 'config.jinja' import nodeid %}
 
 remove_old_pkg:
   pkg.removed:
@@ -161,18 +160,16 @@ remove_old_pkg:
 /var/www_vnstat:
   file.absent
 
-
 /var/statistic:
   file.absent
+
 
 /var/www_freifunk/robots.txt:
   file.absent:
     - onlyif: grep -q '# Alle Robots' /var/www_freifunk/robots.txt
 
-{% if nodeid != '0' %}
 /var/log/freifunk/register:
   file.absent
 
 /var/log/freifunk/registrator:
   file.absent
-{% endif %}
