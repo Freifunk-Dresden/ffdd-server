@@ -1,6 +1,11 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
 
+## version 1.6.0
+	- show current 'commit' with freifunk version
+	- show hostname on status page
+	- cleanup unneeded stuff
+
 ## version 1.6.0rc1
 	- add support for ubuntu 24.04 (LTS)
 	- add speedtest web-ui tool
