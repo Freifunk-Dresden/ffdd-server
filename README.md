@@ -83,8 +83,8 @@ Wie in der Firmware läuft per cron.d ein Internet-check, der in der ersten Stuf
 - *Installations Path in `/etc/config/ffdd`*<br/>
 Eine Änderung des Path sollte unbedingt **vermieden** werden da ansonsten **kein** Salt-Service und ein Autoupdate mehr gewährleistet werden kann! Es gibt aber die einfache Möglichkeit sich bei Bedarf einen Symlink zu erstellen.
 
-- ***`/etc/hostname`*** *(hostname.domainname.de)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br />
-Beispiel: `hostnamectl set-hostname <vpnX>.freifunk-dresden.de`
+- ***`/etc/hostname`*** *(sollte aussehen wie z.B.: `hostname.domainname.tld`)* > Bitte versichert euch nun dass euer Hostname korrekt gesetzt ist und der entsprechende DNS Eintrag mit der öffentlichen IP des Servers von euch hinterlegt wurde! Andernfalls wird **kein** SSL-Zertifikat von letsencrypt zur Verfügung gestellt.<br />
+Beispiel: `hostnamectl set-hostname vpnX.freifunk-dresden.de`
 
 - ***networking*** > Bitte überprüfe ob alle Netzwerkeinstellungen korrekt sind und stelle sicher dass mindestens ein DNS-Server hinterlegt ist. (*[Debian-Wiki:NetworkConfiguration](https://wiki.debian.org/NetworkConfiguration)*)
 
@@ -131,10 +131,10 @@ Nun müssen noch Host-Spezifische Dinge kontrolliert und angepasst werden:
   - contact informations
 - Create your first Backbone Connection ([Freifunk Netzwerk - Backbone Übersicht](https://wiki.freifunk-dresden.de/index.php/Freifunk_Netzwerk))<br />
   - fastd2 `/etc/fastd/peers2/`<br />
-    `/etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002`<br />
+    `/etc/init.d/S53backbone-fastd2 add_connect vpnX.freifunk-dresden.de 5002`<br />
     or: `/etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>`
   - wireguard `/etc/wireguard/`<br />
-    `/usr/local/bin/wg-backbone.sh register <vpnX>.freifunk-dresden.de`<br />
+    `/usr/local/bin/wg-backbone.sh register vpnX.freifunk-dresden.de`<br />
     or: `/usr/local/bin/wg-backbone.sh connect <host> <port> <node> <key>`
     
 - VPN-Gateway Service
