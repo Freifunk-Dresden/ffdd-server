@@ -5,7 +5,7 @@
 ;;
 $TTL 28800
 @       IN  SOA ns1.ffdd. root.ffdd. (
-                1729754769 ; Serial
+                1732955633 ; Serial
                 10800 ; Refresh
                 3600 ; Retry
                 604800 ; Expire
@@ -33,7 +33,7 @@ vpn6    IN  CNAME   51017.ffdd.
 vpn7    IN  CNAME   4.ffdd.
 vpn8    IN  CNAME   51015.ffdd.
 vpn9    IN  CNAME   51039.ffdd.
-vpn10   IN  CNAME   51040.ffdd.
+;; vpn10   IN  CNAME   x.ffdd.
 vpn11   IN  CNAME   200.ffdd.
 vpn12   IN  CNAME   256.ffdd.
 vpn13   IN  CNAME   13.ffdd.
@@ -45,9 +45,11 @@ vpn18   IN  CNAME   51042.ffdd.
 vpn19   IN  CNAME   51019.ffdd.
 vpn20   IN  CNAME   51028.ffdd.
 vpn21   IN  CNAME   51018.ffdd.
-vpn-zh  IN  CNAME   51064.ffdd.
-vpn-offloader IN CNAME 51051.ffdd.
+;
 vpn-it4r IN CNAME   51001.ffdd.
+vpn-offloader IN CNAME 51051.ffdd.
+vpn-zh  IN  CNAME   51064.ffdd.
+;
 vpn1le  IN  CNAME   51020.ffl.
 vpn2le  IN  CNAME   51026.ffl.
 vpn3le  IN  CNAME   51054.ffl.
@@ -83,8 +85,8 @@ $ORIGIN vpn8.ffdd.
 $ORIGIN vpn9.ffdd.
 *        IN  CNAME   51039.ffdd.
 ;
-$ORIGIN vpn10.ffdd.
-*        IN  CNAME   51040.ffdd.
+;; $ORIGIN vpn10.ffdd.
+;; *        IN  CNAME   x.ffdd.
 ;
 $ORIGIN vpn11.ffdd.
 *        IN  CNAME   200.ffdd.
@@ -119,15 +121,17 @@ $ORIGIN vpn20.ffdd.
 $ORIGIN vpn21.ffdd.
 *        IN  CNAME   51018.ffdd.
 ;
-$ORIGIN vpn-zh.ffdd.
-*        IN  CNAME   51064.ffdd.
-;
-$ORIGIN vpn-offloader.ffdd.
-*        IN  CNAME   51051.ffdd.
 ;
 $ORIGIN vpn-it4r.ffdd.
 *        IN  CNAME   51001.ffdd.
 ;
+$ORIGIN vpn-offloader.ffdd.
+*        IN  CNAME   51051.ffdd.
+;
+$ORIGIN vpn-zh.ffdd.
+*        IN  CNAME   51064.ffdd.
+;
+;; Freiunk-Leipzig
 $ORIGIN vpn1le.ffdd.
 *        IN  CNAME   51020.ffl.
 ;
