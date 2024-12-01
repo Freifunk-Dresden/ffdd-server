@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 ### This file managed by Salt, do not edit by hand! ###
 
 get_ip() { curl --interface "$1" -sL ip.envs.net ; }

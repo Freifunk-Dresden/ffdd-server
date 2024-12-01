@@ -1,17 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 ### This file managed by Salt, do not edit by hand! ###
 #
 # Freifunk - Autosetup for /etc/config/ffdd
 #
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-#
-# Get variables from /etc/config/ffdd
-ddmesh_node="$(uci -qX get ffdd.sys.ddmesh_node)"
 ddmesh_key="$(uci -qX get ffdd.sys.ddmesh_registerkey)"
 
 if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ]; then
-
 		# set ddmesh_registerkey
 		ddmesh_key="$(ip link | sha256sum | sed 's#\(..\)#\1:#g;s#[ :-]*$##')"
 		uci set ffdd.sys.ddmesh_registerkey="$ddmesh_key"
@@ -24,5 +20,4 @@ if [ -z "$ddmesh_key" ] || [ "$ddmesh_key" = '-' ]; then
 		uci commit
 fi
 
-#
 exit 0
