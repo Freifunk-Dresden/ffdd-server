@@ -18,9 +18,11 @@ alias freifunk-fastd='/etc/init.d/S53backbone-fastd2'
 alias freifunk-version='cat /etc/freifunk-server-version'
 alias freifunk-gw-status='/usr/local/bin/freifunk-gateway-status.sh'
 
+alias init_server='/srv/ffdd-server/init_server.sh'
+alias freifunk-manuell-update='/usr/local/bin/freifunk-manuell_update.sh'
+alias freifunk-manuell-update-online='bash -c "$(wget http://2ffd.de/ffdd-server_manuell_update -O -)"'
 alias salt_call='salt-call state.highstate --local -l error'
 alias freifunk-call='salt_call'
-alias init_server='/srv/ffdd-server/init_server.sh'
 
 alias f2b-list='/sbin/ipset list blacklist_fail2ban'
 
@@ -54,9 +56,9 @@ PS1="${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[0
 cat <<EOM
 -----------------------------------------------------------------
 # tools:
-    init_server             ( update OS and Firmware )
-    freifunk-manuell-update ( reset and Update Repo )
-    freifunk-call           ( salt-call state.highstate --local )
+    init_server -i          ( update OS and Firmware )
+    freifunk-manuell-update ( reset and update Firmware )
+    freifunk-call           ( run salt )
 
     uci                     ( config management helper )
     freifunk-version        ( show Server Version and Branch )
