@@ -36,6 +36,8 @@ install_uci() {
 	PKGS=("$libubox" "$libuci" "$uci")
 	DIST="$1"
 
+	printf '\n### Install UCI ..\n'
+
 	for PKG in "${PKGS[@]}"; do
 		PKG_NAME="$(echo "$PKG" | cut -d'_' -f 1)"
 		PKG_VERSION="$(echo "$PKG" | cut -d'_' -f 2 | grep -o '[0-9]*')"
@@ -223,7 +225,6 @@ if [ "$os_id" = 'debian' ]; then
 		;;
 		*)		print_not_supported_os ;;
 	esac
-	printf '\nOK.\n'
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
 		20.04*) PKGMNGR='apt-get'
@@ -237,12 +238,13 @@ elif [ "$os_id" = 'ubuntu' ]; then
 		;;
 		*)		print_not_supported_os ;;
 	esac
-	printf '\nOK.\n'
 else
 	print_not_supported_os
 fi
+printf '\nOK.\n'
 
-printf '\n### Install current Salt Sources ..\n'
+
+printf '\n### Install Salt Sources ..\n'
 check_salt_repo
 
 printf '\n### Update System ..\n'
@@ -253,7 +255,12 @@ printf '\n'
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
 
-# run salt-minion only as masterless and also disable the service
+# fix: install needed deps. for salt-minion on debian 11
+if [ "$os_id" = 'debian' ] && [ "$version_id" = '11' ]; then
+	"$PKGMNGR" -y install python3-yaml python3-msgpack python3-distro python3-jinja2 python3-tornado python3-packaging python3-looseversion
+fi
+
+# disable salt-minion service
 systemctl disable salt-minion ; systemctl stop salt-minion &
 
 

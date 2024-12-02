@@ -61,6 +61,13 @@ install_pkg:
 
 {% if grains['os'] == 'Debian' and grains['oscodename'] == 'bullseye' %}
       - python3-pip
+      - python3-yaml
+      - python3-msgpack
+      - python3-distro
+      - python3-jinja2
+      - python3-tornado
+      - python3-looseversion
+      - python3-packaging
 
 {% elif grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
       - python-apt
