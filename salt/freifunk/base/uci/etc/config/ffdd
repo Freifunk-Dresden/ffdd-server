@@ -51,7 +51,7 @@ config 'ffdd' 'sys'
 
 	# DNS-Server
 	list 'default_dns' '194.150.168.168'
-	list 'default_dns' '46.182.19.48'
+	list 'default_dns' '5.9.164.112'
 
 	# BMXD
 	option 'bmxd_prefered_gateway' '-'
