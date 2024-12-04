@@ -46,8 +46,11 @@ config 'ffdd' 'sys'
 	# To disable tunneled clear text passwords and allow only pub-key auth.
 	option 'ssh_pwauth' '1'
 
-	# To disable ddos protection in apache2 (0=off 1=on)
+	# DDOS-protection in apache2 (0=off 1=on)
 	option 'apache_ddos_prevent' '1'
+
+	# speedtest plugin (0=off 1=on) (needs a disabled apache_ddos_prevent)
+	option 'apache_speedtest' '1'
 
 	# DNS-Server
 	list 'default_dns' '194.150.168.168'

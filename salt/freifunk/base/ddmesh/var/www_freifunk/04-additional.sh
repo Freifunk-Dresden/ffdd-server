@@ -21,7 +21,7 @@ if [ "$?" -eq 0 ] && [ "$IP" != '10.200.0.1' ]; then
 	EOM
 
 	# tools
-	if [ "$(uci -qX get ffdd.sys.apache_ddos_prevent)" -eq '0' ]; then
+	if [ "$(uci -qX get ffdd.sys.apache_ddos_prevent)" -eq '0' ] && [ "$(uci -qX get ffdd.sys.apache_speedtest)" -eq '1' ]; then
 		cat <<-EOM
 			<TR><TD><BIG CLASS="plugin">Tools</BIG></TD></TR>
 			<TR><TD><DIV CLASS="plugin"><A CLASS="plugin" TARGET="_blank" HREF="http://speedtest.$hostname_short.ffdd/">Speedtest</A></DIV></TD></TR>

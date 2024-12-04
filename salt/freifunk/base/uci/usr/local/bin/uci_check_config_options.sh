@@ -6,8 +6,6 @@
 ## ffdd.sys
 
 	test -z "$(uci -qX get ffdd.sys.devmode)" && uci -q set ffdd.sys.devmode=0
-	test -z "$(uci -qX get ffdd.sys.apache_ddos_prevent)" && uci -q set ffdd.sys.apache_ddos_prevent=1
-
 	test -z "$(uci -qX get ffdd.sys.network_id)" && uci -q set ffdd.sys.network_id=0
 	test -z "$(uci -qX get ffdd.sys.community_server)" && uci -q set ffdd.sys.community_server=0
 
@@ -16,6 +14,8 @@
 	test -z "$(uci -qX get ffdd.sys.group_id)" && uci -q set ffdd.sys.group_id=0
 	test -z "$(uci -qX get ffdd.sys.firewall_log)" && uci -q set ffdd.sys.firewall_log=0
 
+	test -z "$(uci -qX get ffdd.sys.apache_ddos_prevent)" && uci -q set ffdd.sys.apache_ddos_prevent=1
+	test -z "$(uci -qX get ffdd.sys.apache_speedtest)" && uci -q set ffdd.sys.apache_speedtest=1
 
 ## ffdd.wireguard
 
