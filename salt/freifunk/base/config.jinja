@@ -22,10 +22,8 @@
 {% set custom_branch = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.branch') %}
 
 {% set autoupdate = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.autoupdate') %}
-{% set freifunk_version = salt['cmd.shell']('test -f /usr/local/bin/freifunk-version && /usr/local/bin/freifunk-version || printf "n.a\n"') %}
-
+{% set freifunk_version = salt['cmd.shell']('test -f /usr/local/bin/freifunk-version && /usr/local/bin/freifunk-version || printf "n.a.\n"') %}
 {% set devmode = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.devmode || true') %}
-
 
 {% set ddmesh_registerkey = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.ddmesh_registerkey') %}
 
@@ -38,9 +36,9 @@
 
 {% set announce_gateway = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.announce_gateway') %}
 {% set apache_ddos_prevent = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.apache_ddos_prevent || true') %}
+{% set apache_speedtest = salt['cmd.shell']('/usr/local/sbin/uci -qX get ffdd.sys.apache_speedtest || true') %}
 
 
-{# check hostnamectl #}
 {% set chassis = salt['cmd.shell']("hostnamectl status | awk '/Chassis/ {print $2}'") %}
 
 {# ctime - used for crontab minutes #}
