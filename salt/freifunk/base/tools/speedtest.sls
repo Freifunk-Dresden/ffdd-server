@@ -1,26 +1,7 @@
-{% from 'config.jinja' import apache_ddos_prevent %}
+{% from 'config.jinja' import apache_ddos_prevent, apache_speedtest %}
 
 {# backend server for speedtest.ffdd #}
-{% if apache_ddos_prevent == '1' %}
-apache2_speedtest_disable:
-  service:
-    - running
-    - name: apache2
-    - enable: True
-    - restart: True
-    - watch:
-      - apache2_site_disable_speedtest-backend
-    - require:
-      - pkg: apache2
-      - apache2_site_disable_speedtest-backend
-
-apache2_site_disable_speedtest-backend:
-  apache_site.disabled:
-    - name: speedtest-backend
-    - require:
-      - pkg: apache2
-
-{% else %}
+{% if apache_ddos_prevent == '0' and apache_speedtest == '1' %}
 apache2_speedtest_enable:
   service:
     - running
@@ -64,5 +45,24 @@ apache2_site_enable_speedtest-backend:
       - pkg: apache2
       - file: /etc/apache2/sites-available/speedtest-backend.conf
       - speedtest-backend_repo
+
+{% else %}
+apache2_speedtest_disable:
+  service:
+    - running
+    - name: apache2
+    - enable: True
+    - restart: True
+    - watch:
+      - apache2_site_disable_speedtest-backend
+    - require:
+      - pkg: apache2
+      - apache2_site_disable_speedtest-backend
+
+apache2_site_disable_speedtest-backend:
+  apache_site.disabled:
+    - name: speedtest-backend
+    - require:
+      - pkg: apache2
 
 {% endif %}
