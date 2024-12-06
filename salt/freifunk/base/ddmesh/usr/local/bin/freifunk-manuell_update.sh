@@ -19,7 +19,7 @@ CUSTOM_INSTALL_DIR="$(uci -qX get ffdd.sys.install_dir)"
 [ -n "$CUSTOM_INSTALL_DIR" ] && [ "$CUSTOM_INSTALL_DIR" != "$INSTALL_DIR" ] && INSTALL_DIR="$CUSTOM_INSTALL_DIR"
 
 
-[ "$(pwd)" == "$INSTALL_DIR" ] && cd /srv
+[ "$(pwd)" = "$INSTALL_DIR" ] && cd /srv || exit 1
 [ -d "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
 
 git clone "$REPO_URL" "$INSTALL_DIR"
