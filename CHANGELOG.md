@@ -13,6 +13,7 @@ To fix your current installation you just need to install the mentioned packages
 After installing the packages, `freifunk-call` should be executable again.
 
 	- fix debian 11 installation
+	- fix longstanding bug in 'freifunk-manuell-update' if the current pwd equal INSTALL_DIR
 	- update digitalcourage dns forwarder also in default uci config
 	- add config option to disable the speedtest plugin
 	- revision/optimization of some scripts

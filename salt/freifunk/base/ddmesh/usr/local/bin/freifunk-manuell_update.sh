@@ -19,9 +19,11 @@ CUSTOM_INSTALL_DIR="$(uci -qX get ffdd.sys.install_dir)"
 [ -n "$CUSTOM_INSTALL_DIR" ] && [ "$CUSTOM_INSTALL_DIR" != "$INSTALL_DIR" ] && INSTALL_DIR="$CUSTOM_INSTALL_DIR"
 
 
+[ "$(pwd)" == "$INSTALL_DIR" ] && cd /srv
 [ -d "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
+
 git clone "$REPO_URL" "$INSTALL_DIR"
-cd "$INSTALL_DIR" && git checkout "$REV"
+git --git-dir="$INSTALL_DIR"/.git checkout "$REV"
 
 "$INSTALL_DIR"/init_server.sh -i
 
