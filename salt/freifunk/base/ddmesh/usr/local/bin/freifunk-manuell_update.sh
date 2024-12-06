@@ -19,8 +19,6 @@ CUSTOM_INSTALL_DIR="$(uci -qX get ffdd.sys.install_dir)"
 [ -n "$CUSTOM_INSTALL_DIR" ] && [ "$CUSTOM_INSTALL_DIR" != "$INSTALL_DIR" ] && INSTALL_DIR="$CUSTOM_INSTALL_DIR"
 
 
-if [ "$(id -u)" -ne 0 ]; then printf 'Please run as root!\n'; exit 1 ; fi
-
 [ -d "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
 git clone "$REPO_URL" "$INSTALL_DIR"
 cd "$INSTALL_DIR" && git checkout "$REV"

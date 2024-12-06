@@ -1,6 +1,22 @@
 # Freifunk Dresden: ffdd-server - Changelog
 `current version:` ![calver](https://img.shields.io/github/v/release/freifunk-dresden/ffdd-server?include_prereleases)
 
+## version 1.6.2
+
+This release contains a fix **for Debian 11 (bullseye)**. Some required packages are missing from the saltstack installation and must be installed manually.
+These are: `python3-yaml`, `python3-msgpack`, `python3-distro`, `python3-tornado`, `python3-looseversion`, `python3-packaging` and `python3-jinja2`.  
+The problem seems to have arisen with the switch to the new salt repo in Version [T_RELEASE_v1.5.1rc1](https://github.com/Freifunk-Dresden/ffdd-server/releases/tag/T_RELEASE_v1.5.1rc1).  
+(new ffdd-server installations with Debian 11 and all other versions do not seem to be affected by this problem)
+
+To fix your current installation you just need to install the mentioned packages as follows:  
+`apt -y install python3-yaml python3-msgpack python3-distro python3-tornado python3-looseversion python3-packaging python3-jinja2`.  
+After installing the packages, `freifunk-call` should be executable again.
+
+	- fix debian 11 installation
+	- update digitalcourage dns forwarder also in default uci config
+	- add config option to disable the speedtest plugin
+	- revision/optimization of some scripts
+
 ## version 1.6.1
 	- update digitalcourage dns forwarder
 	- update bind (dns) zonefiles
