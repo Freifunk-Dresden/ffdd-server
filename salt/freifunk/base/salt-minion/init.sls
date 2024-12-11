@@ -15,7 +15,7 @@ salt_keyring:
     - contents: |
         Package: salt-*
         Pin: version 3007.*
-        Pin-Priority: 1001'
+        Pin-Priority: 1001
     - user: root
     - user: root
     - mode: 644
