@@ -74,5 +74,4 @@ base:
 
     {# tools #}
     - tools
-    - tools.pastebin
     - tools.speedtest
