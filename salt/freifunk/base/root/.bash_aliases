@@ -71,7 +71,6 @@ cat <<EOM
     htop / psa              ( show processes list )
     conntrack               ( show more with -n LINENUM )
     vnstat                  ( network traffic monitor )
-    pb                      ( command line pastebin - man pb )
 
     speedtest / speedtest-ovh / speedtest-belwue
 
