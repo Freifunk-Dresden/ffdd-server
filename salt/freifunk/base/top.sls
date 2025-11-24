@@ -9,7 +9,7 @@ base:
     - remove_pkg
 
     {# clear old obsolete states from old versions #}
-    - clear_old_env
+    {# - clear_old_env #}
 
     {# basic packages #}
     - install_pkg
