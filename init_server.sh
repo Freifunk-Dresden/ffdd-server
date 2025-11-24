@@ -37,7 +37,6 @@ install_uci() {
 	DIST="$1"
 
 	printf '\n### Install UCI ..\n'
-
 	for PKG in "${PKGS[@]}"; do
 		PKG_NAME="$(echo "$PKG" | cut -d'_' -f 1)"
 		PKG_VERSION="$(echo "$PKG" | cut -d'_' -f 2 | grep -o '[0-9]*')"
@@ -405,7 +404,7 @@ if [ "$OPT_UPDATE" = '0' ]; then
 fi
 
 printf '\n### Cleanup System ..\n\n'
-"$PKGMNGR" -y autoremove
+"$PKGMNGR" -y autoremove ; "$PKGMNGR" clean
 
 printf '\n### .. All done! Exit script.\n'
 [ "$_init_run" -eq 1 ] && print_init_notice
