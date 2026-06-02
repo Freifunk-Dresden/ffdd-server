@@ -1,6 +1,6 @@
 // ### This file managed by Salt, do not edit by hand! ###
 
 forwarders {
-	// CCC ; Digitalcourage
-	194.150.168.168; 5.9.164.112;
+	// Freifunk Muenchen ; DNS4EU
+	5.1.66.255; 86.54.11.100;
 };

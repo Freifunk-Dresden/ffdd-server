@@ -53,8 +53,8 @@ config 'ffdd' 'sys'
 	option 'apache_speedtest' '1'
 
 	# DNS-Server
-	list 'default_dns' '194.150.168.168'
-	list 'default_dns' '5.9.164.112'
+	list 'default_dns' '5.1.66.255'
+	list 'default_dns' '86.54.11.100'
 
 	# BMXD
 	option 'bmxd_prefered_gateway' '-'
