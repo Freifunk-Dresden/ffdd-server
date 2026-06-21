@@ -7,7 +7,7 @@ bind:
     - names:
       - bind9
       - bind9-host
-      - bind9utils
+      - bind9-utils
       - dns-root-data
   service.running:
     - name: bind9

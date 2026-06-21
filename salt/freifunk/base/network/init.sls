@@ -27,7 +27,11 @@ rc.d_S40network:
     - name: /usr/sbin/update-rc.d S40network defaults ; systemctl daemon-reload
     - require:
       - file: /etc/init.d/S40network
+      {% if grains['os'] == 'Debian' and (grains['oscodename'] == 'bullseye' or grains['oscodename'] == 'buster' ) %}
       - file: /etc/iproute2/rt_tables
+      {% else %}
+      - file: /usr/share/iproute2/rt_tables
+      {% endif %}
     - onchanges:
       - file: /etc/init.d/S40network
 
@@ -39,10 +43,19 @@ S40network:
     - watch:
       - file: /etc/init.d/S40network
       - file: /etc/network_rules.user
+      {% if grains['os'] == 'Debian' and (grains['oscodename'] == 'bullseye' or grains['oscodename'] == 'buster' ) %}
       - file: /etc/iproute2/rt_tables
+      {% else %}
+      - file: /usr/share/iproute2/rt_tables
+      {% endif %}
     - require:
       - pkg: iproute2
       - cmd: rc.d_S40network
       - file: /etc/init.d/S40network
       - file: /etc/network_rules.user
+      {% if grains['os'] == 'Debian' and (grains['oscodename'] == 'bullseye' or grains['oscodename'] == 'buster' ) %}
       - file: /etc/iproute2/rt_tables
+      {% else %}
+      - file: /usr/share/iproute2/rt_tables
+      {% endif %}
+

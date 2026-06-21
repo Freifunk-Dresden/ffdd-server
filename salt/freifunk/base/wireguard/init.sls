@@ -24,7 +24,7 @@ wireguard_dkms:
 
 
 {# Debian <12 Pin-Prio for unstable Repo #}
-{% if grains['os'] == 'Debian' and not grains['oscodename'] == 'bookworm' %}
+{% if grains['os'] == 'Debian' and (grains['oscodename'] == 'bullseye' or grains['oscodename'] == 'buster' ) %}
 unstable_pkg_prio:
   cmd.run:
     - name: "printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable"
@@ -32,7 +32,7 @@ unstable_pkg_prio:
 {% endif %}
 
 wireguard:
-  {% if grains['os'] == 'Debian' and not grains['oscodename'] == 'bookworm' %}
+  {% if grains['os'] == 'Debian' and (grains['oscodename'] == 'bullseye' or grains['oscodename'] == 'buster' ) %}
   pkgrepo.managed:
     - humanname: debian-unstable
     - name: deb http://deb.debian.org/debian/ unstable main

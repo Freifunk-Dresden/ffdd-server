@@ -1,5 +1,6 @@
 {# System Monitor (Webpage) #}
 monitorix:
+  {% if grains['os'] == 'Debian' and (grains['oscodename'] == 'bullseye' or grains['oscodename'] == 'buster' ) %}
   pkgrepo.managed:
     - humanname: Monitorix
     - name: deb [arch=all] https://apt.izzysoft.de/ubuntu generic universe
@@ -7,12 +8,15 @@ monitorix:
     - clean_file: true
     - gpgcheck: 1
     - key_url: https://apt.izzysoft.de/izzysoft.asc
+  {% endif %}
   pkg.installed:
     - refresh: True
     - names:
       - monitorix
     - require:
+      {% if grains['os'] == 'Debian' and (grains['oscodename'] == 'bullseye' or grains['oscodename'] == 'buster' ) %}
       - pkgrepo: monitorix
+      {% endif %}
       - file: /etc/monitorix/monitorix.conf
   service:
     - running

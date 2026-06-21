@@ -17,6 +17,8 @@ devel:
 
 {% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'noble' %}
       - libcurl4t64
+{% elif grains['os'] == 'Debian' and grains['oscodename'] == 'trixie' %}
+      - libcurl4t64
 {% else %}
       - libcurl4
 {% endif %}

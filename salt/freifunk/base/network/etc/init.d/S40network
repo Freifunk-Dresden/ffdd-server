@@ -106,9 +106,11 @@ set_conntrack() {
 	#oder auch im git-repo: administration/documentation/nf_conntrack.html
 
 	#erhoehe conntrack werte und die hash tabelle, welche die connections speichert
-	if [ -f /proc/sys/net/netfilter/nf_conntrack_max ]; then
-		sysctl -w net.netfilter.nf_conntrack_max=200000
-		sysctl -p
+	if ! grep -qsi "container=lxc" /proc/1/environ; then
+		if [ -f /proc/sys/net/netfilter/nf_conntrack_max ]; then
+			sysctl -w net.netfilter.nf_conntrack_max=200000 
+			sysctl -p 
+		fi
 	fi
 
 	#die werte fuer die hash tabelle (not available in lxc-containers)

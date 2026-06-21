@@ -56,7 +56,7 @@ base:
     {# services #}
     - ssh
     - bind
-    - ntp
+    #- ntp
     - openvpn
     - wireguard
     - wireguard.backbone

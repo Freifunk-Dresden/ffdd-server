@@ -37,6 +37,7 @@ install_uci() {
 	DIST="$1"
 
 	printf '\n### Install UCI ..\n'
+
 	for PKG in "${PKGS[@]}"; do
 		PKG_NAME="$(echo "$PKG" | cut -d'_' -f 1)"
 		PKG_VERSION="$(echo "$PKG" | cut -d'_' -f 2 | grep -o '[0-9]*')"
@@ -75,8 +76,7 @@ print_usage() {
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
-	printf ' - Debian (11/12)\n'
-	printf ' - Ubuntu Server LTS (20.04/22.04/24.04)\n'
+	printf ' - Debian (11/12/13)\n'
 	exit 1
 }
 
@@ -85,11 +85,11 @@ print_init_notice() {
 	printf ' * Please check your config options in /etc/config/ffdd\n'
 	printf '   - autoupdate should be set to 1, it is disabled per default\n'
 	printf ' * Create your first Backbone Connection:\n'
-	printf '   * fastd2 /etc/fastd/peers2/\n'
-	printf '     /etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002\n'
-	printf '     or: /etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>\n'
-	printf '     # and restart Fastd2:\n'
-	printf '     /etc/init.d/S53backbone-fastd2 restart\n'
+#	printf '   * fastd2 /etc/fastd/peers2/\n'
+#	printf '     /etc/init.d/S53backbone-fastd2 add_connect <vpnX>.freifunk-dresden.de 5002\n'
+#	printf '     or: /etc/init.d/S53backbone-fastd2 add_connect <host> <port> <key>\n'
+#	printf '     # and restart Fastd2:\n'
+#	printf '     /etc/init.d/S53backbone-fastd2 restart\n'
 	printf '   * wireguard /etc/wireguard/\n'
 	printf '     /usr/local/bin/wg-backbone.sh register <vpnX>.freifunk-dresden.de\n'
 	printf '     or: /usr/local/bin/wg-backbone.sh connect <host> <port> <node> <key>\n'
@@ -111,7 +111,8 @@ def_ip="${def_addr//\/*/}"
 
 os_id="$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')"
 version_id="$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')"
-
+printf "OS:$os_id\n"
+printf "OSVersion: $version_id\n"
 
 # move this code to here, to be able to display REV in usage information
 if [ -f /usr/local/bin/nvram ] && [ -f /etc/nvram.conf ] && ! [ -L /etc/nvram.conf ]; then
@@ -192,13 +193,13 @@ else
 	printf '\nOK.\n'
 fi
 
-printf '\n# Check tun device is available ..\n'
-if [ ! -e /dev/net/tun ]; then
-	printf '\tThe TUN device is not available!\nYou need an enabled TUN device (/dev/net/tun) before running this script!\n'
-	exit 1
-else
-	printf '\nOK.\n'
-fi
+#printf '\n# Check tun device is available ..\n'
+#if [ ! -e /dev/net/tun ]; then
+#	printf '\tThe TUN device is not available!\nYou need an enabled TUN device (/dev/net/tun) before running this script!\n'
+#	exit 1
+#else
+#	printf '\nOK.\n'
+#fi
 
 printf '\n# Check users are present ..\n'
 for users in freifunk syslog
@@ -221,6 +222,9 @@ if [ "$os_id" = 'debian' ]; then
 		;;
 		12*)	PKGMNGR='apt-get'
 				install_uci debian12
+		;;
+		13*)	PKGMNGR='apt-get'
+				install_uci debian13
 		;;
 		*)		print_not_supported_os ;;
 	esac
@@ -379,7 +383,8 @@ if [ -f "$INIT_DATE_FILE" ]; then
 else
 	printf '\n### Start Initial System .. please wait! Coffee Time ~ 5-10min ..\n'
 	printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
-	chmod 600 "$INIT_DATE_FILE" ; chattr +i "$INIT_DATE_FILE"
+	chmod 600 "$INIT_DATE_FILE" 
+	#chattr +i "$INIT_DATE_FILE"
 	_init_run='1'
 fi
 
@@ -391,6 +396,7 @@ else
 		printf '\nOK.\n'
 	else
 		printf '\nFAIL!\nSorry, you need to check some errors. Please check your salt-output and logs.\n'
+		printf "(/var/log/salt/minion)\n"
 		_scriptfail='1'
 	fi
 fi
@@ -404,7 +410,7 @@ if [ "$OPT_UPDATE" = '0' ]; then
 fi
 
 printf '\n### Cleanup System ..\n\n'
-"$PKGMNGR" -y autoremove ; "$PKGMNGR" clean
+"$PKGMNGR" -y autoremove
 
 printf '\n### .. All done! Exit script.\n'
 [ "$_init_run" -eq 1 ] && print_init_notice

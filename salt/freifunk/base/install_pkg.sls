@@ -7,7 +7,7 @@ install_pkg:
       - lsb-release
       - dmidecode
       - irqbalance
-      - cpufrequtils
+      #- cpufrequtils
 
       - htop
       - screen
@@ -41,7 +41,7 @@ install_pkg:
       - tcpdump
       - lftp
       - iputils-ping
-      - dnsutils
+      - bind9-dnsutils
       - whois
       - ltrace
       - strace
@@ -50,7 +50,7 @@ install_pkg:
 
 
 {% if grains['os'] == 'Debian' %}
-      - firmware-linux
+      #- firmware-linux
       - python-apt-common
       - iptraf-ng
 {% elif grains['os'] == 'Ubuntu' %}

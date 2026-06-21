@@ -18,7 +18,7 @@
     - user: root
     - group: root
     - mode: 600
-    - attrs: i
+    #- attrs: i
     - replace: false
 
 /etc/ssl/certs/ca-root-ffdd.pem:
