@@ -62,8 +62,8 @@ FASTD_IF="tbb_fastd2"
 MESH_IF=("$(uci -qX get ffdd.sys.bmxd_mesh_if)")
 FFGW_IF="ffgw"
 if [ "$1" = "start" ]; then
-	#ip link add link lo name "$PRIMARY_IF" type bridge
-	ip tuntap add dev "$PRIMARY_IF" mod tun 2>/dev/null
+	ip link add link lo name "$PRIMARY_IF" type bridge
+	#ip tuntap add dev "$PRIMARY_IF" mod tun 2>/dev/null
 	ip addr add "$_ddmesh_ip"/"$_ddmesh_netpre" broadcast "$_ddmesh_broadcast" dev "$PRIMARY_IF"
 	ip link set dev "$PRIMARY_IF" up
 
@@ -119,6 +119,7 @@ case "$ARG1" in
 	# check bmxd is running
 	proc_bmxd="$(ps x | grep -v grep | grep -c "$DAEMON_PATH"/"$DAEMON")"
 	if [ "$proc_bmxd" -eq '0' ]; then
+		echo "bmxd not running -> starting"
 		# return error code to systemd to reflect correct status
 		"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" || exit 1
 #		"$DAEMON_PATH"/"$DAEMON" "$DAEMON_OPTS" -d4

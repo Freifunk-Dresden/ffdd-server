@@ -105,17 +105,17 @@ set_conntrack() {
 	#http://pc-freak.net/blog/resolving-nf_conntrack-table-full-dropping-packet-flood-message-in-dmesg-linux-kernel-log/
 	#oder auch im git-repo: administration/documentation/nf_conntrack.html
 
-	#erhoehe conntrack werte und die hash tabelle, welche die connections speichert
 	if ! grep -qsi "container=lxc" /proc/1/environ; then
+		#erhoehe conntrack werte und die hash tabelle, welche die connections speichert
 		if [ -f /proc/sys/net/netfilter/nf_conntrack_max ]; then
 			sysctl -w net.netfilter.nf_conntrack_max=200000 
 			sysctl -p 
 		fi
-	fi
 
-	#die werte fuer die hash tabelle (not available in lxc-containers)
-	if [ -f /sys/module/nf_conntrack/parameters/hashsize ]; then
-		echo 32768 > /sys/module/nf_conntrack/parameters/hashsize
+		#die werte fuer die hash tabelle (not available in lxc-containers)
+		if [ -f /sys/module/nf_conntrack/parameters/hashsize ]; then
+			echo 32768 > /sys/module/nf_conntrack/parameters/hashsize
+		fi
 	fi
 }
 
