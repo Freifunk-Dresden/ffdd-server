@@ -34,7 +34,8 @@ setup_routing() {
 	ip rule "$1" to 169.254.0.0/16 table main priority 302
 
 
-	#allow wifi broadcast for batman (actually it sends packetes directly to if without routing table)
+	# allow wifi broadcast for batman (actually it sends packetes 
+	# directly to if without routing table)
 	ip rule "$1" to 10.255.255.255/32 table main priority 303
 
 	#add own client range to routing table
@@ -88,11 +89,24 @@ setup_routing() {
 	#add local gateway rule; this ensures that local internet access can not be blocked via invalid batman_hna
 	write_throw_rules "$1" local_gateway throw
 
+	# in lxc container default route might not be set yet. we need to wait
+	TIMEOUT=15
+	while ! ip route show table main | grep -q default; do
+		sleep 1
+		TIMEOUT=$((TIMEOUT - 1))
+		if [ $TIMEOUT -le 0 ]; then
+			logger -s -t "S40network:" "ERROR: no default route yet"
+			exit 1
+		fi
+	done
+
+	# extract default route and copy it
 	g="$(ip route list table main | grep default)"
 	sg="${g% }"
 	ip route "$1" $sg table local_gateway
 
-	#gateway_check.sh will setup the throw rules. this call is only used to clean gateway table
+	# gateway_check.sh will setup the throw rules. 
+	# this call is only used to clean gateway table
 	if [ "$1" = "del" ]; then
 		ip route flush table public_gateway 2>/dev/null
 	fi
