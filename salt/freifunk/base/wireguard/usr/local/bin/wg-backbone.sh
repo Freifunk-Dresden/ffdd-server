@@ -6,6 +6,7 @@ wg_ifname='tbb_wg'
 port='5003'
 peers_dir='/etc/wireguard-backbone/peers'
 
+
 if [ -z "$(which uci)" ]; then
 	printf "Error: command 'uci' not found\n"
 	exit 1
@@ -21,6 +22,8 @@ local_wgX_ip="$_ddmesh_nonprimary_ip/$_ddmesh_netpre"
 
 start_wg()
 {
+	mkdir -p ${peers_dir}
+
 	# create config section
 	if [ -z "$(uci -q get ffdd.wireguard)" ]; then
 		uci -q add ffdd wireguard
