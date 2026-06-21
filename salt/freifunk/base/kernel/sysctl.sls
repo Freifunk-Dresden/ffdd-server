@@ -37,7 +37,7 @@ net.netfilter.nf_conntrack_max:
   sysctl.present:
     - value: 200000
     - config: {{ sysctld }}/net.conf
-    - unless: "[ ! -e /proc/sys/net/netfilter/nf_conntrack_max ]"
+    - onlyif: "[ -e /proc/sys/net/netfilter/nf_conntrack_max ] && ! grep -qsi 'container=lxc' /proc/1/environ"
 
 {# template to deactivate ipv6 #}
 {{ sysctld }}/ipv6.conf:
