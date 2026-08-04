@@ -26,7 +26,7 @@ EOF
 }
 
 install_uci() {
-	DL_URL='http://download.freifunk-dresden.de/server/packages'
+	DL_URL='https://download.freifunk-dresden.de/server/packages'
 
 	## the pkg version must also be changed in uci/init.sls
 	libubox='libubox_20200227_amd64.deb'
@@ -75,8 +75,8 @@ print_usage() {
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
-	printf ' - Debian (11/12)\n'
-	printf ' - Ubuntu Server LTS (20.04/22.04/24.04)\n'
+	printf ' - Debian (12/13)\n'
+	printf ' - Ubuntu Server LTS (22.04/24.04)\n'
 	exit 1
 }
 
@@ -216,19 +216,15 @@ printf '\n# Check System Distribution ..\n'
 
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		11*)	PKGMNGR='apt-get'
-				install_uci debian11
-		;;
 		12*)	PKGMNGR='apt-get'
 				install_uci debian12
+		13*)	PKGMNGR='apt-get'
+				install_uci debian13
 		;;
 		*)		print_not_supported_os ;;
 	esac
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		20.04*) PKGMNGR='apt-get'
-				install_uci ubuntu20
-		;;
 		22.04*) PKGMNGR='apt-get'
 				install_uci ubuntu22
 		;;
@@ -254,12 +250,7 @@ printf '\n'
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
 
-# fix: install needed deps. for salt-minion on debian 11
-if [ "$os_id" = 'debian' ] && [ "$version_id" = '11' ]; then
-	"$PKGMNGR" -y install python3-yaml python3-msgpack python3-distro python3-jinja2 python3-tornado python3-packaging python3-looseversion
-fi
-
-# disable salt-minion service
+# disable salt-minion service (masterless config)
 systemctl disable salt-minion ; systemctl stop salt-minion &
 
 
