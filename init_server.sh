@@ -26,7 +26,7 @@ EOF
 }
 
 install_uci() {
-	DL_URL='http://download.freifunk-dresden.de/server/packages'
+	DL_URL='https://download.freifunk-dresden.de/server/packages'
 
 	## the pkg version must also be changed in uci/init.sls
 	libubox='libubox_20200227_amd64.deb'
@@ -76,7 +76,8 @@ print_usage() {
 print_not_supported_os() {
 	printf 'OS is not supported! (for more Informations read the Repository README.md)\n'
 	printf 'Supported OS List:\n'
-	printf ' - Debian (11/12/13)\n'
+	printf ' - Debian (12/13)\n'
+	printf ' - Ubuntu Server LTS (22.04/24.04)\n'
 	exit 1
 }
 
@@ -193,13 +194,13 @@ else
 	printf '\nOK.\n'
 fi
 
-#printf '\n# Check tun device is available ..\n'
-#if [ ! -e /dev/net/tun ]; then
-#	printf '\tThe TUN device is not available!\nYou need an enabled TUN device (/dev/net/tun) before running this script!\n'
-#	exit 1
-#else
-#	printf '\nOK.\n'
-#fi
+printf '\n# Check tun device is available ..\n'
+if [ ! -e /dev/net/tun ]; then
+	printf '\tThe TUN device is not available!\nYou need an enabled TUN device (/dev/net/tun) before running this script!\n'
+	exit 1
+else
+	printf '\nOK.\n'
+fi
 
 printf '\n# Check users are present ..\n'
 for users in freifunk syslog
@@ -217,9 +218,6 @@ printf '\n# Check System Distribution ..\n'
 
 if [ "$os_id" = 'debian' ]; then
 	case "$version_id" in
-		11*)	PKGMNGR='apt-get'
-				install_uci debian11
-		;;
 		12*)	PKGMNGR='apt-get'
 				install_uci debian12
 		;;
@@ -230,9 +228,6 @@ if [ "$os_id" = 'debian' ]; then
 	esac
 elif [ "$os_id" = 'ubuntu' ]; then
 	case "$version_id" in
-		20.04*) PKGMNGR='apt-get'
-				install_uci ubuntu20
-		;;
 		22.04*) PKGMNGR='apt-get'
 				install_uci ubuntu22
 		;;
@@ -258,12 +253,7 @@ printf '\n'
 printf '\n### Install Basic Software ..\n'
 "$PKGMNGR" -y install git salt-minion
 
-# fix: install needed deps. for salt-minion on debian 11
-if [ "$os_id" = 'debian' ] && [ "$version_id" = '11' ]; then
-	"$PKGMNGR" -y install python3-yaml python3-msgpack python3-distro python3-jinja2 python3-tornado python3-packaging python3-looseversion
-fi
-
-# disable salt-minion service
+# disable salt-minion service (masterless config)
 systemctl disable salt-minion ; systemctl stop salt-minion &
 
 
@@ -383,8 +373,7 @@ if [ -f "$INIT_DATE_FILE" ]; then
 else
 	printf '\n### Start Initial System .. please wait! Coffee Time ~ 5-10min ..\n'
 	printf '# Please do not delete this file!\n#\nFFDD-Server - INIT DATE: %s\n' "$(date -u)" > "$INIT_DATE_FILE"
-	chmod 600 "$INIT_DATE_FILE" 
-	#chattr +i "$INIT_DATE_FILE"
+	chmod 600 "$INIT_DATE_FILE" ; chattr +i "$INIT_DATE_FILE"
 	_init_run='1'
 fi
 
